@@ -16,10 +16,6 @@ const PROPERTY_TYPES = [
   "Terrace / Link house", "Semi-detached", "Bungalow", "Apartment / Condo (landed access)",
 ];
 
-const PACKAGE_OPTIONS = [
-  "Not sure yet — recommend one for me", "ATAP Lite", "ATAP Plus", "ATAP Max",
-];
-
 export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
 
@@ -124,25 +120,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700 sm:col-span-2">
-          Package you&apos;re interested in
-          <select
-            name="package_interest"
-            defaultValue={defaultPackage || PACKAGE_OPTIONS[0]}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
-          >
-            {PACKAGE_OPTIONS.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        {state.status === "error" && (
-          <p className="sm:col-span-2 text-sm font-medium text-red-600">{state.message}</p>
-        )}
-
+        
         <button
           type="submit"
           disabled={pending}

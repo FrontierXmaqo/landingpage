@@ -11,7 +11,6 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
   const state = String(formData.get("state") || "").trim();
   const monthly_bill_range = String(formData.get("monthly_bill_range") || "").trim();
   const property_type = String(formData.get("property_type") || "").trim();
-  const package_interest = String(formData.get("package_interest") || "").trim();
 
   if (!full_name || !phone) {
     return { status: "error", message: "Please fill in your name and phone number." };

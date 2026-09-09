@@ -106,64 +106,6 @@ export const SOLAR_OPTIONS = [
   },
 ];
 
-export const PACKAGES = [
-  {
-    name: "ATAP Lite",
-    tagline: "For small households",
-    price: "RM199",
-    popular: false,
-    systemSize: "4.4–6.6 kWp",
-    panels: "8–12 panels",
-    bestForBill: "RM250–450/month",
-    features: [
-      "4.4–6.6 kWp system",
-      "AIKO N-type panels",
-      "FoxESS hybrid inverter",
-      "10-year workmanship warranty",
-      "Free TNB NEM/ATAP application",
-      "Real-time monitoring app",
-    ],
-  },
-  {
-    name: "ATAP Plus",
-    tagline: "Most popular for landed homes",
-    price: "RM289",
-    popular: true,
-    systemSize: "7.3–9.9 kWp",
-    panels: "13–18 panels",
-    bestForBill: "RM500–750/month",
-    features: [
-      "7.3–9.9 kWp system",
-      "AIKO or Huawei panels",
-      "Huawei/FoxESS hybrid inverter",
-      "12-year workmanship warranty",
-      "Free TNB NEM/ATAP application",
-      "Priority installation slot",
-      "Real-time monitoring app",
-      "Optional battery add-on (Sigenergy/LIVOLTEK)",
-    ],
-  },
-  {
-    name: "ATAP Max",
-    tagline: "For bungalows & high-usage homes",
-    price: "RM429",
-    popular: false,
-    systemSize: "10.5–17.4 kWp",
-    panels: "19–32 panels",
-    bestForBill: "RM800–1,500/month",
-    features: [
-      "10.5–17.4 kWp system",
-      "Premium tier panel selection",
-      "Huawei hybrid inverter",
-      "15-year workmanship warranty",
-      "Free TNB NEM/ATAP application",
-      "Priority installation slot",
-      "Real-time monitoring app",
-      "Battery storage ready (Sigenergy/LIVOLTEK)",
-    ],
-  },
-];
-
 export const SOLAR_CALC_CONFIG = {
   tariffTierThresholdKwh: 1500,
   tariffBelowThresholdPerKwh: 0.4443,
