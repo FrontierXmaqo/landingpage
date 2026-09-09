@@ -21,7 +21,6 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
     const { error } = await supabase.from("atap_leads").insert({
       full_name, phone, email: email || null, state: state || null,
       monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
-      package_interest: package_interest || null, source: "atap-landing",
     });
     if (error) {
       console.error("Supabase insert error", error);
