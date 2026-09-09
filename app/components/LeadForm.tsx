@@ -153,7 +153,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
 
         <p className="sm:col-span-2 text-xs text-slate-500">
           By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar
-          assessment. No spam.
+          assessment.
         </p>
       </form>
     </div>
