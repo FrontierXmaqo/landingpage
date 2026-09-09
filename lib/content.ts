@@ -183,7 +183,7 @@ export const PRODUCTS: Product[] = [
     name: "AIKO ABC Solar Panel",
     model: "AIKO-G655-MCH72Mw · Comet 2U",
     tagline: "The panel that works harder, looks better, and lasts longer",
-    images: ["/products/aikoPanel.jpg"],
+    images: ["/products/aiko-abc-panel.webp"],
     shortDescription: "World's highest-rated panel efficiency, in a sleek all-black finish that still performs in the shade.",
     overview: "AIKO's ABC back-contact cells deliver the world's highest-rated panel efficiency in a clean, all-black finish that keeps performing even in shade.",
     features: [
