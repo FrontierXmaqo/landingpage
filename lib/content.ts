@@ -221,7 +221,6 @@ export type Product = {
   tagline: string;
   images: string[];
   shortDescription: string;
-  keyFeatures: string[];
   overview: string;
   features: string[];
   benefits: string[];
@@ -244,12 +243,6 @@ export const PRODUCTS: Product[] = [
     tagline: "The panel that works harder, looks better, and lasts longer",
     images: ["/products/aiko-abc-panel.webp"],
     shortDescription: "World's highest-rated panel efficiency, in a sleek all-black finish that still performs in the shade.",
-    keyFeatures: [
-      "24.2% module efficiency — ranked #1 globally (TaiyangNews, Jan 2025)",
-      "ABC back-contact cells for a clean, uniform all-black finish",
-      "Up to 94.3% output retained under partial shading vs ~66% for standard panels",
-      "30-year performance warranty, 15-year product warranty",
-    ],
     overview: "AIKO's ABC back-contact cells deliver the world's highest-rated panel efficiency in a clean, all-black finish that keeps performing even in shade.",
     features: [
       "655W n-type ABC module, 24.2% efficiency — world's highest-rated (TaiyangNews, Jan 2025)",
@@ -280,12 +273,6 @@ export const PRODUCTS: Product[] = [
     tagline: "Slim. Silent. Strong.",
     images: ["/products/sigen-hybrid-inverter.webp"],
     shortDescription: "A slim, silent inverter that pairs with solar now and a battery whenever you're ready.",
-    keyFeatures: [
-      "99.0% efficiency using Silicon Carbide (SiC) power electronics",
-      "Fanless design — just 25dB, quieter than a library",
-      "IP66 dust and jet-water sealed, rated -30°C to 60°C",
-      "Compatible with EVs, generators and third-party inverters",
-    ],
     overview: "Built on Silicon Carbide power electronics, the Sigen Hybrid Inverter runs at 99% efficiency in a slim, silent, weatherproof body — install solar-only now and add a battery later.",
     features: [
       "99.0% efficiency via Silicon Carbide (SiC) electronics",
@@ -316,12 +303,6 @@ export const PRODUCTS: Product[] = [
     tagline: "High-efficiency inverter performance, built for easy installation",
     images: ["/products/foxess-hybrid-inverter.webp"],
     shortDescription: "A tough, outdoor-rated inverter built for fast installation and easy remote monitoring.",
-    keyFeatures: [
-      "Up to 98.5% PV-to-battery charging efficiency, 97% battery-to-AC discharge",
-      "IP65 rated for outdoor installation",
-      "Expandable — up to 18 batteries in series",
-      "Remote monitoring via the FoxCloud 2.0 app",
-    ],
     overview: "The FoxESS Hybrid Inverter delivers high round-trip efficiency in a tough, outdoor-rated body, with fast plug-and-play installation and remote monitoring via FoxCloud.",
     features: [
       "Up to 98.5% PV-to-battery, 97% battery-to-AC efficiency",
@@ -353,12 +334,6 @@ export const PRODUCTS: Product[] = [
     tagline: "Five systems, one cabinet",
     images: ["/products/sigen-storneo.webp"],
     shortDescription: "One sleek cabinet for storage, backup power and AI-driven savings — no scattered boxes.",
-    keyFeatures: [
-      "5-in-1 design: EMS + inverter + PCS + battery + backup, one cabinet",
-      "Modular and stackable — mix old and new battery packs freely",
-      "0ms load-side disruption when backup power switches in",
-      "10-year product warranty",
-    ],
     overview: "SigenStor Neo packs energy management, inverter, battery and backup into one sleek cabinet, using AI to learn your home's habits and optimise savings automatically.",
     features: [
       "5-in-1 cabinet: EMS, inverter, battery PCS, battery pack, backup",
@@ -389,12 +364,6 @@ export const PRODUCTS: Product[] = [
     tagline: "Scalable battery storage that grows with your home",
     images: ["/products/foxess-ep6.webp", "/products/foxess-ep12.webp"],
     shortDescription: "Modular battery storage that starts small and grows with your home's needs.",
-    keyFeatures: [
-      "EP6 scalable up to 23.04kWh, EP12 up to 46.08kWh",
-      "90% depth of discharge on both models",
-      "Floor or wall mounting, compact footprint",
-      "High-voltage, high-efficiency lithium-ion cells",
-    ],
     overview: "The FoxESS EP6 and EP12 are modular batteries that pair with the FoxESS Hybrid Inverter — start small and add units in parallel as your needs grow.",
     features: [
       "EP6 scales to 23.04kWh, EP12 to 46.08kWh",

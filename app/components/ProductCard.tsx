@@ -51,24 +51,6 @@ export default function ProductCard({
         <h3 className="mt-3 text-base font-bold text-slate-900">{product.name}</h3>
         <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{product.shortDescription}</p>
 
-        <ul className="mt-4 space-y-1.5">
-          {product.keyFeatures.slice(0, 3).map((feature) => (
-            <li key={feature} className="flex items-start gap-2 text-xs text-slate-600">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                aria-hidden
-                className="mt-0.5 h-3.5 w-3.5 shrink-0 text-maqo-green-dark"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="leading-snug">{feature}</span>
-            </li>
-          ))}
-        </ul>
-
         <button
           type="button"
           onClick={() => onViewDetails(product.id)}
