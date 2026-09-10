@@ -20,6 +20,8 @@ const ELECTRIC_SUPPLY_OPTIONS = ["Single phase", "Triple phase", "Unsure"];
 
 const COMMUNICATION_LANGUAGES = ["English", "Chinese", "Malay"];
 
+const SALUTATIONS = ["Mr", "Ms", "Mrs", "Datin", "Dato", "Dr.", "Dato' Sri", "Tun"];
+
 export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
   const campaignIdRef = useRef<HTMLInputElement>(null);
@@ -64,6 +66,23 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
           </label>
         </div>
 
+        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+          Salutation
+          <select
+            name="salutation"
+            defaultValue=""
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+          >
+            <option value="" disabled>
+              Select salutation
+            </option>
+            {SALUTATIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </label>
         <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
           Full name *
           <input

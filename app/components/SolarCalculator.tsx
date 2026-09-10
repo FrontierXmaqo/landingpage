@@ -170,32 +170,34 @@ export default function SolarCalculator() {
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-2xl bg-maqo-green-dark p-6 text-center text-white sm:p-7">
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-maqo-green/40 blur-3xl"
-                />
-                <div className="relative">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
-                    Estimated Monthly Savings
-                  </p>
-                  <p className="mt-2 text-5xl font-extrabold leading-none">
-                    {formatRM(result.monthlySavings)}
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-white/90">per month</p>
+              <div className="rounded-2xl bg-gradient-to-br from-maqo-green/80 via-maqo-green-dark/50 to-maqo-green/80 p-[1.5px] shadow-[0_0_35px_-10px_rgba(64,179,68,0.5)]">
+                <div className="relative overflow-hidden rounded-[calc(1rem-1.5px)] bg-maqo-green p-6 text-center text-slate-900 sm:p-7">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/30 blur-3xl"
+                  />
+                  <div className="relative">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-900">
+                      Estimated Monthly Savings
+                    </p>
+                    <p className="mt-2 text-5xl font-extrabold leading-none">
+                      {formatRM(result.monthlySavings)}
+                    </p>
+                    <p className="mt-1 text-xs font-medium text-slate-900">per month</p>
 
-                  <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/20 pt-5">
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/90">
-                        Over 10 Years
-                      </p>
-                      <p className="mt-1 text-xl font-bold">{formatRM(result.savings10yr)}</p>
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/90">
-                        Over 30 Years
-                      </p>
-                      <p className="mt-1 text-xl font-bold">{formatRM(result.savings30yr)}</p>
+                    <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-900/15 pt-5">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-900">
+                          Over 10 Years
+                        </p>
+                        <p className="mt-1 text-xl font-bold">{formatRM(result.savings10yr)}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-900">
+                          Over 30 Years
+                        </p>
+                        <p className="mt-1 text-xl font-bold">{formatRM(result.savings30yr)}</p>
+                      </div>
                     </div>
                   </div>
                 </div>

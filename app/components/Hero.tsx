@@ -15,8 +15,11 @@ export default function Hero() {
           </h1>
           <p className="mt-4 max-w-xl text-base text-slate-600 sm:text-lg">
             Empowering a cleaner future for your home since 2013. Free home assessment,
-            transparent packages, and ST Class A &amp; CIDB G7-certified installation across
-            Peninsular Malaysia — trusted by 1,000+ Malaysian homeowners.
+            transparent packages, and{" "}
+            <span className="animate-credential-highlight font-bold text-maqo-green-dark">
+              ST Class A &amp; CIDB G7-certified
+            </span>{" "}
+            installation across Peninsular Malaysia — trusted by 1,000+ Malaysian homeowners.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a

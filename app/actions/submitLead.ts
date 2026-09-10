@@ -41,6 +41,7 @@ async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload
 }
 
 export async function submitLead(_prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
+  const salutation = clean(formData.get("salutation"), 10);
   const full_name = clean(formData.get("full_name"));
   const phone = clean(formData.get("phone"), 30);
   const email = clean(formData.get("email"));
@@ -81,6 +82,7 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
   }
 
   await forwardToWebhook({
+    salutation,
     fullName: full_name,
     phone,
     email: emailLooksValid ? email : "",

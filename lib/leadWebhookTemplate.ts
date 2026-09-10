@@ -3,6 +3,7 @@
 // do not apply to this site; they stay blank. Only the fields the receiving
 // webhook actually reads are populated from real submission data.
 export type LeadWebhookInput = {
+  salutation: string;
   fullName: string;
   phone: string;
   email: string;
@@ -158,7 +159,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["Preferred Communication Language 2"] = input.preferredLanguage;
 
   payload.customData["Name"] = input.fullName;
-  // Salutation stays blank: the current form doesn't collect it.
+  payload.customData["Salutation"] = input.salutation;
   payload.customData["Email"] = input.email;
   payload.customData["Monthly TNB Bill"] = input.monthlyBillRange;
   payload.customData["Source of Leads"] = input.sourceOfLeads;
