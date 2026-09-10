@@ -1,26 +1,20 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import Script from "next/script";
 import { submitLead, type LeadFormState } from "@/app/actions/submitLead";
+import {
+  SALUTATIONS,
+  MALAYSIAN_STATES,
+  BILL_RANGES,
+  PROPERTY_TYPES,
+  ELECTRIC_SUPPLY_OPTIONS,
+  COMMUNICATION_LANGUAGES,
+} from "@/lib/leadFormOptions";
 
 const initialState: LeadFormState = { status: "idle" };
 
-const MALAYSIAN_STATES = [
-  "Selangor", "Kuala Lumpur", "Putrajaya", "Negeri Sembilan", "Melaka", "Johor",
-  "Perak", "Penang", "Kedah", "Pahang", "Other",
-];
-
-const BILL_RANGES = ["Below RM250", "RM250–500", "RM500–800", "RM800–1,500", "Above RM1,500"];
-
-const PROPERTY_TYPES = [
-  "Terrace / Link house", "Semi-detached", "Bungalow", "Apartment / Condo (landed access)",
-];
-
-const ELECTRIC_SUPPLY_OPTIONS = ["Single phase", "Triple phase", "Unsure"];
-
-const COMMUNICATION_LANGUAGES = ["English", "Chinese", "Malay"];
-
-const SALUTATIONS = ["Mr", "Ms", "Mrs", "Datin", "Dato", "Dr.", "Dato' Sri", "Tun"];
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
@@ -55,6 +49,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
       <p className="mt-1 text-sm text-slate-500">
         Takes 60 seconds. Our ATAP team calls you within 1 business day.
       </p>
+
+      {state.status === "error" && state.message && (
+        <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          {state.message}
+        </p>
+      )}
 
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
@@ -195,6 +195,13 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
+
+        {TURNSTILE_SITE_KEY && (
+          <>
+            <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />
+            <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
+          </>
+        )}
 
         <button
           type="submit"

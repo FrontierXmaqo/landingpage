@@ -1,14 +1,39 @@
 "use server";
 
+import { headers } from "next/headers";
 import { getSupabaseServerClient } from "@/lib/supabase";
 import { buildLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
+import { checkRateLimit } from "@/lib/rateLimit";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import {
+  SALUTATIONS,
+  MALAYSIAN_STATES,
+  BILL_RANGES,
+  PROPERTY_TYPES,
+  ELECTRIC_SUPPLY_OPTIONS,
+  COMMUNICATION_LANGUAGES,
+} from "@/lib/leadFormOptions";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
 const MAX_FIELD_LENGTH = 200;
+const GENERIC_ERROR = "Something went wrong submitting your assessment. Please WhatsApp us instead.";
+const PHONE_PATTERN = /^\+?[0-9 -]{7,20}$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function clean(value: FormDataEntryValue | null, maxLength = MAX_FIELD_LENGTH) {
   return String(value || "").trim().slice(0, maxLength);
+}
+
+function oneOf(value: string, allowed: readonly string[]) {
+  return allowed.includes(value) ? value : "";
+}
+
+async function getClientIp() {
+  const h = await headers();
+  const forwardedFor = h.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+  return h.get("x-real-ip") || "unknown";
 }
 
 async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload>[0]) {
@@ -41,28 +66,42 @@ async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload
 }
 
 export async function submitLead(_prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
-  const salutation = clean(formData.get("salutation"), 10);
-  const full_name = clean(formData.get("full_name"));
-  const phone = clean(formData.get("phone"), 30);
-  const email = clean(formData.get("email"));
-  const state = clean(formData.get("state"), 50);
-  const monthly_bill_range = clean(formData.get("monthly_bill_range"), 50);
-  const property_type = clean(formData.get("property_type"), 80);
-  const electric_supply = clean(formData.get("electric_supply"), 30);
-  const preferred_language = clean(formData.get("preferred_language"), 30);
-  const campaign_id = clean(formData.get("campaign_id"), 100);
-  const landing_referrer = clean(formData.get("landing_referrer"), 500);
+  const clientIp = await getClientIp();
+
+  const rateLimit = checkRateLimit(clientIp);
+  if (!rateLimit.allowed) {
+    return { status: "error", message: "Too many requests. Please try again in a minute." };
+  }
 
   // Honeypot: real visitors never fill this hidden field.
   if (clean(formData.get("company_website"))) {
     return { status: "success", message: "Thanks! Our ATAP team will call you within 1 business day." };
   }
 
-  if (!full_name || !phone) {
-    return { status: "error", message: "Please fill in your name and phone number." };
-  }
+  const salutation = oneOf(clean(formData.get("salutation"), 10), SALUTATIONS);
+  const full_name = clean(formData.get("full_name")).replace(/[\p{Cc}\p{Cf}]/gu, "");
+  const phoneRaw = clean(formData.get("phone"), 30);
+  const email = clean(formData.get("email"));
+  const state = oneOf(clean(formData.get("state"), 50), MALAYSIAN_STATES);
+  const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), BILL_RANGES);
+  const property_type = oneOf(clean(formData.get("property_type"), 80), PROPERTY_TYPES);
+  const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), ELECTRIC_SUPPLY_OPTIONS);
+  const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), COMMUNICATION_LANGUAGES);
+  const campaign_id = clean(formData.get("campaign_id"), 100);
+  const landing_referrer = clean(formData.get("landing_referrer"), 500);
+  const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
 
-  const emailLooksValid = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!full_name || !PHONE_PATTERN.test(phoneRaw)) {
+    return { status: "error", message: "Please fill in your name and a valid phone number." };
+  }
+  const phone = phoneRaw;
+
+  const emailLooksValid = !email || EMAIL_PATTERN.test(email);
+
+  const turnstileOk = await verifyTurnstileToken(turnstileToken, clientIp);
+  if (!turnstileOk) {
+    return { status: "error", message: "We couldn't verify you're human. Please try again." };
+  }
 
   let supabaseOk = true;
   try {
@@ -96,7 +135,7 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
   });
 
   if (!supabaseOk) {
-    return { status: "error", message: "Something went wrong submitting your assessment. Please WhatsApp us instead." };
+    return { status: "error", message: GENERIC_ERROR };
   }
 
   return { status: "success", message: "Thanks! Our ATAP team will call you within 1 business day." };
