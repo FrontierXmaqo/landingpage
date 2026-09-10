@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import SectionHeading from "./SectionHeading";
@@ -67,7 +67,8 @@ export default function SolarCalculator() {
         body="Enter your average monthly TNB bill and choose whether you want battery storage — we'll match you to a package and estimate the system size, savings, and final price after rebates."
       />
 
-      <div className="mt-10 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div className="mt-10 rounded-3xl bg-gradient-to-br from-maqo-orange/60 via-maqo-orange/15 to-maqo-orange/60 p-[1.5px] shadow-[0_0_45px_-12px_rgba(244,154,34,0.55)]">
+        <div className="overflow-hidden rounded-[calc(1.5rem-1.5px)] border border-slate-100 bg-white">
         <div className="grid grid-cols-1 gap-6 border-b border-slate-100 bg-slate-50/60 p-6 sm:grid-cols-2 sm:p-8">
           <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
             Average Monthly TNB Bill
@@ -104,7 +105,7 @@ export default function SolarCalculator() {
                   }`}
                 >
                   <span className="block text-sm">{opt.label}</span>
-                  <span className="mt-0.5 block font-normal text-slate-500">{opt.hint}</span>
+                  <span className="mt-0.5 block font-normal text-slate-600">{opt.hint}</span>
                 </button>
               ))}
             </div>
@@ -175,23 +176,23 @@ export default function SolarCalculator() {
                   className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-maqo-green/40 blur-3xl"
                 />
                 <div className="relative">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-white/75">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
                     Estimated Monthly Savings
                   </p>
                   <p className="mt-2 text-5xl font-extrabold leading-none">
                     {formatRM(result.monthlySavings)}
                   </p>
-                  <p className="mt-1 text-xs font-medium text-white/75">per month</p>
+                  <p className="mt-1 text-xs font-medium text-white/90">per month</p>
 
                   <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/20 pt-5">
                     <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/90">
                         Over 10 Years
                       </p>
                       <p className="mt-1 text-xl font-bold">{formatRM(result.savings10yr)}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/90">
                         Over 30 Years
                       </p>
                       <p className="mt-1 text-xl font-bold">{formatRM(result.savings30yr)}</p>
@@ -203,7 +204,7 @@ export default function SolarCalculator() {
 
             <a
               href="#assessment"
-              className="mt-8 flex items-center justify-center gap-2 rounded-full border-2 border-white/40 bg-gradient-to-b from-[#2f8f37] to-[#1f6524] px-8 py-5 text-base font-bold text-white transition-all duration-150 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_6px_0_0_#163f19,0_16px_28px_-10px_rgba(10,30,10,0.5),0_0_45px_-6px_rgba(64,179,68,0.9)] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_8px_0_0_#163f19,0_20px_32px_-10px_rgba(10,30,10,0.55),0_0_60px_-4px_rgba(64,179,68,1)] active:translate-y-1 active:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_1px_0_0_#163f19,0_6px_14px_-8px_rgba(10,30,10,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              className="mt-8 flex items-center justify-center gap-2 rounded-full border-2 border-white/60 bg-gradient-to-b from-[#FFD54A] to-[#F5A623] px-8 py-5 text-base font-bold text-[#3a2a06] transition-all duration-150 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_6px_0_0_#a8690a,0_16px_28px_-10px_rgba(60,40,10,0.45),0_0_45px_-6px_rgba(247,181,60,0.9)] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_8px_0_0_#a8690a,0_20px_32px_-10px_rgba(60,40,10,0.5),0_0_60px_-4px_rgba(247,181,60,1)] active:translate-y-1 active:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_1px_0_0_#a8690a,0_6px_14px_-8px_rgba(60,40,10,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900"
             >
               Get My ROI Now
             </a>
@@ -219,6 +220,7 @@ export default function SolarCalculator() {
             Enter your average monthly TNB bill above to see your personalised solar estimate.
           </div>
         )}
+        </div>
       </div>
     </section>
   );

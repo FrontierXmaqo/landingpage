@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitLead, type LeadFormState } from "@/app/actions/submitLead";
 
 const initialState: LeadFormState = { status: "idle" };
@@ -22,6 +22,15 @@ const COMMUNICATION_LANGUAGES = ["English", "Chinese", "Malay"];
 
 export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
+  const campaignIdRef = useRef<HTMLInputElement>(null);
+  const referrerRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
+    if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
+    if (referrerRef.current) referrerRef.current.value = document.referrer || window.location.href;
+  }, []);
 
   if (state.status === "success") {
     return (
@@ -46,6 +55,15 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
       </p>
 
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
+        <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+        <input type="hidden" name="landing_referrer" ref={referrerRef} />
+        <div className="absolute left-[-9999px]" aria-hidden="true">
+          <label>
+            Leave this field blank
+            <input type="text" name="company_website" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
+
         <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
           Full name *
           <input

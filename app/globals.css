@@ -18,7 +18,7 @@
   --color-maqo-green-dark: var(--maqo-green-dark);
   --color-maqo-orange: var(--maqo-orange);
   --color-maqo-orange-dark: var(--maqo-orange-dark);
-  --font-sans: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 body { background: var(--background); color: var(--foreground); }

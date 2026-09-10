@@ -21,7 +21,14 @@ export default function BrandStrip() {
               className="mx-6 flex shrink-0 items-center justify-center gap-2.5 sm:mx-10"
             >
               <div className="relative h-8 w-8 shrink-0 sm:h-9 sm:w-9">
-                <Image src={brand.logo} alt="" fill className="object-contain" unoptimized />
+                <Image
+                  src={brand.logo}
+                  alt=""
+                  fill
+                  sizes="36px"
+                  className="object-contain"
+                  unoptimized={brand.logo.endsWith(".svg")}
+                />
               </div>
               <span className="whitespace-nowrap text-base font-semibold text-slate-500 sm:text-lg">
                 {brand.name}
