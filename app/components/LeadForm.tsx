@@ -16,6 +16,10 @@ const PROPERTY_TYPES = [
   "Terrace / Link house", "Semi-detached", "Bungalow", "Apartment / Condo (landed access)",
 ];
 
+const ELECTRIC_SUPPLY_OPTIONS = ["Single phase", "Triple phase", "Unsure"];
+
+const COMMUNICATION_LANGUAGES = ["English", "Chinese", "Malay"];
+
 export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
 
@@ -41,7 +45,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
         Takes 60 seconds. Our ATAP team calls you within 1 business day.
       </p>
 
-      <form action={formAction} className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
           Full name *
           <input
@@ -120,16 +124,50 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        
+        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+          Electric supply
+          <select
+            name="electric_supply"
+            defaultValue=""
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+          >
+            <option value="" disabled>
+              Select supply
+            </option>
+            {ELECTRIC_SUPPLY_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+          Preferred communication language
+          <select
+            name="preferred_language"
+            defaultValue=""
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+          >
+            <option value="" disabled>
+              Select language
+            </option>
+            {COMMUNICATION_LANGUAGES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </label>
+
         <button
           type="submit"
           disabled={pending}
-          className="sm:col-span-2 mt-1 inline-flex items-center justify-center rounded-lg bg-maqo-orange px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-1 inline-flex items-center justify-center rounded-lg bg-maqo-orange px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {pending ? "Submitting…" : "Get My Free Home Assessment"}
         </button>
 
-        <p className="sm:col-span-2 text-xs text-slate-500">
+        <p className="text-xs text-slate-500">
           By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar
           assessment. No Spam.
         </p>

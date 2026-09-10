@@ -12,6 +12,8 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
   const state = String(formData.get("state") || "").trim();
   const monthly_bill_range = String(formData.get("monthly_bill_range") || "").trim();
   const property_type = String(formData.get("property_type") || "").trim();
+  const electric_supply = String(formData.get("electric_supply") || "").trim();
+  const preferred_language = String(formData.get("preferred_language") || "").trim();
 
   if (!full_name || !phone) {
     return { status: "error", message: "Please fill in your name and phone number." };
@@ -22,6 +24,7 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
     const { error } = await supabase.from("atap_leads").insert({
       full_name, phone, email: email || null, state: state || null,
       monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
+      electric_supply: electric_supply || null, preferred_language: preferred_language || null,
     });
     if (error) {
       console.error("Supabase insert error", error);
