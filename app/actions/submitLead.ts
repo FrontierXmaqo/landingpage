@@ -39,11 +39,13 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
         "State": state || "",
         "Monthly Bill Range": monthly_bill_range || "",
         "Property Type": property_type || "",
+        "Electric Supply": electric_supply || "",
+        "Preferred Language": preferred_language || "",
       });
     } catch (larkErr) {
       console.error("Lark sync error (non-blocking)", larkErr);
     }
-    
+
     return { status: "success", message: "Thanks! Our ATAP team will call you within 1 business day." };
   } catch (err) {
     console.error(err);
