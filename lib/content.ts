@@ -213,7 +213,7 @@ export const PRODUCTS: Product[] = [
     name: "Sigen Hybrid Inverter",
     model: "SigenHybridInverter · SP2 / TP2",
     tagline: "Slim. Silent. Strong.",
-    images: ["/products/sigen-hybrid-inverter.webp"],
+    images: ["/products/sigenHybridInverter.png"],
     shortDescription: "A slim, silent inverter that pairs with solar now and a battery whenever you're ready.",
     overview: "Built on Silicon Carbide power electronics, the Sigen Hybrid Inverter runs at 99% efficiency in a slim, silent, weatherproof body — install solar-only now and add a battery later.",
     features: [
@@ -243,7 +243,7 @@ export const PRODUCTS: Product[] = [
     name: "FoxESS Hybrid Inverter",
     model: "AC & Hybrid variants",
     tagline: "High-efficiency inverter performance, built for easy installation",
-    images: ["https://www.google.com/imgres?q=foxess%20hybrid%20inverter%20image&imgurl=https%3A%2F%2Fwww.fox-ess.com%2FPublic%2FUploads%2Fuploadfile%2Fimages%2F20251117%2FKHKA.1.png&imgrefurl=https%3A%2F%2Fwww.fox-ess.com%2Fproducts%2Fhybrid-inverter&docid=Fm5RMyA4SGIuBM&tbnid=RSGdAj5W_hsZbM&vet=12ahUKEwiV7erZ6-KWAxVNjOEIHRIkJpQQnPAOegQIOhAA..i&w=560&h=560&hcb=2&ved=2ahUKEwiV7erZ6-KWAxVNjOEIHRIkJpQQnPAOegQIOhAA"],
+    images: ["/products/foxessHybridInverter.png"],
     shortDescription: "A tough, outdoor-rated inverter built for fast installation and easy remote monitoring.",
     overview: "The FoxESS Hybrid Inverter delivers high round-trip efficiency in a tough, outdoor-rated body, with fast plug-and-play installation and remote monitoring via FoxCloud.",
     features: [
@@ -274,7 +274,7 @@ export const PRODUCTS: Product[] = [
     name: "SigenStor Neo",
     model: "AI-powered all-in-one energy storage",
     tagline: "Five systems, one cabinet",
-    images: ["/products/sigen-storneo.webp"],
+    images: ["/products/sigenStorNeo.png"],
     shortDescription: "One sleek cabinet for storage, backup power and AI-driven savings — no scattered boxes.",
     overview: "SigenStor Neo packs energy management, inverter, battery and backup into one sleek cabinet, using AI to learn your home's habits and optimise savings automatically.",
     features: [
@@ -304,7 +304,7 @@ export const PRODUCTS: Product[] = [
     name: "FoxESS EP6 / EP12 Battery",
     model: "EP6 · EP12",
     tagline: "Scalable battery storage that grows with your home",
-    images: ["/products/foxess-ep6.webp", "/products/foxess-ep12.webp"],
+    images: ["/products/foxessEP6Battery.png", "/products/foxessEP12Battery.png"],
     shortDescription: "Modular battery storage that starts small and grows with your home's needs.",
     overview: "The FoxESS EP6 and EP12 are modular batteries that pair with the FoxESS Hybrid Inverter — start small and add units in parallel as your needs grow.",
     features: [
