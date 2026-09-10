@@ -1,6 +1,7 @@
 "use server";
 
 import { getSupabaseServerClient } from "@/lib/supabase";
+import { pushLeadToLark } from "@/lib/lark";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
@@ -26,6 +27,20 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
       console.error("Supabase insert error", error);
       return { status: "error", message: "Something went wrong submitting your assessment. Please WhatsApp us instead." };
     }
+
+    try {
+      await pushLeadToLark({
+        "Full Name": full_name,
+        "Phone": phone,
+        "Email": email || "",
+        "State": state || "",
+        "Monthly Bill Range": monthly_bill_range || "",
+        "Property Type": property_type || "",
+      });
+    } catch (larkErr) {
+      console.error("Lark sync error (non-blocking)", larkErr);
+    }
+    
     return { status: "success", message: "Thanks! Our ATAP team will call you within 1 business day." };
   } catch (err) {
     console.error(err);
