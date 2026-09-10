@@ -5,7 +5,6 @@ import WhatsIncluded from "./components/WhatsIncluded";
 import BillProof from "./components/BillProof";
 import WhyAtap from "./components/WhyAtap";
 import SolarCalculator from "./components/SolarCalculator";
-import ProductsSection from "./components/ProductsSection";
 import HowItWorks from "./components/HowItWorks";
 import Achievements from "./components/Achievements";
 import CommercialTeaser from "./components/CommercialTeaser";
@@ -27,7 +26,6 @@ export default function Home() {
         <BillProof />
         <WhyAtap />
         <SolarCalculator />
-        <ProductsSection />
         <HowItWorks />
         <Achievements />
         <CommercialTeaser />

@@ -15,8 +15,8 @@ function formatRM(value: number) {
 type StorageOption = "neo" | "hybrid";
 
 const STORAGE_OPTIONS: { value: StorageOption; label: string; hint: string }[] = [
-  { value: "neo", label: "With Battery Storage", hint: "Sigen Neo — solar + battery" },
-  { value: "hybrid", label: "Without Battery Storage", hint: "Sigen Hybrid — solar only" },
+  { value: "neo", label: "With Battery Storage", hint: "Solar panels plus home battery" },
+  { value: "hybrid", label: "Without Battery Storage", hint: "Solar panels only" },
 ];
 
 export default function SolarCalculator() {
@@ -28,14 +28,8 @@ export default function SolarCalculator() {
   const result = useMemo(() => {
     if (bill <= 0) return null;
 
-    const {
-      tariffTierThresholdKwh,
-      tariffBelowThresholdPerKwh,
-      tariffAboveThresholdPerKwh,
-      suriaRebatePerKwac,
-      suriaRebateCap,
-      maqoAnniversaryRebateFlat,
-    } = SOLAR_CALC_CONFIG;
+    const { tariffTierThresholdKwh, tariffBelowThresholdPerKwh, tariffAboveThresholdPerKwh } =
+      SOLAR_CALC_CONFIG;
 
     let consumptionKwh = bill / tariffBelowThresholdPerKwh;
     let isAboveThreshold = false;
@@ -54,23 +48,13 @@ export default function SolarCalculator() {
     const monthlySavings = isAboveThreshold
       ? selected.monthlySavingsAboveThreshold
       : selected.monthlySavingsBelowThreshold;
-    const paybackYears = isAboveThreshold
-      ? selected.paybackYearsAboveThreshold
-      : selected.paybackYearsBelowThreshold;
-
-    const suriaRebate = Math.min(selected.kWac * suriaRebatePerKwac, suriaRebateCap);
-    const maqoRebate = maqoAnniversaryRebateFlat;
-    const finalPrice = Math.max(0, selected.standardSellingPrice - suriaRebate - maqoRebate);
 
     return {
       consumptionKwh,
       selected,
       monthlySavings,
-      paybackYears,
-      systemPrice: selected.standardSellingPrice,
-      suriaRebate,
-      maqoRebate,
-      finalPrice,
+      savings10yr: monthlySavings * 12 * 10,
+      savings30yr: monthlySavings * 12 * 30,
       exceedsLargestPackage,
     };
   }, [bill, storageOption]);
@@ -137,8 +121,8 @@ export default function SolarCalculator() {
             </h3>
             <p className="mt-1 text-sm text-slate-500">
               Estimated for an average monthly usage of about{" "}
-              {Math.round(result.consumptionKwh).toLocaleString("en-US")} kWh, matched to our{" "}
-              {result.selected.inverterModel} package.
+              {Math.round(result.consumptionKwh).toLocaleString("en-US")} kWh, sized to a{" "}
+              {result.selected.kwp.toFixed(1)} kWp system.
             </p>
 
             {result.exceedsLargestPackage && (
@@ -149,125 +133,84 @@ export default function SolarCalculator() {
               </p>
             )}
 
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 text-center">
-                <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-maqo-green/10 text-maqo-green-dark">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
-                    <circle cx="12" cy="12" r="4" />
-                    <path
-                      strokeLinecap="round"
-                      d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
-                    />
-                  </svg>
-                </span>
-                <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
-                  Recommended System Size
-                </p>
-                <p className="mt-1 text-2xl font-bold text-slate-900">
-                  {result.selected.kwp.toFixed(1)} kWp
-                </p>
+            <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 text-center">
+                  <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-maqo-green/10 text-maqo-green-dark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+                      <circle cx="12" cy="12" r="4" />
+                      <path
+                        strokeLinecap="round"
+                        d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
+                      />
+                    </svg>
+                  </span>
+                  <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
+                    Recommended System Size
+                  </p>
+                  <p className="mt-1 text-2xl font-bold text-slate-900">
+                    {result.selected.kwp.toFixed(1)} kWp
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 text-center">
+                  <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-maqo-green/10 text-maqo-green-dark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+                      <rect x="3" y="4" width="18" height="12" rx="1.5" />
+                      <path strokeLinecap="round" d="M3 10h18M9 4v12M15 4v12M8 20h8" />
+                    </svg>
+                  </span>
+                  <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
+                    Estimated Number of Panels
+                  </p>
+                  <p className="mt-1 text-2xl font-bold text-slate-900">
+                    {result.selected.panels} panels
+                  </p>
+                </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 text-center">
-                <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-maqo-green/10 text-maqo-green-dark">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
-                    <rect x="3" y="4" width="18" height="12" rx="1.5" />
-                    <path strokeLinecap="round" d="M3 10h18M9 4v12M15 4v12M8 20h8" />
-                  </svg>
-                </span>
-                <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
-                  Estimated Number of Panels
-                </p>
-                <p className="mt-1 text-2xl font-bold text-slate-900">{result.selected.panels} panels</p>
-              </div>
+              <div className="relative overflow-hidden rounded-2xl bg-maqo-green-dark p-6 text-center text-white sm:p-7">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-maqo-green/40 blur-3xl"
+                />
+                <div className="relative">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-white/75">
+                    Estimated Monthly Savings
+                  </p>
+                  <p className="mt-2 text-5xl font-extrabold leading-none">
+                    {formatRM(result.monthlySavings)}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-white/75">per month</p>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 text-center">
-                <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-maqo-green/10 text-maqo-green-dark">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 20V10M11 20V4M18 20v-7" />
-                  </svg>
-                </span>
-                <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
-                  Estimated Monthly Savings
-                </p>
-                <p className="mt-1 text-2xl font-bold text-slate-900">
-                  {formatRM(result.monthlySavings)}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 text-center">
-                <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-maqo-green/10 text-maqo-green-dark">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
-                    <circle cx="12" cy="12" r="9" />
-                    <path strokeLinecap="round" d="M12 7v5l3 3" />
-                  </svg>
-                </span>
-                <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
-                  Estimated Payback Period
-                </p>
-                <p className="mt-1 text-2xl font-bold text-slate-900">
-                  {result.paybackYears.toFixed(1)} yrs
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 rounded-2xl border border-slate-200 p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase text-slate-500">
-                Estimated Pricing (Cash Payment)
-              </p>
-              <dl className="mt-4 space-y-3 text-sm">
-                <div className="flex items-center justify-between gap-3">
-                  <dt className="text-slate-600">Estimated Solar System Price</dt>
-                  <dd className="shrink-0 font-semibold text-slate-900">
-                    {formatRM(result.systemPrice)}
-                  </dd>
+                  <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/20 pt-5">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
+                        Over 10 Years
+                      </p>
+                      <p className="mt-1 text-xl font-bold">{formatRM(result.savings10yr)}</p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
+                        Over 30 Years
+                      </p>
+                      <p className="mt-1 text-xl font-bold">{formatRM(result.savings30yr)}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between gap-3">
-                  <dt className="text-slate-600">
-                    SuRIA Home Rebate
-                    <span className="ml-1 text-xs text-slate-500">
-                      (RM{SOLAR_CALC_CONFIG.suriaRebatePerKwac}/kWac, capped at{" "}
-                      {formatRM(SOLAR_CALC_CONFIG.suriaRebateCap)})
-                    </span>
-                  </dt>
-                  <dd className="shrink-0 font-semibold text-maqo-green-dark">
-                    -{formatRM(result.suriaRebate)}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between gap-3">
-                  <dt className="text-slate-600">
-                    MAQO Anniversary Rebate
-                    <span className="ml-1.5 inline-flex items-center rounded-full bg-maqo-orange/10 px-2 py-0.5 text-[11px] font-medium text-maqo-orange-dark">
-                      Limited-time — until {SOLAR_CALC_CONFIG.maqoAnniversaryRebateValidUntil}
-                    </span>
-                  </dt>
-                  <dd className="shrink-0 font-semibold text-maqo-green-dark">
-                    -{formatRM(result.maqoRebate)}
-                  </dd>
-                </div>
-              </dl>
-
-              <div className="mt-4 flex items-center justify-between gap-3 rounded-xl bg-maqo-green/5 px-4 py-3.5">
-                <div>
-                  <p className="text-sm font-semibold text-slate-900">Estimated Final Price</p>
-                  <p className="text-xs text-slate-500">After SuRIA Home + MAQO Anniversary Rebate</p>
-                </div>
-                <p className="text-2xl font-bold text-maqo-green-dark">
-                  {formatRM(result.finalPrice)}
-                </p>
               </div>
             </div>
 
             <a
               href="#assessment"
-              className="mt-6 flex items-center justify-center gap-2 rounded-full bg-maqo-orange px-6 py-3.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95"
+              className="mt-8 flex items-center justify-center gap-2 rounded-full border-2 border-white/40 bg-gradient-to-b from-[#2f8f37] to-[#1f6524] px-8 py-5 text-base font-bold text-white transition-all duration-150 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_6px_0_0_#163f19,0_16px_28px_-10px_rgba(10,30,10,0.5),0_0_45px_-6px_rgba(64,179,68,0.9)] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_8px_0_0_#163f19,0_20px_32px_-10px_rgba(10,30,10,0.55),0_0_60px_-4px_rgba(64,179,68,1)] active:translate-y-1 active:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_1px_0_0_#163f19,0_6px_14px_-8px_rgba(10,30,10,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
-              Get My Personalised Quote
+              Get My ROI Now
             </a>
 
             <p className="mt-4 text-xs leading-relaxed text-slate-500">
-              This is an estimated price based on cash payment. Final system size, savings and
-              pricing may vary depending on actual electricity consumption, roof space, shading,
+              This is an estimate based on your average monthly usage. Actual system size, savings
+              and pricing may vary depending on real electricity consumption, roof space, shading,
               site conditions and final site assessment.
             </p>
           </div>
