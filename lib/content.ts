@@ -183,7 +183,7 @@ export const PRODUCTS: Product[] = [
     name: "AIKO ABC Solar Panel",
     model: "AIKO-G655-MCH72Mw · Comet 2U",
     tagline: "The panel that works harder, looks better, and lasts longer",
-    images: ["/public/products/aikoPanel.jpg"],
+    images: ["/products/aikoPanel.jpg"],
     shortDescription: "World's highest-rated panel efficiency, in a sleek all-black finish that still performs in the shade.",
     overview: "AIKO's ABC back-contact cells deliver the world's highest-rated panel efficiency in a clean, all-black finish that keeps performing even in shade.",
     features: [
@@ -243,7 +243,7 @@ export const PRODUCTS: Product[] = [
     name: "FoxESS Hybrid Inverter",
     model: "AC & Hybrid variants",
     tagline: "High-efficiency inverter performance, built for easy installation",
-    images: ["/products/foxess-hybrid-inverter.webp"],
+    images: ["https://www.google.com/imgres?q=foxess%20hybrid%20inverter%20image&imgurl=https%3A%2F%2Fwww.fox-ess.com%2FPublic%2FUploads%2Fuploadfile%2Fimages%2F20251117%2FKHKA.1.png&imgrefurl=https%3A%2F%2Fwww.fox-ess.com%2Fproducts%2Fhybrid-inverter&docid=Fm5RMyA4SGIuBM&tbnid=RSGdAj5W_hsZbM&vet=12ahUKEwiV7erZ6-KWAxVNjOEIHRIkJpQQnPAOegQIOhAA..i&w=560&h=560&hcb=2&ved=2ahUKEwiV7erZ6-KWAxVNjOEIHRIkJpQQnPAOegQIOhAA"],
     shortDescription: "A tough, outdoor-rated inverter built for fast installation and easy remote monitoring.",
     overview: "The FoxESS Hybrid Inverter delivers high round-trip efficiency in a tough, outdoor-rated body, with fast plug-and-play installation and remote monitoring via FoxCloud.",
     features: [
