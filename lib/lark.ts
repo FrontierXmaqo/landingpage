@@ -34,9 +34,10 @@ async function getTenantAccessToken(): Promise<string> {
     throw new Error(`Lark auth failed: ${data.msg}`);
   }
 
-  cachedToken = data.tenant_access_token;
+  const token: string = data.tenant_access_token;
+  cachedToken = token;
   tokenExpiresAt = Date.now() + data.expire * 1000; // expire is in seconds
-  return cachedToken;
+  return token;
 }
 
 // Fields must match your Base's column names exactly (case-sensitive).
