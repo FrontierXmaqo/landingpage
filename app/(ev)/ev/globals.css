@@ -112,8 +112,8 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .link-arrow:hover{gap:12px; border-color:var(--green);}
 
 /* ---------- MAQO wordmark (image) ---------- */
-.maqo-img{height:68px; width:auto; display:block;}
-.foot-brand .maqo-img{height:60px;}
+.maqo-img{height:40px; width:auto; display:block;}
+.foot-brand .maqo-img{height:52px;}
 
 /* ---------- Header ---------- */
 header{
@@ -390,6 +390,7 @@ section{padding:96px 0;}
 .form-points li::before{content:"✓"; color:var(--green); font-weight:700;}
 form{background:var(--paper); border-radius:var(--r-lg); padding:34px; box-shadow:var(--shadow-lg);}
 .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.form-row-name{grid-template-columns:110px 1fr 1fr;}
 form .field{margin-bottom:16px;}
 form input, form select{
   width:100%; background:var(--paper); border:1.5px solid var(--line); color:var(--text);
@@ -433,6 +434,7 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
 /* ---------- Responsive ---------- */
 @media (max-width: 1080px){
   .nav-links{display:none;}
+  .nav-actions{margin-left:auto;}
   .band-grid{grid-template-columns:repeat(2,1fr); gap:24px 32px;}
   .pillars{grid-template-columns:repeat(2,1fr);}
 }
@@ -455,9 +457,12 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
   form{padding:24px;}
 }
 @media (max-width: 560px){
-  .nav-actions .btn-whatsapp span, .wa-float span{display:none;}
+  .wa-float span{display:none;}
   .wa-float{padding:16px; right:16px; bottom:16px;}
+  .nav{gap:12px; padding:8px 16px;}
+  .nav-actions{gap:8px;}
+  .nav-actions .btn-whatsapp{display:none;}
   .nav-actions .btn{padding:10px 15px;}
-  .maqo-img{height:48px;}
+  .maqo-img{height:32px;}
   .res-long{flex-direction:column; gap:16px;}
 }

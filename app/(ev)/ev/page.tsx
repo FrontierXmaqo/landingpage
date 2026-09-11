@@ -918,7 +918,7 @@ export default function Page() {
             </div>
             <div className="form-row form-row-name">
               <div className="field">
-                <label htmlFor="fsalutation">Title</label>
+                <label htmlFor="fsalutation">Salutation</label>
                 <select id="fsalutation" name="fsalutation" defaultValue="" disabled={submitting}>
                   <option value="">—</option>
                   <option>Mr</option>
@@ -979,7 +979,6 @@ export default function Page() {
                   <option>Above RM1,500</option>
                 </select>
               </div>
-            <div className="form-row">
               <div className="field">
                 <label htmlFor="fprop">Property type *</label>
                 <select id="fprop" name="fprop" required defaultValue="" disabled={submitting}>
@@ -992,6 +991,8 @@ export default function Page() {
                   <option>Apartment / Condo (landed access)</option>
                 </select>
               </div>
+            </div>
+            <div className="form-row">
               <div className="field">
                 <label htmlFor="felectric">Electric supply</label>
                 <select id="felectric" name="felectric" defaultValue="" disabled={submitting}>
@@ -1001,7 +1002,6 @@ export default function Page() {
                   <option>Unsure</option>
                 </select>
               </div>
-            </div>
               <div className="field">
                 <label htmlFor="flang">Preferred language</label>
                 <select id="flang" name="flang" defaultValue="English" disabled={submitting}>
