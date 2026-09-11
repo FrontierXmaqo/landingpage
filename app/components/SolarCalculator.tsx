@@ -208,7 +208,7 @@ export default function SolarCalculator() {
               href="#assessment"
               className="mt-8 flex items-center justify-center gap-2 rounded-full border-2 border-white/60 bg-gradient-to-b from-[#FFD54A] to-[#F5A623] px-8 py-5 text-base font-bold text-[#3a2a06] transition-all duration-150 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_6px_0_0_#a8690a,0_16px_28px_-10px_rgba(60,40,10,0.45),0_0_45px_-6px_rgba(247,181,60,0.9)] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_8px_0_0_#a8690a,0_20px_32px_-10px_rgba(60,40,10,0.5),0_0_60px_-4px_rgba(247,181,60,1)] active:translate-y-1 active:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_1px_0_0_#a8690a,0_6px_14px_-8px_rgba(60,40,10,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900"
             >
-              Get My ROI Now
+              Send me my report and give me my quotation
             </a>
 
             <p className="mt-4 text-xs leading-relaxed text-slate-500">
