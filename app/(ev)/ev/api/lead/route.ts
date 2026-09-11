@@ -64,6 +64,7 @@ function clientIp(req: NextRequest): string {
 // Input validation
 // ---------------------------------------------------------------------------
 type LeadInput = {
+  salutation?: unknown;
   fullName?: unknown;
   phone?: unknown;
   email?: unknown;
@@ -71,6 +72,7 @@ type LeadInput = {
   monthlyBill?: unknown;
   chargeTime?: unknown;
   propertyType?: unknown;
+  electricSupply?: unknown;
   language?: unknown;
   pageUrl?: unknown;
   referrer?: unknown;
@@ -310,12 +312,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "bad_request" }, { status: 400 });
   }
 
+  const salutation = str(body.salutation, 10);
   const fullName = str(body.fullName, 120);
   const phone = normalizePhone(str(body.phone, 40));
   const email = str(body.email, 160);
   const state = str(body.state, 60);
   const monthlyBill = str(body.monthlyBill, 60);
+  const chargeTime = str(body.chargeTime, 80);
   const propertyType = str(body.propertyType, 80);
+  const electricSupply = str(body.electricSupply, 30);
   const language = str(body.language, 40);
   const pageUrl = str(body.pageUrl, 500);
   const referrer = str(body.referrer, 500);
@@ -344,14 +349,15 @@ export async function POST(req: NextRequest) {
   payload.Location = state;
   payload["Property Type (Condo/Apartment not suitable)"] = propertyType;
   payload["Preferred Communication Language 2"] = language;
-  // Electric Supply: no field on the site to source this from — left blank.
+  payload["Electric Supply"] = electricSupply;
+  if (chargeTime) payload.Remarks = `Usually charges EV: ${chargeTime}`;
 
   payload.customData.Name = fullName;
+  payload.customData.Salutation = salutation;
   payload.customData.Email = email;
   payload.customData["Monthly TNB Bill"] = monthlyBill;
   payload.customData["Source of Leads"] = referrer;
   payload.customData["Campaign ID"] = extractCampaignId(pageUrl);
-  // customData.Salutation: no field on the site to source this from — left blank.
 
   try {
     const controller = new AbortController();

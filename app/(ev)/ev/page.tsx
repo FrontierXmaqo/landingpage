@@ -389,13 +389,15 @@ export default function Page() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          salutation: data.get("fsalutation"),
           fullName: data.get("fname"),
           phone: data.get("fphone"),
           email: data.get("femail"),
           state: data.get("fstate"),
           monthlyBill: data.get("fbill"),
-          chargeTime: data.get("fev"),
+          chargeTime: selected.label,
           propertyType: data.get("fprop"),
+          electricSupply: data.get("felectric"),
           language: data.get("flang"),
           pageUrl: window.location.href,
           referrer: document.referrer || "",
@@ -847,7 +849,15 @@ export default function Page() {
               <span>WhatsApp Us</span>
             </a>
           </div>
+          {submitted ? (
+            <div className="form-success">
+              <span className="form-success-icon">✓</span>
+              <h3>Request received</h3>
+              <p>Thanks — our ATAP team will call you within 1 business day.</p>
+            </div>
+          ) : (
           <form onSubmit={handleSubmit}>
+            {submitError && <p className="form-alert">{submitError}</p>}
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
               <label htmlFor="company">Company</label>
@@ -948,7 +958,7 @@ export default function Page() {
               <div className="field">
                 <label htmlFor="flang">Preferred language</label>
                 <select id="flang" name="flang" defaultValue="English" disabled={submitting}>
-                  <option value="">Select</option>                  
+                  <option value="">Select</option>
                   <option>English</option>
                   <option>Chinese</option>
                   <option>Malay</option>
@@ -958,26 +968,17 @@ export default function Page() {
             <button
               type="submit"
               className="btn btn-primary btn-block"
-              disabled={submitting || submitted}
+              disabled={submitting}
             >
-              {submitted
-                ? "Request received"
-                : submitting
-                ? "Sending…"
-                : "Get My Free Home Assessment"}
-              {!submitted && !submitting && <ArrowIcon />}
+              {submitting ? "Sending…" : "Get My Free Home Assessment"}
+              {!submitting && <ArrowIcon />}
             </button>
             <p className="form-legal">
               By submitting, you agree to be contacted by MAQO Engineering Sdn
               Bhd about your solar assessment. No spam.
             </p>
-            {submitError && <p className="submit-note error show">{submitError}</p>}
-            {submitted && (
-              <p className="submit-note show">
-                Thanks — our ATAP team will call you within 1 business day.
-              </p>
-            )}
           </form>
+          )}
         </div>
       </section>
 
