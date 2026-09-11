@@ -170,7 +170,7 @@ export default function SolarCalculator() {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-gradient-to-br from-maqo-green/80 via-maqo-green-dark/50 to-maqo-green/80 p-[1.5px] shadow-[0_0_35px_-10px_rgba(64,179,68,0.5)]">
+              <div className="rounded-2xl bg-gradient-to-br from-maqo-green/80 via-maqo-green-dark/50 to-maqo-green/80 p-[1.5px] shadow-[0_0_35px_-10px_rgba(67,182,73,0.5)]">
                 <div className="relative overflow-hidden rounded-[calc(1rem-1.5px)] bg-maqo-green p-6 text-center text-slate-900 sm:p-7">
                   <div
                     aria-hidden="true"

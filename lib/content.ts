@@ -339,7 +339,7 @@ export const HOW_IT_WORKS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { value: "600+", label: "Residential Solar Projects Done" },
+  { value: "1000+", label: "Residential Solar Projects Done" },
   { value: "500+", label: "Commercial & Industrial Clients Served" },
   { value: "13+", label: "Years of Industry Experience" },
 ];

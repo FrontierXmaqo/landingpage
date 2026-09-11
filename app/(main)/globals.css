@@ -3,10 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --maqo-green: #40b344;
-  --maqo-green-dark: #257a2b;
-  --maqo-green-tint: rgba(64, 179, 68, 0.1);
-  --maqo-orange: #f49a22;
+  /* Sampled from the logo artwork (public/Maqo Solar_Logo.svg), not approximated.
+     Both brand colours are fills only: as text on white they sit at 2.6:1 and 2.2:1,
+     so the -dark variants exist for anything that has to be read. */
+  --maqo-green: #43b649;
+  --maqo-green-dark: #1f7a2b;
+  --maqo-green-tint: rgba(67, 182, 73, 0.1);
+  --maqo-orange: #f39921;
   --maqo-orange-dark: #8a4808;
   --maqo-slate: #0f172a;
 }
@@ -35,10 +38,10 @@ body { background: var(--background); color: var(--foreground); }
 .animate-modal-in { animation: modal-in 0.2s ease-out both; }
 
 @keyframes credential-highlight {
-  0% { background-color: rgba(64, 179, 68, 0); }
-  20% { background-color: rgba(64, 179, 68, 0.35); }
-  75% { background-color: rgba(64, 179, 68, 0.35); }
-  100% { background-color: rgba(64, 179, 68, 0); }
+  0% { background-color: rgba(67, 182, 73,0); }
+  20% { background-color: rgba(67, 182, 73,0.35); }
+  75% { background-color: rgba(67, 182, 73,0.35); }
+  100% { background-color: rgba(67, 182, 73,0); }
 }
 .animate-credential-highlight {
   animation: credential-highlight 1.8s ease-out 0.6s both;
