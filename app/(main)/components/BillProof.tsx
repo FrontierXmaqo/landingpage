@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import SectionTag from "./SectionTag";
 
-type Month = { m: string; v: number; approx?: boolean };
+type Month = { m: string; v: number };
 
 type Case = {
   id: string;
@@ -53,33 +53,14 @@ const CASES: Case[] = [
     proofAlt:
       "TNB account usage history screenshot, February to July 2026, showing monthly bills falling from RM334.35 to RM81.90",
   },
-  {
-    id: "atap",
-    tab: "ATAP programme",
-    title: "Larger home on the ATAP programme",
-    size: "13.02 kWp",
-    months: [
-      { m: "Feb", v: 953.4 },
-      { m: "Mar", v: 1070, approx: true },
-      { m: "Apr", v: 1090, approx: true },
-      { m: "May", v: 1260, approx: true },
-      { m: "Jun", v: 428.85 },
-      { m: "Jul", v: 457.2 },
-    ],
-    proof: "/bill-proof-atap.jpg",
-    proofAlt:
-      "TNB account usage history screenshot, February to July 2026, showing monthly bills falling from RM1.26k to RM428.85",
-  },
 ];
 
 function money(m: Month) {
-  if (m.approx) return `RM${(m.v / 1000).toFixed(2)}k`;
   return `RM${m.v.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 // Narrow screens cannot fit six "RM522.20" labels across, so they get the rounded ringgit.
 function moneyShort(m: Month) {
-  if (m.approx) return `${(m.v / 1000).toFixed(2)}k`;
   return Math.round(m.v).toLocaleString("en-MY");
 }
 
@@ -266,10 +247,7 @@ export default function BillProof() {
           <p className="mt-2 text-4xl font-bold leading-none text-base-ink">{money(low)}</p>
           <p className="mt-3 text-sm leading-relaxed text-base-slate">
             Down from {money(peak)} at its peak in {peak.m}, a drop of{" "}
-            <span className="font-bold text-brand-green-ink">
-              {peak.approx ? "about " : ""}
-              {drop}%
-            </span>
+            <span className="font-bold text-brand-green-ink">{drop}%</span>
             .
           </p>
           <dl className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-green pt-4">
