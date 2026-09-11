@@ -11,7 +11,7 @@ export default function Hero() {
             MAQO ATAP · Residential Solar Programme
           </span>
           <h1 className="mt-4 text-4xl font-bold leading-tight text-slate-900 sm:text-5xl">
-            Cut your TNB bill by up to 90%. Own solar, the simple way.
+            Cut your TNB bill by up to 90%.
           </h1>
           <p className="mt-4 max-w-xl text-base text-slate-600 sm:text-lg">
             Empowering a cleaner future for your home since 2013. Free home assessment,

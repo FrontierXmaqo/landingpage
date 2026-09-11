@@ -1,13 +1,12 @@
+import SectionTag from "./SectionTag";
 import { WHATS_INCLUDED } from "@/lib/content";
 
 export default function WhatsIncluded() {
   return (
     <section className="border-y border-slate-100 bg-white py-12">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="section-eyebrow text-center text-xs font-semibold uppercase text-maqo-green-dark">
-          What&apos;s covered
-        </p>
-        <h2 className="mt-2 text-center text-2xl font-bold text-slate-900">
+        <SectionTag>What&apos;s covered</SectionTag>
+        <h2 className="mt-4 text-2xl font-bold text-slate-900 sm:text-3xl">
           Everything you need for peace of mind
         </h2>
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">

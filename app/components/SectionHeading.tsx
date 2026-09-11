@@ -1,3 +1,5 @@
+import SectionTag from "./SectionTag";
+
 export default function SectionHeading({
   eyebrow,
   title,
@@ -8,12 +10,12 @@ export default function SectionHeading({
   body?: string;
 }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
-      <p className="section-eyebrow text-xs font-semibold uppercase text-maqo-green-dark">
-        {eyebrow}
-      </p>
-      <h2 className="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">{title}</h2>
-      {body && <p className="mt-3 text-base text-slate-600">{body}</p>}
+    <div className="max-w-2xl">
+      <SectionTag>{eyebrow}</SectionTag>
+      <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+        {title}
+      </h2>
+      {body && <p className="mt-4 text-base leading-relaxed text-slate-600">{body}</p>}
     </div>
   );
 }

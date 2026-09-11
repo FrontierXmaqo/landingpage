@@ -26,7 +26,7 @@ export default function BrandStrip() {
                   alt=""
                   fill
                   sizes="36px"
-                  className="object-contain"
+                  className="object-contain opacity-70 grayscale"
                   unoptimized={brand.logo.endsWith(".svg")}
                 />
               </div>

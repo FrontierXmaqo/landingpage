@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SectionTag from "./SectionTag";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 
 export default function CommercialTeaser() {
@@ -6,11 +7,12 @@ export default function CommercialTeaser() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center sm:p-12">
-        <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-          We also provide solar energy solutions for Commercial &amp; Industrial
+      <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12">
+        <SectionTag>Commercial &amp; Industrial</SectionTag>
+        <h2 className="mt-4 max-w-2xl text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
+          We also do solar for factories, warehouses and offices.
         </h2>
-        <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        <p className="mt-4 text-sm text-slate-600">
           Other big clients who are committed to a sustainable future
         </p>
         <div className="relative mt-8 overflow-hidden">
@@ -23,7 +25,7 @@ export default function CommercialTeaser() {
                   src={src}
                   alt={`MAQO commercial & industrial client logo ${(i % OLD_SITE_IMAGES.clientLogos.length) + 1}`}
                   fill
-                  className="object-contain"
+                  className="object-contain opacity-70 grayscale"
                   sizes="140px"
                 />
               </div>

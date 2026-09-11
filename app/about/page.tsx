@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
 import Achievements from "../components/Achievements";
 import ScrollReveal from "../components/ScrollReveal";
+import SectionTag from "../components/SectionTag";
 import { CONTACT, OLD_SITE_IMAGES } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -87,15 +88,6 @@ const GROUP = [
   "MAQO RE OPC",
 ];
 const groupTrack = [...GROUP, ...GROUP];
-
-function SectionTag({ children }: { children: string }) {
-  return (
-    <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
-      <span aria-hidden className="h-2 w-2 shrink-0 bg-maqo-orange" />
-      {children}
-    </p>
-  );
-}
 
 export default function AboutPage() {
   return (
