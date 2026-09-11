@@ -79,7 +79,7 @@ export const WHY_ATAP = [
   },
   {
     title: "Real savings, day one",
-    body: "Your system starts offsetting your TNB bill from the moment it is switched on under NEM.",
+    body: "Your system starts offsetting your TNB bill from the moment it is switched on under ATAP.",
   },
   {
     title: "Built to last",
@@ -332,7 +332,7 @@ export const PRODUCTS: Product[] = [
 
 export const HOW_IT_WORKS = [
   { step: 1, title: "Free home assessment", body: "We review your TNB bill and roof, then propose a system size and package." },
-  { step: 2, title: "Accept your proposal", body: "Choose outright purchase or instalment. We handle your TNB NEM/ATAP application." },
+  { step: 2, title: "Accept your proposal", body: "Choose outright purchase or instalment. We handle your TNB ATAP application." },
   { step: 3, title: "Installation, 1–3 days", body: "Our CIDB G7-certified team installs your system with minimal disruption." },
   { step: 4, title: "TNB inspection & smart meter", body: "TNB inspects and upgrades your meter so exported solar is properly recorded." },
   { step: 5, title: "Start saving, with support", body: "Monitor your savings on the app, backed by ongoing MAQO after-sales support." },
@@ -354,13 +354,13 @@ export const TESTIMONIALS = [
 ];
 
 export const FAQS = [
-  { q: "What is the MAQO ATAP programme?", a: "ATAP is MAQO's residential rooftop solar programme for Malaysian homeowners. We design, supply, install and commission a grid-connected solar system on your roof under TNB's NEM (Net Energy Metering) framework, so the electricity you generate offsets your TNB bill." },
+  { q: "What is the MAQO ATAP programme?", a: "ATAP is MAQO's residential rooftop solar programme for Malaysian homeowners. We design, supply, install and commission a grid-connected solar system on your roof under TNB's ATAP (Accelerated Transition Action Programme) framework, so the electricity you generate offsets your TNB bill." },
   { q: "How much can I save on my TNB bill with ATAP?", a: "Most ATAP homeowners cut their TNB bill by 50–90%, depending on system size, roof orientation, and household usage pattern. During a free home assessment, MAQO calculates a personalised savings estimate from your actual TNB bill." },
   { q: "How much does an ATAP solar system cost?", a: "Pricing depends on system size (kWp) and your average monthly TNB bill. MAQO offers outright purchase and instalment/financing options starting from roughly RM199/month equivalent. You will receive an exact quote after a free home assessment." },
-  { q: "Do I need to change my TNB smart meter?", a: "Yes. Once your system passes inspection, TNB upgrades your meter to a bidirectional smart meter under the NEM/ATAP scheme so exported solar energy is properly recorded." },
+  { q: "Do I need to change my TNB smart meter?", a: "Yes. Once your system passes inspection, TNB upgrades your meter to a bidirectional smart meter under the ATAP scheme so exported solar energy is properly recorded." },
   { q: "Is MAQO licensed and certified to install solar in Malaysia?", a: "Yes. MAQO Engineering Sdn Bhd is an ST Class A electrical contractor and CIDB G7-certified EPCC (Engineering, Procurement, Construction and Commissioning) contractor, SEDA-registered and ISO 9001:2015 quality-managed, with in-house licensed wiremen and chargemen for every ATAP installation." },
   { q: "How long does installation take?", a: "A typical residential ATAP installation takes 1–3 days on-site once your proposal is confirmed, followed by TNB inspection and meter upgrade, which usually completes within a few weeks depending on TNB processing time." },
-  { q: "What warranty do I get?", a: "ATAP systems come with workmanship warranties of 10–15 years depending on the package, plus manufacturer product and performance warranties on panels (typically 25–30 years) and inverters (typically 10–12 years)." },
+  { q: "What warranty do I get?", a: "ATAP systems come with workmanship warranties of 2 years depending on the package, plus manufacturer product and performance warranties on panels (typically 25–30 years) and inverters (typically 10–12 years)." },
   { q: "Which areas in Malaysia does MAQO ATAP cover?", a: "MAQO currently installs ATAP systems across Peninsular Malaysia, with core coverage in Selangor, Kuala Lumpur, and surrounding states. Ask us during your free assessment to confirm coverage at your address." },
 ];
 
