@@ -1,21 +1,54 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
+import Achievements from "../components/Achievements";
+import { CONTACT, OLD_SITE_IMAGES } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "About MAQO Solar | Energizing A Cleaner Future",
+  title: "About MAQO Solar | Malaysia's Trusted Solar EPC Since 2013",
   description:
-    "MAQO Engineering Sdn Bhd (MAQO Solar) is a tech-driven clean energy group — EPC contractor, PPA investor, developer and energy management solutions provider across Malaysia and the Philippines.",
+    "MAQO Solar is a leading solar power company in Malaysia, delivering ST Class A & CIDB G7-certified residential, commercial & industrial solar systems since 2013. Meet the team and values behind 1,000+ installations.",
 };
 
-const VALUES = [
-  { letter: "P", word: "Passion", body: "We show up energized — for our customers, our craft, and the mission of a cleaner future." },
-  { letter: "O", word: "Ownership", body: "Every Maqorian owns the outcome, from the first site survey to the last commissioning report." },
-  { letter: "W", word: "Win Win", body: "We build relationships where customers, partners, and Maqo grow together." },
-  { letter: "E", word: "Excellence, Endurance, Efficient", body: "Highest-grade certifications, built to last, delivered without waste." },
-  { letter: "R", word: "Respect & Honesty", body: "Transparent proposals, honest numbers, and respect for every roof we work on." },
+const HIGHLIGHTS = [
+  {
+    title: "Led by an engineer",
+    body: "Managing Director Kong Kok King holds a Master's degree in Engineering from the University of Tokyo and leads our fully accredited, qualified team.",
+  },
+  {
+    title: "Nothing outsourced",
+    body: "Every project is handled in-house by our own licensed wiremen and chargemen — from licence applications and design to build and commissioning.",
+  },
+  {
+    title: "See it in real time",
+    body: "Track your system's performance from our web and mobile app, with live insight into what your panels are generating.",
+  },
+  {
+    title: "25-year performance warranty",
+    body: "Every system is backed by a 25-year performance warranty from our Tier-1, Bloomberg-rated manufacturer partner.",
+  },
+];
+
+const CORE_VALUES = [
+  {
+    title: "Professionalism",
+    body: "Honesty and integrity in our approach, delivering the best experience from first contact through long-term service and support.",
+  },
+  {
+    title: "Sustainability",
+    body: "We understand our responsibility to the environment, our community, our clients and partners — and work to build a better world for them.",
+  },
+  {
+    title: "Quality",
+    body: "The “Q” in MAQO stands for Quality. Our thinking, products and practices are held to it, built on the latest technologies and know-how.",
+  },
+  {
+    title: "Together",
+    body: "An enjoyable workplace brings out the best in everyone. We respect, value and take care of each other, and we grow together.",
+  },
 ];
 
 const CREDENTIALS = [
@@ -23,8 +56,8 @@ const CREDENTIALS = [
   { title: "CIDB G7", body: "Highest construction grade in Malaysia" },
   { title: "SEDA Registered", body: "Official solar installer" },
   { title: "ISO 9001:2015", body: "Quality management certified" },
-  { title: "In-house Wiremen & Chargemen", body: "No outsourcing of critical electrical works" },
-  { title: "1,000+ Customers", body: "Homes and businesses powered since day one" },
+  { title: "In-house wiremen & chargemen", body: "No outsourcing of critical electrical works" },
+  { title: "Est. 2013", body: "13+ years delivering solar across Malaysia" },
 ];
 
 const SEGMENTS = [
@@ -52,85 +85,133 @@ export default function AboutPage() {
       <Header />
       <main className="flex-1 bg-white">
         {/* Hero */}
-        <section className="relative overflow-hidden bg-slate-950 py-24 sm:py-32">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-40"
-            style={{
-              background:
-                "radial-gradient(circle at 20% 20%, rgba(34,197,94,0.25), transparent 45%), radial-gradient(circle at 80% 0%, rgba(56,189,248,0.2), transparent 40%)",
-            }}
-          />
-          <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400">
-              About Maqo
-            </p>
-            <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-6xl">
-              Energizing a cleaner future —{" "}
-              <span className="text-emerald-400">one solar panel &amp; one battery at a time.</span>
+        <section className="relative overflow-hidden bg-gradient-to-b from-maqo-green/5 via-white to-white">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-maqo-orange/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-maqo-green/20 blur-3xl" />
+          <div className="relative mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 sm:py-28">
+            <span className="section-eyebrow inline-flex items-center rounded-full bg-maqo-green/10 px-3 py-1 text-xs font-semibold uppercase text-maqo-green-dark">
+              About MAQO Solar
+            </span>
+            <h1 className="mt-5 text-4xl font-bold leading-tight text-slate-900 sm:text-5xl">
+              Unstoppable commitment to innovation and the advancement of clean energy.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-slate-300">
-              MAQO Engineering Sdn Bhd is a tech-driven clean energy group operating across
-              Malaysia and the Philippines. We are not just an installer — we are an EPC
-              contractor, PPA investor, developer, and energy management solutions provider.
+            <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
+              Our vision is to bring green, clean energy to everyone — at the most affordable
+              cost and with the most reliable service. As a solar panel installer in Malaysia, we
+              design solar systems and offer flexible financing so our clients can go green,
+              generate their own energy, and save money.
             </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/#assessment"
+                className="inline-flex items-center justify-center rounded-full bg-maqo-orange px-7 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95"
+              >
+                Get My Free Assessment
+              </Link>
+              <a
+                href={CONTACT.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-slate-300 px-7 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400"
+              >
+                Chat with us on WhatsApp
+              </a>
+            </div>
           </div>
         </section>
 
-        {/* Stats */}
-        <section className="border-b border-slate-100 bg-white py-14">
-          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-4 sm:grid-cols-4 sm:px-6">
-            {[
-              { value: "1,000+", label: "Customers served" },
-              { value: "ST Class A", label: "Electrical contractor grade" },
-              { value: "CIDB G7", label: "Construction grade" },
-              { value: "2", label: "Countries — Malaysia & Philippines" },
-            ].map((s) => (
-              <div key={s.label}>
-                <p className="text-3xl font-bold text-slate-900 sm:text-4xl">{s.value}</p>
-                <p className="mt-1 text-sm text-slate-500">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Achievements />
 
         {/* Who we are */}
         <section className="py-20">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <div className="grid gap-12 sm:grid-cols-2">
               <div>
-                <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Who we are</h2>
+                <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Who is MAQO?</h2>
                 <p className="mt-4 text-base leading-relaxed text-slate-600">
-                  Maqo Engineering Sdn Bhd (&ldquo;MAQO Solar&rdquo;) is the parent operating
-                  entity of the Maqo group, headquartered in Puchong, Selangor. From residential
-                  rooftops to industrial-scale solar farms and battery storage, we design, build,
-                  finance and manage clean energy systems end to end.
+                  MAQO is a leading solar power company and solar panel installer in Malaysia,
+                  delivering clean energy for everything from residential rooftops to full-scale
+                  commercial &amp; industrial systems and solar farm projects.
                 </p>
                 <p className="mt-4 text-base leading-relaxed text-slate-600">
-                  The &ldquo;Q&rdquo; in Maqo stands for Quality — it&apos;s in our DNA. Every
-                  project is delivered by our own in-house licensed wiremen and chargemen, with
-                  no outsourcing of critical electrical works.
+                  Since 2013, we&apos;ve grown into one of Malaysia&apos;s most trusted solar
+                  providers — earning that trust through technology-driven energy savings and
+                  customer-first service, delivered one project at a time.
                 </p>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Maqorians</h2>
+                <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Quality above all</h2>
                 <p className="mt-4 text-base leading-relaxed text-slate-600">
-                  Our people are called Maqorians — driven by P.O.W.E.R., our set of shared
-                  values that shape how we work with each other, our customers, and our
-                  partners.
+                  Not all solar companies are the same — and neither are solar proposals. Beware
+                  of anyone offering a fast quote before really understanding your roof. We take
+                  the time to understand your needs and give you options built for where you are
+                  today and where you&apos;re headed.
                 </p>
-                <div className="mt-6 space-y-4">
-                  {VALUES.map((v) => (
-                    <div key={v.letter} className="flex gap-4">
-                      <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-600">
-                        {v.letter}
-                      </span>
-                      <p className="text-sm text-slate-600">
-                        <span className="font-semibold text-slate-900">{v.word}</span> — {v.body}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                <p className="mt-4 text-base leading-relaxed text-slate-600">
+                  You&apos;re not just another customer to us — you&apos;re a business partner,
+                  and part of the MAQO family.
+                </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Founder quote */}
+        <section className="bg-maqo-green-dark py-16">
+          <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+            <p className="text-xl font-semibold leading-relaxed text-white sm:text-2xl">
+              &ldquo;We&apos;re in it for you — and for a better planet. Our mission is to reshape
+              the energy landscape by making solar power accessible and affordable for
+              everyone.&rdquo;
+            </p>
+            <p className="mt-5 text-sm font-semibold uppercase tracking-wide text-white/70">
+              Kong Kok King &mdash; Managing Director, MAQO Solar
+            </p>
+          </div>
+        </section>
+
+        {/* What you get */}
+        <section className="bg-slate-50 py-20">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6">
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Team of experts</h2>
+            <p className="mt-3 max-w-2xl text-base text-slate-600">
+              We provide the latest solar technology and financing options, so you can make an
+              informed decision before installing solar panels on your property.
+            </p>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2">
+              {HIGHLIGHTS.map((h) => (
+                <div
+                  key={h.title}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                >
+                  <p className="text-lg font-semibold text-slate-900">{h.title}</p>
+                  <p className="mt-2 text-sm text-slate-500">{h.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Core values */}
+        <section className="py-20">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6">
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+              The &ldquo;Q&rdquo; in MAQO stands for Quality
+            </h2>
+            <p className="mt-3 max-w-2xl text-base text-slate-600">
+              It&apos;s in our name, and it&apos;s in our DNA. Four values guide how we work with
+              each other, our clients, and our partners.
+            </p>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {CORE_VALUES.map((v) => (
+                <div
+                  key={v.title}
+                  className="rounded-2xl border border-slate-200 p-6 transition hover:border-maqo-green/40 hover:shadow-md"
+                >
+                  <p className="text-base font-semibold text-slate-900">{v.title}</p>
+                  <p className="mt-2 text-sm text-slate-500">{v.body}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -171,9 +252,9 @@ export default function AboutPage() {
               {SEGMENTS.map((s) => (
                 <div
                   key={s.title}
-                  className="group rounded-2xl border border-slate-200 p-6 transition hover:border-emerald-300 hover:shadow-md"
+                  className="group rounded-2xl border border-slate-200 p-6 transition hover:border-maqo-green/40 hover:shadow-md"
                 >
-                  <p className="text-base font-semibold text-slate-900 group-hover:text-emerald-600">
+                  <p className="text-base font-semibold text-slate-900 group-hover:text-maqo-green-dark">
                     {s.title}
                   </p>
                   <p className="mt-2 text-sm text-slate-500">{s.body}</p>
@@ -184,17 +265,17 @@ export default function AboutPage() {
         </section>
 
         {/* Group structure */}
-        <section className="bg-slate-950 py-20">
+        <section className="bg-slate-50 py-20">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">The Maqo Group</h2>
-            <p className="mt-3 max-w-2xl text-base text-slate-400">
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">The MAQO Group</h2>
+            <p className="mt-3 max-w-2xl text-base text-slate-600">
               One mission, several specialized entities — across Malaysia and the Philippines.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               {GROUP.map((g) => (
                 <span
                   key={g}
-                  className="rounded-full border border-slate-700 bg-slate-900 px-5 py-2 text-sm text-slate-200"
+                  className="rounded-full border border-slate-200 bg-white px-5 py-2 text-sm text-slate-700"
                 >
                   {g}
                 </span>
@@ -203,21 +284,57 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* Gallery teaser */}
         <section className="py-20">
-          <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6">
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Our work speaks for itself</h2>
+            <p className="mt-3 max-w-2xl text-base text-slate-600">
+              A few recent installations from across Malaysia.
+            </p>
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {OLD_SITE_IMAGES.gallery.slice(0, 4).map((src, i) => (
+                <div
+                  key={src}
+                  className="relative aspect-square overflow-hidden rounded-xl border border-slate-200 bg-white"
+                >
+                  <Image
+                    src={src}
+                    alt={`MAQO Solar installation project ${i + 1}`}
+                    fill
+                    className="object-cover transition duration-300 hover:scale-105"
+                    sizes="(min-width: 640px) 25vw, 50vw"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="rounded-3xl bg-slate-900 px-6 py-14 text-center sm:px-12">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
               Ready to energize your future?
             </h2>
-            <p className="mt-3 text-base text-slate-600">
+            <p className="mx-auto mt-3 max-w-xl text-sm text-slate-300 sm:text-base">
               Talk to our team about residential solar, C&amp;I EPC, BESS, or Zero Capex PPA.
             </p>
-            <Link
-              href="/"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3 text-sm font-semibold text-white transition hover:bg-emerald-600"
-            >
-              Back to home
-            </Link>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/#assessment"
+                className="inline-flex items-center justify-center rounded-full bg-maqo-orange px-7 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95"
+              >
+                Get My Free Assessment
+              </Link>
+              <a
+                href={CONTACT.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-slate-600 px-7 py-3 text-sm font-semibold text-white transition hover:border-slate-400"
+              >
+                WhatsApp us
+              </a>
+            </div>
           </div>
         </section>
       </main>
