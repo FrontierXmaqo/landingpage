@@ -384,6 +384,7 @@ form input, form select{
   font-family:var(--font-body); font-size:0.93rem;
 }
 form input:focus, form select:focus{border-color:var(--green); outline:none;}
+.cf-turnstile{margin-bottom:16px;}
 .form-legal{font-size:0.75rem; color:var(--text-faint); margin-top:16px; line-height:1.55;}
 
 .form-alert{

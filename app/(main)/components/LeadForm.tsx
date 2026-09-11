@@ -16,8 +16,10 @@ const initialState: LeadFormState = { status: "idle" };
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
+const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site");
+
 export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
-  const [state, formAction, pending] = useActionState(submitLead, initialState);
+  const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
 

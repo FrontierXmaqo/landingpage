@@ -1,7 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import Script from "next/script";
+import { useActionState, useMemo, useState } from "react";
+import { submitLead, type LeadFormState } from "@/app/(main)/actions/submitLead";
+import {
+  SALUTATIONS,
+  MALAYSIAN_STATES,
+  BILL_RANGES,
+  PROPERTY_TYPES,
+  ELECTRIC_SUPPLY_OPTIONS,
+  COMMUNICATION_LANGUAGES,
+} from "@/lib/leadFormOptions";
+
+const initialFormState: LeadFormState = { status: "idle" };
+const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page");
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type ChargeTime = "day" | "night" | "mixed";
 
@@ -347,9 +361,7 @@ export default function Page() {
   const [bill, setBill] = useState(650);
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
   const [openFaq, setOpenFaq] = useState<number>(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
 
   const selected = CHARGE_OPTIONS.find((c) => c.key === chargeTime)!;
 
@@ -368,53 +380,6 @@ export default function Page() {
       thirtyYear: Math.round(monthlySavings * 360),
     };
   }, [bill, selected]);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitError(null);
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    // Honeypot: real visitors never fill this hidden field. If it's
-    // populated, silently "succeed" without hitting the API or the webhook.
-    if ((data.get("company") as string)?.trim()) {
-      setSubmitted(true);
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      const res = await fetch("/ev/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          salutation: data.get("fsalutation"),
-          fullName: data.get("fname"),
-          phone: data.get("fphone"),
-          email: data.get("femail"),
-          state: data.get("fstate"),
-          monthlyBill: data.get("fbill"),
-          chargeTime: selected.label,
-          propertyType: data.get("fprop"),
-          electricSupply: data.get("felectric"),
-          language: data.get("flang"),
-          pageUrl: window.location.href,
-          referrer: document.referrer || "",
-        }),
-      });
-
-      if (!res.ok) throw new Error("submit_failed");
-      setSubmitted(true);
-      form.reset();
-    } catch {
-      setSubmitError(
-        "Something went wrong sending your request. Please WhatsApp us instead — we'll get it sorted right away."
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  }
 
   return (
     <>
@@ -849,122 +814,126 @@ export default function Page() {
               <span>WhatsApp Us</span>
             </a>
           </div>
-          {submitted ? (
+          {formState.status === "success" ? (
             <div className="form-success">
               <span className="form-success-icon">✓</span>
               <h3>Request received</h3>
-              <p>Thanks — our ATAP team will call you within 1 business day.</p>
+              <p>{formState.message}</p>
             </div>
           ) : (
-          <form onSubmit={handleSubmit}>
-            {submitError && <p className="form-alert">{submitError}</p>}
+          <form action={formAction}>
+            {formState.status === "error" && formState.message && (
+              <p className="form-alert">{formState.message}</p>
+            )}
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
-              <label htmlFor="company">Company</label>
+              <label htmlFor="company_website">Company</label>
               <input
-                id="company"
-                name="company"
+                id="company_website"
+                name="company_website"
                 type="text"
                 tabIndex={-1}
                 autoComplete="off"
               />
             </div>
+            <input type="hidden" name="charge_time" value={selected.label} readOnly />
             <div className="form-row form-row-name">
               <div className="field">
-                <label htmlFor="fsalutation">Salutation</label>
-                <select id="fsalutation" name="fsalutation" defaultValue="" disabled={submitting}>
+                <label htmlFor="salutation">Salutation</label>
+                <select id="salutation" name="salutation" defaultValue="" disabled={submitting}>
                   <option value="">—</option>
-                  <option>Mr</option>
-                  <option>Mrs</option>
-                  <option>Ms</option>
-                  <option>Dr.</option>
-                  <option>Datin</option>
-                  <option>Dato&apos;</option>
-                  <option>Dato&apos; Sri</option>
-                  <option>Tun</option>
+                  {SALUTATIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="fname">Full name </label>
-                <input id="fname" name="fname" required disabled={submitting} />
+                <label htmlFor="full_name">Full name </label>
+                <input id="full_name" name="full_name" required disabled={submitting} />
               </div>
               <div className="field">
-                <label htmlFor="fphone">Mobile / WhatsApp Number</label>
-                <input id="fphone" name="fphone" required disabled={submitting} />
+                <label htmlFor="phone">Mobile / WhatsApp Number</label>
+                <input id="phone" name="phone" required disabled={submitting} placeholder="012-345 6789" />
               </div>
             </div>
             <div className="form-row">
               <div className="field">
-                <label htmlFor="femail">Email</label>
-                <input id="femail" name="femail" type="email" disabled={submitting} />
+                <label htmlFor="email">Email</label>
+                <input id="email" name="email" type="email" disabled={submitting} />
               </div>
               <div className="field">
-                <label htmlFor="fstate">State</label>
-                <select id="fstate" name="fstate" required defaultValue="" disabled={submitting}>
+                <label htmlFor="state">State</label>
+                <select id="state" name="state" required defaultValue="" disabled={submitting}>
                   <option value="" disabled>
                     Select state
                   </option>
-                  <option>Selangor</option>
-                  <option>Kuala Lumpur</option>
-                  <option>Putrajaya</option>
-                  <option>Negeri Sembilan</option>
-                  <option>Melaka</option>
-                  <option>Johor</option>
-                  <option>Perak</option>
-                  <option>Penang</option>
-                  <option>Kedah</option>
-                  <option>Pahang</option>
-                  <option>Other</option>
+                  {MALAYSIAN_STATES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className="form-row">
               <div className="field">
-                <label htmlFor="fbill">Average monthly TNB bill</label>
-                <select id="fbill" name="fbill" required defaultValue="" disabled={submitting}>
+                <label htmlFor="monthly_bill_range">Average monthly TNB bill</label>
+                <select id="monthly_bill_range" name="monthly_bill_range" required defaultValue="" disabled={submitting}>
                   <option value="" disabled>
                     Select range
                   </option>
-                  <option>Below RM250</option>
-                  <option>RM250–500</option>
-                  <option>RM500–800</option>
-                  <option>RM800–1,500</option>
-                  <option>Above RM1,500</option>
+                  {BILL_RANGES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="fprop">Property type</label>
-                <select id="fprop" name="fprop" required defaultValue="" disabled={submitting}>
+                <label htmlFor="property_type">Property type</label>
+                <select id="property_type" name="property_type" required defaultValue="" disabled={submitting}>
                   <option value="" disabled>
                     Select type
                   </option>
-                  <option>Terrace / Link house</option>
-                  <option>Semi-detached</option>
-                  <option>Bungalow</option>
-                  <option>Apartment / Condo (landed access)</option>
+                  {PROPERTY_TYPES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className="form-row">
               <div className="field">
-                <label htmlFor="felectric">Electric supply</label>
-                <select id="felectric" name="felectric" defaultValue="" disabled={submitting}>
+                <label htmlFor="electric_supply">Electric supply</label>
+                <select id="electric_supply" name="electric_supply" defaultValue="" disabled={submitting}>
                   <option value="">Select</option>
-                  <option>Single Phase</option>
-                  <option>Three Phase</option>
-                  <option>Unsure</option>
+                  {ELECTRIC_SUPPLY_OPTIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="flang">Preferred language</label>
-                <select id="flang" name="flang" defaultValue="English" disabled={submitting}>
-                  <option value="">Select</option>
-                  <option>English</option>
-                  <option>Chinese</option>
-                  <option>Malay</option>
+                <label htmlFor="preferred_language">Preferred language</label>
+                <select id="preferred_language" name="preferred_language" defaultValue="English" disabled={submitting}>
+                  {COMMUNICATION_LANGUAGES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
+            {TURNSTILE_SITE_KEY && (
+              <>
+                <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />
+                <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
+              </>
+            )}
             <button
               type="submit"
               className="btn btn-primary btn-block"

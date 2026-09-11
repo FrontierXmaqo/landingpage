@@ -29,6 +29,15 @@ function oneOf(value: string, allowed: readonly string[]) {
   return allowed.includes(value) ? value : "";
 }
 
+/** Normalizes a Malaysian mobile number to WhatsApp's plain digit format (e.g. "601297726574") — no "+", no spaces/dashes. */
+function toWhatsAppNumber(raw: string): string {
+  const digits = raw.replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("60")) return digits;
+  if (digits.startsWith("0")) return "60" + digits.slice(1);
+  return "60" + digits;
+}
+
 async function getClientIp() {
   const h = await headers();
   const forwardedFor = h.get("x-forwarded-for");
@@ -65,7 +74,7 @@ async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload
   }
 }
 
-export async function submitLead(_prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
+export async function submitLead(sourcePage: string, _prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
   const clientIp = await getClientIp();
 
   const rateLimit = checkRateLimit(clientIp);
@@ -89,12 +98,13 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
   const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), COMMUNICATION_LANGUAGES);
   const campaign_id = clean(formData.get("campaign_id"), 100);
   const landing_referrer = clean(formData.get("landing_referrer"), 500);
+  const charge_time = clean(formData.get("charge_time"), 80);
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
 
   if (!full_name || !PHONE_PATTERN.test(phoneRaw)) {
     return { status: "error", message: "Please fill in your name and a valid phone number." };
   }
-  const phone = phoneRaw;
+  const phone = toWhatsAppNumber(phoneRaw);
 
   const emailLooksValid = !email || EMAIL_PATTERN.test(email);
 
@@ -132,7 +142,8 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
     preferredLanguage: preferred_language,
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,
-    sourcePage: "MAQO Main Site",
+    sourcePage,
+    remarks: charge_time ? `Usually charges EV: ${charge_time}` : "",
   });
 
   if (!supabaseOk) {
