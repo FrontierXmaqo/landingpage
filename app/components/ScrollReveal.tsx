@@ -1,11 +1,8 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-
 /**
- * Fades and slides children up once they scroll into view, reusing the
- * existing .animate-fade-in-up keyframe (globals.css) so it inherits the
- * same prefers-reduced-motion guard as the rest of the site.
+ * Fades and lifts children into view. Driven entirely by CSS (.reveal-on-scroll), so the
+ * content is never hidden behind a JS observer that might not fire. `delayMs` staggers
+ * siblings: under a scroll-driven timeline it shifts the reveal range, otherwise it is a
+ * plain animation delay.
  */
 export default function ScrollReveal({
   children,
@@ -16,30 +13,19 @@ export default function ScrollReveal({
   className?: string;
   delayMs?: number;
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const shift = Math.min(delayMs / 15, 20);
 
   return (
     <div
-      ref={ref}
-      className={`${visible ? "animate-fade-in-up" : "opacity-0"} ${className}`}
-      style={delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
+      className={`reveal-on-scroll ${className}`}
+      style={
+        delayMs
+          ? ({
+              animationDelay: `${delayMs}ms`,
+              "--reveal-shift": `${shift}%`,
+            } as React.CSSProperties)
+          : undefined
+      }
     >
       {children}
     </div>
