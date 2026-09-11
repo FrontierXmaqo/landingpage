@@ -916,7 +916,21 @@ export default function Page() {
                 autoComplete="off"
               />
             </div>
-            <div className="form-row">
+            <div className="form-row form-row-name">
+              <div className="field">
+                <label htmlFor="fsalutation">Title</label>
+                <select id="fsalutation" name="fsalutation" defaultValue="" disabled={submitting}>
+                  <option value="">—</option>
+                  <option>Mr</option>
+                  <option>Mrs</option>
+                  <option>Ms</option>
+                  <option>Dr.</option>
+                  <option>Datin</option>
+                  <option>Dato&apos;</option>
+                  <option>Dato&apos; Sri</option>
+                  <option>Tun</option>
+                </select>
+              </div>
               <div className="field">
                 <label htmlFor="fname">Full name *</label>
                 <input id="fname" name="fname" required disabled={submitting} />
@@ -965,19 +979,6 @@ export default function Page() {
                   <option>Above RM1,500</option>
                 </select>
               </div>
-              <div className="field">
-                <label htmlFor="fev">When do you usually charge? *</label>
-                <select id="fev" name="fev" required defaultValue="" disabled={submitting}>
-                  <option value="" disabled>
-                    Select option
-                  </option>
-                  <option>Mostly during the day</option>
-                  <option>Mostly at night</option>
-                  <option>Mixed / it varies</option>
-                  <option>Planning to buy an EV soon</option>
-                </select>
-              </div>
-            </div>
             <div className="form-row">
               <div className="field">
                 <label htmlFor="fprop">Property type *</label>
@@ -991,6 +992,16 @@ export default function Page() {
                   <option>Apartment / Condo (landed access)</option>
                 </select>
               </div>
+              <div className="field">
+                <label htmlFor="felectric">Electric supply</label>
+                <select id="felectric" name="felectric" defaultValue="" disabled={submitting}>
+                  <option value="">—</option>
+                  <option>Single Phase</option>
+                  <option>Three Phase</option>
+                  <option>Unsure</option>
+                </select>
+              </div>
+            </div>
               <div className="field">
                 <label htmlFor="flang">Preferred language</label>
                 <select id="flang" name="flang" defaultValue="English" disabled={submitting}>
