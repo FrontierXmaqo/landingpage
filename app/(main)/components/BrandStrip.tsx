@@ -5,15 +5,15 @@ export default function BrandStrip() {
   const track = [...BRAND_LOGOS, ...BRAND_LOGOS];
 
   return (
-    <section className="border-y border-slate-100 bg-slate-50/60 py-8">
+    <section className="border-y border-base-line bg-base-bg py-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="section-eyebrow text-center text-xs font-semibold uppercase text-slate-500">
+        <p className="section-eyebrow text-center text-xs font-semibold uppercase text-base-slate">
           Installed with brands homeowners trust
         </p>
       </div>
       <div className="relative mt-5 overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-slate-50 to-transparent sm:w-24" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-slate-50 to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-base-bg to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-base-bg to-transparent sm:w-24" />
         <div className="flex w-max animate-marquee-ltr items-center">
           {track.map((brand, i) => (
             <div
@@ -30,7 +30,7 @@ export default function BrandStrip() {
                   unoptimized={brand.logo.endsWith(".svg")}
                 />
               </div>
-              <span className="whitespace-nowrap text-base font-semibold text-slate-500 sm:text-lg">
+              <span className="whitespace-nowrap text-base font-semibold text-base-slate sm:text-lg">
                 {brand.name}
               </span>
             </div>

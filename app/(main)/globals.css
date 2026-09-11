@@ -1,30 +1,49 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  /* Sampled from the logo artwork (public/Maqo Solar_Logo.svg), not approximated.
-     Both brand colours are fills only: as text on white they sit at 2.6:1 and 2.2:1,
-     so the -dark variants exist for anything that has to be read. */
-  --maqo-green: #43b649;
-  --maqo-green-dark: #1f7a2b;
-  --maqo-green-tint: rgba(67, 182, 73, 0.1);
-  --maqo-orange: #f39921;
-  --maqo-orange-dark: #8a4808;
-  --maqo-slate: #0f172a;
-}
+/* MAQO colour system. Closed palette: every colour in a component is a token from
+   here, never a raw hex. Surfaces are light; there is no dark mode.
+   Bright brand steps are fills only. Coloured text always uses an -ink token. */
+@theme {
+  --color-base-bg: #f7f8f7;
+  --color-base-panel: #ffffff;
+  --color-base-line: #e4e7e4;
+  --color-base-ink: #1a1a1a;
+  --color-base-slate: #5b6660;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-maqo-green: var(--maqo-green);
-  --color-maqo-green-dark: var(--maqo-green-dark);
-  --color-maqo-orange: var(--maqo-orange);
-  --color-maqo-orange-dark: var(--maqo-orange-dark);
+  --color-brand-green: #31ac47;
+  --color-brand-green-deep: #357a3a;
+  --color-brand-green-ink: #0c842b;
+  --color-brand-green-tint: #d0f8d1;
+
+  --color-brand-orange: #ff8c4c;
+  --color-brand-orange-deep: #f97000;
+  --color-brand-orange-ink: #b9540b;
+  --color-brand-orange-tint: #f8e7e0;
+
+  --color-accent-violet: #7418e5;
+  --color-accent-violet-ink: #7510e8;
+  --color-accent-violet-tint: #ebe9f8;
+
+  --color-wow-magenta: #e0138f;
+  --color-wow-magenta-ink: #d8128a;
+  --color-wow-magenta-tint: #f8e6ed;
+
+  --color-status-good: #0c842b;
+  --color-status-warn: #7b5c00;
+  --color-status-critical: #9f223a;
+  --color-status-info: #145c99;
+  --color-status-inactive: #848b85;
+
+  --color-chart-1: #357a3a;
+  --color-chart-2: #f97000;
+  --color-chart-3: #7418e5;
+  --color-chart-4: #e0138f;
+  --color-chart-5: #1684b5;
+
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
-body { background: var(--background); color: var(--foreground); }
+body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .section-eyebrow { letter-spacing: 0.08em; }
 
 @keyframes marquee-ltr { from { transform: translateX(-50%); } to { transform: translateX(0%); } }
@@ -38,10 +57,10 @@ body { background: var(--background); color: var(--foreground); }
 .animate-modal-in { animation: modal-in 0.2s ease-out both; }
 
 @keyframes credential-highlight {
-  0% { background-color: rgba(67, 182, 73,0); }
-  20% { background-color: rgba(67, 182, 73,0.35); }
-  75% { background-color: rgba(67, 182, 73,0.35); }
-  100% { background-color: rgba(67, 182, 73,0); }
+  0% { background-color: transparent; }
+  20% { background-color: var(--color-brand-green-tint); }
+  75% { background-color: var(--color-brand-green-tint); }
+  100% { background-color: transparent; }
 }
 .animate-credential-highlight {
   animation: credential-highlight 1.8s ease-out 0.6s both;
@@ -71,9 +90,9 @@ body { background: var(--background); color: var(--foreground); }
 /* Draws the eye to the proof button, then settles. Finite on purpose: it is a nudge,
    not a permanently blinking page element. Stops for good once the button is used. */
 @keyframes attention-ring {
-  0%   { box-shadow: 0 0 0 0 rgba(243, 153, 33, 0.55); }
-  70%  { box-shadow: 0 0 0 14px rgba(243, 153, 33, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(243, 153, 33, 0); }
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand-green-deep) 55%, transparent); }
+  70%  { box-shadow: 0 0 0 14px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
 .animate-attention-ring { animation: attention-ring 2.4s ease-out 6; }
 

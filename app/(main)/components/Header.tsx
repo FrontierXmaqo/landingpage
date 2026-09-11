@@ -3,7 +3,7 @@ import { CONTACT, OLD_SITE_IMAGES } from "@/lib/content";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-100 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 w-full border-b border-base-line bg-base-panel/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <div className="relative h-9 w-32 sm:h-10 sm:w-36">
           <Image
@@ -19,7 +19,7 @@ export default function Header() {
           href={CONTACT.whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden items-center gap-2 rounded-full border border-maqo-green/30 bg-maqo-green/10 px-4 py-2 text-sm font-medium text-maqo-green-dark transition hover:bg-maqo-green/20 sm:inline-flex"
+          className="hidden items-center gap-2 rounded-full border border-brand-green bg-brand-green-tint px-4 py-2 text-sm font-medium text-brand-green-ink transition hover:bg-brand-green-tint sm:inline-flex"
         >
           <svg viewBox="0 0 32 32" className="h-4 w-4 fill-current" aria-hidden>
             <path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.3.63 4.45 1.73 6.3L4 29l7.86-1.7a12.9 12.9 0 0 0 4.16.7C22.6 28 28 22.6 28 15.98 28 9.4 22.6 4 16.02 3zm7.4 18.15c-.32.9-1.6 1.65-2.6 1.86-.7.15-1.6.27-4.66-1-3.9-1.6-6.4-5.55-6.6-5.8-.19-.26-1.58-2.1-1.58-4 0-1.9.98-2.83 1.33-3.22.35-.38.76-.48 1.02-.48h.73c.23 0 .55-.09.86.66.32.77 1.09 2.66 1.18 2.85.1.19.16.42.03.68-.13.26-.2.42-.4.65-.2.23-.42.51-.6.68-.2.19-.4.4-.18.79.23.4 1 1.64 2.14 2.66 1.47 1.31 2.7 1.72 3.1 1.91.4.19.63.16.87-.1.23-.26 1-1.16 1.26-1.56.26-.4.52-.33.87-.2.35.13 2.24 1.06 2.63 1.25.4.19.65.29.75.45.1.16.1.94-.22 1.85z" />
@@ -28,7 +28,7 @@ export default function Header() {
         </a>
         <a
           href="#assessment"
-          className="inline-flex items-center rounded-full bg-maqo-orange px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95 sm:hidden"
+          className="inline-flex items-center rounded-full bg-brand-orange-deep px-4 py-2 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95 sm:hidden"
         >
           Free Assessment
         </a>

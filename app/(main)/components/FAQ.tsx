@@ -8,10 +8,10 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="bg-slate-50/60 py-16">
+    <section className="bg-base-bg py-16">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <SectionHeading eyebrow="FAQ" title="Everything homeowners ask about ATAP" />
-        <div className="mt-10 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+        <div className="mt-10 divide-y divide-base-line rounded-2xl border border-base-line bg-base-panel">
           {FAQS.map((item, i) => {
             const isOpen = open === i;
             return (
@@ -20,13 +20,13 @@ export default function FAQ() {
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-slate-900 sm:px-6"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-base-ink sm:px-6"
                 >
                   {item.q}
-                  <span className="shrink-0 text-lg text-slate-500">{isOpen ? "−" : "+"}</span>
+                  <span className="shrink-0 text-lg text-base-slate">{isOpen ? "−" : "+"}</span>
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 text-sm leading-relaxed text-slate-600 sm:px-6">
+                  <div className="px-5 pb-5 text-sm leading-relaxed text-base-slate sm:px-6">
                     {item.a}
                   </div>
                 )}

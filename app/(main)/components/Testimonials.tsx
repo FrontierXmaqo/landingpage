@@ -3,7 +3,7 @@ import { TESTIMONIALS } from "@/lib/content";
 
 function Stars() {
   return (
-    <div className="mb-3 flex gap-0.5 text-maqo-orange" aria-hidden>
+    <div className="mb-3 flex gap-0.5 text-brand-orange-ink" aria-hidden>
       {Array.from({ length: 5 }).map((_, i) => (
         <span key={i}>★</span>
       ))}
@@ -19,15 +19,15 @@ export default function Testimonials() {
         {TESTIMONIALS.map((t) => (
           <figure
             key={t.name}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+            className="flex flex-col rounded-2xl border border-base-line bg-base-panel p-6 shadow-sm"
           >
             <Stars />
-            <blockquote className="flex-1 text-sm leading-relaxed text-slate-600">
+            <blockquote className="flex-1 text-sm leading-relaxed text-base-slate">
               &ldquo;{t.quote}&rdquo;
             </blockquote>
-            <figcaption className="mt-4 text-sm font-semibold text-slate-900">
+            <figcaption className="mt-4 text-sm font-semibold text-base-ink">
               {t.name}
-              <span className="block text-xs font-normal text-slate-500">{t.location}</span>
+              <span className="block text-xs font-normal text-base-slate">{t.location}</span>
             </figcaption>
           </figure>
         ))}

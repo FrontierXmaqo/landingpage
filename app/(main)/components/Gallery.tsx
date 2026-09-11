@@ -4,14 +4,14 @@ import { OLD_SITE_IMAGES } from "@/lib/content";
 
 export default function Gallery() {
   return (
-    <section className="bg-slate-50/60 py-16">
+    <section className="bg-base-bg py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading eyebrow="Our work" title="View our past projects" />
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {OLD_SITE_IMAGES.gallery.map((src, i) => (
             <div
               key={src}
-              className="relative aspect-square overflow-hidden rounded-xl border border-slate-200 bg-white"
+              className="relative aspect-square overflow-hidden rounded-xl border border-base-line bg-base-panel"
             >
               <Image
                 src={src}

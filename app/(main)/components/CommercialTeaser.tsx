@@ -7,12 +7,12 @@ export default function CommercialTeaser() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12">
+      <div className="rounded-3xl border border-base-line bg-base-panel p-8 sm:p-12">
         <SectionTag>Commercial &amp; Industrial</SectionTag>
-        <h2 className="mt-4 max-w-2xl text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
+        <h2 className="mt-4 max-w-2xl text-2xl font-bold leading-tight text-base-ink sm:text-3xl">
           We also do solar for factories, warehouses and offices.
         </h2>
-        <p className="mt-4 text-sm text-slate-600">
+        <p className="mt-4 text-sm text-base-slate">
           Other big clients who are committed to a sustainable future
         </p>
         <div className="relative mt-8 overflow-hidden">

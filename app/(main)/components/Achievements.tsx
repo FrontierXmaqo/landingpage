@@ -62,7 +62,7 @@ function CountUp({ value, duration = 3200 }: { value: string; duration?: number 
 
 export default function Achievements() {
   return (
-    <section className="bg-maqo-green-dark py-14">
+    <section className="bg-brand-green-deep py-14">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="section-eyebrow text-center text-xs font-semibold uppercase text-white">
           Our achievements

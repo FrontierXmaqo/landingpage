@@ -14,7 +14,9 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 7,
-          background: "linear-gradient(135deg, #f39921 0%, #43b649 100%)",
+          // ImageResponse renders outside the document, so tokens cannot be referenced
+          // here. These are brand.orange-deep and brand.green from the palette.
+          background: "linear-gradient(135deg, #F97000 0%, #31AC47 100%)",
           color: "#fff",
           fontSize: 20,
           fontWeight: 800,

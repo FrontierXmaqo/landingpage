@@ -28,11 +28,11 @@ export default function WhyAtap() {
     <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
       <ScrollReveal className="max-w-xl">
         <SectionTag>Why ATAP</SectionTag>
-        <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+        <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
           Simple to own.{" "}
-          <span className="text-maqo-orange-dark">Built to last.</span>
+          <span className="text-brand-orange-ink">Built to last.</span>
         </h2>
-        <p className="mt-4 text-base leading-relaxed text-slate-600">
+        <p className="mt-4 text-base leading-relaxed text-base-slate">
           The parts of a solar purchase that usually go wrong are the parts we refuse to hand
           to anyone else.
         </p>
@@ -49,15 +49,15 @@ export default function WhyAtap() {
               className="object-cover transition duration-700 hover:scale-105"
               sizes="(min-width: 1024px) 680px, 100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/55 to-slate-950/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-base-ink/95 via-base-ink/55 to-base-ink/20" />
             <div className="relative flex h-full flex-col justify-end p-7 sm:p-9">
-              <span className="inline-flex w-fit items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white ring-1 ring-white/25 backdrop-blur-sm">
+              <span className="inline-flex w-fit items-center rounded-full bg-base-panel/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white ring-1 ring-white/25 backdrop-blur-sm">
                 Licensed in-house
               </span>
               <h3 className="mt-4 max-w-md text-2xl font-bold leading-tight text-white sm:text-3xl">
                 {featured.title}
               </h3>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-200 sm:text-base">
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base">
                 {featured.body}
               </p>
             </div>
@@ -66,12 +66,12 @@ export default function WhyAtap() {
 
         {rest.map((item, i) => (
           <ScrollReveal key={item.title} delayMs={120 + i * 90}>
-            <div className="h-full rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-maqo-green/40 hover:shadow-md">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center text-maqo-green-dark">
+            <div className="h-full rounded-2xl border border-base-line bg-base-panel p-6 transition hover:border-brand-green hover:shadow-md">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center text-brand-green-ink">
                 {ICONS[i]}
               </span>
-              <h3 className="mt-4 text-base font-semibold text-slate-900">{item.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{item.body}</p>
+              <h3 className="mt-4 text-base font-semibold text-base-ink">{item.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-base-slate">{item.body}</p>
             </div>
           </ScrollReveal>
         ))}
