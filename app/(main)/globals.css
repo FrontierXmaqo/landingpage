@@ -65,7 +65,11 @@ body { background: var(--background); color: var(--foreground); }
   }
 }
 
+@keyframes bar-rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.animate-bar-rise { animation: bar-rise 0.75s cubic-bezier(.2,.8,.25,1) both; transform-origin: bottom; }
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up, .animate-modal-in, .animate-credential-highlight { animation: none; }
   .reveal-on-scroll { animation: none; opacity: 1; transform: none; }
+  .animate-bar-rise { animation: none; transform: none; }
 }
