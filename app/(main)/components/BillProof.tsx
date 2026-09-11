@@ -98,11 +98,11 @@ export default function BillProof() {
     <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
       <div className="max-w-xl">
         <SectionTag>Real results</SectionTag>
-        <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+        <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
           Watch the bill{" "}
-          <span className="text-maqo-orange-dark">fall off a cliff.</span>
+          <span className="text-brand-orange-ink">fall off a cliff.</span>
         </h2>
-        <p className="mt-4 text-base leading-relaxed text-slate-600">
+        <p className="mt-4 text-base leading-relaxed text-base-slate">
           Six months of real TNB bills from MAQO customers, February to July 2026. Flip to the
           original account screenshots any time. These are not our numbers, they are TNB&apos;s.
         </p>
@@ -111,7 +111,7 @@ export default function BillProof() {
       <div
         role="tablist"
         aria-label="Customer bill histories"
-        className="mt-8 inline-flex flex-wrap gap-1.5 rounded-full border border-slate-200 bg-slate-50 p-1.5"
+        className="mt-8 inline-flex flex-wrap gap-1.5 rounded-full border border-base-line bg-base-bg p-1.5"
       >
         {CASES.map((item, i) => (
           <button
@@ -122,8 +122,8 @@ export default function BillProof() {
             onClick={() => setActive(i)}
             className={`rounded-full px-4 py-3 text-sm font-semibold transition ${
               i === active
-                ? "bg-maqo-green text-slate-900 shadow-sm"
-                : "text-slate-600 hover:text-slate-900"
+                ? "bg-brand-green text-base-ink shadow-sm"
+                : "text-base-slate hover:text-base-ink"
             }`}
           >
             {item.tab}
@@ -132,11 +132,11 @@ export default function BillProof() {
       </div>
 
       <div className="mt-6 grid items-start gap-5 lg:grid-cols-[1.6fr_1fr]">
-        <div className="min-w-0 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="min-w-0 rounded-3xl border border-base-line bg-base-panel p-6 shadow-sm sm:p-8">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-slate-900">{c.title}</p>
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="text-sm font-semibold text-base-ink">{c.title}</p>
+              <p className="mt-1 text-xs text-base-slate">
                 Monthly TNB bill, Feb to Jul 2026 &middot; {c.size} system
               </p>
             </div>
@@ -149,8 +149,8 @@ export default function BillProof() {
                   onClick={() => setShowProof(false)}
                   className={`inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition ${
                     !showProof
-                      ? "border-slate-300 bg-white text-slate-900"
-                      : "border-transparent text-slate-500 hover:text-slate-900"
+                      ? "border-base-line bg-base-panel text-base-ink"
+                      : "border-transparent text-base-slate hover:text-base-ink"
                   }`}
                 >
                   Chart
@@ -163,8 +163,8 @@ export default function BillProof() {
                     setShowProof(true);
                     setNudged(true);
                   }}
-                  className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-maqo-orange px-5 py-2.5 text-sm font-bold text-slate-900 shadow-md transition hover:brightness-95 ${
-                    showProof ? "ring-2 ring-maqo-orange/45 ring-offset-2" : ""
+                  className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-brand-green-deep px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:brightness-110 ${
+                    showProof ? "ring-2 ring-brand-green ring-offset-2" : ""
                   } ${!showProof && !nudged ? "animate-attention-ring" : ""}`}
                 >
                   {/* Eye: the action is literally "look at the customer's bill" */}
@@ -188,7 +188,7 @@ export default function BillProof() {
               </div>
 
               {!showProof && (
-                <p className="text-[11px] font-medium text-slate-500">
+                <p className="text-[11px] font-medium text-base-slate">
                   Don&apos;t take our word for it
                 </p>
               )}
@@ -197,7 +197,7 @@ export default function BillProof() {
 
           {showProof ? (
             <figure className="mt-6">
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-base-line bg-base-bg">
                 <Image
                   key={c.id}
                   src={c.proof}
@@ -207,7 +207,7 @@ export default function BillProof() {
                   sizes="(min-width: 1024px) 680px, 100vw"
                 />
               </div>
-              <figcaption className="mt-3 text-xs text-slate-500">
+              <figcaption className="mt-3 text-xs text-base-slate">
                 Straight from the customer&apos;s own TNB account, shared with their permission.
               </figcaption>
             </figure>
@@ -223,15 +223,18 @@ export default function BillProof() {
                     >
                       <span
                         className={`mb-2 whitespace-nowrap text-[10px] font-bold sm:text-xs ${
-                          isLow ? "text-maqo-green-dark" : "text-slate-500"
+                          isLow ? "text-brand-green-ink" : "text-base-slate"
                         }`}
                       >
                         <span className="sm:hidden">{moneyShort(m)}</span>
                         <span className="hidden sm:inline">{money(m)}</span>
                       </span>
+                      {/* One data series, so one chart token. The low months are the same
+                          colour at full strength rather than a second hue, and every bar
+                          already carries its ringgit value and month as a label. */}
                       <div
-                        className={`animate-bar-rise w-full max-w-[44px] rounded-full ${
-                          isLow ? "bg-maqo-green" : "bg-slate-300"
+                        className={`animate-bar-rise w-full max-w-[44px] rounded-full bg-chart-1 ${
+                          isLow ? "" : "opacity-30"
                         }`}
                         style={{
                           height: `${(m.v / peak.v) * 80}%`,
@@ -242,11 +245,11 @@ export default function BillProof() {
                   );
                 })}
               </div>
-              <div className="mt-3 flex gap-2 border-t border-slate-200 pt-3 sm:gap-4">
+              <div className="mt-3 flex gap-2 border-t border-base-line pt-3 sm:gap-4">
                 {c.months.map((m) => (
                   <span
                     key={m.m}
-                    className="flex-1 text-center text-xs font-medium text-slate-500"
+                    className="flex-1 text-center text-xs font-medium text-base-slate"
                   >
                     {m.m}
                   </span>
@@ -256,30 +259,30 @@ export default function BillProof() {
           )}
         </div>
 
-        <div className="rounded-3xl border border-maqo-green/30 bg-maqo-green/5 p-6 sm:p-7">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-maqo-green-dark">
+        <div className="rounded-3xl border border-brand-green bg-brand-green-tint p-6 sm:p-7">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-green-ink">
             Lowest month
           </p>
-          <p className="mt-2 text-4xl font-bold leading-none text-slate-900">{money(low)}</p>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+          <p className="mt-2 text-4xl font-bold leading-none text-base-ink">{money(low)}</p>
+          <p className="mt-3 text-sm leading-relaxed text-base-slate">
             Down from {money(peak)} at its peak in {peak.m}, a drop of{" "}
-            <span className="font-bold text-maqo-green-dark">
+            <span className="font-bold text-brand-green-ink">
               {peak.approx ? "about " : ""}
               {drop}%
             </span>
             .
           </p>
-          <dl className="mt-5 flex items-baseline justify-between gap-4 border-t border-maqo-green/20 pt-4">
-            <dt className="text-xs text-slate-500">System size</dt>
-            <dd className="text-sm font-bold text-slate-900">{c.size}</dd>
+          <dl className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-green pt-4">
+            <dt className="text-xs text-base-slate">System size</dt>
+            <dd className="text-sm font-bold text-base-ink">{c.size}</dd>
           </dl>
           {c.note && (
-            <p className="mt-3 text-xs leading-relaxed text-slate-500">{c.note}</p>
+            <p className="mt-3 text-xs leading-relaxed text-base-slate">{c.note}</p>
           )}
         </div>
       </div>
 
-      <p className="mt-5 text-xs leading-relaxed text-slate-500">
+      <p className="mt-5 text-xs leading-relaxed text-base-slate">
         Bills vary with household usage, roof conditions and tariff, so your own result will
         differ.
       </p>

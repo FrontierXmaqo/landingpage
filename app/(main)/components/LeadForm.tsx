@@ -35,21 +35,21 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
     return (
       <div
         id="assessment"
-        className="rounded-2xl border border-maqo-green/20 bg-maqo-green/5 p-8 text-center shadow-sm"
+        className="rounded-2xl border border-brand-green bg-brand-green-tint p-8 text-center shadow-sm"
       >
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-maqo-green text-white">
+        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-green text-white">
           ✓
         </div>
-        <h2 className="text-lg font-semibold text-slate-900">Request received</h2>
-        <p className="mt-2 text-sm text-slate-600">{state.message}</p>
+        <h2 className="text-lg font-semibold text-base-ink">Request received</h2>
+        <p className="mt-2 text-sm text-base-slate">{state.message}</p>
       </div>
     );
   }
 
   return (
-    <div id="assessment" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/50 sm:p-8">
-      <h2 className="text-lg font-semibold text-slate-900">Get your free home assessment</h2>
-      <p className="mt-1 text-sm text-slate-500">
+    <div id="assessment" className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-lg shadow-base-line/50 sm:p-8">
+      <h2 className="text-lg font-semibold text-base-ink">Get your free home assessment</h2>
+      <p className="mt-1 text-sm text-base-slate">
         Takes 60 seconds. Our ATAP team calls you within 1 business day.
       </p>
 
@@ -69,12 +69,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
           </label>
         </div>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Salutation
           <select
             name="salutation"
             defaultValue=""
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
           >
             <option value="" disabled>
               Select salutation
@@ -86,39 +86,39 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Full name *
           <input
             name="full_name"
             required
             placeholder="Ahmad bin Ismail"
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 placeholder:text-slate-400 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2"
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Mobile / WhatsApp number *
           <input
             name="phone"
             required
             placeholder="012-345 6789"
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 placeholder:text-slate-400 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2"
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Email
           <input
             type="email"
             name="email"
             placeholder="you@email.com"
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 placeholder:text-slate-400 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2"
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           State
           <select
             name="state"
             defaultValue=""
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
           >
             <option value="" disabled>
               Select state
@@ -130,12 +130,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Average monthly TNB bill
           <select
             name="monthly_bill_range"
             defaultValue=""
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
           >
             <option value="" disabled>
               Select range
@@ -147,12 +147,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Property type
           <select
             name="property_type"
             defaultValue=""
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
           >
             <option value="" disabled>
               Select type
@@ -164,12 +164,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Electric supply
           <select
             name="electric_supply"
             defaultValue=""
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
           >
             <option value="" disabled>
               Select supply
@@ -181,12 +181,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
           Preferred communication language
           <select
             name="preferred_language"
             defaultValue=""
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-maqo-green/30 focus:border-maqo-green focus:ring-2"
+            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
           >
             <option value="" disabled>
               Select language
@@ -209,12 +209,12 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
         <button
           type="submit"
           disabled={pending}
-          className="mt-1 inline-flex items-center justify-center rounded-lg bg-maqo-orange px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-1 inline-flex items-center justify-center rounded-lg bg-brand-orange-deep px-6 py-3 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {pending ? "Submitting…" : "Get My Free Home Assessment"}
         </button>
 
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-base-slate">
           By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar
           assessment. No Spam.
         </p>
