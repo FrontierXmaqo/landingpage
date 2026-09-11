@@ -17,6 +17,8 @@ export type LeadWebhookInput = {
   /** Which of our own landing pages this lead was submitted from (e.g. "MAQO Main Site", "MAQO EV Landing Page"). */
   sourcePage: string;
   remarks: string;
+  /** The clean landing page URL the visitor actually landed on (e.g. "https://get.maqo.asia", "https://get.maqo.asia/ev") — no query strings. */
+  landingPageSource: string;
 };
 
 function blankTemplate() {
@@ -146,6 +148,7 @@ function blankTemplate() {
       "Monthly TNB Bill": "",
       "Source of Leads": "",
       "Campaign ID": "",
+      "Landing Page Source": "",
     },
   };
 }
@@ -169,6 +172,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload.customData["Monthly TNB Bill"] = input.monthlyBillRange;
   payload.customData["Source of Leads"] = input.sourceOfLeads;
   payload.customData["Campaign ID"] = input.campaignId;
+  payload.customData["Landing Page Source"] = input.landingPageSource;
 
   return payload;
 }

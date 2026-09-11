@@ -98,6 +98,7 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
   const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), COMMUNICATION_LANGUAGES);
   const campaign_id = clean(formData.get("campaign_id"), 100);
   const landing_referrer = clean(formData.get("landing_referrer"), 500);
+  const landing_page_source = clean(formData.get("landing_page_source"), 300);
   const charge_time = clean(formData.get("charge_time"), 80);
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
 
@@ -144,6 +145,7 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
     campaignId: campaign_id,
     sourcePage,
     remarks: charge_time ? `Usually charges EV: ${charge_time}` : "",
+    landingPageSource: landing_page_source,
   });
 
   if (!supabaseOk) {

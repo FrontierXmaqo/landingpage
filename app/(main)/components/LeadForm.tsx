@@ -23,12 +23,16 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
+  const landingPageSourceRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
     if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
     if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
+    // Hardcoded, not derived from location.pathname: this component is only ever
+    // the main site's landing page, regardless of query strings on the URL.
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin;
   }, []);
 
   if (state.status === "success") {
@@ -62,6 +66,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
         <input type="hidden" name="landing_referrer" ref={referrerRef} />
+        <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
         <div className="absolute left-[-9999px]" aria-hidden="true">
           <label>
             Leave this field blank

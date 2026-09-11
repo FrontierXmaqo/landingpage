@@ -365,12 +365,17 @@ export default function Page() {
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
+  const landingPageSourceRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
     if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
     if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
+    // Hardcoded, not derived from location.pathname: this page is reachable both
+    // at /ev directly and at /?site=ev (rewritten by proxy.ts), but it's always
+    // the EV landing page — never derive this from the visible URL/query string.
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/ev";
   }, []);
 
   const selected = CHARGE_OPTIONS.find((c) => c.key === chargeTime)!;
@@ -684,7 +689,7 @@ export default function Page() {
                 <li className="step">
                   <span className="step-num">03</span>
                   <div>
-                    <h3>Installation in 1–3 days</h3>
+                    <h3>Installation in 2 weeks</h3>
                     <p>
                       Our CIDB G7-certified in-house team installs panels,
                       inverter, and — if selected — battery, with minimal
@@ -837,6 +842,7 @@ export default function Page() {
             )}
             <input type="hidden" name="campaign_id" ref={campaignIdRef} />
             <input type="hidden" name="landing_referrer" ref={referrerRef} />
+            <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
               <label htmlFor="company_website">Company</label>
