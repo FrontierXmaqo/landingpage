@@ -36,8 +36,8 @@
   --r-lg:24px;
   --pill:999px;
 
-  --font-head:'Outfit', system-ui, sans-serif;
-  --font-body:'Inter', system-ui, sans-serif;
+  --font-head:var(--font-outfit), system-ui, sans-serif;
+  --font-body:var(--font-inter), system-ui, sans-serif;
 
   --shadow-sm:0 4px 14px -8px rgba(14,33,22,0.28);
   --shadow-md:0 18px 44px -26px rgba(14,33,22,0.42);
@@ -198,7 +198,7 @@ header{
 }
 .solar-ev{display:block; width:100%; height:auto;}
 .solar-ev .cable{fill:none; stroke:#2C4033; stroke-width:4; stroke-linecap:round;}
-.solar-ev .ev-badge-text{font-family:'Inter', sans-serif; font-size:13px; font-weight:600; fill:#13251A;}
+.solar-ev .ev-badge-text{font-family:var(--font-body); font-size:13px; font-weight:600; fill:#13251A;}
 @media (prefers-reduced-motion: no-preference){
   .solar-ev .sun{transform-origin:468px 72px; animation:sunPulse 5s ease-in-out infinite;}
   .solar-ev .charger-led{animation:ledBlink 2.4s ease-in-out infinite;}
@@ -310,7 +310,7 @@ section{padding:96px 0;}
 @media (prefers-reduced-motion: no-preference){ .flow-dot{animation:travel 4.5s linear infinite;} }
 @keyframes travel{0%{offset-distance:0%;} 100%{offset-distance:100%;}}
 .flow-node{fill:var(--green-050); stroke:var(--green); stroke-width:1.6;}
-.flow-label{font-family:'Inter', sans-serif; font-size:11px; font-weight:500; fill:var(--text-dim);}
+.flow-label{font-family:var(--font-body); font-size:11px; font-weight:500; fill:var(--text-dim);}
 .flow-note{font-size:0.83rem; color:var(--text-faint); margin-top:12px; line-height:1.55;}
 
 /* ---------- Pillars ---------- */

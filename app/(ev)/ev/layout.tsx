@@ -1,6 +1,22 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { headers } from "next/headers";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "MAQO | Charge Your EV On Sunlight — Energizing A Cleaner Future",
@@ -11,27 +27,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
+  const nonce = (await headers()).get("x-nonce") || undefined;
 
+  return (
+    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
+      <head>
         {/* Google Tag Manager */}
-        <Script id="gtm-init" strategy="afterInteractive">
+        <Script id="gtm-init" strategy="afterInteractive" nonce={nonce}>
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -41,7 +48,7 @@ export default function RootLayout({
         {/* End Google Tag Manager */}
 
         {/* Meta Pixel Code */}
-        <Script id="meta-pixel-init" strategy="afterInteractive">
+        <Script id="meta-pixel-init" strategy="afterInteractive" nonce={nonce}>
           {`!function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};
