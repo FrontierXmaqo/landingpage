@@ -3,11 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import WhatsAppButton from "../components/WhatsAppButton";
 import Achievements from "../components/Achievements";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
-import { CONTACT, OLD_SITE_IMAGES } from "@/lib/content";
+import { OLD_SITE_IMAGES } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About MAQO Solar | Malaysia's Trusted Solar EPC Since 2013",
@@ -126,14 +125,6 @@ export default function AboutPage() {
               >
                 Get My Free Assessment
               </Link>
-              <a
-                href={CONTACT.whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-white/40 px-7 py-3 text-sm font-semibold text-white transition hover:bg-base-panel/10"
-              >
-                Chat with us on WhatsApp
-              </a>
             </div>
           </div>
 
@@ -270,14 +261,12 @@ export default function AboutPage() {
                 in-house. Nothing critical is handed to a subcontractor you have never met.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
-                <a
-                  href={CONTACT.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/#assessment"
                   className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95"
                 >
                   Talk to the team
-                </a>
+                </Link>
                 <a
                   href="#standards"
                   className="inline-flex items-center justify-center rounded-full border border-base-line px-7 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate"
@@ -518,21 +507,12 @@ export default function AboutPage() {
                 >
                   Get My Free Assessment
                 </Link>
-                <a
-                  href={CONTACT.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-brand-orange-ink px-7 py-3 text-sm font-semibold text-brand-orange-ink transition hover:bg-base-panel"
-                >
-                  WhatsApp us
-                </a>
               </div>
             </div>
           </ScrollReveal>
         </section>
       </main>
       <Footer />
-      <WhatsAppButton />
     </>
   );
 }

@@ -1,5 +1,3 @@
-import { CONTACT } from "@/lib/content";
-
 export default function FinalCTA() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
@@ -18,14 +16,6 @@ export default function FinalCTA() {
             className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95"
           >
             Get My Free Assessment
-          </a>
-          <a
-            href={CONTACT.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-brand-orange-ink px-7 py-3 text-sm font-semibold text-brand-orange-ink transition hover:bg-base-panel"
-          >
-            Ask a question on WhatsApp
           </a>
         </div>
       </div>

@@ -17,7 +17,7 @@ import {
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
 const MAX_FIELD_LENGTH = 200;
-const GENERIC_ERROR = "Something went wrong submitting your assessment. Please WhatsApp us instead.";
+const GENERIC_ERROR = "Something went wrong submitting your assessment. Please call us at 603-8069 1706 instead.";
 const PHONE_PATTERN = /^\+?[0-9 -]{7,20}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

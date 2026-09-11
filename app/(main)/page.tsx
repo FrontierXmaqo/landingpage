@@ -13,7 +13,6 @@ import Gallery from "./components/Gallery";
 import FAQ from "./components/FAQ";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
-import WhatsAppButton from "./components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -35,7 +34,6 @@ export default function Home() {
         <FinalCTA />
       </main>
       <Footer />
-      <WhatsAppButton />
     </>
   );
 }

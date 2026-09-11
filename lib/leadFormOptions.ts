@@ -8,7 +8,7 @@ export const MALAYSIAN_STATES = [
   "Perak", "Penang", "Kedah", "Pahang", "Other",
 ];
 
-export const BILL_RANGES = ["Below RM250", "RM250–500", "RM500–800", "RM800–1,500", "Above RM1,500"];
+export const BILL_RANGES = ["RM200 - 300", "RM300 – 400", "RM400 – 500", "RM500 – 600", "RM600 – 900", "Above RM900"];
 
 export const PROPERTY_TYPES = [
   "Terrace / Link house", "Semi-detached", "Bungalow", "Apartment / Condo (landed access)",

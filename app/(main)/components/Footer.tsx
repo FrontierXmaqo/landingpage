@@ -47,17 +47,6 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                WhatsApp:{" "}
-                <a
-                  href={CONTACT.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-base-ink"
-                >
-                  {CONTACT.whatsapp}
-                </a>
-              </li>
-              <li>
                 <a
                   href={CONTACT.mapsHref}
                   target="_blank"

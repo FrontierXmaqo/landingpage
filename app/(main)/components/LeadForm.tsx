@@ -101,7 +101,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
           />
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          Mobile / WhatsApp number *
+          Mobile number *
           <input
             name="phone"
             required

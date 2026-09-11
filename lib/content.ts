@@ -372,8 +372,6 @@ export const CONTACT = {
   emailHref: "mailto:admin@maqo.asia",
   office: "603-8069 1706",
   officeHref: "tel:+60380691706",
-  whatsapp: "6018-777 1095",
-  whatsappHref: "https://wa.me/60187771095",
   address: OFFICE_ADDRESS,
   mapsHref: `https://maps.app.goo.gl/a8KfogLqervhyhC99/?api=1&query=${encodeURIComponent(
     OFFICE_ADDRESS
@@ -382,7 +380,7 @@ export const CONTACT = {
 
 export const FOOTER_LINKS = [
   { label: "About", href: "/about" },
-  { label: "Contact us", href: CONTACT.whatsappHref },
+  { label: "Contact us", href: "/#assessment" },
 ];
 
 export const TAGLINE =
