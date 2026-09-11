@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import Script from "next/script";
-import { submitLead, type LeadFormState } from "@/app/actions/submitLead";
+import { submitLead, type LeadFormState } from "@/app/(main)/actions/submitLead";
 import {
   SALUTATIONS,
   MALAYSIAN_STATES,
