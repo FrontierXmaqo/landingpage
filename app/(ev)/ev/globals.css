@@ -95,7 +95,7 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .btn-lg{padding:16px 30px; font-size:1rem;}
 .btn-block{width:100%;}
 
-.btn-primary{background:var(--orange); color:#22160A; box-shadow:0 12px 28px -14px rgba(245,144,30,0.85);}
+.btn-primary{background:var(--orange); color:#fff; box-shadow:0 12px 28px -14px rgba(245,144,30,0.85);}
 .btn-primary:hover{background:var(--orange-600);}
 .btn-outline{background:transparent; color:var(--ink); border-color:var(--line);}
 .btn-outline:hover{border-color:var(--green); color:var(--green-700); background:var(--green-050);}

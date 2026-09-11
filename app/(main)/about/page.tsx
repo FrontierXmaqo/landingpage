@@ -121,7 +121,7 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/#assessment"
-                className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95"
+                className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
               >
                 Get My Free Assessment
               </Link>
@@ -263,7 +263,7 @@ export default function AboutPage() {
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Link
                   href="/#assessment"
-                  className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95"
+                  className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
                 >
                   Talk to the team
                 </Link>

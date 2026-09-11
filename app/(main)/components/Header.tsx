@@ -17,7 +17,7 @@ export default function Header() {
         </div>
         <a
           href="#assessment"
-          className="inline-flex items-center rounded-full bg-brand-orange-deep px-4 py-2 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95"
+          className="inline-flex items-center rounded-full bg-brand-orange-deep px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
         >
           Free Assessment
         </a>
