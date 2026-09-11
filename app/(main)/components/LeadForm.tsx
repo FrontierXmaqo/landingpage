@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef } from "react";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "@/app/(main)/actions/submitLead";
+import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import {
   SALUTATIONS,
   MALAYSIAN_STATES,
@@ -27,7 +28,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
     if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
-    if (referrerRef.current) referrerRef.current.value = document.referrer || window.location.href;
+    if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
   }, []);
 
   if (state.status === "success") {
