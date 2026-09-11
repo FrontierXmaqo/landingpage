@@ -37,6 +37,18 @@ export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
 
+  // ?site=ev on the homepage serves the /ev landing page while the URL bar
+  // still shows "/?site=ev" — lets the EV page share this project/domain
+  // without a real subdomain.
+  const { pathname, searchParams } = request.nextUrl;
+  if (pathname === "/" && searchParams.get("site") === "ev") {
+    const rewritten = request.nextUrl.clone();
+    rewritten.pathname = "/ev";
+    const response = NextResponse.rewrite(rewritten, { request: { headers: requestHeaders } });
+    response.headers.set("Content-Security-Policy", csp);
+    return response;
+  }
+
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", csp);
   return response;
