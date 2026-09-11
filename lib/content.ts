@@ -375,7 +375,7 @@ export const CONTACT = {
   whatsapp: "6018-777 1095",
   whatsappHref: "https://wa.me/60187771095",
   address: OFFICE_ADDRESS,
-  mapsHref: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  mapsHref: `https://maps.app.goo.gl/a8KfogLqervhyhC99/?api=1&query=${encodeURIComponent(
     OFFICE_ADDRESS
   )}`,
 };
