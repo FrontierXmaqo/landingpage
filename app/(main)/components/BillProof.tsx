@@ -86,6 +86,8 @@ function moneyShort(m: Month) {
 export default function BillProof() {
   const [active, setActive] = useState(0);
   const [showProof, setShowProof] = useState(false);
+  // Once the reader has opened the proof, the button stops asking for attention.
+  const [nudged, setNudged] = useState(false);
   const c = CASES[active];
 
   const peak = c.months.reduce((a, b) => (b.v > a.v ? b : a));
@@ -139,27 +141,57 @@ export default function BillProof() {
               </p>
             </div>
 
-            <div className="inline-flex rounded-full border border-slate-200 bg-slate-50 p-1">
-              <button
-                type="button"
-                aria-pressed={!showProof}
-                onClick={() => setShowProof(false)}
-                className={`inline-flex min-h-11 items-center justify-center rounded-full px-4 py-2 text-xs font-semibold transition ${
-                  !showProof ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
-                }`}
-              >
-                Chart
-              </button>
-              <button
-                type="button"
-                aria-pressed={showProof}
-                onClick={() => setShowProof(true)}
-                className={`inline-flex min-h-11 items-center justify-center rounded-full px-4 py-2 text-xs font-semibold transition ${
-                  showProof ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
-                }`}
-              >
-                Actual screenshot
-              </button>
+            <div className="flex flex-col items-start gap-2 sm:items-end">
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  aria-pressed={!showProof}
+                  onClick={() => setShowProof(false)}
+                  className={`inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition ${
+                    !showProof
+                      ? "border-slate-300 bg-white text-slate-900"
+                      : "border-transparent text-slate-500 hover:text-slate-900"
+                  }`}
+                >
+                  Chart
+                </button>
+
+                <button
+                  type="button"
+                  aria-pressed={showProof}
+                  onClick={() => {
+                    setShowProof(true);
+                    setNudged(true);
+                  }}
+                  className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-maqo-orange px-5 py-2.5 text-sm font-bold text-slate-900 shadow-md transition hover:brightness-95 ${
+                    showProof ? "ring-2 ring-maqo-orange/45 ring-offset-2" : ""
+                  } ${!showProof && !nudged ? "animate-attention-ring" : ""}`}
+                >
+                  {/* Eye: the action is literally "look at the customer's bill" */}
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  See the real TNB bill
+                </button>
+              </div>
+
+              {!showProof && (
+                <p className="text-[11px] font-medium text-slate-500">
+                  Don&apos;t take our word for it
+                </p>
+              )}
             </div>
           </div>
 

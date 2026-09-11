@@ -68,6 +68,19 @@ body { background: var(--background); color: var(--foreground); }
 @keyframes bar-rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 .animate-bar-rise { animation: bar-rise 0.75s cubic-bezier(.2,.8,.25,1) both; transform-origin: bottom; }
 
+/* Draws the eye to the proof button, then settles. Finite on purpose: it is a nudge,
+   not a permanently blinking page element. Stops for good once the button is used. */
+@keyframes attention-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(243, 153, 33, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(243, 153, 33, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(243, 153, 33, 0); }
+}
+.animate-attention-ring { animation: attention-ring 2.4s ease-out 6; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-attention-ring { animation: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up, .animate-modal-in, .animate-credential-highlight { animation: none; }
   .reveal-on-scroll { animation: none; opacity: 1; transform: none; }
