@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Script from "next/script";
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/(main)/actions/submitLead";
 import {
   SALUTATIONS,
@@ -362,6 +362,15 @@ export default function Page() {
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
+  const campaignIdRef = useRef<HTMLInputElement>(null);
+  const referrerRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
+    if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
+    if (referrerRef.current) referrerRef.current.value = document.referrer || window.location.href;
+  }, []);
 
   const selected = CHARGE_OPTIONS.find((c) => c.key === chargeTime)!;
 
@@ -825,6 +834,8 @@ export default function Page() {
             {formState.status === "error" && formState.message && (
               <p className="form-alert">{formState.message}</p>
             )}
+            <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+            <input type="hidden" name="landing_referrer" ref={referrerRef} />
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
               <label htmlFor="company_website">Company</label>
