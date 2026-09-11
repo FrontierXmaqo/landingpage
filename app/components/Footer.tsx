@@ -16,13 +16,26 @@ export default function Footer() {
           <div>
             <p className="text-sm font-semibold text-slate-900">Company</p>
             <ul className="mt-3 space-y-2 text-sm text-slate-500">
-              {FOOTER_LINKS.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-slate-800">
-                    {l}
-                  </a>
-                </li>
-              ))}
+              {FOOTER_LINKS.map((l) =>
+                l === "About" ? (
+                  <li key={l}>
+                    <a
+                      href="/about"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-slate-800"
+                    >
+                      {l}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={l}>
+                    <a href="#" className="hover:text-slate-800">
+                      {l}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
 
