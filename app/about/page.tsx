@@ -16,23 +16,36 @@ export const metadata: Metadata = {
 
 const gallery = OLD_SITE_IMAGES.gallery;
 
-const HIGHLIGHTS = [
+const DUE_DILIGENCE = [
   {
-    title: "Led by an engineer",
-    body: "Managing Director Kong Kok King holds a Master's degree in Engineering from the University of Tokyo and leads our fully accredited, qualified team.",
-    featured: true,
+    title: "ST Class A · CIDB G7",
+    tag: "Top electrical and construction grades",
+    body: "ST Class A is the highest electrical contractor class issued by Suruhanjaya Tenaga. CIDB G7 is the highest construction grade. The same licensed entity carries your job, whether that is one rooftop or a factory.",
   },
   {
-    title: "Nothing outsourced",
-    body: "Every project is handled in-house by our own licensed wiremen and chargemen, from licence applications and design to build and commissioning.",
+    title: "In-house wiremen and chargemen",
+    tag: "Critical electrical work is never subcontracted",
+    body: "Licence applications, system design, build and commissioning stay with our own people. The wireman on your roof is on our team, not a stranger's.",
   },
   {
-    title: "See it in real time",
-    body: "Track your system's performance from our web and mobile app, with live insight into what your panels are generating.",
+    title: "SEDA registered",
+    tag: "Recognised solar installer",
+    body: "We are registered with the Sustainable Energy Development Authority, the body behind Malaysia's national solar programmes.",
   },
   {
-    title: "25-year warranty",
-    body: "Every system is backed by a 25-year performance warranty from our Tier-1, Bloomberg-rated manufacturer partner.",
+    title: "ISO 9001:2015",
+    tag: "Certified quality management",
+    body: "Our quality management system is externally certified, so the process behind your installation is documented and repeatable rather than improvised.",
+  },
+  {
+    title: "25-year performance warranty",
+    tag: "Backed by a Tier-1 manufacturer",
+    body: "Panels carry a 25-year performance warranty from our Tier-1, Bloomberg-rated manufacturer partner.",
+  },
+  {
+    title: "Live system monitoring",
+    tag: "Web and mobile app",
+    body: "Track what your system is generating in real time, so your savings are something you can check rather than take on trust.",
   },
 ];
 
@@ -47,7 +60,7 @@ const CORE_VALUES = [
   },
   {
     title: "Quality",
-    body: "The “Q” in MAQO stands for Quality. Our thinking, products and practices are held to it, built on the latest technologies and know-how.",
+    body: "Our thinking, products, solutions and practice are held to it, built on the latest technologies and knowledge rather than whatever is quickest.",
   },
   {
     title: "Together",
@@ -55,24 +68,8 @@ const CORE_VALUES = [
   },
 ];
 
-const LEAD_CREDENTIAL = {
-  title: "ST Class A · CIDB G7",
-  body: "The highest electrical contractor class and the highest construction grade issued in Malaysia, held by the same team on every job.",
-};
-
-const CREDENTIALS = [
-  { title: "SEDA Registered", body: "Official solar installer" },
-  { title: "ISO 9001:2015", body: "Quality management certified" },
-  { title: "In-house wiremen & chargemen", body: "No outsourcing of critical electrical works" },
-  { title: "Est. 2013", body: "13+ years delivering solar across Malaysia" },
-];
-
 const SEGMENTS = [
-  {
-    title: "Residential Solar",
-    body: "Turnkey EPC rooftop solar for homes across Klang Valley & Selangor.",
-    featured: true,
-  },
+  { title: "Residential Solar", body: "Turnkey EPC rooftop solar for homes across Klang Valley & Selangor." },
   { title: "C&I Solar", body: "EPC, PPA and Zero Capex solar for factories, warehouses and offices, from 50kWp to 5,000kWp+." },
   { title: "BESS", body: "Battery energy storage systems for maximum demand management and peak shaving." },
   { title: "PPA / Zero Capex", body: "We invest in your rooftop system. You pay per unit at a discounted rate, zero upfront cost." },
@@ -90,6 +87,15 @@ const GROUP = [
   "MAQO RE OPC",
 ];
 const groupTrack = [...GROUP, ...GROUP];
+
+function SectionTag({ children }: { children: string }) {
+  return (
+    <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
+      <span aria-hidden className="h-2 w-2 shrink-0 bg-maqo-orange" />
+      {children}
+    </p>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -157,7 +163,7 @@ export default function AboutPage() {
                   Not a fast-quote installer.
                 </p>
                 <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                  Who is <span className="text-maqo-orange">MAQO</span>?
+                  Who is <span className="text-maqo-orange-dark">MAQO</span>?
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-slate-600">
                   MAQO is a leading solar power company and solar panel installer in Malaysia,
@@ -170,37 +176,41 @@ export default function AboutPage() {
                   customer-first service, delivered one project at a time.
                 </p>
               </ScrollReveal>
-              <ScrollReveal delayMs={120} className="relative sm:justify-self-end">
-                <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-2xl shadow-lg sm:rotate-2">
-                  <Image
-                    src={gallery[0]}
-                    alt="MAQO Solar residential installation project"
-                    fill
-                    className="object-cover transition duration-500 hover:scale-105"
-                    sizes="(min-width: 640px) 320px, 80vw"
-                  />
-                </div>
-                <div className="absolute -bottom-4 -left-4 rounded-xl bg-white px-4 py-2.5 shadow-lg sm:-left-6">
-                  <p className="text-sm font-bold text-slate-900">Est. 2013</p>
-                  <p className="text-xs text-slate-500">13+ years in the field</p>
+              <ScrollReveal delayMs={120}>
+                <div className="relative mx-auto w-full max-w-xs sm:ml-auto sm:mr-0">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-lg sm:rotate-2">
+                    <Image
+                      src={gallery[0]}
+                      alt="MAQO Solar residential installation project"
+                      fill
+                      className="object-cover transition duration-500 hover:scale-105"
+                      sizes="(min-width: 640px) 320px, 80vw"
+                    />
+                  </div>
+                  <div className="absolute bottom-5 -left-4 z-10 rounded-xl bg-white px-4 py-2.5 shadow-xl sm:-left-6">
+                    <p className="text-sm font-bold text-slate-900">Est. 2013</p>
+                    <p className="text-xs text-slate-500">13+ years in the field</p>
+                  </div>
                 </div>
               </ScrollReveal>
             </div>
 
             <div className="mt-16 grid items-center gap-10 sm:grid-cols-[0.9fr_1.1fr] sm:gap-14">
-              <ScrollReveal className="order-2 relative sm:order-1">
-                <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-2xl shadow-lg sm:-rotate-2">
-                  <Image
-                    src={gallery[1]}
-                    alt="MAQO Solar commercial installation project"
-                    fill
-                    className="object-cover transition duration-500 hover:scale-105"
-                    sizes="(min-width: 640px) 320px, 80vw"
-                  />
-                </div>
-                <div className="absolute -bottom-4 -right-4 rounded-xl bg-white px-4 py-2.5 shadow-lg sm:-right-6">
-                  <p className="text-sm font-bold text-slate-900">500+</p>
-                  <p className="text-xs text-slate-500">C&amp;I clients served</p>
+              <ScrollReveal className="order-2 sm:order-1">
+                <div className="relative mx-auto w-full max-w-xs sm:mx-0">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-lg sm:-rotate-2">
+                    <Image
+                      src={gallery[1]}
+                      alt="MAQO Solar commercial installation project"
+                      fill
+                      className="object-cover transition duration-500 hover:scale-105"
+                      sizes="(min-width: 640px) 320px, 80vw"
+                    />
+                  </div>
+                  <div className="absolute bottom-5 -right-4 z-10 rounded-xl bg-white px-4 py-2.5 shadow-xl sm:-right-6">
+                    <p className="text-sm font-bold text-slate-900">500+</p>
+                    <p className="text-xs text-slate-500">C&amp;I clients served</p>
+                  </div>
                 </div>
               </ScrollReveal>
               <ScrollReveal delayMs={120} className="order-1 sm:order-2">
@@ -208,7 +218,7 @@ export default function AboutPage() {
                   Beware of fast quotes.
                 </p>
                 <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                  <span className="text-maqo-orange">Quality</span> above all
+                  <span className="text-maqo-orange-dark">Quality</span> above all
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-slate-600">
                   Not all solar companies are the same, and neither are solar proposals. We
@@ -249,71 +259,83 @@ export default function AboutPage() {
           </ScrollReveal>
         </section>
 
-        {/* Team of experts: one featured card leads, three support it */}
+        {/* Team: the real crew, photographed. The strongest trust signal we have. */}
         <section className="bg-slate-50 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <ScrollReveal>
-              <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                Team of <span className="text-maqo-orange">experts</span>
+            <ScrollReveal className="max-w-xl">
+              <SectionTag>Our team</SectionTag>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+                The people on your roof{" "}
+                <span className="text-maqo-orange-dark">work for us.</span>
               </h2>
-              <p className="mt-3 max-w-2xl text-base text-slate-600">
-                We provide the latest solar technology and financing options, so you can make
-                an informed decision before installing solar panels on your property.
+              <p className="mt-5 text-base leading-relaxed text-slate-600">
+                Managing Director Kong Kok King holds a Master&apos;s degree in Engineering
+                from the University of Tokyo. The team he leads is fully accredited and
+                qualified, and it is the same team that turns up at your property.
               </p>
-            </ScrollReveal>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {HIGHLIGHTS.map((h, i) => (
-                <ScrollReveal
-                  key={h.title}
-                  delayMs={i * 80}
-                  className={h.featured ? "lg:col-span-2" : ""}
+              <p className="mt-4 text-base leading-relaxed text-slate-600">
+                Licence applications, system design, build and commissioning all stay
+                in-house. Nothing critical is handed to a subcontractor you have never met.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <a
+                  href={CONTACT.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-maqo-orange px-7 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-95"
                 >
-                  <div
-                    className={`h-full rounded-2xl border p-6 shadow-sm ${
-                      h.featured
-                        ? "border-maqo-green/30 bg-maqo-green/5"
-                        : "border-slate-200 bg-white"
-                    }`}
-                  >
-                    <p
-                      className={
-                        h.featured
-                          ? "text-xl font-bold text-slate-900"
-                          : "text-lg font-semibold text-slate-900"
-                      }
-                    >
-                      {h.title}
-                    </p>
-                    <p className="mt-2 text-sm text-slate-500">{h.body}</p>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
+                  Talk to the team
+                </a>
+                <a
+                  href="#standards"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 px-7 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400"
+                >
+                  See our licences
+                </a>
+              </div>
+            </ScrollReveal>
           </div>
+
+          <ScrollReveal delayMs={120} className="mx-auto mt-12 max-w-6xl px-4 sm:px-6">
+            <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-xl sm:aspect-[2/1]">
+              <Image
+                src="/maqo-team.png"
+                alt="The MAQO Solar team in company uniform, holding a MAQO banner"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1152px) 1104px, 100vw"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/80 to-transparent" />
+              <p className="absolute bottom-5 left-5 text-sm font-semibold text-white sm:left-7">
+                The MAQO team
+              </p>
+            </div>
+          </ScrollReveal>
         </section>
 
-        {/* Core values: staggered rhythm instead of a uniform grid */}
+        {/* Core values: an editorial index, not another card grid */}
         <section className="py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <ScrollReveal>
-              <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                The &ldquo;Q&rdquo; in MAQO stands for <span className="text-maqo-orange">Quality</span>
+            <ScrollReveal className="max-w-xl">
+              <SectionTag>Our DNA</SectionTag>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+                The &ldquo;Q&rdquo; in MAQO stands for{" "}
+                <span className="text-maqo-orange-dark">Quality.</span>
               </h2>
-              <p className="mt-3 max-w-2xl text-base text-slate-600">
-                It&apos;s in our name, and it&apos;s in our DNA. Four values guide how we work
-                with each other, our clients, and our partners.
+              <p className="mt-5 text-base leading-relaxed text-slate-600">
+                It is in our name, and it is in how we work. Four values sit behind every
+                proposal we write and every roof we finish.
               </p>
             </ScrollReveal>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 border-t border-slate-200">
               {CORE_VALUES.map((v, i) => (
-                <ScrollReveal
-                  key={v.title}
-                  delayMs={i * 80}
-                  className={i % 2 === 1 ? "sm:mt-8" : ""}
-                >
-                  <div className="h-full rounded-2xl border border-slate-200 p-6 transition hover:border-maqo-green/40 hover:shadow-md">
-                    <p className="text-base font-semibold text-slate-900">{v.title}</p>
-                    <p className="mt-2 text-sm text-slate-500">{v.body}</p>
+                <ScrollReveal key={v.title} delayMs={i * 70}>
+                  <div className="grid gap-3 border-b border-slate-200 py-7 sm:grid-cols-[2.5rem_11rem_1fr] sm:items-baseline sm:gap-8">
+                    <span className="text-sm font-bold tabular-nums text-maqo-orange-dark">
+                      0{i + 1}
+                    </span>
+                    <h3 className="text-xl font-bold text-slate-900 sm:text-2xl">{v.title}</h3>
+                    <p className="text-base leading-relaxed text-slate-600">{v.body}</p>
                   </div>
                 </ScrollReveal>
               ))}
@@ -321,77 +343,91 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Credentials: one lead license card, four supporting */}
-        <section className="bg-slate-50 py-20 sm:py-24">
+        {/* Standards: due-diligence answers up front, as a native keyboard-accessible accordion */}
+        <section id="standards" className="scroll-mt-20 bg-slate-50 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <ScrollReveal>
-              <p className="text-sm font-bold uppercase tracking-wide text-maqo-green-dark">
-                Nothing here is outsourced.
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                Built on the highest <span className="text-maqo-orange">standards</span>
+            <ScrollReveal className="max-w-xl">
+              <SectionTag>Due diligence</SectionTag>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+                Licensed for <span className="text-maqo-orange-dark">every part</span> of the job.
               </h2>
-              <p className="mt-3 max-w-2xl text-base text-slate-600">
-                We hold the top-tier licenses in the industry so every project meets the
-                strictest safety, quality and construction requirements.
+              <p className="mt-5 text-base leading-relaxed text-slate-600">
+                The questions worth asking any solar installer before you sign, answered here
+                rather than buried in a brochure.
               </p>
             </ScrollReveal>
-            <ScrollReveal className="mt-10 rounded-2xl border border-maqo-green/30 bg-white p-7 shadow-sm">
-              <p className="text-2xl font-bold text-slate-900">{LEAD_CREDENTIAL.title}</p>
-              <p className="mt-2 text-sm text-slate-500">{LEAD_CREDENTIAL.body}</p>
-            </ScrollReveal>
-            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {CREDENTIALS.map((c, i) => (
-                <ScrollReveal key={c.title} delayMs={i * 60}>
-                  <div className="h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <p className="text-base font-semibold text-slate-900">{c.title}</p>
-                    <p className="mt-2 text-sm text-slate-500">{c.body}</p>
-                  </div>
+            <div className="mt-12 border-t border-slate-200">
+              {DUE_DILIGENCE.map((d, i) => (
+                <ScrollReveal key={d.title} delayMs={i * 50}>
+                  <details open={i === 0} className="group border-b border-slate-200">
+                    <summary className="flex cursor-pointer list-none items-start gap-4 py-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-maqo-green-dark [&::-webkit-details-marker]:hidden">
+                      <span className="flex-1">
+                        <span className="block text-lg font-bold text-slate-900 sm:text-xl">
+                          {d.title}
+                        </span>
+                        <span className="mt-1 block text-sm text-slate-500">{d.tag}</span>
+                      </span>
+                      <span
+                        aria-hidden
+                        className="mt-1 shrink-0 text-2xl font-light leading-none text-maqo-orange-dark transition-transform duration-300 group-open:rotate-45"
+                      >
+                        +
+                      </span>
+                    </summary>
+                    <p className="max-w-2xl pb-7 text-base leading-relaxed text-slate-600">
+                      {d.body}
+                    </p>
+                  </details>
                 </ScrollReveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* What we do: one featured segment leads the grid */}
+        {/* What we do: one panel with hairline cells, reading as a single platform */}
         <section className="py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <ScrollReveal>
-              <p className="text-sm font-bold uppercase tracking-wide text-maqo-green-dark">
-                One rooftop. Or a gigawatt pipeline.
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                What we <span className="text-maqo-orange">do</span>
+            <ScrollReveal className="max-w-xl">
+              <SectionTag>What we do</SectionTag>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+                One rooftop. Or a{" "}
+                <span className="text-maqo-orange-dark">gigawatt pipeline.</span>
               </h2>
-              <p className="mt-3 max-w-2xl text-base text-slate-600">
-                A full-stack clean energy platform serving homeowners, factories and
+              <p className="mt-5 text-base leading-relaxed text-slate-600">
+                One platform across the whole chain, serving homeowners, factories and
                 developers alike.
               </p>
             </ScrollReveal>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {SEGMENTS.map((s, i) => (
-                <ScrollReveal
-                  key={s.title}
-                  delayMs={i * 60}
-                  className={s.featured ? "lg:col-span-2" : ""}
-                >
+            <ScrollReveal
+              delayMs={100}
+              className="mt-12 overflow-hidden rounded-3xl border border-slate-200 bg-slate-200 shadow-sm"
+            >
+              <div className="grid gap-px sm:grid-cols-2">
+                {SEGMENTS.map((s, i) => (
                   <div
-                    className={`group h-full rounded-2xl border p-6 transition hover:border-maqo-green/40 hover:shadow-md ${
-                      s.featured ? "border-maqo-orange/30 bg-maqo-orange/5" : "border-slate-200"
+                    key={s.title}
+                    className={`p-7 ${
+                      i === 0 ? "bg-maqo-orange/[0.07] sm:col-span-2" : "bg-white"
                     }`}
                   >
                     <p
-                      className={`font-semibold text-slate-900 group-hover:text-maqo-green-dark ${
-                        s.featured ? "text-xl" : "text-base"
+                      className={`font-bold text-slate-900 ${
+                        i === 0 ? "text-2xl" : "text-lg"
                       }`}
                     >
                       {s.title}
                     </p>
-                    <p className="mt-2 text-sm text-slate-500">{s.body}</p>
+                    <p
+                      className={`mt-2 leading-relaxed text-slate-600 ${
+                        i === 0 ? "max-w-xl text-base" : "text-sm"
+                      }`}
+                    >
+                      {s.body}
+                    </p>
                   </div>
-                </ScrollReveal>
-              ))}
-            </div>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -400,7 +436,7 @@ export default function AboutPage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                The MAQO <span className="text-maqo-orange">Group</span>
+                The MAQO <span className="text-maqo-orange-dark">Group</span>
               </h2>
               <p className="mt-3 max-w-2xl text-base text-slate-600">
                 One mission, seven specialized entities across Malaysia and the Philippines.
