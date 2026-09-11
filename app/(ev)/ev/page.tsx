@@ -53,14 +53,14 @@ const FAQS = [
   },
 ];
 
-/* MAQO wordmark, rendered from the official artwork at /public/Maqo Solar_Logo.svg */
+/* MAQO logo mark, trimmed to its content bounds from /public/maqologo.png (which ships with large empty margins) */
 function MaqoLogo({ invert = false }: { invert?: boolean }) {
   return (
     <Image
-      src="/Maqo Solar_Logo.svg"
+      src="/maqo-logo-mark-v2.png"
       alt="MAQO — Energizing a cleaner future"
-      width={572}
-      height={176}
+      width={199}
+      height={54}
       className={"maqo-img" + (invert ? " invert" : "")}
       priority
     />
@@ -779,63 +779,6 @@ export default function Page() {
           </div>
         </section>
 
-        {/* TESTIMONIALS */}
-        <section id="stories">
-          <div className="wrap">
-            <div className="section-head">
-              <span className="eyebrow">
-                <i />
-                EV owners on ATAP
-              </span>
-              <h2>Households already charging on their own power</h2>
-            </div>
-            <div className="testimonials">
-              <div className="tcard">
-                <span className="quote-mark" aria-hidden="true">
-                  &ldquo;
-                </span>
-                <p>
-                  Our bill used to spike every month once we started charging at
-                  home. Since the panels went up, most of that charging is
-                  basically free during the day.
-                </p>
-                <footer>
-                  <b>Residential ATAP customer</b>
-                  <span>EV owner · Subang Jaya</span>
-                </footer>
-              </div>
-              <div className="tcard">
-                <span className="quote-mark" aria-hidden="true">
-                  &ldquo;
-                </span>
-                <p>
-                  The team asked about our charger and driving pattern before
-                  sizing anything — it wasn&apos;t a generic package, it was
-                  built around how much we actually charge.
-                </p>
-                <footer>
-                  <b>Residential ATAP customer</b>
-                  <span>EV owner · Shah Alam</span>
-                </footer>
-              </div>
-              <div className="tcard">
-                <span className="quote-mark" aria-hidden="true">
-                  &ldquo;
-                </span>
-                <p>
-                  With the battery add-on we charge overnight from stored solar
-                  instead of the grid. The app makes it easy to see exactly how
-                  much we&apos;re offsetting.
-                </p>
-                <footer>
-                  <b>Residential ATAP customer</b>
-                  <span>EV owner · Kajang</span>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* FAQ */}
         <section id="faq" className="alt-bg">
           <div className="wrap faq-grid">
@@ -932,11 +875,11 @@ export default function Page() {
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="fname">Full name *</label>
+                <label htmlFor="fname">Full name </label>
                 <input id="fname" name="fname" required disabled={submitting} />
               </div>
               <div className="field">
-                <label htmlFor="fphone">Mobile / WhatsApp *</label>
+                <label htmlFor="fphone">Mobile / WhatsApp Number</label>
                 <input id="fphone" name="fphone" required disabled={submitting} />
               </div>
             </div>
@@ -946,7 +889,7 @@ export default function Page() {
                 <input id="femail" name="femail" type="email" disabled={submitting} />
               </div>
               <div className="field">
-                <label htmlFor="fstate">State *</label>
+                <label htmlFor="fstate">State</label>
                 <select id="fstate" name="fstate" required defaultValue="" disabled={submitting}>
                   <option value="" disabled>
                     Select state
@@ -967,7 +910,7 @@ export default function Page() {
             </div>
             <div className="form-row">
               <div className="field">
-                <label htmlFor="fbill">Average monthly TNB bill *</label>
+                <label htmlFor="fbill">Average monthly TNB bill</label>
                 <select id="fbill" name="fbill" required defaultValue="" disabled={submitting}>
                   <option value="" disabled>
                     Select range
@@ -980,7 +923,7 @@ export default function Page() {
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="fprop">Property type *</label>
+                <label htmlFor="fprop">Property type</label>
                 <select id="fprop" name="fprop" required defaultValue="" disabled={submitting}>
                   <option value="" disabled>
                     Select type
@@ -996,7 +939,7 @@ export default function Page() {
               <div className="field">
                 <label htmlFor="felectric">Electric supply</label>
                 <select id="felectric" name="felectric" defaultValue="" disabled={submitting}>
-                  <option value="">—</option>
+                  <option value="">Select</option>
                   <option>Single Phase</option>
                   <option>Three Phase</option>
                   <option>Unsure</option>
@@ -1005,6 +948,7 @@ export default function Page() {
               <div className="field">
                 <label htmlFor="flang">Preferred language</label>
                 <select id="flang" name="flang" defaultValue="English" disabled={submitting}>
+                  <option value="">Select</option>                  
                   <option>English</option>
                   <option>Chinese</option>
                   <option>Malay</option>

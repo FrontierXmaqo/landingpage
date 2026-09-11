@@ -111,7 +111,7 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 }
 .link-arrow:hover{gap:12px; border-color:var(--green);}
 
-/* ---------- MAQO wordmark (image) ---------- */
+/* ---------- MAQO logo mark (image) ---------- */
 .maqo-img{height:40px; width:auto; display:block;}
 .foot-brand .maqo-img{height:52px;}
 
@@ -334,20 +334,6 @@ section{padding:96px 0;}
 .pillar-cta .link-arrow{color:var(--orange); border-color:rgba(245,144,30,0.45); align-self:flex-start;}
 .pillar-cta .link-arrow:hover{border-color:var(--orange);}
 
-/* ---------- Testimonials ---------- */
-.testimonials{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-.tcard{
-  background:var(--paper); border:1px solid var(--line); border-radius:var(--r-md);
-  padding:28px; display:flex; flex-direction:column;
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.tcard:hover{transform:translateY(-5px); box-shadow:var(--shadow-md);}
-.quote-mark{font-family:var(--font-head); font-size:3.4rem; line-height:0.7; color:var(--green); opacity:0.45; margin-bottom:14px;}
-.tcard p{font-size:0.96rem; color:var(--text-dim); margin-bottom:22px; flex:1;}
-.tcard footer{border-top:1px solid var(--line); padding-top:14px;}
-.tcard footer b{display:block; font-size:0.88rem; color:var(--ink);}
-.tcard footer span{font-size:0.8rem; color:var(--green-700); font-weight:500;}
-
 /* ---------- FAQ ---------- */
 .faq-grid{display:grid; grid-template-columns:0.8fr 1.2fr; gap:64px; align-items:start;}
 .faq-grid .section-head{margin-bottom:0; position:sticky; top:104px;}
@@ -447,7 +433,7 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
 }
 @media (max-width: 780px){
   .wrap{padding:0 20px;}
-  .compare, .calc-panel, .res-grid, .form-row, .testimonials, .pillars{grid-template-columns:1fr;}
+  .compare, .calc-panel, .res-grid, .form-row, .pillars{grid-template-columns:1fr;}
   .calc-panel{padding:26px;}
   .calc-results{border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:28px;}
   .hero-ctas .btn{flex:1;}
