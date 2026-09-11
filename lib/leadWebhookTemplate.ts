@@ -14,6 +14,8 @@ export type LeadWebhookInput = {
   preferredLanguage: string;
   sourceOfLeads: string;
   campaignId: string;
+  /** Which of our own landing pages this lead was submitted from (e.g. "MAQO Main Site", "MAQO EV Landing Page"). */
+  sourcePage: string;
 };
 
 function blankTemplate() {
@@ -157,6 +159,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["Property Type (Condo/Apartment not suitable)"] = input.propertyType;
   payload["Electric Supply"] = input.electricSupply;
   payload["Preferred Communication Language 2"] = input.preferredLanguage;
+  payload["contact_source"] = input.sourcePage;
 
   payload.customData["Name"] = input.fullName;
   payload.customData["Salutation"] = input.salutation;

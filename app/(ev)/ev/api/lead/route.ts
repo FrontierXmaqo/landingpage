@@ -350,6 +350,7 @@ export async function POST(req: NextRequest) {
   payload["Property Type (Condo/Apartment not suitable)"] = propertyType;
   payload["Preferred Communication Language 2"] = language;
   payload["Electric Supply"] = electricSupply;
+  payload.contact_source = "MAQO EV Landing Page";
   if (chargeTime) payload.Remarks = `Usually charges EV: ${chargeTime}`;
 
   payload.customData.Name = fullName;

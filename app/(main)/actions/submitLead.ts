@@ -132,6 +132,7 @@ export async function submitLead(_prevState: LeadFormState, formData: FormData):
     preferredLanguage: preferred_language,
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,
+    sourcePage: "MAQO Main Site",
   });
 
   if (!supabaseOk) {
