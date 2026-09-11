@@ -214,7 +214,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
         <button
           type="submit"
           disabled={pending}
-          className="mt-1 inline-flex items-center justify-center rounded-lg bg-brand-orange-deep px-6 py-3 text-sm font-semibold text-base-ink shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-1 inline-flex items-center justify-center rounded-lg bg-brand-orange-deep px-6 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {pending ? "Submitting…" : "Get My Free Home Assessment"}
         </button>
