@@ -16,41 +16,57 @@ export default function Footer() {
           <div>
             <p className="text-sm font-semibold text-slate-900">Company</p>
             <ul className="mt-3 space-y-2 text-sm text-slate-500">
-              {FOOTER_LINKS.map((l) =>
-                l === "About" ? (
-                  <li key={l}>
-                    <a
-                      href="/about"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-slate-800"
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ) : (
-                  <li key={l}>
-                    <a href="#" className="hover:text-slate-800">
-                      {l}
-                    </a>
-                  </li>
-                )
-              )}
+              {FOOTER_LINKS.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-slate-800"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <p className="text-sm font-semibold text-slate-900">Contact</p>
             <ul className="mt-3 space-y-2 text-sm text-slate-500">
-              <li>Email: {CONTACT.email}</li>
-              <li>Office: {CONTACT.office}</li>
+              <li>
+                Email:{" "}
+                <a href={CONTACT.emailHref} className="hover:text-slate-800">
+                  {CONTACT.email}
+                </a>
+              </li>
+              <li>
+                Office:{" "}
+                <a href={CONTACT.officeHref} className="hover:text-slate-800">
+                  {CONTACT.office}
+                </a>
+              </li>
               <li>
                 WhatsApp:{" "}
-                <a href={CONTACT.whatsappHref} className="hover:text-slate-800">
+                <a
+                  href={CONTACT.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-slate-800"
+                >
                   {CONTACT.whatsapp}
                 </a>
               </li>
-              <li>{CONTACT.address}</li>
+              <li>
+                <a
+                  href={CONTACT.mapsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-slate-800"
+                >
+                  {CONTACT.address}
+                </a>
+              </li>
             </ul>
           </div>
         </div>

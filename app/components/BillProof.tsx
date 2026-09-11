@@ -17,7 +17,7 @@ export default function BillProof() {
       <SectionHeading
         eyebrow="Real results"
         title="See our customers' electric bills"
-        body="Helping homeowners lower their bills with the sun — a real TNB bill, before and after switching to MAQO Solar."
+        body="Helping homeowners lower their bills with the sun. A real TNB bill, before and after switching to MAQO Solar."
       />
 
       <div className="mt-10 grid grid-cols-1 items-center gap-4 lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
@@ -71,7 +71,7 @@ export default function BillProof() {
           {formatRM(SAVED_AMOUNT)} saved that month
         </p>
         <p className="mt-1 text-xs text-slate-500">
-          {formatRM(BEFORE_AMOUNT)} → {formatRM(AFTER_AMOUNT)} — a {SAVED_PERCENT}% drop on this
+          {formatRM(BEFORE_AMOUNT)} → {formatRM(AFTER_AMOUNT)}, a {SAVED_PERCENT}% drop on this
           TNB bill after switching to MAQO Solar
         </p>
       </div>

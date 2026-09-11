@@ -64,7 +64,7 @@ export default function SolarCalculator() {
       <SectionHeading
         eyebrow="Solar Calculator"
         title="See how much you could save with solar"
-        body="Enter your average monthly TNB bill and choose whether you want battery storage — we'll match you to a package and estimate the system size, savings, and final price after rebates."
+        body="Enter your average monthly TNB bill and choose whether you want battery storage, and we'll match you to a package and estimate the system size, savings, and final price after rebates."
       />
 
       <div className="mt-10 rounded-3xl bg-gradient-to-br from-maqo-orange/60 via-maqo-orange/15 to-maqo-orange/60 p-[1.5px] shadow-[0_0_45px_-12px_rgba(244,154,34,0.55)]">
@@ -128,7 +128,7 @@ export default function SolarCalculator() {
 
             {result.exceedsLargestPackage && (
               <p className="mt-3 rounded-lg bg-maqo-orange/10 px-3 py-2 text-xs text-maqo-orange-dark">
-                Your usage is higher than our largest standard package can fully offset — the
+                Your usage is higher than our largest standard package can fully offset, so the
                 estimate below is based on that package. Our team can design a larger custom
                 system for you.
               </p>

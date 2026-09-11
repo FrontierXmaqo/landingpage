@@ -83,11 +83,11 @@ export const WHY_ATAP = [
   },
   {
     title: "Built to last",
-    body: "Tier-1 panels and inverters from AIKO, Huawei, FoxESS — engineered for Malaysian weather.",
+    body: "Tier-1 panels and inverters from AIKO, Huawei and FoxESS, engineered for Malaysian weather.",
   },
   {
     title: "ST Class A & CIDB G7 certified",
-    body: "In-house licensed wiremen & chargemen — no outsourcing of critical works. ISO 9001:2015 quality managed, every installation.",
+    body: "In-house licensed wiremen & chargemen, with no outsourcing of critical works. ISO 9001:2015 quality managed, every installation.",
   },
 ];
 
@@ -364,22 +364,26 @@ export const FAQS = [
   { q: "Which areas in Malaysia does MAQO ATAP cover?", a: "MAQO currently installs ATAP systems across Peninsular Malaysia, with core coverage in Selangor, Kuala Lumpur, and surrounding states. Ask us during your free assessment to confirm coverage at your address." },
 ];
 
+const OFFICE_ADDRESS =
+  "27, Jalan TPP 1/1, Taman Perindustrian Puchong, 47100 Puchong, Selangor";
+
 export const CONTACT = {
   email: "admin@maqo.asia",
+  emailHref: "mailto:admin@maqo.asia",
   office: "603-8069 1706",
+  officeHref: "tel:+60380691706",
   whatsapp: "6018-777 1095",
   whatsappHref: "https://wa.me/60187771095",
-  address: "27, Jalan TPP 1/1, Taman Perindustrian Puchong, 47100 Puchong, Selangor",
+  address: OFFICE_ADDRESS,
+  mapsHref: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    OFFICE_ADDRESS
+  )}`,
 };
 
 export const FOOTER_LINKS = [
-  "About",
-  "Residential",
-  "Commercial & Industry",
-  "Career",
-  "Blog",
-  "Contact us",
+  { label: "About", href: "/about" },
+  { label: "Contact us", href: CONTACT.whatsappHref },
 ];
 
 export const TAGLINE =
-  "Energizing A Cleaner Future — One solar panel & one battery at a time.";
+  "Energizing A Cleaner Future. One solar panel & one battery at a time.";

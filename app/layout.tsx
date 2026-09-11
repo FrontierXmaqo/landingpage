@@ -12,7 +12,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "MAQO ATAP | Residential Solar Malaysia — Cut Your TNB Bill Up to 90%",
+  title: "MAQO ATAP | Residential Solar Malaysia: Cut Your TNB Bill Up to 90%",
   description: "MAQO ATAP Residential Solar Programme. Free home assessment, transparent packages, ST Class A & CIDB G7-certified installation across Peninsular Malaysia. 1,000+ homes powered since 2013.",
   verification: {
     google: "FdVlWEEvys2RdCCMKjiAkXv3HGVMWr9foIpy036CmiA",

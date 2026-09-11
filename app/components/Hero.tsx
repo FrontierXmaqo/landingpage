@@ -11,7 +11,7 @@ export default function Hero() {
             MAQO ATAP · Residential Solar Programme
           </span>
           <h1 className="mt-4 text-4xl font-bold leading-tight text-slate-900 sm:text-5xl">
-            Cut your TNB bill by up to 90% — own solar, the simple way
+            Cut your TNB bill by up to 90%. Own solar, the simple way.
           </h1>
           <p className="mt-4 max-w-xl text-base text-slate-600 sm:text-lg">
             Empowering a cleaner future for your home since 2013. Free home assessment,
@@ -19,7 +19,7 @@ export default function Hero() {
             <span className="animate-credential-highlight font-bold text-maqo-green-dark">
               ST Class A &amp; CIDB G7-certified
             </span>{" "}
-            installation across Peninsular Malaysia — trusted by 1,000+ Malaysian homeowners.
+            installation across Peninsular Malaysia, trusted by 1,000+ Malaysian homeowners.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a
