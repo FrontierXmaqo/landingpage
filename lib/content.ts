@@ -367,7 +367,7 @@ export const FAQS = [
 export const CONTACT = {
   email: "admin@maqo.asia",
   office: "603-8069 1706",
-  whatsapp: "018-777 1095",
+  whatsapp: "6018-777 1095",
   whatsappHref: "https://wa.me/60187771095",
   address: "27, Jalan TPP 1/1, Taman Perindustrian Puchong, 47100 Puchong, Selangor",
 };
