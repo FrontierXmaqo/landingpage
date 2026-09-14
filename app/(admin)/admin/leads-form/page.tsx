@@ -3,6 +3,7 @@ import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server"
 import { ensureLeadFormDraftSeeded, publishLeadFormOptions, unpublishLeadFormOptions } from "./actions";
 import { FIELDS } from "./fields";
 import OptionField from "./OptionField";
+import { formatMYDateTime } from "@/lib/datetime";
 
 const LABELS: Record<(typeof FIELDS)[number], string> = {
   salutation: "Salutation",
@@ -33,7 +34,7 @@ export default async function LeadFormOptionsPage() {
           </p>
         </div>
         {published?.published_at && (
-          <span className="text-xs text-base-slate">Last published {new Date(published.published_at).toLocaleString("en-MY")}</span>
+          <span className="text-xs text-base-slate">Last published {formatMYDateTime(published.published_at)}</span>
         )}
       </div>
 

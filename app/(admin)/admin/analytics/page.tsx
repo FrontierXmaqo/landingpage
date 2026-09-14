@@ -1,17 +1,13 @@
 import { redirect } from "next/navigation";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
 import Charts from "./Charts";
-
-function startOfMonthISO() {
-  const d = new Date();
-  return new Date(d.getFullYear(), d.getMonth(), 1).toISOString();
-}
+import { startOfMonthMYISO } from "@/lib/datetime";
 
 export default async function AnalyticsPage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/admin/login");
 
-  const since = startOfMonthISO();
+  const since = startOfMonthMYISO();
   const supabase = await getSupabaseUserClient();
 
   const [{ data: events }, { data: leads }] = await Promise.all([

@@ -2,6 +2,7 @@ import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server"
 import { ensureDraftSeeded, publishCalculator, unpublishCalculator } from "./actions";
 import ConfigForm from "./ConfigForm";
 import PackageRow from "./PackageRow";
+import { formatMYDateTime } from "@/lib/datetime";
 import { redirect } from "next/navigation";
 
 export default async function CalculatorSettingsPage() {
@@ -31,7 +32,7 @@ export default async function CalculatorSettingsPage() {
         </div>
         <div className="flex items-center gap-3 text-xs text-base-slate">
           {publishedConfig?.published_at && (
-            <span>Last published {new Date(publishedConfig.published_at).toLocaleString("en-MY")}</span>
+            <span>Last published {formatMYDateTime(publishedConfig.published_at)}</span>
           )}
         </div>
       </div>

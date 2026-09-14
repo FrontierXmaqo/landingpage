@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { updateEnquiryStatus, updateEnquiryNotes } from "./actions";
 import { STATUSES, type EnquiryStatus } from "./statuses";
+import { formatMYDate } from "@/lib/datetime";
 
 const STATUS_STYLE: Record<string, string> = {
   new: "bg-status-info/10 text-status-info",
@@ -39,7 +40,7 @@ export default function EnquiryRow({ lead }: { lead: Record<string, unknown> }) 
         </select>
       </td>
       <td className="px-3 py-2.5 text-xs text-base-slate">
-        {lead.created_at ? new Date(String(lead.created_at)).toLocaleDateString("en-MY") : "—"}
+        {lead.created_at ? formatMYDate(String(lead.created_at)) : "—"}
       </td>
       <td className="px-3 py-2.5">
         <textarea
