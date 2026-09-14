@@ -1,8 +1,8 @@
 import Image from "next/image";
-import LeadForm from "./LeadForm";
+import LeadForm, { type LeadFormOptionLists } from "./LeadForm";
 import { OLD_SITE_IMAGES, STATS } from "@/lib/content";
 
-export default function Hero() {
+export default function Hero({ leadFormOptions }: { leadFormOptions?: LeadFormOptionLists }) {
   return (
     <section className="relative overflow-hidden bg-base-bg">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:items-center lg:py-20">
@@ -58,7 +58,7 @@ export default function Hero() {
         </div>
 
         <div className="lg:pl-4">
-          <LeadForm />
+          <LeadForm options={leadFormOptions} />
         </div>
       </div>
     </section>

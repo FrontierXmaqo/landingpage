@@ -1,12 +1,16 @@
 ﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SectionHeading from "./SectionHeading";
+import { trackOnce, trackEvent } from "@/lib/track";
 import {
   SOLAR_CALC_CONFIG,
   SOLAR_PACKAGES_HYBRID,
   SOLAR_PACKAGES_NEO,
+  type SolarPackage,
 } from "@/lib/content";
+
+type CalculatorConfig = typeof SOLAR_CALC_CONFIG;
 
 function formatRM(value: number) {
   return `RM${Math.round(value).toLocaleString("en-US")}`;
@@ -19,7 +23,15 @@ const STORAGE_OPTIONS: { value: StorageOption; label: string; hint: string }[] =
   { value: "hybrid", label: "Without Battery Storage", hint: "Solar panels only" },
 ];
 
-export default function SolarCalculator() {
+export default function SolarCalculator({
+  config = SOLAR_CALC_CONFIG,
+  packagesHybrid = SOLAR_PACKAGES_HYBRID,
+  packagesNeo = SOLAR_PACKAGES_NEO,
+}: {
+  config?: CalculatorConfig;
+  packagesHybrid?: SolarPackage[];
+  packagesNeo?: SolarPackage[];
+}) {
   const [billInput, setBillInput] = useState("650");
   const [storageOption, setStorageOption] = useState<StorageOption>("neo");
 
@@ -29,7 +41,7 @@ export default function SolarCalculator() {
     if (bill <= 0) return null;
 
     const { tariffTierThresholdKwh, tariffBelowThresholdPerKwh, tariffAboveThresholdPerKwh } =
-      SOLAR_CALC_CONFIG;
+      config;
 
     let consumptionKwh = bill / tariffBelowThresholdPerKwh;
     let isAboveThreshold = false;
@@ -38,7 +50,7 @@ export default function SolarCalculator() {
       isAboveThreshold = true;
     }
 
-    const packages = storageOption === "neo" ? SOLAR_PACKAGES_NEO : SOLAR_PACKAGES_HYBRID;
+    const packages = storageOption === "neo" ? packagesNeo : packagesHybrid;
     const sorted = [...packages].sort((a, b) => a.kwp - b.kwp);
     const largest = sorted[sorted.length - 1];
     const exceedsLargestPackage = consumptionKwh > largest.monthlyGenerationKwh;
@@ -57,7 +69,15 @@ export default function SolarCalculator() {
       savings30yr: monthlySavings * 12 * 30,
       exceedsLargestPackage,
     };
-  }, [bill, storageOption]);
+  }, [bill, storageOption, config, packagesHybrid, packagesNeo]);
+
+  // Fires once per session, only after the visitor has actually changed the bill
+  // (billInput starts pre-filled, so a result on first render isn't real usage).
+  const hasResult = Boolean(result);
+  useEffect(() => {
+    if (hasResult && billInput !== "650") trackEvent("calculator_complete");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasResult]);
 
   return (
     <section id="packages" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
@@ -79,7 +99,10 @@ export default function SolarCalculator() {
                 min={0}
                 inputMode="decimal"
                 value={billInput}
-                onChange={(e) => setBillInput(e.target.value)}
+                onChange={(e) => {
+                  setBillInput(e.target.value);
+                  trackOnce("calculator_start");
+                }}
                 placeholder="650"
                 className="w-full text-sm text-base-ink outline-none placeholder:text-base-slate"
               />

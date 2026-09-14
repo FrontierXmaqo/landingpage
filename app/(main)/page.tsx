@@ -13,18 +13,30 @@ import Gallery from "./components/Gallery";
 import FAQ from "./components/FAQ";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
+import { getPublishedCalculatorData, getPublishedLeadFormOptions } from "@/lib/publishedContent";
+import PageviewBeacon from "./components/PageviewBeacon";
 
-export default function Home() {
+export default async function Home() {
+  const [calculatorData, leadFormOptions] = await Promise.all([
+    getPublishedCalculatorData(),
+    getPublishedLeadFormOptions(),
+  ]);
+
   return (
     <>
+      <PageviewBeacon />
       <Header />
       <main className="flex-1">
-        <Hero />
+        <Hero leadFormOptions={leadFormOptions} />
         <BrandStrip />
         <WhatsIncluded />
         <BillProof />
         <WhyAtap />
-        <SolarCalculator />
+        <SolarCalculator
+          config={calculatorData.config}
+          packagesHybrid={calculatorData.packagesHybrid}
+          packagesNeo={calculatorData.packagesNeo}
+        />
         <HowItWorks />
         <Achievements />
         <CommercialTeaser />
