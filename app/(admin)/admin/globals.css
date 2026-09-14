@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* Same closed palette as the public site's globals.css — internal tools stay
+   recognizably Maqo, just rebalanced so color carries function, not decoration. */
+@theme {
+  --color-base-bg: #f7f8f7;
+  --color-base-panel: #ffffff;
+  --color-base-line: #e4e7e4;
+  --color-base-ink: #1a1a1a;
+  --color-base-slate: #5b6660;
+
+  --color-brand-green: #31ac47;
+  --color-brand-green-deep: #357a3a;
+  --color-brand-green-ink: #0c842b;
+  --color-brand-green-tint: #d0f8d1;
+
+  --color-brand-orange: #ff8c4c;
+  --color-brand-orange-deep: #f97000;
+  --color-brand-orange-ink: #b9540b;
+  --color-brand-orange-tint: #f8e7e0;
+
+  --color-status-good: #0c842b;
+  --color-status-warn: #7b5c00;
+  --color-status-warn-bg: #fdf3d9;
+  --color-status-critical: #9f223a;
+  --color-status-critical-bg: #fbe4e8;
+  --color-status-info: #145c99;
+  --color-status-inactive: #848b85;
+
+  --color-chart-1: #357a3a;
+  --color-chart-2: #f97000;
+  --color-chart-3: #7418e5;
+  --color-chart-4: #e0138f;
+  --color-chart-5: #1684b5;
+
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+body { background: var(--color-base-bg); color: var(--color-base-ink); }
+
+@keyframes fade-in-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in-up { animation: fade-in-up 0.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) { .animate-fade-in-up { animation: none; } }

@@ -29,6 +29,14 @@ function oneOf(value: string, allowed: readonly string[]) {
   return allowed.includes(value) ? value : "";
 }
 
+/** Rough Google-vs-social split for the Performance Analytics dashboard, from the referrer already captured. */
+function classifyLeadSource(referrer: string): "google" | "social" | "direct" {
+  const r = referrer.toLowerCase();
+  if (r.includes("google")) return "google";
+  if (r.includes("facebook") || r.includes("instagram") || r.includes("fb.com") || r.includes("l.instagram")) return "social";
+  return "direct";
+}
+
 /** Normalizes a Malaysian mobile number to WhatsApp's plain digit format (e.g. "601297726574") — no "+", no spaces/dashes. */
 function toWhatsAppNumber(raw: string): string {
   const digits = raw.replace(/\D/g, "");
@@ -121,6 +129,7 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
       full_name, phone, email: emailLooksValid && email ? email : null, state: state || null,
       monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
       electric_supply: electric_supply || null, preferred_language: preferred_language || null,
+      lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
     });
     if (error) {
       console.error("Supabase insert error", error);

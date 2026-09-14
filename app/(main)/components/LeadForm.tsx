@@ -19,7 +19,30 @@ const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site");
 
-export default function LeadForm({ defaultPackage }: { defaultPackage?: string }) {
+/** Dropdown option lists — CMS-managed in Supabase (lead_form_options), falling
+ * back to these hardcoded lists so the form never breaks if a table is empty. */
+export type LeadFormOptionLists = {
+  salutations?: string[];
+  states?: string[];
+  billRanges?: string[];
+  propertyTypes?: string[];
+  electricSupply?: string[];
+  languages?: string[];
+};
+
+export default function LeadForm({
+  defaultPackage,
+  options,
+}: {
+  defaultPackage?: string;
+  options?: LeadFormOptionLists;
+}) {
+  const salutations = options?.salutations?.length ? options.salutations : SALUTATIONS;
+  const states = options?.states?.length ? options.states : MALAYSIAN_STATES;
+  const billRanges = options?.billRanges?.length ? options.billRanges : BILL_RANGES;
+  const propertyTypes = options?.propertyTypes?.length ? options.propertyTypes : PROPERTY_TYPES;
+  const electricSupply = options?.electricSupply?.length ? options.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languages = options?.languages?.length ? options.languages : COMMUNICATION_LANGUAGES;
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
@@ -84,7 +107,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             <option value="" disabled>
               Select salutation
             </option>
-            {SALUTATIONS.map((s) => (
+            {salutations.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -128,7 +151,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             <option value="" disabled>
               Select state
             </option>
-            {MALAYSIAN_STATES.map((s) => (
+            {states.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -145,7 +168,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             <option value="" disabled>
               Select range
             </option>
-            {BILL_RANGES.map((s) => (
+            {billRanges.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -162,7 +185,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             <option value="" disabled>
               Select type
             </option>
-            {PROPERTY_TYPES.map((s) => (
+            {propertyTypes.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -179,7 +202,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             <option value="" disabled>
               Select supply
             </option>
-            {ELECTRIC_SUPPLY_OPTIONS.map((s) => (
+            {electricSupply.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -196,7 +219,7 @@ export default function LeadForm({ defaultPackage }: { defaultPackage?: string }
             <option value="" disabled>
               Select language
             </option>
-            {COMMUNICATION_LANGUAGES.map((s) => (
+            {languages.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
