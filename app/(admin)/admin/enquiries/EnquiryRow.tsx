@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { updateEnquiryStatus, updateEnquiryNotes, STATUSES } from "./actions";
+import { updateEnquiryStatus, updateEnquiryNotes } from "./actions";
+import { STATUSES, type EnquiryStatus } from "./statuses";
 
 const STATUS_STYLE: Record<string, string> = {
   new: "bg-status-info/10 text-status-info",
@@ -26,7 +27,7 @@ export default function EnquiryRow({ lead }: { lead: Record<string, unknown> }) 
         <select
           value={status}
           onChange={async (e) => {
-            const next = e.target.value as (typeof STATUSES)[number];
+            const next = e.target.value as EnquiryStatus;
             setStatus(next);
             await updateEnquiryStatus(String(lead.id), next);
           }}

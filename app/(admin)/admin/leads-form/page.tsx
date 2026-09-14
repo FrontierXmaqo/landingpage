@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
-import { ensureLeadFormDraftSeeded, publishLeadFormOptions, unpublishLeadFormOptions, FIELDS } from "./actions";
+import { ensureLeadFormDraftSeeded, publishLeadFormOptions, unpublishLeadFormOptions } from "./actions";
+import { FIELDS } from "./fields";
 import OptionField from "./OptionField";
 
 const LABELS: Record<(typeof FIELDS)[number], string> = {

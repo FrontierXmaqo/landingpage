@@ -2,9 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabaseUserClient } from "@/lib/supabase/server";
-
-export const FIELDS = ["salutation", "state", "bill_range", "property_type", "electric_supply", "language"] as const;
-export type FieldName = (typeof FIELDS)[number];
+import { FIELDS, type FieldName } from "./fields";
 
 export async function ensureLeadFormDraftSeeded() {
   const supabase = await getSupabaseUserClient();

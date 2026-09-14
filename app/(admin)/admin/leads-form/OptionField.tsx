@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { addOption, removeOption, moveOption, type FieldName } from "./actions";
+import { addOption, removeOption, moveOption } from "./actions";
+import type { FieldName } from "./fields";
 
 export default function OptionField({
   field,
