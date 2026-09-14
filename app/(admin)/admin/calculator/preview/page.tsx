@@ -1,6 +1,7 @@
 import { getSupabaseUserClient } from "@/lib/supabase/server";
-import SolarCalculator from "@/app/(main)/components/SolarCalculator";
+import SolarCalculator from "@/app/[lang]/(main)/components/SolarCalculator";
 import type { SolarPackage } from "@/lib/content";
+import { getDictionary } from "@/lib/i18n";
 
 export default async function CalculatorPreviewPage() {
   const supabase = await getSupabaseUserClient();
@@ -19,12 +20,17 @@ export default async function CalculatorPreviewPage() {
     paybackYearsAboveThreshold: Number(r.payback_years_above_threshold),
   });
 
+  // The CMS itself is English-only, so the preview renders the English copy;
+  // the draft numbers below are what the other languages will show too.
+  const t = getDictionary("en").calculator;
+
   return (
     <div>
       <div className="mb-4 rounded-lg bg-brand-orange-tint px-4 py-2 text-sm text-brand-orange-ink">
         Preview only — this draft is not visible to site visitors until you Publish.
       </div>
       <SolarCalculator
+        t={t}
         config={{
           tariffTierThresholdKwh: Number(config.tariff_tier_threshold_kwh),
           tariffBelowThresholdPerKwh: Number(config.tariff_below_threshold_per_kwh),

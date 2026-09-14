@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, type SolarPackage } from "@/lib/content";
-import type { LeadFormOptionLists } from "@/app/(main)/components/LeadForm";
+import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 
 // Public, RLS-protected anon client — server-side only, reads `status='published'` rows.
 function getAnonClient() {

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { createFirstAdmin, signIn, type FormState } from "./actions";
@@ -31,9 +32,9 @@ export default function LoginForm({ firstRun }: { firstRun: boolean }) {
       return (
         <div className="mt-6 space-y-3">
           <p className="text-sm text-brand-green-ink">Admin account created.</p>
-          <a href="/admin/login" className="block w-full rounded-lg bg-brand-green px-4 py-2.5 text-center text-sm font-semibold text-white">
+          <Link href="/admin/login" className="block w-full rounded-lg bg-brand-green px-4 py-2.5 text-center text-sm font-semibold text-white">
             Sign in
-          </a>
+          </Link>
         </div>
       );
     }
