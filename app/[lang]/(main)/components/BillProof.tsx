@@ -1,0 +1,260 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import SectionTag from "./SectionTag";
+import { fill, type Dictionary } from "@/lib/i18n";
+
+type Month = { m: string; v: number };
+
+// Figures and screenshots only; the words for each case live in the dictionary under the same id.
+type Case = {
+  id: keyof Dictionary["billProof"]["cases"];
+  size: string;
+  months: Month[];
+  proof: string;
+};
+
+const CASES: Case[] = [
+  {
+    id: "battery",
+    size: "7.44 kWp",
+    months: [
+      { m: "Feb", v: 522.2 },
+      { m: "Mar", v: 466.5 },
+      { m: "Apr", v: 624.95 },
+      { m: "May", v: 384.75 },
+      { m: "Jun", v: 203.15 },
+      { m: "Jul", v: 92.75 },
+    ],
+    proof: "/bill-proof-battery.jpg",
+  },
+  {
+    id: "solar",
+    size: "7.44 kWp",
+    months: [
+      { m: "Feb", v: 334.35 },
+      { m: "Mar", v: 238.75 },
+      { m: "Apr", v: 85.55 },
+      { m: "May", v: 88.9 },
+      { m: "Jun", v: 91.2 },
+      { m: "Jul", v: 81.9 },
+    ],
+    proof: "/bill-proof-solar.jpg",
+  },
+];
+
+function money(m: Month) {
+  return `RM${m.v.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+// Narrow screens cannot fit six "RM522.20" labels across, so they get the rounded ringgit.
+function moneyShort(m: Month) {
+  return Math.round(m.v).toLocaleString("en-MY");
+}
+
+export default function BillProof({ t, space }: { t: Dictionary["billProof"]; space: string }) {
+  const [active, setActive] = useState(0);
+  const [showProof, setShowProof] = useState(false);
+  // Once the reader has opened the proof, the button stops asking for attention.
+  const [nudged, setNudged] = useState(false);
+  const c = CASES[active];
+  const copy = t.cases[c.id];
+  const monthLabel = (m: Month) => t.months[c.months.indexOf(m)] ?? m.m;
+
+  const peak = c.months.reduce((a, b) => (b.v > a.v ? b : a));
+  const low = c.months.reduce((a, b) => (b.v < a.v ? b : a));
+  const drop = Math.round(((peak.v - low.v) / peak.v) * 100);
+
+  return (
+    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+      <div className="max-w-xl">
+        <SectionTag>{t.tag}</SectionTag>
+        <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
+          {t.titleLead}
+          {space}
+          <span className="text-brand-orange-ink">{t.titleAccent}</span>
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-base-slate">
+          {t.body}
+        </p>
+      </div>
+
+      <div
+        role="tablist"
+        aria-label={t.tablistLabel}
+        className="mt-8 inline-flex flex-wrap gap-1.5 rounded-full border border-base-line bg-base-bg p-1.5"
+      >
+        {CASES.map((item, i) => (
+          <button
+            key={item.id}
+            role="tab"
+            type="button"
+            aria-selected={i === active}
+            onClick={() => setActive(i)}
+            className={`rounded-full px-4 py-3 text-sm font-semibold transition ${
+              i === active
+                ? "bg-brand-green text-base-ink shadow-sm"
+                : "text-base-slate hover:text-base-ink"
+            }`}
+          >
+            {t.cases[item.id].tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-6 grid items-start gap-5 lg:grid-cols-[1.6fr_1fr]">
+        <div className="min-w-0 rounded-3xl border border-base-line bg-base-panel p-6 shadow-sm sm:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-base-ink">{copy.title}</p>
+              <p className="mt-1 text-xs text-base-slate">
+                {fill(t.chartCaption, { size: c.size })}
+              </p>
+            </div>
+
+            <div className="flex flex-col items-start gap-2 sm:items-end">
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  aria-pressed={!showProof}
+                  onClick={() => setShowProof(false)}
+                  className={`inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition ${
+                    !showProof
+                      ? "border-base-line bg-base-panel text-base-ink"
+                      : "border-transparent text-base-slate hover:text-base-ink"
+                  }`}
+                >
+                  {t.chartButton}
+                </button>
+
+                <button
+                  type="button"
+                  aria-pressed={showProof}
+                  onClick={() => {
+                    setShowProof(true);
+                    setNudged(true);
+                  }}
+                  className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-brand-green-deep px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:brightness-110 ${
+                    showProof ? "ring-2 ring-brand-green ring-offset-2" : ""
+                  } ${!showProof && !nudged ? "animate-attention-ring" : ""}`}
+                >
+                  {/* Eye: the action is literally "look at the customer's bill" */}
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  {t.proofButton}
+                </button>
+              </div>
+
+              {!showProof && (
+                <p className="text-[11px] font-medium text-base-slate">
+                  {t.proofNudge}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {showProof ? (
+            <figure className="mt-6">
+              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-base-line bg-base-bg">
+                <Image
+                  key={c.id}
+                  src={c.proof}
+                  alt={copy.proofAlt}
+                  fill
+                  className="object-contain"
+                  sizes="(min-width: 1024px) 680px, 100vw"
+                />
+              </div>
+              <figcaption className="mt-3 text-xs text-base-slate">
+                {t.proofCaption}
+              </figcaption>
+            </figure>
+          ) : (
+            <div key={c.id} className="mt-8">
+              <div className="flex h-56 items-end gap-2 sm:gap-4">
+                {c.months.map((m, i) => {
+                  const isLow = m.v <= peak.v * 0.5;
+                  return (
+                    <div
+                      key={m.m}
+                      className="flex h-full flex-1 flex-col items-center justify-end"
+                    >
+                      <span
+                        className={`mb-2 whitespace-nowrap text-[10px] font-bold sm:text-xs ${
+                          isLow ? "text-brand-green-ink" : "text-base-slate"
+                        }`}
+                      >
+                        <span className="sm:hidden">{moneyShort(m)}</span>
+                        <span className="hidden sm:inline">{money(m)}</span>
+                      </span>
+                      {/* One data series, so one chart token. The low months are the same
+                          colour at full strength rather than a second hue, and every bar
+                          already carries its ringgit value and month as a label. */}
+                      <div
+                        className={`animate-bar-rise w-full max-w-[44px] rounded-full bg-chart-1 ${
+                          isLow ? "" : "opacity-30"
+                        }`}
+                        style={{
+                          height: `${(m.v / peak.v) * 80}%`,
+                          animationDelay: `${i * 90}ms`,
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-3 flex gap-2 border-t border-base-line pt-3 sm:gap-4">
+                {c.months.map((m) => (
+                  <span
+                    key={m.m}
+                    className="flex-1 text-center text-xs font-medium text-base-slate"
+                  >
+                    {monthLabel(m)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="rounded-3xl border border-brand-green bg-brand-green-tint p-6 sm:p-7">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-green-ink">
+            {t.lowestMonth}
+          </p>
+          <p className="mt-2 text-4xl font-bold leading-none text-base-ink">{money(low)}</p>
+          <p className="mt-3 text-sm leading-relaxed text-base-slate">
+            {fill(t.dropSummaryLead, { peak: money(peak), month: monthLabel(peak) })}
+            {space}
+            <span className="font-bold text-brand-green-ink">{drop}%</span>
+            {t.dropSummaryTail}
+          </p>
+          <dl className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-green pt-4">
+            <dt className="text-xs text-base-slate">{t.systemSize}</dt>
+            <dd className="text-sm font-bold text-base-ink">{c.size}</dd>
+          </dl>
+          {copy.note && (
+            <p className="mt-3 text-xs leading-relaxed text-base-slate">{copy.note}</p>
+          )}
+        </div>
+      </div>
+
+      <p className="mt-5 text-xs leading-relaxed text-base-slate">
+        {t.disclaimer}
+      </p>
+    </section>
+  );
+}

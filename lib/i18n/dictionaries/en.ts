@@ -1,0 +1,580 @@
+// English is the source copy. cn.ts and ms.ts must match this shape exactly (the
+// Dictionary type enforces it), so a missing translation fails the build instead of
+// rendering blank.
+//
+// Headings with a coloured phrase are split into lead / accent / tail so each language
+// can put the accent where its own word order needs it. {placeholders} are filled by fill().
+
+const en = {
+  // Space placed between a heading's lead and its coloured accent. Chinese uses none.
+  space: " ",
+
+  meta: {
+    homeTitle: "MAQO ATAP | Residential Solar Malaysia: Cut Your TNB Bill Up to 90%",
+    homeDescription:
+      "MAQO ATAP Residential Solar Programme. Free home assessment, transparent packages, ST Class A & CIDB G7-certified installation across Peninsular Malaysia. 1,000+ homes powered since 2013.",
+    aboutTitle: "About MAQO Solar | Malaysia's Trusted Solar EPC Since 2013",
+    aboutDescription:
+      "MAQO Solar is a leading solar power company in Malaysia, delivering ST Class A & CIDB G7-certified residential, commercial & industrial solar systems since 2013. Meet the team and values behind 1,000+ installations.",
+    evTitle: "MAQO | Charge Your EV On Sunlight — Energizing A Cleaner Future",
+    evDescription:
+      "Home EV charging is pushing your TNB bill up. Rooftop solar under NEM turns your driveway into your own fuel station — up to 90% off your bill. Free home assessment, ST Class A & CIDB G7 certified.",
+  },
+
+  languageSwitcher: {
+    label: "Language",
+  },
+
+  header: {
+    logoAlt: "MAQO Solar",
+    cta: "Free Assessment",
+  },
+
+  hero: {
+    eyebrow: "MAQO ATAP · Residential Solar Programme",
+    title: "Cut your TNB bill by up to 90%.",
+    bodyLead: "Empowering a cleaner future for your home since 2013. Free home assessment, transparent packages, and",
+    bodyHighlight: "ST Class A & CIDB G7-certified",
+    bodyTail: " installation across Peninsular Malaysia, trusted by 1,000+ Malaysian homeowners.",
+    primaryCta: "Get My Free Assessment",
+    secondaryCta: "Calculate My Savings",
+    stats: [
+      { value: "ST Class A · CIDB G7", label: "Certified EPCC contractor" },
+      { value: "90%", label: "Max TNB bill savings" },
+      { value: "1,000+", label: "Homeowners served since 2013" },
+    ],
+    imageAlt: "MAQO Solar rooftop installation on a Malaysian home at sunset",
+  },
+
+  brandStrip: {
+    title: "Installed with brands homeowners trust",
+  },
+
+  whatsIncluded: {
+    imageAlt: "A completed MAQO Solar rooftop installation on a Malaysian home",
+    overlayTitle: "Panels, inverter, monitoring, maintenance, support, warranty.",
+    overlayBody: "One system, handled end to end by our own team.",
+    tag: "What's covered",
+    titleLead: "Everything here is",
+    titleAccent: "in the price.",
+    body: "No hidden costs and no surprises on your quote. This is the full scope of what you get.",
+    items: [
+      "Solar panels",
+      "Hybrid inverter",
+      "Real-time monitoring app",
+      "Scheduled maintenance",
+      "Dedicated customer support",
+      "Workmanship warranty",
+    ],
+  },
+
+  billProof: {
+    tag: "Real results",
+    titleLead: "Watch the bill",
+    titleAccent: "fall off a cliff.",
+    body: "Six months of real TNB bills from MAQO customers, February to July 2026. Flip to the original account screenshots any time. These are not our numbers, they are TNB's.",
+    tablistLabel: "Customer bill histories",
+    cases: {
+      battery: {
+        tab: "Solar + battery",
+        title: "Single-phase home, solar with battery storage",
+        proofAlt:
+          "TNB account usage history screenshot, February to July 2026, showing monthly bills falling from RM624.95 to RM92.75",
+        note: "This account moved onto a Time of Use tariff from the June bill.",
+      },
+      solar: {
+        tab: "Solar only",
+        title: "Single-phase home, solar without storage",
+        proofAlt:
+          "TNB account usage history screenshot, February to July 2026, showing monthly bills falling from RM334.35 to RM81.90",
+        note: "",
+      },
+    },
+    months: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    chartCaption: "Monthly TNB bill, Feb to Jul 2026 · {size} system",
+    chartButton: "Chart",
+    proofButton: "See the real TNB bill",
+    proofNudge: "Don't take our word for it",
+    proofCaption: "Straight from the customer's own TNB account, shared with their permission.",
+    lowestMonth: "Lowest month",
+    dropSummaryLead: "Down from {peak} at its peak in {month}, a drop of",
+    dropSummaryTail: ".",
+    systemSize: "System size",
+    disclaimer: "Bills vary with household usage, roof conditions and tariff, so your own result will differ.",
+  },
+
+  whyAtap: {
+    tag: "Why ATAP",
+    titleLead: "Simple to own.",
+    titleAccent: "Built to last.",
+    body: "The parts of a solar purchase that usually go wrong are the parts we refuse to hand to anyone else.",
+    featuredBadge: "Licensed in-house",
+    imageAlt: "MAQO Solar licensed crew installation work on a Malaysian rooftop",
+    featured: {
+      title: "ST Class A & CIDB G7 certified",
+      body: "In-house licensed wiremen & chargemen, with no outsourcing of critical works. ISO 9001:2015 quality managed, every installation.",
+    },
+    items: [
+      {
+        title: "Simple to own",
+        body: "Outright purchase or low monthly instalments. No hidden costs, no surprises on your quote.",
+      },
+      {
+        title: "Real savings, day one",
+        body: "Your system starts offsetting your TNB bill from the moment it is switched on under ATAP.",
+      },
+      {
+        title: "Built to last",
+        body: "Tier-1 panels and inverters from AIKO, Huawei and FoxESS, engineered for Malaysian weather.",
+      },
+    ],
+  },
+
+  calculator: {
+    eyebrow: "Solar Calculator",
+    title: "See how much you could save with solar",
+    body: "Enter your average monthly TNB bill and choose whether you want battery storage, and we'll match you to a package and estimate the system size, savings, and final price after rebates.",
+    billLabel: "Average Monthly TNB Bill",
+    perMonthSuffix: "/ month",
+    billHint: "You can find this amount on your latest TNB bill.",
+    systemTypeLabel: "System Type",
+    options: {
+      neo: { label: "With Battery Storage", hint: "Solar panels plus home battery" },
+      hybrid: { label: "Without Battery Storage", hint: "Solar panels only" },
+    },
+    resultEyebrow: "Your solar estimate",
+    resultTitle: "Based on your TNB bill of {bill}/month",
+    resultBody: "Estimated for an average monthly usage of about {kwh} kWh, sized to a {kwp} kWp system.",
+    exceedsLargest:
+      "Your usage is higher than our largest standard package can fully offset, so the estimate below is based on that package. Our team can design a larger custom system for you.",
+    systemSizeLabel: "Recommended System Size",
+    panelsLabel: "Estimated Number of Panels",
+    panelsValue: "{count} panels",
+    monthlySavingsLabel: "Estimated Monthly Savings",
+    perMonth: "per month",
+    over10Years: "Over 10 Years",
+    over30Years: "Over 30 Years",
+    cta: "Send me my report and give me my quotation",
+    disclaimer:
+      "This is an estimate based on your average monthly usage. Actual system size, savings and pricing may vary depending on real electricity consumption, roof space, shading, site conditions and final site assessment.",
+    empty: "Enter your average monthly TNB bill above to see your personalised solar estimate.",
+  },
+
+  howItWorks: {
+    eyebrow: "How it works",
+    title: "From TNB bill to solar savings in 5 steps",
+    steps: [
+      { title: "Free home assessment", body: "We review your TNB bill and roof, then propose a system size and package." },
+      { title: "Accept your proposal", body: "Choose outright purchase or instalment. We handle your TNB ATAP application." },
+      { title: "Installation, 1–3 days", body: "Our CIDB G7-certified team installs your system with minimal disruption." },
+      { title: "TNB inspection & smart meter", body: "TNB inspects and upgrades your meter so exported solar is properly recorded." },
+      { title: "Start saving, with support", body: "Monitor your savings on the app, backed by ongoing MAQO after-sales support." },
+    ],
+  },
+
+  achievements: {
+    eyebrow: "Our achievements",
+    items: [
+      { value: "1000+", label: "Residential Solar Projects Done" },
+      { value: "500+", label: "Commercial & Industrial Clients Served" },
+      { value: "13+", label: "Years of Industry Experience" },
+    ],
+  },
+
+  commercial: {
+    tag: "Commercial & Industrial",
+    title: "We also do solar for factories, warehouses and offices.",
+    body: "Other big clients who are committed to a sustainable future",
+    logoAlt: "MAQO commercial & industrial client logo {n}",
+  },
+
+  testimonials: {
+    eyebrow: "Homeowners",
+    title: "Trusted by homeowners across Malaysia",
+  },
+
+  gallery: {
+    eyebrow: "Our work",
+    title: "View our past projects",
+    imageAlt: "MAQO Solar residential installation project {n}",
+  },
+
+  faq: {
+    eyebrow: "FAQ",
+    title: "Everything homeowners ask about ATAP",
+    items: [
+      { q: "What is the MAQO ATAP programme?", a: "ATAP is MAQO's residential rooftop solar programme for Malaysian homeowners. We design, supply, install and commission a grid-connected solar system on your roof under TNB's ATAP (Accelerated Transition Action Programme) framework, so the electricity you generate offsets your TNB bill." },
+      { q: "How much can I save on my TNB bill with ATAP?", a: "Most ATAP homeowners cut their TNB bill by 50–90%, depending on system size, roof orientation, and household usage pattern. During a free home assessment, MAQO calculates a personalised savings estimate from your actual TNB bill." },
+      { q: "How much does an ATAP solar system cost?", a: "Pricing depends on system size (kWp) and your average monthly TNB bill. MAQO offers outright purchase and instalment/financing options starting from roughly RM199/month equivalent. You will receive an exact quote after a free home assessment." },
+      { q: "Do I need to change my TNB smart meter?", a: "Yes. Once your system passes inspection, TNB upgrades your meter to a bidirectional smart meter under the ATAP scheme so exported solar energy is properly recorded." },
+      { q: "Is MAQO licensed and certified to install solar in Malaysia?", a: "Yes. MAQO Engineering Sdn Bhd is an ST Class A electrical contractor and CIDB G7-certified EPCC (Engineering, Procurement, Construction and Commissioning) contractor, SEDA-registered and ISO 9001:2015 quality-managed, with in-house licensed wiremen and chargemen for every ATAP installation." },
+      { q: "How long does installation take?", a: "A typical residential ATAP installation takes 1–3 days on-site once your proposal is confirmed, followed by TNB inspection and meter upgrade, which usually completes within a few weeks depending on TNB processing time." },
+      { q: "What warranty do I get?", a: "ATAP systems come with workmanship warranties of 2 years depending on the package, plus manufacturer product and performance warranties on panels (typically 25–30 years) and inverters (typically 10–12 years)." },
+      { q: "Which areas in Malaysia does MAQO ATAP cover?", a: "MAQO currently installs ATAP systems across Peninsular Malaysia, with core coverage in Selangor, Kuala Lumpur, and surrounding states. Ask us during your free assessment to confirm coverage at your address." },
+    ],
+  },
+
+  finalCta: {
+    titleLead: "Start with your roof, not a",
+    titleAccent: "contract.",
+    titleTail: "",
+    body: "Free, no-obligation home assessment. ST Class A & CIDB G7-certified installation, across Peninsular Malaysia.",
+    cta: "Get My Free Assessment",
+  },
+
+  footer: {
+    tagline: "Energizing A Cleaner Future. One solar panel & one battery at a time.",
+    company: "Company",
+    about: "About",
+    contactUs: "Contact us",
+    contact: "Contact",
+    email: "Email:",
+    office: "Office:",
+    rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). All rights reserved.",
+  },
+
+  leadForm: {
+    title: "Get your free home assessment",
+    subtitle: "Takes 60 seconds. Our ATAP team calls you within 1 business day.",
+    successTitle: "Request received",
+    honeypot: "Leave this field blank",
+    salutation: "Salutation",
+    salutationPlaceholder: "Select salutation",
+    fullName: "Full name *",
+    fullNamePlaceholder: "Ahmad bin Ismail",
+    mobile: "Mobile number *",
+    email: "Email",
+    state: "State",
+    statePlaceholder: "Select state",
+    bill: "Average monthly TNB bill",
+    billPlaceholder: "Select range",
+    propertyType: "Property type",
+    propertyTypePlaceholder: "Select type",
+    supply: "Electric supply",
+    supplyPlaceholder: "Select supply",
+    language: "Preferred communication language",
+    languagePlaceholder: "Select language",
+    submitting: "Submitting…",
+    submit: "Get My Free Home Assessment",
+    consent: "By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar assessment. No Spam.",
+  },
+
+  // Display labels for the lead form's allowlisted values. The submitted value stays
+  // the English key, so Supabase, the webhook and the sales team see one vocabulary.
+  formOptions: {
+    salutations: {
+      Mr: "Mr",
+      Ms: "Ms",
+      Mrs: "Mrs",
+      Datin: "Datin",
+      Dato: "Dato",
+      "Dr.": "Dr.",
+      "Dato' Sri": "Dato' Sri",
+      Tun: "Tun",
+    },
+    states: {
+      Selangor: "Selangor",
+      "Kuala Lumpur": "Kuala Lumpur",
+      Putrajaya: "Putrajaya",
+      "Negeri Sembilan": "Negeri Sembilan",
+      Melaka: "Melaka",
+      Johor: "Johor",
+      Perak: "Perak",
+      Penang: "Penang",
+      Kedah: "Kedah",
+      Pahang: "Pahang",
+      Other: "Other",
+    },
+    billRanges: {
+      "RM200 - 300": "RM200 - 300",
+      "RM300 – 400": "RM300 – 400",
+      "RM400 – 500": "RM400 – 500",
+      "RM500 – 600": "RM500 – 600",
+      "RM600 – 900": "RM600 – 900",
+      "Above RM900": "Above RM900",
+    },
+    propertyTypes: {
+      "Terrace / Link house": "Terrace / Link house",
+      "Semi-detached": "Semi-detached",
+      Bungalow: "Bungalow",
+      "Apartment / Condo (landed access)": "Apartment / Condo (landed access)",
+    },
+    supply: {
+      "Single phase": "Single phase",
+      "Triple phase": "Triple phase",
+      Unsure: "Unsure",
+    },
+    languages: {
+      English: "English",
+      Chinese: "Chinese",
+      Malay: "Malay",
+    },
+  },
+
+  // Returned by the submitLead server action.
+  leadMessages: {
+    success: "Thanks! Our ATAP team will call you within 1 business day.",
+    rateLimited: "Too many requests. Please try again in a minute.",
+    invalid: "Please fill in your name and a valid phone number.",
+    captcha: "We couldn't verify you're human. Please try again.",
+    generic: "Something went wrong submitting your assessment. Please call us at 603-8069 1706 instead.",
+  },
+
+  about: {
+    heroAlt: "MAQO Solar rooftop installation on a Malaysian home at sunset",
+    heroEyebrow: "About MAQO Solar",
+    heroTitleLead: "Unstoppable commitment to innovation and the advancement of",
+    heroTitleAccent: "clean energy.",
+    heroBody: "Our vision is simple: bring green, clean energy to everyone, at the most affordable cost and with the most reliable service in Malaysia.",
+    heroCta: "Get My Free Assessment",
+    heroStatLabel: "Homeowners served since 2013",
+
+    whoKicker: "Not a fast-quote installer.",
+    whoTitleLead: "Who is",
+    whoTitleTail: "?",
+    whoBody1: "MAQO is a leading solar power company and solar panel installer in Malaysia, delivering clean energy for everything from residential rooftops to full-scale commercial & industrial systems and solar farm projects.",
+    whoBody2: "Since 2013, we've grown into one of Malaysia's most trusted solar providers, earning that trust through technology-driven energy savings and customer-first service, delivered one project at a time.",
+    whoImageAlt: "MAQO Solar residential installation project",
+    whoBadgeTitle: "Est. 2013",
+    whoBadgeBody: "13+ years in the field",
+
+    qualityKicker: "Beware of fast quotes.",
+    qualityTitleAccent: "Quality",
+    qualityTitleTail: " above all",
+    qualityBody1: "Not all solar companies are the same, and neither are solar proposals. We take the time to understand your roof and your needs, and give you options built for where you are today and where you're headed.",
+    qualityBody2: "You're not just another customer to us. You're a business partner, and part of the MAQO family.",
+    qualityImageAlt: "MAQO Solar commercial installation project",
+    qualityBadgeBody: "C&I clients served",
+
+    quote: "We're in it for you, and for a better planet. Our mission is to reshape the energy landscape by making solar power accessible and affordable for everyone.",
+    quoteAuthor: "Kong Kok King, Managing Director, MAQO Solar",
+
+    teamTag: "Our team",
+    teamTitleLead: "The people on your roof",
+    teamTitleAccent: "work for us.",
+    teamBody1: "Managing Director Kong Kok King holds a Master's degree in Engineering from the University of Tokyo. The team he leads is fully accredited and qualified, and it is the same team that turns up at your property.",
+    teamBody2: "Licence applications, system design, build and commissioning all stay in-house. Nothing critical is handed to a subcontractor you have never met.",
+    teamCta: "Talk to the team",
+    teamLicencesCta: "See our licences",
+    teamImageAlt: "The MAQO Solar team in company uniform, holding a MAQO banner",
+    teamCaption: "The MAQO team",
+
+    valuesTag: "Our DNA",
+    valuesTitleLead: "The “Q” in MAQO stands for",
+    valuesTitleAccent: "Quality.",
+    valuesBody: "It is in our name, and it is in how we work. Four values sit behind every proposal we write and every roof we finish.",
+    values: [
+      { title: "Professionalism", body: "Honesty and integrity in our approach, delivering the best experience from first contact through long-term service and support." },
+      { title: "Sustainability", body: "We understand our responsibility to the environment, our community, our clients and partners, and work to build a better world for them." },
+      { title: "Quality", body: "Our thinking, products, solutions and practice are held to it, built on the latest technologies and knowledge rather than whatever is quickest." },
+      { title: "Together", body: "An enjoyable workplace brings out the best in everyone. We respect, value and take care of each other, and we grow together." },
+    ],
+
+    standardsTag: "Due diligence",
+    standardsTitleLead: "Licensed for",
+    standardsTitleAccent: "every part",
+    standardsTitleTail: " of the job.",
+    standardsBody: "The questions worth asking any solar installer before you sign, answered here rather than buried in a brochure.",
+    standards: [
+      { title: "ST Class A · CIDB G7", tag: "Top electrical and construction grades", body: "ST Class A is the highest electrical contractor class issued by Suruhanjaya Tenaga. CIDB G7 is the highest construction grade. The same licensed entity carries your job, whether that is one rooftop or a factory." },
+      { title: "In-house wiremen and chargemen", tag: "Critical electrical work is never subcontracted", body: "Licence applications, system design, build and commissioning stay with our own people. The wireman on your roof is on our team, not a stranger's." },
+      { title: "SEDA registered", tag: "Recognised solar installer", body: "We are registered with the Sustainable Energy Development Authority, the body behind Malaysia's national solar programmes." },
+      { title: "ISO 9001:2015", tag: "Certified quality management", body: "Our quality management system is externally certified, so the process behind your installation is documented and repeatable rather than improvised." },
+      { title: "25-year performance warranty", tag: "Backed by a Tier-1 manufacturer", body: "Panels carry a 25-year performance warranty from our Tier-1, Bloomberg-rated manufacturer partner." },
+      { title: "Live system monitoring", tag: "Web and mobile app", body: "Track what your system is generating in real time, so your savings are something you can check rather than take on trust." },
+    ],
+
+    segmentsTag: "What we do",
+    segmentsTitleLead: "One rooftop. Or a",
+    segmentsTitleAccent: "gigawatt pipeline.",
+    segmentsBody: "One platform across the whole chain, serving homeowners, factories and developers alike.",
+    segments: [
+      { title: "Residential Solar", body: "Turnkey EPC rooftop solar for homes across Klang Valley & Selangor." },
+      { title: "C&I Solar", body: "EPC, PPA and Zero Capex solar for factories, warehouses and offices, from 50kWp to 5,000kWp+." },
+      { title: "BESS", body: "Battery energy storage systems for maximum demand management and peak shaving." },
+      { title: "PPA / Zero Capex", body: "We invest in your rooftop system. You pay per unit at a discounted rate, zero upfront cost." },
+      { title: "Xfiniti Energy", body: "BESS supply, EMS solutions, and solar equipment trading for the industry." },
+      { title: "MAQO RE OPC (Philippines)", body: "Investment, developer and PPA model for C&I solar across Mindanao & Luzon." },
+    ],
+
+    groupTitleLead: "The MAQO",
+    groupTitleAccent: "Group",
+    groupBody: "One mission, seven specialized entities across Malaysia and the Philippines.",
+
+    galleryKicker: "Proof, not promises.",
+    galleryTitle: "Our work speaks for itself",
+    galleryImageAlt: "MAQO Solar installation project",
+    galleryImageAltN: "MAQO Solar installation project {n}",
+
+    ctaTitleLead: "Ready to energize your",
+    ctaTitleAccent: "future",
+    ctaTitleTail: "?",
+    ctaBody: "Talk to our team about residential solar, C&I EPC, BESS, or Zero Capex PPA.",
+    cta: "Get My Free Assessment",
+  },
+
+  ev: {
+    logoAlt: "MAQO — Energizing a cleaner future",
+    homeLabel: "MAQO home",
+    nav: {
+      problem: "The problem",
+      savings: "Savings",
+      howItWorks: "How it works",
+      covered: "What's covered",
+      faq: "FAQ",
+      cta: "Free Assessment",
+    },
+    hero: {
+      badge: "MAQO ATAP · Built for EV-owning homes",
+      titleLine1Lead: "Charge Your EV On",
+      titleLine1Accent: "Sunlight",
+      titleLine1Tail: ".",
+      titleLine2Lead: "Not On",
+      titleLine2Strike: "TNB",
+      titleLine2Tail: ".",
+      ledeLead: "Your car already runs on electricity — the only question is who sells it to you. Put solar on your roof under NEM and your driveway becomes your own fuel station, cutting up to",
+      ledeBold: "90% off your TNB bill",
+      ledeTail: ".",
+      primaryCta: "Get My Free Assessment",
+      secondaryCta: "See My Savings",
+      trust: ["ST Class A", "CIDB G7", "SEDA Registered", "ISO 9001:2015"],
+      sceneLabel: "A house with rooftop solar panels powering a wall charger that is charging an electric car in the driveway",
+      charging: "Charging",
+      chipLabel: "Typical bill after solar",
+    },
+    band: [
+      { value: "90%", label: "Maximum TNB bill reduction" },
+      { value: "Class A", label: "Suruhanjaya Tenaga contractor licence" },
+      { value: "G7", label: "Highest CIDB contractor grade" },
+      { value: "ISO 9001", label: ":2015 quality-managed installation" },
+    ],
+    problem: {
+      eyebrow: "The EV tax on your bill",
+      title: "Home charging is the biggest jump an EV owner ever sees on a TNB bill",
+      body: "A typical EV adds 150–300 kWh of home charging a month on top of normal household use — usually pushing families into TNB's highest tiered rate. Solar offsets exactly that extra load.",
+      link: "Estimate your own numbers",
+      beforeTag: "Before solar",
+      beforeNote: "Household use plus nightly EV charging, billed at TNB's tiered peak rate.",
+      afterTag: "After solar (NEM)",
+      afterNote: "Solar generation offsets daytime use and battery-stored charging at night.",
+      compareNote: "Illustrative example, based on a 14 kWp system sized for an EV household.",
+    },
+    calculator: {
+      eyebrow: "Solar + EV calculator",
+      title: "Size a system around your car, not just your house",
+      body: "Tell us your current TNB bill and when you usually charge at home. We'll estimate the system size and what you'd save.",
+      billLabel: "Average monthly TNB bill (RM)",
+      chargeLabel: "When do you usually charge your car?",
+      options: {
+        day: {
+          label: "Mostly during the day",
+          phrase: "mostly during the day",
+          note: "Panels alone usually cover this — your charging lines up with solar generation.",
+        },
+        night: {
+          label: "Mostly at night",
+          phrase: "mostly at night",
+          note: "We'd recommend battery storage so today's solar covers tonight's charging.",
+        },
+        mixed: {
+          label: "Mixed / it varies",
+          phrase: "mixed / it varies",
+          note: "A mid-size battery is usually worth it to smooth out the difference.",
+        },
+      },
+      resultTitle: "Based on RM{bill}/month, charging {phrase}",
+      systemSize: "Recommended system size",
+      panels: "Estimated panels",
+      monthlySavings: "Estimated monthly savings",
+      newBill: "Estimated new TNB bill",
+      tenYear: "Saved over 10 years",
+      thirtyYear: "Saved over 30 years",
+      cta: "Send me my report and give me my quotation",
+      disclaimer: "Estimate only. Actual system size, savings and pricing depend on real consumption, charger schedule, roof space, shading and a full site assessment.",
+    },
+    how: {
+      eyebrow: "How it works",
+      title: "From TNB bill to charging on sunlight",
+      steps: [
+        { title: "Free assessment, EV included", body: "We review your TNB bill, roof, and your charging habits to size a system that covers your car, not just your household." },
+        { title: "Pick your package", body: "Outright purchase or instalments, with or without battery storage. We handle the TNB NEM/ATAP application on your behalf." },
+        { title: "Installation in 2 weeks", body: "Our CIDB G7-certified in-house team installs panels, inverter, and — if selected — battery, with minimal disruption to your driveway or charger." },
+        { title: "TNB inspection & smart meter", body: "TNB inspects the system and upgrades your meter so exported solar and offset EV charging are correctly recorded." },
+        { title: "Charge, monitor, save", body: "Track generation and EV charging load side by side in the app, backed by ongoing MAQO after-sales support." },
+      ],
+      flowTitle: "Where your EV's electrons come from",
+      flowSun: "Sun",
+      flowPanels: "Rooftop panels",
+      flowCharger: "EV charger",
+      flowNote: "Every kWh your car takes at home can come off your own roof instead of TNB's highest tier.",
+    },
+    covered: {
+      eyebrow: "What's covered",
+      title: "Everything an EV household needs",
+      body: "One scope, one in-house team, one point of contact — from the first roof measurement to the day your meter is swapped.",
+      pillars: [
+        { title: "Solar panels", body: "Tier-1 panels from AIKO, Huawei and FoxESS — sized for your EV load, not just the house." },
+        { title: "Hybrid inverter", body: "Handles simultaneous household use and EV charging draw without tripping your supply." },
+        { title: "Optional battery", body: "Store daytime solar so your car charges on your own power after dark." },
+        { title: "Real-time monitoring", body: "See generation against charging consumption side by side, on your phone." },
+        { title: "Dedicated support", body: "One in-house team from SEDA approval all the way to your NEM meter." },
+      ],
+      ctaTitle: "Not sure what you need?",
+      ctaBody: "Our ATAP team specs it around your roof, your bill and your charging pattern — at no cost.",
+      ctaLink: "Book a free assessment",
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "What EV owners ask us",
+      body: "Still unsure about something? Book a free assessment and a real engineer answers.",
+      link: "Book a free assessment",
+      items: [
+        { q: "Can solar actually power my EV charger?", a: "Yes. Your solar system feeds the same home electrical panel your EV charger is connected to. During the day, charging draws from solar generation first; with NEM, any home charging at night is offset against solar you exported earlier." },
+        { q: "Do I need a bigger system because I own an EV?", a: "Usually, yes — we size the system around your household load plus your typical charging pattern, not just your current TNB bill, so the assessment asks when you usually charge." },
+        { q: "Will this work with my home EV charger brand?", a: "Our hybrid inverters and wiring are compatible with standard AC home chargers used in Malaysia. We confirm your charger's spec during the site assessment." },
+        { q: "Do I need a battery, or is panels-only enough?", a: "Panels-only works well if you charge mostly during the day. If you mainly charge overnight, a battery lets you store daytime solar and use it for charging after dark instead of relying on NEM offset alone." },
+        { q: "How long does installation take?", a: "Most residential installations take 1–3 days, carried out by our in-house licensed team with minimal disruption to your driveway or charging routine." },
+        { q: "Is MAQO licensed to install solar in Malaysia?", a: "Yes — ST Class A and CIDB G7 certified, SEDA registered, and ISO 9001:2015 quality managed, with in-house licensed wiremen and chargemen." },
+      ],
+    },
+    form: {
+      eyebrow: "Free home assessment",
+      title: "See what solar does to your TNB bill",
+      body: "Takes about 60 seconds. Our ATAP team calls you within 1 business day with a system sized around your home and your EV.",
+      points: [
+        "No obligation, no hidden costs on your quote",
+        "We handle your TNB NEM / ATAP application",
+        "Sized around your actual EV charging pattern",
+      ],
+      successTitle: "Request received",
+      honeypot: "Company",
+      salutation: "Salutation",
+      fullName: "Full name",
+      mobile: "Mobile Number",
+      email: "Email",
+      state: "State",
+      statePlaceholder: "Select state",
+      bill: "Average monthly TNB bill",
+      billPlaceholder: "Select range",
+      propertyType: "Property type",
+      propertyTypePlaceholder: "Select type",
+      supply: "Electric supply",
+      supplyPlaceholder: "Select",
+      language: "Preferred language",
+      submitting: "Sending…",
+      submit: "Get My Free Home Assessment",
+      legal: "By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar assessment. No spam.",
+    },
+    footer: {
+      tagline: "MAQO Engineering Sdn Bhd — one solar panel, one battery, one EV charged at a time.",
+      explore: "Explore",
+      calculator: "Savings calculator",
+      contact: "Contact",
+      rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). All rights reserved.",
+    },
+  },
+};
+
+export default en;
+
+export type Dictionary = typeof en;

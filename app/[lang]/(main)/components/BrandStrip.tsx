@@ -1,0 +1,43 @@
+import Image from "next/image";
+import { BRAND_LOGOS } from "@/lib/content";
+import type { Dictionary } from "@/lib/i18n";
+
+export default function BrandStrip({ t }: { t: Dictionary["brandStrip"] }) {
+  const track = [...BRAND_LOGOS, ...BRAND_LOGOS];
+
+  return (
+    <section className="border-y border-base-line bg-base-bg py-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <p className="section-eyebrow text-center text-xs font-semibold uppercase text-base-slate">
+          {t.title}
+        </p>
+      </div>
+      <div className="relative mt-5 overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-base-bg to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-base-bg to-transparent sm:w-24" />
+        <div className="flex w-max animate-marquee-ltr items-center">
+          {track.map((brand, i) => (
+            <div
+              key={`${brand.name}-${i}`}
+              className="mx-6 flex shrink-0 items-center justify-center gap-2.5 sm:mx-10"
+            >
+              <div className="relative h-8 w-8 shrink-0 sm:h-9 sm:w-9">
+                <Image
+                  src={brand.logo}
+                  alt=""
+                  fill
+                  sizes="36px"
+                  className="object-contain opacity-70 grayscale"
+                  unoptimized={brand.logo.endsWith(".svg")}
+                />
+              </div>
+              <span className="whitespace-nowrap text-base font-semibold text-base-slate sm:text-lg">
+                {brand.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -37,12 +37,6 @@ export const CREDENTIALS = [
   "ISO 9001:2015",
 ];
 
-export const STATS = [
-  { value: "ST Class A · CIDB G7", label: "Certified EPCC contractor" },
-  { value: "90%", label: "Max TNB bill savings" },
-  { value: "1,000+", label: "Homeowners served since 2013" },
-];
-
 export const BRAND_LOGOS = [
   { name: "AIKO", logo: "https://aikosolar.com/wp-content/uploads/2023/10/logo.svg" },
   {
@@ -60,34 +54,6 @@ export const BRAND_LOGOS = [
   {
     name: "Sigenergy",
     logo: "https://wwwstatic.sigenergy.com/upload/2026-08-13/1786599860015_9f47ea54-5c7b-4946-a1b4-eb21b3cf0245.png",
-  },
-];
-
-export const WHATS_INCLUDED = [
-  "Solar panels",
-  "Hybrid inverter",
-  "Real-time monitoring app",
-  "Scheduled maintenance",
-  "Dedicated customer support",
-  "Workmanship warranty",
-];
-
-export const WHY_ATAP = [
-  {
-    title: "Simple to own",
-    body: "Outright purchase or low monthly instalments. No hidden costs, no surprises on your quote.",
-  },
-  {
-    title: "Real savings, day one",
-    body: "Your system starts offsetting your TNB bill from the moment it is switched on under ATAP.",
-  },
-  {
-    title: "Built to last",
-    body: "Tier-1 panels and inverters from AIKO, Huawei and FoxESS, engineered for Malaysian weather.",
-  },
-  {
-    title: "ST Class A & CIDB G7 certified",
-    body: "In-house licensed wiremen & chargemen, with no outsourcing of critical works. ISO 9001:2015 quality managed, every installation.",
   },
 ];
 
@@ -330,20 +296,6 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
-export const HOW_IT_WORKS = [
-  { step: 1, title: "Free home assessment", body: "We review your TNB bill and roof, then propose a system size and package." },
-  { step: 2, title: "Accept your proposal", body: "Choose outright purchase or instalment. We handle your TNB ATAP application." },
-  { step: 3, title: "Installation, 1–3 days", body: "Our CIDB G7-certified team installs your system with minimal disruption." },
-  { step: 4, title: "TNB inspection & smart meter", body: "TNB inspects and upgrades your meter so exported solar is properly recorded." },
-  { step: 5, title: "Start saving, with support", body: "Monitor your savings on the app, backed by ongoing MAQO after-sales support." },
-];
-
-export const ACHIEVEMENTS = [
-  { value: "1000+", label: "Residential Solar Projects Done" },
-  { value: "500+", label: "Commercial & Industrial Clients Served" },
-  { value: "13+", label: "Years of Industry Experience" },
-];
-
 export const TESTIMONIALS = [
   { quote: "Our TNB bill dropped from RM680 to under RM90 a month. The MAQO team handled the whole TNB application for us.", name: "Mr. Tan", location: "Subang Jaya" },
   { quote: "Installation took two days, very tidy work. The monitoring app makes it easy to see how much we are saving.", name: "Puan Aina", location: "Shah Alam" },
@@ -351,17 +303,6 @@ export const TESTIMONIALS = [
   { quote: "I recently had a solar system installed by MAQO Solar Malaysia. The team was punctual, professional, and thorough — they explained everything clearly. Despite some issues with the inverters, the team quickly resolved them, even on a Sunday. Highly recommend MAQO Solar for anyone considering solar energy.", name: "LSY", location: "Homeowner" },
   { quote: "Installation time is fast (1.5 days) from start to electrical hook-up to main DB. Work quality is good, no stain or hand mark on the wall. Happy with the MAQO team for their explanation, single line drawing, and prompt execution.", name: "Azita Azwan", location: "Surau At-Taqwa, 6.06kWp system" },
   { quote: "Team is very knowledgeable, efficient, and shared info on Solar PV. A crane was provided to hoist up the panels and avoid roof tile damage. My monthly TNB bill has reduced by RM350 on average — a true turnkey process from SEDA approval to NEM meter with TNB.", name: "Alwana", location: "Shah Alam" },
-];
-
-export const FAQS = [
-  { q: "What is the MAQO ATAP programme?", a: "ATAP is MAQO's residential rooftop solar programme for Malaysian homeowners. We design, supply, install and commission a grid-connected solar system on your roof under TNB's ATAP (Accelerated Transition Action Programme) framework, so the electricity you generate offsets your TNB bill." },
-  { q: "How much can I save on my TNB bill with ATAP?", a: "Most ATAP homeowners cut their TNB bill by 50–90%, depending on system size, roof orientation, and household usage pattern. During a free home assessment, MAQO calculates a personalised savings estimate from your actual TNB bill." },
-  { q: "How much does an ATAP solar system cost?", a: "Pricing depends on system size (kWp) and your average monthly TNB bill. MAQO offers outright purchase and instalment/financing options starting from roughly RM199/month equivalent. You will receive an exact quote after a free home assessment." },
-  { q: "Do I need to change my TNB smart meter?", a: "Yes. Once your system passes inspection, TNB upgrades your meter to a bidirectional smart meter under the ATAP scheme so exported solar energy is properly recorded." },
-  { q: "Is MAQO licensed and certified to install solar in Malaysia?", a: "Yes. MAQO Engineering Sdn Bhd is an ST Class A electrical contractor and CIDB G7-certified EPCC (Engineering, Procurement, Construction and Commissioning) contractor, SEDA-registered and ISO 9001:2015 quality-managed, with in-house licensed wiremen and chargemen for every ATAP installation." },
-  { q: "How long does installation take?", a: "A typical residential ATAP installation takes 1–3 days on-site once your proposal is confirmed, followed by TNB inspection and meter upgrade, which usually completes within a few weeks depending on TNB processing time." },
-  { q: "What warranty do I get?", a: "ATAP systems come with workmanship warranties of 2 years depending on the package, plus manufacturer product and performance warranties on panels (typically 25–30 years) and inverters (typically 10–12 years)." },
-  { q: "Which areas in Malaysia does MAQO ATAP cover?", a: "MAQO currently installs ATAP systems across Peninsular Malaysia, with core coverage in Selangor, Kuala Lumpur, and surrounding states. Ask us during your free assessment to confirm coverage at your address." },
 ];
 
 const OFFICE_ADDRESS =
@@ -377,11 +318,3 @@ export const CONTACT = {
     OFFICE_ADDRESS
   )}`,
 };
-
-export const FOOTER_LINKS = [
-  { label: "About", href: "/about" },
-  { label: "Contact us", href: "/#assessment" },
-];
-
-export const TAGLINE =
-  "Energizing A Cleaner Future. One solar panel & one battery at a time.";
