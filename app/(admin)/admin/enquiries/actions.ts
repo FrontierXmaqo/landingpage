@@ -2,16 +2,29 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabaseUserClient } from "@/lib/supabase/server";
-import type { EnquiryStatus } from "./statuses";
+import { requireRole } from "../guard";
+import { oneOf, text, uuid, MAX_TEXT } from "@/lib/validate";
+import { STATUSES } from "./statuses";
 
-export async function updateEnquiryStatus(id: string, status: EnquiryStatus) {
+const ENQUIRY_ROLES = ["admin", "sales"] as const;
+
+export async function updateEnquiryStatus(id: string, status: string) {
+  await requireRole([...ENQUIRY_ROLES]);
   const supabase = await getSupabaseUserClient();
-  await supabase.from("atap_leads").update({ status, updated_at: new Date().toISOString() }).eq("id", id);
+  await supabase
+    .from("atap_leads")
+    .update({ status: oneOf(status, STATUSES, "status"), updated_at: new Date().toISOString() })
+    .eq("id", uuid(id));
   revalidatePath("/admin/enquiries");
 }
 
 export async function updateEnquiryNotes(id: string, notes: string) {
+  await requireRole([...ENQUIRY_ROLES]);
   const supabase = await getSupabaseUserClient();
-  await supabase.from("atap_leads").update({ notes, updated_at: new Date().toISOString() }).eq("id", id);
+  // Capped so a pasted document can't become an unbounded request/row.
+  await supabase
+    .from("atap_leads")
+    .update({ notes: text(notes, { max: MAX_TEXT }), updated_at: new Date().toISOString() })
+    .eq("id", uuid(id));
   revalidatePath("/admin/enquiries");
 }

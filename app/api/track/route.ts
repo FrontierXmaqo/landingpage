@@ -9,6 +9,10 @@ export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
   if (!checkRateLimit(ip).allowed) return NextResponse.json({ ok: false }, { status: 429 });
 
+  // Bound the request before parsing: an unbounded body is a cheap DoS.
+  const declaredLength = Number(request.headers.get("content-length") ?? 0);
+  if (declaredLength > 2000) return NextResponse.json({ ok: false }, { status: 413 });
+
   const body = await request.json().catch(() => null);
   const eventType = body?.event_type;
   const sessionId = String(body?.session_id || "").slice(0, 100);

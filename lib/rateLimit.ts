@@ -17,20 +17,30 @@ function pruneExpired(now: number) {
   }
 }
 
-export function checkRateLimit(key: string): { allowed: boolean; retryAfterSeconds?: number } {
+export function checkRateLimit(
+  key: string,
+  { windowMs = WINDOW_MS, maxRequests = MAX_REQUESTS_PER_WINDOW } = {}
+): { allowed: boolean; retryAfterSeconds?: number } {
   const now = Date.now();
   pruneExpired(now);
 
   const bucket = buckets.get(key);
   if (!bucket || bucket.resetAt <= now) {
-    buckets.set(key, { count: 1, resetAt: now + WINDOW_MS });
+    buckets.set(key, { count: 1, resetAt: now + windowMs });
     return { allowed: true };
   }
 
-  if (bucket.count >= MAX_REQUESTS_PER_WINDOW) {
+  if (bucket.count >= maxRequests) {
     return { allowed: false, retryAfterSeconds: Math.ceil((bucket.resetAt - now) / 1000) };
   }
 
   bucket.count += 1;
   return { allowed: true };
 }
+
+/**
+ * Brute-force guard for the admin sign-in form: far tighter than the public
+ * form's limit, and keyed per account as well as per IP so a distributed
+ * attempt against one mailbox is still throttled.
+ */
+export const LOGIN_LIMIT = { windowMs: 15 * 60_000, maxRequests: 5 } as const;

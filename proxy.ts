@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase/server";
 
 // Nonce + 'strict-dynamic' lets the GTM bootstrap script (loaded with this
 // nonce) inject its own configured tags (Ads, Clarity, LinkedIn, Meta Pixel,
@@ -44,7 +45,9 @@ async function guardAdmin(request: NextRequest, requestHeaders: Headers) {
         setAll: (cookiesToSet) => {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           response = NextResponse.next({ request: { headers: requestHeaders } });
-          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, { ...options, ...SESSION_COOKIE_OPTIONS })
+          );
         },
       },
     }

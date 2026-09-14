@@ -4,6 +4,24 @@ import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = "https://yhpsidiipdassknsggcz.supabase.co";
 
+/**
+ * Hardening for the admin session cookie.
+ *
+ * httpOnly is only possible because sign-in/sign-out run as Server Actions —
+ * no browser-side Supabase client reads these, so JavaScript (and therefore
+ * any XSS) cannot exfiltrate the session.
+ *
+ * sameSite "lax" rather than "strict": lax already blocks the cross-site POST
+ * that CSRF needs, while strict would also drop the cookie on the first
+ * navigation in from an emailed Supabase invite or password-reset link.
+ */
+export const SESSION_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+} as const;
+
 /** RLS-respecting client for the signed-in user (server components/actions). */
 export async function getSupabaseUserClient() {
   const cookieStore = await cookies();
@@ -12,7 +30,9 @@ export async function getSupabaseUserClient() {
       getAll: () => cookieStore.getAll(),
       setAll: (cookiesToSet) => {
         try {
-          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, { ...options, ...SESSION_COOKIE_OPTIONS })
+          );
         } catch {
           // called from a Server Component with no writable cookies — middleware refreshes the session instead.
         }
