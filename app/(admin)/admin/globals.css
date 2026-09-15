@@ -34,9 +34,47 @@
   --color-chart-5: #1684b5;
 
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(26, 26, 26, 0.04), 0 8px 24px -12px rgba(26, 26, 26, 0.10);
+  --shadow-card-hover: 0 4px 10px rgba(26, 26, 26, 0.06), 0 16px 32px -14px rgba(26, 26, 26, 0.16);
 }
 
 body { background: var(--color-base-bg); color: var(--color-base-ink); }
+
+::selection { background: var(--color-brand-green-tint); color: var(--color-brand-green-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-green);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Thin, brand-tinted scrollbar for the sidebar and any overflow-x table wrapper. */
+* { scrollbar-width: thin; scrollbar-color: var(--color-base-line) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-base-line); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-base-slate); }
+
+/* Every data table in the CMS gets a hover row and calmer borders for free —
+   this is a plain element selector, not a utility class, so it applies to
+   leads-form, enquiries, and any table added later without touching their JSX. */
+table tbody tr { transition: background-color 0.12s ease; }
+table tbody tr:hover { background: var(--color-base-bg); }
+
+/* Reusable "raised surface" look for cards/panels across the CMS. */
+.admin-card {
+  background: var(--color-base-panel);
+  border: 1px solid var(--color-base-line);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.admin-card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-brand-green);
+  transform: translateY(-2px);
+}
 
 @keyframes fade-in-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fade-in-up { animation: fade-in-up 0.2s cubic-bezier(0.16, 1, 0.3, 1) both; }

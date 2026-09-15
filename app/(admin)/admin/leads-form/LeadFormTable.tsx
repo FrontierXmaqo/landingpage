@@ -276,7 +276,7 @@ export default function LeadFormTable({ fields, options }: { fields: Field[]; op
   const editingField = modal && modal !== "create" ? fields.find((f) => f.id === modal.fieldId) ?? null : null;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-base-line bg-base-panel shadow-sm">
+    <div className="admin-card overflow-hidden">
       <div className="flex items-center justify-between border-b border-base-line px-6 py-4">
         <div>
           <h2 className="text-sm font-semibold text-base-ink">All fields</h2>

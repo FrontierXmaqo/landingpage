@@ -13,7 +13,7 @@ export default async function AdminHome() {
   }
 
   return (
-    <div>
+    <div className="animate-fade-in-up">
       <h1 className="text-2xl font-bold text-base-ink">Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}</h1>
       <p className="mt-1.5 text-sm text-base-slate">Jump straight to a section below.</p>
 
@@ -22,7 +22,7 @@ export default async function AdminHome() {
           <a
             key={item.href}
             href={item.href}
-            className="group rounded-xl border border-base-line bg-base-panel p-5 transition-colors duration-150 hover:border-brand-green"
+            className="admin-card admin-card-hover group block p-5"
           >
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-base-ink group-hover:text-brand-green-ink">{item.label}</h2>

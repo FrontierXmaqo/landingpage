@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { getCurrentProfile } from "@/lib/supabase/server";
 import SignOutButton from "./SignOutButton";
+import NavLinks from "./NavLinks";
 import { NAV } from "./nav";
 import "./globals.css";
 
@@ -29,20 +30,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className="flex min-h-screen">
           <aside className="flex w-64 shrink-0 flex-col border-r border-base-line bg-base-panel">
             <div className="border-b border-base-line px-5 py-5">
-              <p className="text-sm font-bold text-base-ink">MAQO CMS</p>
-              <p className="mt-0.5 text-xs text-base-slate">{profile.full_name || "Internal"} · {profile.role}</p>
+              <p className="flex items-center gap-2 text-sm font-bold text-base-ink">
+                <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-green text-[11px] font-bold text-white">M</span>
+                MAQO CMS
+              </p>
+              <p className="mt-1.5 text-xs text-base-slate">{profile.full_name || "Internal"} · {profile.role}</p>
             </div>
-            <nav className="flex-1 space-y-0.5 px-3 py-4">
-              {items.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-base-ink transition-colors duration-150 hover:bg-brand-green-tint hover:text-brand-green-ink"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+            <NavLinks items={items} />
             <div className="border-t border-base-line p-3">
               <SignOutButton />
             </div>
