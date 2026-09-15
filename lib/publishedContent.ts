@@ -137,3 +137,60 @@ export async function getPublishedLeadFormFields(): Promise<PublishedCustomField
     return [];
   }
 }
+
+export type PublishedCiProject = {
+  tag: string;
+  capacity: string;
+  client: string;
+  panels?: string;
+  image?: string;
+  imageAlt: string;
+  summary?: string;
+};
+
+export type PublishedCiContent = {
+  projects: PublishedCiProject[];
+  clients: string[];
+  trustStats: { value: string; label: string }[];
+};
+
+/**
+ * Fetches the published Commercial & Industrial page content — project cards,
+ * client roster and trust stats.
+ *
+ * Each list falls back independently to the hardcoded content in the page's
+ * own content.ts: an empty table, a half-finished publish or an unreachable
+ * Supabase leaves that section showing what it shows today rather than
+ * collapsing to nothing. Same safety net as the calculator and lead form.
+ */
+export async function getPublishedCiContent(fallback: PublishedCiContent): Promise<PublishedCiContent> {
+  try {
+    const supabase = getAnonClient();
+    const [projectsRes, clientsRes, statsRes] = await Promise.all([
+      supabase.from("ci_projects").select("*").eq("status", "published").order("sort_order"),
+      supabase.from("ci_clients").select("name").eq("status", "published").order("sort_order"),
+      supabase.from("ci_trust_stats").select("value, label").eq("status", "published").order("sort_order"),
+    ]);
+
+    const projects: PublishedCiProject[] = (projectsRes.data ?? []).map((row) => ({
+      tag: String(row.tag),
+      capacity: String(row.capacity),
+      client: String(row.client),
+      panels: row.panels ? String(row.panels) : undefined,
+      image: row.image_url ? String(row.image_url) : undefined,
+      imageAlt: String(row.image_alt ?? ""),
+      summary: row.summary ? String(row.summary) : undefined,
+    }));
+
+    const clients = (clientsRes.data ?? []).map((r) => String(r.name));
+    const trustStats = (statsRes.data ?? []).map((r) => ({ value: String(r.value), label: String(r.label) }));
+
+    return {
+      projects: projects.length ? projects : fallback.projects,
+      clients: clients.length ? clients : fallback.clients,
+      trustStats: trustStats.length ? trustStats : fallback.trustStats,
+    };
+  } catch {
+    return fallback;
+  }
+}

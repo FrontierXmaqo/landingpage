@@ -74,9 +74,21 @@ function IconUsers(props: IconProps) {
   );
 }
 
+function IconBuildings(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 21V5.5h8V21" />
+      <path d="M12 10h8v11" />
+      <path d="M2.5 21h19" />
+      <path d="M7 9h2M7 13h2M15 14h2M15 17.5h2" />
+    </Icon>
+  );
+}
+
 export const NAV_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   "/admin": IconGrid,
   "/admin/calculator-ev": IconZap,
+  "/admin/commercial-industrial": IconBuildings,
   "/admin/leads-form": IconClipboard,
   "/admin/enquiries": IconInbox,
   "/admin/analytics": IconBarChart,

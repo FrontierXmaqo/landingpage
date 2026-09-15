@@ -1,5 +1,3 @@
-import type { ProjectTag } from "./icons";
-
 /**
  * Copy and data for the Commercial & Industrial landing page.
  *
@@ -52,7 +50,8 @@ export const TRUST_STATS = [
 ];
 
 export type Project = {
-  tag: ProjectTag;
+  /** Free text — see projectIcon() in icons.ts for how an unknown one renders. */
+  tag: string;
   /** As published on the original page — "1,071 kWp", "10.25 MWp". Kept as a
    *  string because the unit changes between kWp and MWp. */
   capacity: string;
@@ -75,9 +74,12 @@ export type Project = {
 };
 
 /**
- * The six reference projects, as published on get.maqosolar.com/commercial-industry.
- * Capacities, client names and panel counts are MAQO's own published figures —
- * do not edit them without checking that page or the project record.
+ * Fallback copy of the six reference projects.
+ *
+ * These are edited in the CMS now (Admin -> Commercial & Industrial Page), and
+ * this list is only what the page renders if Supabase is unreachable or the
+ * table is empty. Kept in sync with the seeded rows so a fallback render looks
+ * like the real page rather than an empty section.
  */
 export const PROJECTS: Project[] = [
   {

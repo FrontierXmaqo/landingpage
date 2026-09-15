@@ -179,6 +179,17 @@ export function IconPlay({ className }: { className?: string }) {
   );
 }
 
+export function IconBuilding({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="M6 28V6h13v22" />
+      <path d="M19 13h7v15" />
+      <path d="M3 28h26" />
+      <path d="M10 11h5M10 16h5M10 21h5M22 18h1M22 23h1" />
+    </Frame>
+  );
+}
+
 /** Maps a project's industry tag to its glyph. */
 export const PROJECT_ICONS = {
   Factory: IconFactory,
@@ -190,6 +201,34 @@ export const PROJECT_ICONS = {
 } as const;
 
 export type ProjectTag = keyof typeof PROJECT_ICONS;
+
+/**
+ * Icon for a project's category.
+ *
+ * Categories are free text in the CMS so marketing can add one we never
+ * anticipated ("Hospital", "Data Centre"); anything unrecognised gets the
+ * generic building rather than no icon at all. Written as a component rather
+ * than a function returning one, so the icon is chosen during render instead
+ * of a new component type being produced on every pass.
+ */
+export function ProjectIcon({ tag, className }: { tag: string; className?: string }) {
+  switch (tag) {
+    case "Factory":
+      return <IconFactory className={className} />;
+    case "Car Showroom":
+      return <IconCar className={className} />;
+    case "School":
+      return <IconSchool className={className} />;
+    case "Shoplot":
+      return <IconStorefront className={className} />;
+    case "Mosque":
+      return <IconMosque className={className} />;
+    case "Solar Farm":
+      return <IconSolarFarm className={className} />;
+    default:
+      return <IconBuilding className={className} />;
+  }
+}
 
 export const PILLAR_ICONS = {
   tax: IconTax,

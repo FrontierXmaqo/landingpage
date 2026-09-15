@@ -19,6 +19,7 @@ import {
   TRUST_STATS,
 } from "./content";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getPublishedCiContent } from "@/lib/publishedContent";
 
 const PATH = "/commercial-and-industrial";
 
@@ -46,6 +47,14 @@ export default async function CommercialAndIndustrialPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+
+  // Projects, client roster and trust stats are CMS-managed; the constants in
+  // content.ts are the fallback if Supabase is unreachable or a table is empty.
+  const ci = await getPublishedCiContent({
+    projects: PROJECTS,
+    clients: CLIENTS,
+    trustStats: TRUST_STATS,
+  });
 
   return (
     <>
@@ -110,7 +119,7 @@ export default async function CommercialAndIndustrialPage({
             </h2>
 
             <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {CLIENTS.map((name) => (
+              {ci.clients.map((name) => (
                 <li
                   key={name}
                   className="flex h-20 items-center justify-center rounded-xl border border-base-line bg-base-bg px-4 text-center text-base font-semibold text-base-slate"
@@ -121,7 +130,7 @@ export default async function CommercialAndIndustrialPage({
             </ul>
 
             <dl className="mt-10 grid grid-cols-1 gap-8 border-t border-base-line pt-10 text-center sm:grid-cols-3">
-              {TRUST_STATS.map((stat) => (
+              {ci.trustStats.map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
@@ -135,7 +144,7 @@ export default async function CommercialAndIndustrialPage({
         </section>
 
         {/* ---------- 3. Latest projects ---------- */}
-        <ProjectsCarousel projects={PROJECTS} surface={PROJECTS_SURFACE} videoUrl={PROJECT_VIDEO_URL} />
+        <ProjectsCarousel projects={ci.projects} surface={PROJECTS_SURFACE} videoUrl={PROJECT_VIDEO_URL} />
 
         {/* ---------- 4. Why MAQO for C&I ---------- */}
         <section className="bg-base-panel py-16 sm:py-20" aria-labelledby="why-heading">

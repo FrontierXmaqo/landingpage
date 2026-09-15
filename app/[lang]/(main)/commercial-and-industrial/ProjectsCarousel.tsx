@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Project } from "./content";
-import { IconChevron, IconClose, IconPause, IconPlay, PROJECT_ICONS } from "./icons";
+import { IconChevron, IconClose, IconPause, IconPlay, ProjectIcon } from "./icons";
 
 /**
  * Coverflow carousel for the project showcase.
@@ -79,8 +79,6 @@ function ProjectCard({
   large?: boolean;
   showAction?: boolean;
 }) {
-  const Icon = PROJECT_ICONS[project.tag];
-
   return (
     <>
       <div className={`relative w-full shrink-0 ${large ? "aspect-[16/9]" : "aspect-[16/10]"}`}>
@@ -94,7 +92,7 @@ function ProjectCard({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-brand-green-tint text-brand-green-deep/60">
-            <Icon className="h-10 w-10" />
+            <ProjectIcon tag={project.tag} className="h-10 w-10" />
           </div>
         )}
         <span className="absolute left-4 top-4 rounded-full bg-brand-orange-deep px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm">
