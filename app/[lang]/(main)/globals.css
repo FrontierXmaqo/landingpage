@@ -129,3 +129,23 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .reveal-on-scroll { animation: none; opacity: 1; transform: none; }
   .animate-bar-rise { animation: none; transform: none; }
 }
+
+/* ATAP page hero: a soft brand-colour glow plus a faint dot-grid ("the grid")
+   behind the mock bill card — texture without needing a photo. */
+.atap-hero-glow {
+  background:
+    radial-gradient(680px 420px at 82% -10%, color-mix(in srgb, var(--color-brand-green) 16%, transparent), transparent 65%),
+    radial-gradient(520px 420px at 100% 40%, color-mix(in srgb, var(--color-brand-orange) 14%, transparent), transparent 70%);
+}
+.atap-hero-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--color-base-ink) 16%, transparent) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(560px 460px at 82% 15%, black, transparent 72%);
+          mask-image: radial-gradient(560px 460px at 82% 15%, black, transparent 72%);
+}
+
+@keyframes atap-flow { to { stroke-dashoffset: -24; } }
+.atap-flow-dash { stroke-dasharray: 6 6; animation: atap-flow 1.6s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .atap-flow-dash { animation: none; }
+}

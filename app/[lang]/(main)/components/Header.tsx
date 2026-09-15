@@ -4,12 +4,24 @@ import { OLD_SITE_IMAGES } from "@/lib/content";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-export default function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
-  const home = (hash: string) => localePath(locale, `/${hash}`);
+export default function Header({
+  locale,
+  t,
+  ctaHref = "#assessment",
+}: {
+  locale: Locale;
+  t: Dictionary;
+  /** Where the header's CTA button points. Defaults to a same-page anchor,
+   * correct for every page that has its own #assessment form (Residential,
+   * EV, C&I). Pages without one (About, ATAP) pass an explicit cross-page
+   * link instead — e.g. `localePath(locale, "/#assessment")`. */
+  ctaHref?: string;
+}) {
   const nav = [
     { href: localePath(locale, "/"), label: t.header.nav.residential },
-    { href: localePath(locale, "/commercial"), label: t.header.nav.commercial },
+    { href: localePath(locale, "/commercial-and-industrial"), label: t.header.nav.commercial },
     { href: localePath(locale, "/ev"), label: t.header.nav.ev },
+    { href: localePath(locale, "/atap"), label: t.header.nav.atap },
     { href: localePath(locale, "/about"), label: t.header.nav.about },
   ];
 
@@ -46,7 +58,7 @@ export default function Header({ locale, t }: { locale: Locale; t: Dictionary })
             }}
           />
           <Link
-            href={home("#assessment")}
+            href={ctaHref}
             className="inline-flex items-center whitespace-nowrap rounded-full bg-brand-orange-deep px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:brightness-95 sm:px-4 sm:text-sm"
           >
             {t.header.cta}

@@ -19,9 +19,9 @@ const en = {
     evTitle: "MAQO | Charge Your EV On Sunlight — Energizing A Cleaner Future",
     evDescription:
       "Home EV charging is pushing your TNB bill up. Rooftop solar under NEM turns your driveway into your own fuel station — up to 90% off your bill. Free home assessment, ST Class A & CIDB G7 certified.",
-    commercialPageTitle: "Commercial & Industrial Solar | MAQO Solar Malaysia",
-    commercialPageDescription:
-      "MAQO's dedicated Commercial & Industrial solar page is coming soon. Talk to our team today about EPC, PPA, and Zero Capex solar for your factory, warehouse, or office.",
+    atapTitle: "Solar ATAP Explained | MAQO Solar Malaysia",
+    atapDescription:
+      "What is Solar ATAP and how is it different from NEM? A plain-language guide to Malaysia's current rooftop solar programme — eligibility, how the bill credit works, and how to apply.",
   },
 
   languageSwitcher: {
@@ -36,6 +36,7 @@ const en = {
       residential: "Residential",
       commercial: "C&I",
       ev: "EV",
+      atap: "ATAP",
     },
   },
 
@@ -195,13 +196,6 @@ const en = {
     title: "We also do solar for factories, warehouses and offices.",
     body: "Other big clients who are committed to a sustainable future",
     logoAlt: "MAQO commercial & industrial client logo {n}",
-  },
-
-  commercialPage: {
-    eyebrow: "Commercial & Industrial",
-    title: "Our C&I solar page is coming soon.",
-    body: "We're building a dedicated page for factories, warehouses, and offices. In the meantime, talk to our team about EPC, PPA, and Zero Capex options for your business.",
-    cta: "Talk to Our Team",
   },
 
   testimonials: {
@@ -443,6 +437,7 @@ const en = {
       residential: "Residential",
       commercial: "C&I",
       ev: "EV",
+      atap: "ATAP",
     },
     hero: {
       badge: "MAQO ATAP · Built for EV-owning homes",
@@ -592,6 +587,138 @@ const en = {
       contact: "Contact",
       rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). All rights reserved.",
     },
+  },
+
+  atap: {
+    eyebrow: "Malaysia's Rooftop Solar Programme",
+    heroTitleLead: "Solar ATAP: the new way Malaysians get",
+    heroTitleAccent: "paid back",
+    heroTitleTail: "for rooftop solar",
+    heroBody:
+      "Since 1 January 2026, ATAP — the Solar Accelerated Transition Action Programme — has replaced NEM as the programme that lets homes and businesses export extra solar power to the grid for a bill credit. Here's exactly how it works, in plain words.",
+    heroCtaPrimary: "See ATAP vs. old NEM",
+    heroCtaSecondary: "How the credit works",
+    heroSources: "Sources: Tenaga Nasional Berhad (TNB) & Sustainable Energy Development Authority (SEDA Malaysia)",
+
+    billTnb: "TNB E-BILL",
+    billIllustrative: "Illustrative example",
+    billUsage: "Energy usage",
+    billUsageAmt: "RM 412.30",
+    billService: "Service charges",
+    billServiceAmt: "RM 18.50",
+    billCredit: "ATAP export credit",
+    billCreditAmt: "− RM 268.00",
+    billTotal: "Amount due",
+    billTotalAmt: "RM 162.80",
+    billSavedChip: "You saved 62% this month",
+    floatContractVal: "10 yrs",
+    floatContract: "Contract length",
+    floatHomeownersVal: "1,000+",
+    floatHomeowners: "Homeowners on MAQO solar",
+
+    stats: [
+      { value: "5 kW", label: "Max size for a single-phase home — no technical study needed" },
+      { value: "15 kW", label: "Max size for a three-phase home, with a quick connection check" },
+      { value: "1,000 kW", label: "Max size for a business — up to 100% of your maximum demand" },
+      { value: "10 years", label: "How long every ATAP export-credit contract runs" },
+    ],
+
+    startTag: "Start here",
+    startTitle: "What is ATAP, really?",
+    startBody1:
+      "ATAP stands for Solar Accelerated Transition Action Programme. Strip away the acronym and it's simple: you put solar panels on your roof, you use that power in your own home or business first, and whatever you don't use gets sent to the TNB grid. In return, TNB gives you a credit on your bill for the power you exported.",
+    startBody2:
+      "It's Malaysia's current rooftop solar programme, run jointly by SEDA Malaysia and TNB — replacing the older NEM (Net Energy Metering) scheme, which stopped taking new applications on 30 June 2025.",
+    calloutTitle: "The one thing that's different from NEM",
+    calloutBody:
+      "Every ATAP account has a monthly export cap called the MAQ (Maximum Allowable Quantity). Credit above that cap — or credit you simply don't use — is forfeited at the end of each billing month, rather than rolling over like it used to under NEM. Sizing your system to match your own usage matters more under ATAP than it used to.",
+
+    mechTag: "The mechanism",
+    mechTitle: "How your bill credit is earned",
+    mechBody: "Four things happen, in this order, every single day your system is switched on.",
+    mechSteps: [
+      { title: "Generate", body: "Your rooftop panels turn sunlight into electricity throughout daylight hours." },
+      { title: "Use it first", body: "Your home or business draws on that solar power immediately — it's always used before anything from the grid." },
+      { title: "Export the extra", body: "Whatever you don't use in the moment flows automatically into the TNB grid — no action needed from you." },
+      { title: "Earn ATAP credit", body: "You're credited for the power you exported, up to your monthly MAQ limit, and it comes off your next TNB bill." },
+    ],
+    diagramAlt: "Diagram: sunlight hits solar panels, power is used at home first, and extra power exports to the TNB grid for an ATAP credit",
+    diagramSolarPanels: "SOLAR PANELS",
+    diagramYourHome: "YOUR HOME",
+    diagramTnbGrid: "TNB GRID",
+    diagramCaption1Label: "Step 1–2",
+    diagramCaption1Value: "Use your own power",
+    diagramCaption2Label: "Step 3–4",
+    diagramCaption2Value: "Export earns credit",
+
+    compareTag: "Old vs. new",
+    compareTitleLead: "ATAP compared to the old",
+    compareTitleAccent: "NEM",
+    compareTitleTail: "programme",
+    compareBody: "If you looked into solar before and remember \"NEM,\" here's exactly what changed.",
+    compareColNem: "NEM",
+    compareColNemPill: "Closed",
+    compareColAtap: "ATAP",
+    compareColAtapPill: "Current",
+    compareRows: [
+      { label: "Applications", nem: "Stopped taking new applicants 30 June 2025", atap: "Open now, since 1 January 2026" },
+      { label: "Unused export credit", nem: "Rolled over to future bills", atap: "Capped monthly by your MAQ — unused credit is forfeited" },
+      { label: "Contract length", nem: "No fixed end date", atap: "Fixed 10-year term" },
+      { label: "After the contract ends", nem: "N/A", atap: "Self-consumption only — no further export credit" },
+    ],
+
+    eligTag: "Eligibility",
+    eligTitle: "Who can apply, and how big can your system be?",
+    eligBody: "Your category is decided by your TNB account type — the limits below come straight from SEDA and TNB.",
+    eligBannerAlt: "Aerial view of MAQO rooftop solar installations across Malaysian terrace houses",
+    eligBannerCaption: "Real MAQO installations across Peninsular Malaysia",
+    eligHomesTag: "Homes",
+    eligHomesTitle: "Domestic accounts",
+    eligHomesItems: [
+      { kw: "≤ 5 kW", body: "Single-phase supply — no technical study required at all." },
+      { kw: "≤ 15 kW", body: "Three-phase supply — needs a quick Connection Confirmation Check." },
+    ],
+    eligHomesFoot: "You must be a registered TNB account holder who hasn't previously joined SelCo or NEM. Multi-tenant accounts aren't eligible.",
+    eligBizTag: "Businesses",
+    eligBizTitle: "Non-domestic accounts",
+    eligBizItems: [
+      { kw: "Up to 100%", body: "of your registered Maximum Demand, capped at 1,000 kW (1 MW)." },
+      { kw: "> 425 kW", body: "High-voltage systems need a full Power System Study, including fault-current analysis." },
+    ],
+    eligBizFoot: "Smaller commercial systems typically need a lighter Connection Assessment Study instead of a full study.",
+
+    startedTag: "Getting started",
+    startedTitle: "Applying for ATAP, step by step",
+    startedBody: "You never deal with SEDA or TNB's paperwork directly — your installer does it for you.",
+    startedSteps: [
+      { title: "Appoint an RPVSP", body: "Engage a Registered Photovoltaic Service Provider — like Maqo — to assess your roof and design your system." },
+      { title: "Install & commission", body: "Your RPVSP installs the system and commissions it so it's ready to generate and export power." },
+      { title: "Apply through eATAP", body: "Your RPVSP submits your application on the eATAP online portal (atap.seda.gov.my) on your behalf." },
+      { title: "Technical review", body: "TNB confirms your connection — the depth of the check depends on your system size, as shown above." },
+    ],
+
+    finTag: "Paying for it",
+    finTitle: "Two ways to fund your system",
+    finLeaseKicker: "Zero upfront cost",
+    finLeaseTitle: "Solar lease (PPA)",
+    finLeaseBody: "Lease your system from a Registered Solar PV Investor and pay for the power you use, at a lower rate than TNB — no capital outlay, savings from day one.",
+    finBuyKicker: "Own it outright",
+    finBuyTitle: "Direct purchase",
+    finBuyBody: "Buy your system with cash, a bank loan, or a credit card, and keep 100% of your ATAP credits and long-term savings.",
+
+    faqTag: "Common questions",
+    faqTitle: "Frequently asked questions",
+    faq: [
+      { q: "What happened to NEM?", a: "NEM (Net Energy Metering) stopped accepting new applications on 30 June 2025. ATAP is Malaysia's current rooftop solar programme, and the only one open to new applicants today." },
+      { q: "I already have a NEM contract — does this affect me?", a: "No. Existing NEM contracts continue running under their original terms. ATAP only applies to new applications from 1 January 2026 onward." },
+      { q: "What exactly is the MAQ?", a: "MAQ stands for Maximum Allowable Quantity — the maximum amount of exported solar power that can earn you a bill credit in a single billing month. Anything above that, or any credit you don't use, is forfeited at month-end rather than carried forward." },
+      { q: "What happens when my 10-year ATAP contract ends?", a: "Your system can keep running, but only to power your own home or business. Export credits stop — there's no roll-over or renewal of the export arrangement built in." },
+      { q: "Do I need a technical study before I can apply?", a: "Only if your system is larger than a small single-phase home. A ≤5kW single-phase home needs no study at all; three-phase homes need a quick check; larger and business systems need a deeper assessment, up to a full Power System Study above 425kW." },
+    ],
+
+    ctaTitle: "Ready to make ATAP work for your roof?",
+    ctaBody: "Maqo is a Registered PV Service Provider. We design your system, install it, and submit your entire eATAP application for you.",
+    ctaButton: "Talk to our solar team",
   },
 };
 

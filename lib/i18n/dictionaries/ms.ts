@@ -14,9 +14,9 @@ const ms: Dictionary = {
     evTitle: "MAQO | Cas EV Anda Dengan Cahaya Matahari",
     evDescription:
       "Mengecas EV di rumah menaikkan bil TNB anda. Solar bumbung di bawah NEM menjadikan laluan kereta anda stesen minyak sendiri, sehingga 90% lebih rendah bil anda. Penilaian rumah percuma, bertauliah ST Class A & CIDB G7.",
-    commercialPageTitle: "Solar Komersial & Industri | MAQO Solar Malaysia",
-    commercialPageDescription:
-      "Halaman solar Komersial & Industri MAQO akan datang tidak lama lagi. Hubungi pasukan kami hari ini untuk EPC, PPA, dan solar Zero Capex bagi kilang, gudang atau pejabat anda.",
+    atapTitle: "Solar ATAP Dijelaskan | MAQO Solar Malaysia",
+    atapDescription:
+      "Apakah itu Solar ATAP dan apa bezanya dengan NEM? Panduan mudah tentang program solar bumbung semasa Malaysia — kelayakan, cara kredit bil berfungsi, dan cara memohon.",
   },
 
   languageSwitcher: {
@@ -31,6 +31,7 @@ const ms: Dictionary = {
       residential: "Kediaman",
       commercial: "C&I",
       ev: "EV",
+      atap: "ATAP",
     },
   },
 
@@ -190,13 +191,6 @@ const ms: Dictionary = {
     title: "Kami juga memasang solar untuk kilang, gudang dan pejabat.",
     body: "Pelanggan besar lain yang komited kepada masa depan yang mampan",
     logoAlt: "Logo pelanggan komersial & industri MAQO {n}",
-  },
-
-  commercialPage: {
-    eyebrow: "Komersial & Industri",
-    title: "Halaman solar C&I kami akan datang tidak lama lagi.",
-    body: "Kami sedang membina halaman khusus untuk kilang, gudang dan pejabat. Buat masa ini, hubungi pasukan kami untuk EPC, PPA, dan pilihan Zero Capex bagi perniagaan anda.",
-    cta: "Hubungi Pasukan Kami",
   },
 
   testimonials: {
@@ -435,6 +429,7 @@ const ms: Dictionary = {
       residential: "Kediaman",
       commercial: "C&I",
       ev: "EV",
+      atap: "ATAP",
     },
     hero: {
       badge: "MAQO ATAP · Dibina untuk rumah pemilik EV",
@@ -584,6 +579,138 @@ const ms: Dictionary = {
       contact: "Hubungi",
       rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). Hak cipta terpelihara.",
     },
+  },
+
+  atap: {
+    eyebrow: "Program Solar Bumbung Malaysia",
+    heroTitleLead: "Solar ATAP: cara baharu rakyat Malaysia",
+    heroTitleAccent: "dapat bayaran balik",
+    heroTitleTail: "untuk solar bumbung",
+    heroBody:
+      "Sejak 1 Januari 2026, ATAP — Solar Accelerated Transition Action Programme — telah menggantikan NEM sebagai program yang membolehkan rumah dan perniagaan mengeksport lebihan tenaga solar ke grid untuk kredit bil. Berikut cara ia berfungsi, dalam bahasa yang mudah.",
+    heroCtaPrimary: "Lihat ATAP berbanding NEM lama",
+    heroCtaSecondary: "Cara kredit berfungsi",
+    heroSources: "Sumber: Tenaga Nasional Berhad (TNB) & Sustainable Energy Development Authority (SEDA Malaysia)",
+
+    billTnb: "E-BIL TNB",
+    billIllustrative: "Contoh ilustrasi",
+    billUsage: "Penggunaan tenaga",
+    billUsageAmt: "RM 412.30",
+    billService: "Caj perkhidmatan",
+    billServiceAmt: "RM 18.50",
+    billCredit: "Kredit eksport ATAP",
+    billCreditAmt: "− RM 268.00",
+    billTotal: "Jumlah perlu dibayar",
+    billTotalAmt: "RM 162.80",
+    billSavedChip: "Anda jimat 62% bulan ini",
+    floatContractVal: "10 tahun",
+    floatContract: "Tempoh kontrak",
+    floatHomeownersVal: "1,000+",
+    floatHomeowners: "Pemilik rumah menggunakan solar MAQO",
+
+    stats: [
+      { value: "5 kW", label: "Saiz maksimum untuk rumah satu fasa — tiada kajian teknikal diperlukan" },
+      { value: "15 kW", label: "Saiz maksimum untuk rumah tiga fasa, dengan semakan sambungan ringkas" },
+      { value: "1,000 kW", label: "Saiz maksimum untuk perniagaan — sehingga 100% permintaan maksimum anda" },
+      { value: "10 tahun", label: "Tempoh setiap kontrak kredit eksport ATAP" },
+    ],
+
+    startTag: "Mulakan di sini",
+    startTitle: "Apa itu ATAP, sebenarnya?",
+    startBody1:
+      "ATAP bermaksud Solar Accelerated Transition Action Programme. Tanpa singkatan itu, konsepnya mudah: anda pasang panel solar di bumbung, guna kuasa itu untuk rumah atau perniagaan anda dahulu, dan apa yang tidak digunakan dihantar ke grid TNB. Sebagai balasan, TNB memberi anda kredit pada bil untuk tenaga yang dieksport.",
+    startBody2:
+      "Ia adalah program solar bumbung semasa Malaysia, dikendalikan bersama oleh SEDA Malaysia dan TNB — menggantikan skim NEM (Net Energy Metering) yang lama, yang berhenti menerima permohonan baharu pada 30 Jun 2025.",
+    calloutTitle: "Satu perkara yang berbeza daripada NEM",
+    calloutBody:
+      "Setiap akaun ATAP mempunyai had eksport bulanan dipanggil MAQ (Maximum Allowable Quantity). Kredit melebihi had itu — atau kredit yang tidak anda gunakan — akan hangus pada penghujung setiap bulan bil, bukannya dibawa ke bulan seterusnya seperti NEM dahulu. Menetapkan saiz sistem anda mengikut penggunaan sebenar menjadi lebih penting di bawah ATAP.",
+
+    mechTag: "Mekanisme",
+    mechTitle: "Bagaimana kredit bil anda diperoleh",
+    mechBody: "Empat perkara berlaku, mengikut susunan ini, setiap hari sistem anda beroperasi.",
+    mechSteps: [
+      { title: "Jana", body: "Panel bumbung anda menukar cahaya matahari kepada elektrik sepanjang waktu siang." },
+      { title: "Guna dahulu", body: "Rumah atau perniagaan anda menggunakan tenaga solar itu serta-merta — sentiasa digunakan sebelum apa-apa daripada grid." },
+      { title: "Eksport lebihan", body: "Apa yang tidak digunakan pada masa itu mengalir secara automatik ke grid TNB — tiada tindakan diperlukan daripada anda." },
+      { title: "Peroleh kredit ATAP", body: "Anda dikreditkan untuk tenaga yang dieksport, sehingga had MAQ bulanan anda, dan ia ditolak daripada bil TNB seterusnya." },
+    ],
+    diagramAlt: "Rajah: cahaya matahari mengenai panel solar, tenaga digunakan di rumah dahulu, dan lebihan tenaga dieksport ke grid TNB untuk kredit ATAP",
+    diagramSolarPanels: "PANEL SOLAR",
+    diagramYourHome: "RUMAH ANDA",
+    diagramTnbGrid: "GRID TNB",
+    diagramCaption1Label: "Langkah 1–2",
+    diagramCaption1Value: "Guna kuasa sendiri dahulu",
+    diagramCaption2Label: "Langkah 3–4",
+    diagramCaption2Value: "Eksport memperoleh kredit",
+
+    compareTag: "Lama lwn. baharu",
+    compareTitleLead: "ATAP berbanding program",
+    compareTitleAccent: "NEM",
+    compareTitleTail: "yang lama",
+    compareBody: "Jika anda pernah menyiasat solar sebelum ini dan ingat \"NEM,\" berikut perubahan sebenarnya.",
+    compareColNem: "NEM",
+    compareColNemPill: "Ditutup",
+    compareColAtap: "ATAP",
+    compareColAtapPill: "Semasa",
+    compareRows: [
+      { label: "Permohonan", nem: "Berhenti menerima pemohon baharu 30 Jun 2025", atap: "Dibuka sekarang, sejak 1 Januari 2026" },
+      { label: "Kredit eksport tidak digunakan", nem: "Dibawa ke bil akan datang", atap: "Dihadkan setiap bulan mengikut MAQ anda — kredit tidak digunakan akan hangus" },
+      { label: "Tempoh kontrak", nem: "Tiada tarikh tamat tetap", atap: "Tempoh tetap 10 tahun" },
+      { label: "Selepas kontrak tamat", nem: "Tidak berkenaan", atap: "Hanya untuk kegunaan sendiri — tiada lagi kredit eksport" },
+    ],
+
+    eligTag: "Kelayakan",
+    eligTitle: "Siapa boleh memohon, dan sebesar mana sistem anda boleh dibina?",
+    eligBody: "Kategori anda ditentukan oleh jenis akaun TNB anda — had di bawah diambil terus daripada SEDA dan TNB.",
+    eligBannerAlt: "Pandangan udara pemasangan solar bumbung MAQO di rumah teres Malaysia",
+    eligBannerCaption: "Pemasangan sebenar MAQO di seluruh Semenanjung Malaysia",
+    eligHomesTag: "Rumah Kediaman",
+    eligHomesTitle: "Akaun kediaman",
+    eligHomesItems: [
+      { kw: "≤ 5 kW", body: "Bekalan satu fasa — tiada kajian teknikal diperlukan sama sekali." },
+      { kw: "≤ 15 kW", body: "Bekalan tiga fasa — memerlukan Semakan Pengesahan Sambungan yang ringkas." },
+    ],
+    eligHomesFoot: "Anda mesti pemegang akaun TNB berdaftar yang belum pernah menyertai SelCo atau NEM. Akaun berbilang penyewa tidak layak.",
+    eligBizTag: "Perniagaan",
+    eligBizTitle: "Akaun bukan kediaman",
+    eligBizItems: [
+      { kw: "Sehingga 100%", body: "daripada Permintaan Maksimum berdaftar anda, dihadkan pada 1,000 kW (1 MW)." },
+      { kw: "> 425 kW", body: "Sistem voltan tinggi memerlukan Kajian Sistem Kuasa penuh, termasuk analisis arus rosak." },
+    ],
+    eligBizFoot: "Sistem komersial yang lebih kecil biasanya hanya memerlukan Kajian Penilaian Sambungan yang lebih ringan berbanding kajian penuh.",
+
+    startedTag: "Bermula",
+    startedTitle: "Memohon ATAP, langkah demi langkah",
+    startedBody: "Anda tidak pernah berurusan terus dengan kerja kertas SEDA atau TNB — pemasang anda melakukannya untuk anda.",
+    startedSteps: [
+      { title: "Lantik RPVSP", body: "Lantik Pembekal Perkhidmatan Fotovoltaik Berdaftar (RPVSP) — seperti Maqo — untuk menilai bumbung anda dan mereka bentuk sistem anda." },
+      { title: "Pasang & tauliahkan", body: "RPVSP anda memasang sistem dan mentauliahkannya supaya sedia untuk menjana dan mengeksport tenaga." },
+      { title: "Mohon melalui eATAP", body: "RPVSP anda menghantar permohonan anda di portal dalam talian eATAP (atap.seda.gov.my) bagi pihak anda." },
+      { title: "Semakan teknikal", body: "TNB mengesahkan sambungan anda — kedalaman semakan bergantung pada saiz sistem anda, seperti ditunjukkan di atas." },
+    ],
+
+    finTag: "Membiayai sistem anda",
+    finTitle: "Dua cara membiayai sistem anda",
+    finLeaseKicker: "Tiada kos pendahuluan",
+    finLeaseTitle: "Pajakan solar (PPA)",
+    finLeaseBody: "Pajak sistem anda daripada Pelabur PV Solar Berdaftar (RPVI) dan bayar untuk tenaga yang anda guna, pada kadar lebih rendah daripada TNB — tiada modal diperlukan, jimat dari hari pertama.",
+    finBuyKicker: "Milik sepenuhnya",
+    finBuyTitle: "Pembelian terus",
+    finBuyBody: "Beli sistem anda secara tunai, pinjaman bank, atau kad kredit, dan simpan 100% kredit ATAP serta penjimatan jangka panjang anda.",
+
+    faqTag: "Soalan lazim",
+    faqTitle: "Soalan yang kerap ditanya",
+    faq: [
+      { q: "Apa yang berlaku kepada NEM?", a: "NEM (Net Energy Metering) berhenti menerima permohonan baharu pada 30 Jun 2025. ATAP ialah program solar bumbung semasa Malaysia, dan satu-satunya yang terbuka kepada pemohon baharu hari ini." },
+      { q: "Saya sudah ada kontrak NEM — adakah ini menjejaskan saya?", a: "Tidak. Kontrak NEM sedia ada terus berjalan mengikut terma asalnya. ATAP hanya terpakai untuk permohonan baharu mulai 1 Januari 2026." },
+      { q: "Apa sebenarnya MAQ?", a: "MAQ bermaksud Maximum Allowable Quantity — jumlah maksimum tenaga solar dieksport yang boleh memperoleh kredit bil dalam satu bulan bil. Apa-apa melebihi itu, atau kredit yang tidak anda guna, akan hangus pada akhir bulan dan tidak dibawa ke hadapan." },
+      { q: "Apa berlaku apabila kontrak ATAP 10 tahun saya tamat?", a: "Sistem anda boleh terus beroperasi, tetapi hanya untuk menjana kuasa untuk rumah atau perniagaan anda sendiri. Kredit eksport akan berhenti — tiada bawaan atau pembaharuan susunan eksport dibina dalamnya." },
+      { q: "Perlukah saya kajian teknikal sebelum boleh memohon?", a: "Hanya jika sistem anda lebih besar daripada rumah satu fasa yang kecil. Rumah satu fasa (≤5kW) tidak memerlukan kajian sama sekali; rumah tiga fasa memerlukan semakan ringkas; sistem lebih besar dan perniagaan memerlukan penilaian lebih mendalam, sehingga Kajian Sistem Kuasa penuh melebihi 425kW." },
+    ],
+
+    ctaTitle: "Bersedia untuk memanfaatkan ATAP untuk bumbung anda?",
+    ctaBody: "Maqo ialah Pembekal Perkhidmatan PV Berdaftar. Kami mereka bentuk sistem anda, memasangnya, dan menghantar keseluruhan permohonan eATAP anda bagi pihak anda.",
+    ctaButton: "Hubungi pasukan solar kami",
   },
 };
 

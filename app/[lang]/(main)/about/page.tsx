@@ -47,7 +47,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
 
   return (
     <>
-      <Header locale={lang} t={dict} />
+      <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
       <main className="flex-1 overflow-x-clip bg-base-panel">
         {/* Hero: full-bleed real installation photo, gradient overlay for legibility, floating stat card breaks the frame */}
         <section className="relative isolate h-[560px] w-full sm:h-[640px]">
