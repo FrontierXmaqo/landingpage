@@ -20,6 +20,12 @@
   --color-brand-orange-ink: #b9540b;
   --color-brand-orange-tint: #f8e7e0;
 
+  /* Deep navy. Unlike the brand steps above it carries no MAQO brand meaning —
+     it exists as a second dark ground for full-width bands, so a page can close
+     on something other than brand-green-deep. Fill only; white text on it clears
+     AA comfortably. */
+  --color-brand-navy: #142744;
+
   --color-accent-violet: #7418e5;
   --color-accent-violet-ink: #7510e8;
   --color-accent-violet-tint: #ebe9f8;

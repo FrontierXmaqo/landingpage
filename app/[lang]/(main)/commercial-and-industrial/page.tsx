@@ -215,7 +215,7 @@ export default async function CommercialAndIndustrialPage({
         </section>
 
         {/* ---------- 5. Closing CTA ---------- */}
-        <section className="bg-brand-green-deep py-16 sm:py-20">
+        <section className="bg-brand-navy py-16 sm:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <h2 className="text-2xl font-bold leading-tight text-white sm:text-4xl">{FINAL_CTA.title}</h2>
             <p className="mx-auto mt-4 max-w-xl text-sm text-white/85 sm:text-base">{FINAL_CTA.body}</p>
