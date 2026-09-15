@@ -23,7 +23,7 @@ import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/
 const PATH = "/commercial-and-industrial";
 
 /** Background the project carousel sits on. Marketing is comparing the three. */
-const PROJECTS_SURFACE: Surface = "light";
+const PROJECTS_SURFACE: Surface = "navy";
 
 export async function generateMetadata({
   params,
