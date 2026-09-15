@@ -19,6 +19,9 @@ const en = {
     evTitle: "MAQO | Charge Your EV On Sunlight — Energizing A Cleaner Future",
     evDescription:
       "Home EV charging is pushing your TNB bill up. Rooftop solar under NEM turns your driveway into your own fuel station — up to 90% off your bill. Free home assessment, ST Class A & CIDB G7 certified.",
+    commercialPageTitle: "Commercial & Industrial Solar | MAQO Solar Malaysia",
+    commercialPageDescription:
+      "MAQO's dedicated Commercial & Industrial solar page is coming soon. Talk to our team today about EPC, PPA, and Zero Capex solar for your factory, warehouse, or office.",
   },
 
   languageSwitcher: {
@@ -28,6 +31,12 @@ const en = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "Free Assessment",
+    nav: {
+      about: "About Us",
+      residential: "Residential",
+      commercial: "C&I",
+      ev: "EV",
+    },
   },
 
   hero: {
@@ -186,6 +195,13 @@ const en = {
     title: "We also do solar for factories, warehouses and offices.",
     body: "Other big clients who are committed to a sustainable future",
     logoAlt: "MAQO commercial & industrial client logo {n}",
+  },
+
+  commercialPage: {
+    eyebrow: "Commercial & Industrial",
+    title: "Our C&I solar page is coming soon.",
+    body: "We're building a dedicated page for factories, warehouses, and offices. In the meantime, talk to our team about EPC, PPA, and Zero Capex options for your business.",
+    cta: "Talk to Our Team",
   },
 
   testimonials: {
@@ -423,6 +439,10 @@ const en = {
       covered: "What's covered",
       faq: "FAQ",
       cta: "Free Assessment",
+      about: "About Us",
+      residential: "Residential",
+      commercial: "C&I",
+      ev: "EV",
     },
     hero: {
       badge: "MAQO ATAP · Built for EV-owning homes",

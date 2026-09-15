@@ -1,9 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 import { OLD_SITE_IMAGES } from "@/lib/content";
-import { type Dictionary, type Locale } from "@/lib/i18n";
+import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
+  const home = (hash: string) => localePath(locale, `/${hash}`);
+  const nav = [
+    { href: localePath(locale, "/"), label: t.header.nav.residential },
+    { href: localePath(locale, "/commercial"), label: t.header.nav.commercial },
+    { href: localePath(locale, "/ev"), label: t.header.nav.ev },
+    { href: localePath(locale, "/about"), label: t.header.nav.about },
+  ];
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-base-line bg-base-panel/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -17,6 +26,13 @@ export default function Header({ locale, t }: { locale: Locale; t: Dictionary })
             priority
           />
         </div>
+        <nav className="hidden items-center gap-6 text-sm font-medium text-base-slate md:flex">
+          {nav.map((item) => (
+            <Link key={item.href} href={item.href} className="transition hover:text-base-ink">
+              {item.label}
+            </Link>
+          ))}
+        </nav>
         <div className="flex items-center gap-2 sm:gap-4">
           <LanguageSwitcher
             locale={locale}
@@ -29,12 +45,12 @@ export default function Header({ locale, t }: { locale: Locale; t: Dictionary })
                 "h-9 rounded-full border border-base-line bg-base-panel px-2.5 text-xs font-semibold text-base-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-green sm:hidden",
             }}
           />
-          <a
-            href="#assessment"
+          <Link
+            href={home("#assessment")}
             className="inline-flex items-center whitespace-nowrap rounded-full bg-brand-orange-deep px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:brightness-95 sm:px-4 sm:text-sm"
           >
             {t.header.cta}
-          </a>
+          </Link>
         </div>
       </div>
     </header>

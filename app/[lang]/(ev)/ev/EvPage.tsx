@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
@@ -17,7 +18,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import { fill, type Dictionary, type Locale } from "@/lib/i18n";
+import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page");
@@ -373,11 +374,10 @@ export default function EvPage({
             <MaqoLogo alt={t.logoAlt} />
           </a>
           <nav className="nav-links">
-            <a href="#the-problem">{t.nav.problem}</a>
-            <a href="#calculator">{t.nav.savings}</a>
-            <a href="#how-it-works">{t.nav.howItWorks}</a>
-            <a href="#covered">{t.nav.covered}</a>
-            <a href="#faq">{t.nav.faq}</a>
+            <Link href={localePath(locale, "/")}>{t.nav.residential}</Link>
+            <Link href={localePath(locale, "/commercial")}>{t.nav.commercial}</Link>
+            <Link href={localePath(locale, "/ev")}>{t.nav.ev}</Link>
+            <Link href={localePath(locale, "/about")}>{t.nav.about}</Link>
           </nav>
           <div className="nav-actions">
             <LanguageSwitcher

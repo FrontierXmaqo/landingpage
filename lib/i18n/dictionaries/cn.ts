@@ -15,6 +15,9 @@ const cn: Dictionary = {
     evTitle: "MAQO | 用阳光为电动车充电",
     evDescription:
       "在家为电动车充电正在推高您的 TNB 电费。在 NEM 计划下安装屋顶太阳能，让自家车道变成您的专属加油站，电费最高可减 90%。免费上门评估，ST Class A 与 CIDB G7 认证。",
+    commercialPageTitle: "工商业太阳能 | MAQO Solar 马来西亚",
+    commercialPageDescription:
+      "MAQO 专属的工商业太阳能页面即将推出。欢迎立即联系我们的团队，了解为您的工厂、仓库或办公室提供的 EPC、PPA 及零资本支出方案。",
   },
 
   languageSwitcher: {
@@ -24,6 +27,12 @@ const cn: Dictionary = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "免费评估",
+    nav: {
+      about: "关于我们",
+      residential: "住宅",
+      commercial: "工商业",
+      ev: "电动车",
+    },
   },
 
   hero: {
@@ -180,6 +189,13 @@ const cn: Dictionary = {
     title: "我们也为工厂、仓库和办公室安装太阳能。",
     body: "其他致力于可持续未来的大型客户",
     logoAlt: "MAQO 工商业客户标志 {n}",
+  },
+
+  commercialPage: {
+    eyebrow: "工商业",
+    title: "我们的工商业太阳能页面即将推出。",
+    body: "我们正在为工厂、仓库和办公室打造专属页面。在此之前，欢迎联系我们的团队，了解 EPC、PPA 及零资本支出方案如何为您的业务提供支持。",
+    cta: "联系我们的团队",
   },
 
   testimonials: {
@@ -414,6 +430,10 @@ const cn: Dictionary = {
       covered: "配套内容",
       faq: "常见问题",
       cta: "免费评估",
+      about: "关于我们",
+      residential: "住宅",
+      commercial: "工商业",
+      ev: "电动车",
     },
     hero: {
       badge: "MAQO ATAP · 专为有电动车的家庭打造",

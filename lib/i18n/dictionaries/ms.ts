@@ -14,6 +14,9 @@ const ms: Dictionary = {
     evTitle: "MAQO | Cas EV Anda Dengan Cahaya Matahari",
     evDescription:
       "Mengecas EV di rumah menaikkan bil TNB anda. Solar bumbung di bawah NEM menjadikan laluan kereta anda stesen minyak sendiri, sehingga 90% lebih rendah bil anda. Penilaian rumah percuma, bertauliah ST Class A & CIDB G7.",
+    commercialPageTitle: "Solar Komersial & Industri | MAQO Solar Malaysia",
+    commercialPageDescription:
+      "Halaman solar Komersial & Industri MAQO akan datang tidak lama lagi. Hubungi pasukan kami hari ini untuk EPC, PPA, dan solar Zero Capex bagi kilang, gudang atau pejabat anda.",
   },
 
   languageSwitcher: {
@@ -23,6 +26,12 @@ const ms: Dictionary = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "Penilaian Percuma",
+    nav: {
+      about: "Tentang Kami",
+      residential: "Kediaman",
+      commercial: "C&I",
+      ev: "EV",
+    },
   },
 
   hero: {
@@ -181,6 +190,13 @@ const ms: Dictionary = {
     title: "Kami juga memasang solar untuk kilang, gudang dan pejabat.",
     body: "Pelanggan besar lain yang komited kepada masa depan yang mampan",
     logoAlt: "Logo pelanggan komersial & industri MAQO {n}",
+  },
+
+  commercialPage: {
+    eyebrow: "Komersial & Industri",
+    title: "Halaman solar C&I kami akan datang tidak lama lagi.",
+    body: "Kami sedang membina halaman khusus untuk kilang, gudang dan pejabat. Buat masa ini, hubungi pasukan kami untuk EPC, PPA, dan pilihan Zero Capex bagi perniagaan anda.",
+    cta: "Hubungi Pasukan Kami",
   },
 
   testimonials: {
@@ -415,6 +431,10 @@ const ms: Dictionary = {
       covered: "Apa yang termasuk",
       faq: "Soalan lazim",
       cta: "Penilaian Percuma",
+      about: "Tentang Kami",
+      residential: "Kediaman",
+      commercial: "C&I",
+      ev: "EV",
     },
     hero: {
       badge: "MAQO ATAP · Dibina untuk rumah pemilik EV",
