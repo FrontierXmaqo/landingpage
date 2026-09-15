@@ -118,6 +118,17 @@ export async function deletePackageDraft(id: string) {
   revalidatePath("/admin/calculator");
 }
 
+/** Discards in-progress draft edits (config + packages), resetting the draft
+ * back to match the currently published set. */
+export async function discardCalculatorDraft() {
+  await requireRole([...CALCULATOR_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  await supabase.from("calculator_config").delete().eq("status", "draft");
+  await supabase.from("calculator_packages").delete().eq("status", "draft");
+  await ensureDraftSeeded();
+  revalidatePath("/admin/calculator");
+}
+
 // ponytail: sequential writes, not one DB transaction — fine at this table size/traffic;
 // move to a single Postgres function if publishes ever need to be atomic under concurrent editors.
 export async function publishCalculator() {

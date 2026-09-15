@@ -82,6 +82,21 @@ export const SOLAR_CALC_CONFIG = {
   maqoAnniversaryRebateValidUntil: "31 October 2026",
 };
 
+/** Fallback for the EV landing page's calculator, mirrored in Supabase's
+ * `ev_calculator_config` table (see lib/publishedContent.ts) — used only if
+ * that table is empty or unreachable. */
+export const EV_CALC_DEFAULTS = {
+  ratePerKwh: 0.44,
+  avgKwhPerKwpMonth: 1463,
+  referenceSystemKwp: 14.3,
+  kwpPerPanel: 0.65,
+  minSystemKwp: 4,
+  minMonthlyBill: 15,
+  offsetDayPercent: 80,
+  offsetNightPercent: 90,
+  offsetMixedPercent: 85,
+};
+
 export type SolarPackage = {
   kwp: number;
   panels: number;

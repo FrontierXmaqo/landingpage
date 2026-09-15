@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
+import type { PublishedCustomField } from "@/lib/publishedContent";
 import {
   SALUTATIONS,
   MALAYSIAN_STATES,
@@ -47,12 +48,14 @@ export default function LeadForm({
   labels,
   defaultPackage,
   options,
+  customFields,
 }: {
   locale: Locale;
   t: Dictionary["leadForm"];
   labels: Dictionary["formOptions"];
   defaultPackage?: string;
   options?: LeadFormOptionLists;
+  customFields?: PublishedCustomField[];
 }) {
   const salutations = options?.salutations?.length ? options.salutations : SALUTATIONS;
   const states = options?.states?.length ? options.states : MALAYSIAN_STATES;
@@ -244,6 +247,24 @@ export default function LeadForm({
             ))}
           </select>
         </label>
+
+        {customFields?.map((f) => (
+          <label key={f.key} className="flex flex-col gap-1 text-sm font-medium text-base-ink">
+            {f.label}
+            <select
+              name={f.key}
+              defaultValue=""
+              className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
+            >
+              <option value="">—</option>
+              {f.values.map((v) => (
+                <option key={v} value={v}>
+                  {v}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
 
         {TURNSTILE_SITE_KEY && (
           <>

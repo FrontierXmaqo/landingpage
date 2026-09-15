@@ -1,16 +1,19 @@
 import Image from "next/image";
 import LeadForm, { type LeadFormOptionLists } from "./LeadForm";
 import { OLD_SITE_IMAGES } from "@/lib/content";
+import type { PublishedCustomField } from "@/lib/publishedContent";
 import type { Dictionary, Locale } from "@/lib/i18n";
 
 export default function Hero({
   locale,
   t: dict,
   leadFormOptions,
+  customFields,
 }: {
   locale: Locale;
   t: Dictionary;
   leadFormOptions?: LeadFormOptionLists;
+  customFields?: PublishedCustomField[];
 }) {
   const t = dict.hero;
   return (
@@ -68,7 +71,7 @@ export default function Hero({
         </div>
 
         <div className="lg:pl-4">
-          <LeadForm locale={locale} t={dict.leadForm} labels={dict.formOptions} options={leadFormOptions} />
+          <LeadForm locale={locale} t={dict.leadForm} labels={dict.formOptions} options={leadFormOptions} customFields={customFields} />
         </div>
       </div>
     </section>

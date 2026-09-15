@@ -5,7 +5,10 @@ import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
+import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
+import { EV_CALC_DEFAULTS } from "@/lib/content";
+import type { PublishedCustomField } from "@/lib/publishedContent";
 import {
   SALUTATIONS,
   MALAYSIAN_STATES,
@@ -21,14 +24,6 @@ const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page");
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type ChargeTime = "day" | "night" | "mixed";
-
-// `label` is what the sales team reads in the lead's remarks, so it stays English
-// whatever language the visitor chose. On-page wording comes from the dictionary.
-const CHARGE_OPTIONS: { key: ChargeTime; label: string; offsetRate: number }[] = [
-  { key: "day", label: "Mostly during the day", offsetRate: 0.8 },
-  { key: "night", label: "Mostly at night", offsetRate: 0.9 },
-  { key: "mixed", label: "Mixed / it varies", offsetRate: 0.85 },
-];
 
 type EvCopy = Dictionary["ev"];
 
@@ -303,12 +298,18 @@ export default function EvPage({
   space,
   switcherLabel,
   options,
+  optionValues,
+  customFields,
+  evCalcConfig,
 }: {
   locale: Locale;
   t: EvCopy;
   space: string;
   switcherLabel: string;
   options: Dictionary["formOptions"];
+  optionValues?: LeadFormOptionLists;
+  customFields?: PublishedCustomField[];
+  evCalcConfig?: typeof EV_CALC_DEFAULTS;
 }) {
   const [bill, setBill] = useState(650);
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
@@ -317,6 +318,22 @@ export default function EvPage({
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
   const landingPageSourceRef = useRef<HTMLInputElement>(null);
+
+  const evCalc = evCalcConfig ?? EV_CALC_DEFAULTS;
+  const salutations = optionValues?.salutations?.length ? optionValues.salutations : SALUTATIONS;
+  const states = optionValues?.states?.length ? optionValues.states : MALAYSIAN_STATES;
+  const billRanges = optionValues?.billRanges?.length ? optionValues.billRanges : BILL_RANGES;
+  const propertyTypes = optionValues?.propertyTypes?.length ? optionValues.propertyTypes : PROPERTY_TYPES;
+  const electricSupply = optionValues?.electricSupply?.length ? optionValues.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languages = optionValues?.languages?.length ? optionValues.languages : COMMUNICATION_LANGUAGES;
+
+  // `label` is what the sales team reads in the lead's remarks, so it stays English
+  // whatever language the visitor chose. On-page wording comes from the dictionary.
+  const CHARGE_OPTIONS: { key: ChargeTime; label: string; offsetRate: number }[] = [
+    { key: "day", label: "Mostly during the day", offsetRate: evCalc.offsetDayPercent / 100 },
+    { key: "night", label: "Mostly at night", offsetRate: evCalc.offsetNightPercent / 100 },
+    { key: "mixed", label: "Mixed / it varies", offsetRate: evCalc.offsetMixedPercent / 100 },
+  ];
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -333,11 +350,11 @@ export default function EvPage({
   const selectedCopy = t.calculator.options[chargeTime];
 
   const results = useMemo(() => {
-    const totalKwh = bill / 0.44;
-    const systemKwp = Math.max(4, (totalKwh / 1463) * 14.3);
-    const panels = Math.round(systemKwp / 0.65);
+    const totalKwh = bill / evCalc.ratePerKwh;
+    const systemKwp = Math.max(evCalc.minSystemKwp, (totalKwh / evCalc.avgKwhPerKwpMonth) * evCalc.referenceSystemKwp);
+    const panels = Math.round(systemKwp / evCalc.kwpPerPanel);
     const monthlySavings = bill * selected.offsetRate;
-    const newBill = Math.max(15, bill - monthlySavings);
+    const newBill = Math.max(evCalc.minMonthlyBill, bill - monthlySavings);
     return {
       systemKwp: systemKwp.toFixed(1),
       panels,
@@ -346,7 +363,7 @@ export default function EvPage({
       tenYear: Math.round(monthlySavings * 120),
       thirtyYear: Math.round(monthlySavings * 360),
     };
-  }, [bill, selected]);
+  }, [bill, selected, evCalc]);
 
   return (
     <>
@@ -719,7 +736,7 @@ export default function EvPage({
                 <label htmlFor="salutation">{t.form.salutation}</label>
                 <select id="salutation" name="salutation" defaultValue="" disabled={submitting}>
                   <option value="">—</option>
-                  {SALUTATIONS.map((s) => (
+                  {salutations.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.salutations, s)}
                     </option>
@@ -746,7 +763,7 @@ export default function EvPage({
                   <option value="" disabled>
                     {t.form.statePlaceholder}
                   </option>
-                  {MALAYSIAN_STATES.map((s) => (
+                  {states.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.states, s)}
                     </option>
@@ -761,7 +778,7 @@ export default function EvPage({
                   <option value="" disabled>
                     {t.form.billPlaceholder}
                   </option>
-                  {BILL_RANGES.map((s) => (
+                  {billRanges.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.billRanges, s)}
                     </option>
@@ -774,7 +791,7 @@ export default function EvPage({
                   <option value="" disabled>
                     {t.form.propertyTypePlaceholder}
                   </option>
-                  {PROPERTY_TYPES.map((s) => (
+                  {propertyTypes.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.propertyTypes, s)}
                     </option>
@@ -787,7 +804,7 @@ export default function EvPage({
                 <label htmlFor="electric_supply">{t.form.supply}</label>
                 <select id="electric_supply" name="electric_supply" defaultValue="" disabled={submitting}>
                   <option value="">{t.form.supplyPlaceholder}</option>
-                  {ELECTRIC_SUPPLY_OPTIONS.map((s) => (
+                  {electricSupply.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.supply, s)}
                     </option>
@@ -797,7 +814,7 @@ export default function EvPage({
               <div className="field">
                 <label htmlFor="preferred_language">{t.form.language}</label>
                 <select id="preferred_language" name="preferred_language" defaultValue="English" disabled={submitting}>
-                  {COMMUNICATION_LANGUAGES.map((s) => (
+                  {languages.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.languages, s)}
                     </option>
@@ -805,6 +822,23 @@ export default function EvPage({
                 </select>
               </div>
             </div>
+            {!!customFields?.length && (
+              <div className="form-row">
+                {customFields.map((f) => (
+                  <div className="field" key={f.key}>
+                    <label htmlFor={f.key}>{f.label}</label>
+                    <select id={f.key} name={f.key} defaultValue="" disabled={submitting}>
+                      <option value="">—</option>
+                      {f.values.map((v) => (
+                        <option key={v} value={v}>
+                          {v}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            )}
             {TURNSTILE_SITE_KEY && (
               <>
                 <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />

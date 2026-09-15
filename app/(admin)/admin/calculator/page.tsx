@@ -1,5 +1,6 @@
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
-import { ensureDraftSeeded, publishCalculator, unpublishCalculator } from "./actions";
+import { ensureDraftSeeded, publishCalculator, unpublishCalculator, discardCalculatorDraft } from "./actions";
+import DiscardDraftButton from "../DiscardDraftButton";
 import ConfigForm from "./ConfigForm";
 import PackageRow from "./PackageRow";
 import { formatMYDateTime } from "@/lib/datetime";
@@ -55,6 +56,7 @@ export default async function CalculatorSettingsPage() {
             Unpublish (revert to previous)
           </button>
         </form>
+        <DiscardDraftButton action={discardCalculatorDraft} />
       </div>
 
       {draftConfig && <ConfigForm config={draftConfig} />}

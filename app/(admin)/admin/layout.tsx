@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import { getCurrentProfile, type Role } from "@/lib/supabase/server";
+import { getCurrentProfile } from "@/lib/supabase/server";
 import SignOutButton from "./SignOutButton";
+import { NAV } from "./nav";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-outfit", display: "swap" });
 
 export const metadata: Metadata = { title: "MAQO CMS", robots: { index: false, follow: false } };
-
-const NAV: { href: string; label: string; roles: Role[] }[] = [
-  { href: "/admin", label: "Overview", roles: ["admin", "marketing", "sales"] },
-  { href: "/admin/calculator", label: "Solar Calculator Settings", roles: ["admin", "marketing"] },
-  { href: "/admin/leads-form", label: "Lead Form", roles: ["admin", "marketing"] },
-  { href: "/admin/enquiries", label: "Customer Enquiries", roles: ["admin", "sales"] },
-  { href: "/admin/analytics", label: "Performance Analytics", roles: ["admin", "marketing", "sales"] },
-  { href: "/admin/users", label: "User Management", roles: ["admin"] },
-];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentProfile();

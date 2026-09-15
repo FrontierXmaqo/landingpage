@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { addOption, removeOption, moveOption } from "./actions";
-import type { FieldName } from "./fields";
 
 export default function OptionField({
   field,
   label,
   options,
 }: {
-  field: FieldName;
+  field: string;
   label: string;
   options: { id: string; value: string }[];
 }) {

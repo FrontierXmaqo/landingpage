@@ -1,28 +1,30 @@
 import { redirect } from "next/navigation";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
-import { ensureLeadFormDraftSeeded, publishLeadFormOptions, unpublishLeadFormOptions } from "./actions";
-import { FIELDS } from "./fields";
+import {
+  ensureLeadFormDraftSeeded,
+  ensureLeadFormFieldsDraftSeeded,
+  publishLeadFormOptions,
+  unpublishLeadFormOptions,
+  discardLeadFormDraft,
+} from "./actions";
 import OptionField from "./OptionField";
+import FieldsManager from "./FieldsManager";
+import DiscardDraftButton from "../DiscardDraftButton";
 import { formatMYDateTime } from "@/lib/datetime";
-
-const LABELS: Record<(typeof FIELDS)[number], string> = {
-  salutation: "Salutation",
-  state: "State",
-  bill_range: "Monthly TNB bill range",
-  property_type: "Property type",
-  electric_supply: "Electric supply",
-  language: "Preferred language",
-};
 
 export default async function LeadFormOptionsPage() {
   const profile = await getCurrentProfile();
   if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin");
 
+  await ensureLeadFormFieldsDraftSeeded();
   await ensureLeadFormDraftSeeded();
 
   const supabase = await getSupabaseUserClient();
-  const { data: rows } = await supabase.from("lead_form_options").select("*").eq("status", "draft").order("sort_order");
-  const { data: published } = await supabase.from("lead_form_options").select("published_at").eq("status", "published").limit(1).maybeSingle();
+  const [{ data: fields }, { data: rows }, { data: published }] = await Promise.all([
+    supabase.from("lead_form_fields").select("*").eq("status", "draft").order("sort_order"),
+    supabase.from("lead_form_options").select("*").eq("status", "draft").order("sort_order"),
+    supabase.from("lead_form_options").select("published_at").eq("status", "published").limit(1).maybeSingle(),
+  ]);
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -30,7 +32,7 @@ export default async function LeadFormOptionsPage() {
         <div>
           <h1 className="text-2xl font-bold text-base-ink">Lead Form</h1>
           <p className="mt-1 text-sm text-base-slate">
-            Add, remove, or reorder the dropdown options shown on the public assessment form.
+            Add, edit, or remove fields and their dropdown options on the public assessment form.
           </p>
         </div>
         {published?.published_at && (
@@ -47,15 +49,20 @@ export default async function LeadFormOptionsPage() {
             Unpublish (revert to previous)
           </button>
         </form>
+        <DiscardDraftButton action={discardLeadFormDraft} />
+      </div>
+
+      <div className="mt-6">
+        <FieldsManager fields={fields ?? []} />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {FIELDS.map((field) => (
+        {(fields ?? []).map((field) => (
           <OptionField
-            key={field}
-            field={field}
-            label={LABELS[field]}
-            options={(rows ?? []).filter((r) => r.field_name === field).map((r) => ({ id: r.id, value: r.value }))}
+            key={field.id}
+            field={field.field_key}
+            label={field.label}
+            options={(rows ?? []).filter((r) => r.field_name === field.field_key).map((r) => ({ id: r.id, value: r.value }))}
           />
         ))}
       </div>
