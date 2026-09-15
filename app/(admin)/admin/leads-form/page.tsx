@@ -7,8 +7,7 @@ import {
   unpublishLeadFormOptions,
   discardLeadFormDraft,
 } from "./actions";
-import OptionField from "./OptionField";
-import FieldsManager from "./FieldsManager";
+import LeadFormTable from "./LeadFormTable";
 import DiscardDraftButton from "../DiscardDraftButton";
 import { formatMYDateTime } from "@/lib/datetime";
 
@@ -27,8 +26,8 @@ export default async function LeadFormOptionsPage() {
   ]);
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <div className="flex items-center justify-between">
+    <div className="mx-auto max-w-5xl">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-base-ink">Lead Form</h1>
           <p className="mt-1 text-sm text-base-slate">
@@ -40,7 +39,7 @@ export default async function LeadFormOptionsPage() {
         )}
       </div>
 
-      <div className="mt-6 flex gap-3">
+      <div className="mt-6 flex flex-wrap gap-3">
         <form action={publishLeadFormOptions}>
           <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]">Publish</button>
         </form>
@@ -53,18 +52,7 @@ export default async function LeadFormOptionsPage() {
       </div>
 
       <div className="mt-6">
-        <FieldsManager fields={fields ?? []} />
-      </div>
-
-      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {(fields ?? []).map((field) => (
-          <OptionField
-            key={field.id}
-            field={field.field_key}
-            label={field.label}
-            options={(rows ?? []).filter((r) => r.field_name === field.field_key).map((r) => ({ id: r.id, value: r.value }))}
-          />
-        ))}
+        <LeadFormTable fields={fields ?? []} options={rows ?? []} />
       </div>
     </div>
   );

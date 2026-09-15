@@ -71,21 +71,6 @@ export async function removeOption(id: string) {
   revalidatePath("/admin/leads-form");
 }
 
-export async function moveOption(id: string, direction: "up" | "down", field: string) {
-  await requireRole([...LEAD_FORM_ROLES]);
-  const fieldName = text(field, { max: 40, required: true, field: "field" });
-  const rowId = uuid(id);
-  const supabase = await getSupabaseUserClient();
-  const { data: rows } = await supabase.from("lead_form_options").select("id, sort_order").eq("status", "draft").eq("field_name", fieldName).order("sort_order");
-  if (!rows) return;
-  const idx = rows.findIndex((r) => r.id === rowId);
-  const swapWith = oneOf(direction, ["up", "down"] as const, "direction") === "up" ? idx - 1 : idx + 1;
-  if (idx < 0 || swapWith < 0 || swapWith >= rows.length) return;
-  await supabase.from("lead_form_options").update({ sort_order: rows[swapWith].sort_order }).eq("id", rows[idx].id);
-  await supabase.from("lead_form_options").update({ sort_order: rows[idx].sort_order }).eq("id", rows[swapWith].id);
-  revalidatePath("/admin/leads-form");
-}
-
 /** Adds a brand-new custom dropdown field (always is_core=false — the 6 core
  * fields are seeded once by migration and never created through this action). */
 export async function addField(key: string, label: string) {
