@@ -1,25 +1,77 @@
 "use client";
 
 import { useState } from "react";
-import { addField, updateFieldLabel, removeField, moveField, addOption, removeOption } from "./actions";
+import { addField, updateFieldLabel, removeField, moveField, addOption, updateOption, removeOption } from "./actions";
 
 type Field = { id: string; field_key: string; label: string; is_core: boolean };
 type Option = { id: string; field_name: string; value: string };
 
 function OptionChip({ option }: { option: Option }) {
-  const [removing, setRemoving] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(option.value);
+  const [busy, setBusy] = useState(false);
+
+  if (editing) {
+    return (
+      <span className="inline-flex items-center rounded-full border border-brand-green bg-base-panel py-1 pl-3 pr-1.5">
+        <input
+          autoFocus
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onFocus={(e) => e.currentTarget.select()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") e.currentTarget.blur();
+            if (e.key === "Escape") {
+              setValue(option.value);
+              setEditing(false);
+            }
+          }}
+          onBlur={async () => {
+            setEditing(false);
+            const trimmed = value.trim();
+            if (!trimmed || trimmed === option.value) {
+              setValue(option.value);
+              return;
+            }
+            setBusy(true);
+            try {
+              await updateOption(option.id, trimmed);
+            } catch {
+              setValue(option.value);
+            } finally {
+              setBusy(false);
+            }
+          }}
+          className="w-28 bg-transparent text-xs text-base-ink outline-none"
+        />
+      </span>
+    );
+  }
+
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border border-base-line bg-base-bg py-1 pl-3 pr-1.5 text-xs text-base-ink transition-opacity ${removing ? "opacity-40" : ""}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border border-base-line bg-base-bg py-1 pl-1 pr-1.5 text-xs text-base-ink transition-opacity ${busy ? "opacity-40" : ""}`}
     >
-      {option.value}
+      <button
+        type="button"
+        title="Click to edit"
+        disabled={busy}
+        onClick={() => setEditing(true)}
+        className="rounded-full px-2 py-0.5 hover:bg-base-line"
+      >
+        {value}
+      </button>
       <button
         type="button"
         aria-label={`Remove ${option.value}`}
-        disabled={removing}
+        disabled={busy}
         onClick={async () => {
-          setRemoving(true);
-          await removeOption(option.id);
+          setBusy(true);
+          try {
+            await removeOption(option.id);
+          } catch {
+            setBusy(false);
+          }
         }}
         className="flex h-4 w-4 items-center justify-center rounded-full text-base-slate hover:bg-base-line hover:text-status-critical"
       >
@@ -52,10 +104,13 @@ function AddOptionChip({ fieldKey }: { fieldKey: string }) {
       action={async () => {
         if (!value.trim()) return setOpen(false);
         setPending(true);
-        await addOption(fieldKey, value);
-        setValue("");
-        setPending(false);
-        setOpen(false);
+        try {
+          await addOption(fieldKey, value);
+          setValue("");
+          setOpen(false);
+        } finally {
+          setPending(false);
+        }
       }}
     >
       <input
@@ -95,8 +150,13 @@ function FieldRow({ field, options, index, total }: { field: Field; options: Opt
           onBlur={async () => {
             if (!label.trim() || label.trim() === field.label) return;
             setSavingLabel(true);
-            await updateFieldLabel(field.id, label);
-            setSavingLabel(false);
+            try {
+              await updateFieldLabel(field.id, label);
+            } catch {
+              setLabel(field.label);
+            } finally {
+              setSavingLabel(false);
+            }
           }}
           className="w-full rounded-md border border-transparent bg-transparent px-1.5 py-1 text-sm font-medium text-base-ink outline-none hover:border-base-line focus:border-brand-green focus:bg-base-bg focus:ring-1 focus:ring-brand-green"
         />
@@ -144,8 +204,8 @@ export default function LeadFormTable({ fields, options }: { fields: Field[]; op
       <div className="border-b border-base-line px-6 py-4">
         <h2 className="text-sm font-semibold text-base-ink">Fields &amp; dropdown selections</h2>
         <p className="mt-1 text-xs text-base-slate">
-          Every field on the public form, and every option a visitor can pick. Edit a label, add or remove an option,
-          reorder, or add a whole new field — it all saves as a draft.
+          Every field on the public form, and every option a visitor can pick. Click a field label or an option to
+          edit it, add or remove options, reorder, or add a whole new field — it all saves as a draft.
         </p>
       </div>
 

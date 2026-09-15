@@ -64,6 +64,14 @@ export async function addOption(field: string, value: string) {
   revalidatePath("/admin/leads-form");
 }
 
+export async function updateOption(id: string, value: string) {
+  const profile = await requireRole([...LEAD_FORM_ROLES]);
+  const trimmed = text(value, { max: 120, required: true, field: "value" });
+  const supabase = await getSupabaseUserClient();
+  await supabase.from("lead_form_options").update({ value: trimmed, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("status", "draft");
+  revalidatePath("/admin/leads-form");
+}
+
 export async function removeOption(id: string) {
   await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
