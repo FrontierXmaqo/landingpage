@@ -135,6 +135,50 @@ export function IconSolarFarm({ className }: { className?: string }) {
   );
 }
 
+
+/** Carousel and dialog controls. */
+export function IconChevron({ className, direction = "right" }: { className?: string; direction?: "left" | "right" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      aria-hidden="true"
+      className={className}
+      {...stroke}
+      strokeWidth={2}
+      style={direction === "left" ? { transform: "scaleX(-1)" } : undefined}
+    >
+      <path d="m9 5 7 7-7 7" />
+    </svg>
+  );
+}
+
+export function IconClose({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" className={className} {...stroke} strokeWidth={2}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  );
+}
+
+export function IconPause({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" className={className} fill="currentColor">
+      <rect x="7" y="5" width="3.5" height="14" rx="1.2" />
+      <rect x="13.5" y="5" width="3.5" height="14" rx="1.2" />
+    </svg>
+  );
+}
+
+export function IconPlay({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M8 5.2a1 1 0 0 1 1.5-.87l9 6.8a1 1 0 0 1 0 1.74l-9 6.8A1 1 0 0 1 8 18.8V5.2Z" />
+    </svg>
+  );
+}
+
 /** Maps a project's industry tag to its glyph. */
 export const PROJECT_ICONS = {
   Factory: IconFactory,

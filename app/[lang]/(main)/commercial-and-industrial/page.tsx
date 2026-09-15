@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SectionTag from "../components/SectionTag";
-import SectionHeading from "../components/SectionHeading";
 import ScrollReveal from "../components/ScrollReveal";
 import CiLeadForm from "./CiLeadForm";
-import { CheckCircle, PILLAR_ICONS, PROJECT_ICONS } from "./icons";
+import ProjectsCarousel, { type Surface } from "./ProjectsCarousel";
+import { CheckCircle, PILLAR_ICONS } from "./icons";
 import {
   CI_META,
   CLIENTS,
@@ -22,6 +21,9 @@ import {
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 const PATH = "/commercial-and-industrial";
+
+/** Background the project carousel sits on. Marketing is comparing the three. */
+const PROJECTS_SURFACE: Surface = "light";
 
 export async function generateMetadata({
   params,
@@ -133,71 +135,7 @@ export default async function CommercialAndIndustrialPage({
         </section>
 
         {/* ---------- 3. Latest projects ---------- */}
-        <section id="projects" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6 sm:py-20">
-          <SectionHeading
-            eyebrow="Our work"
-            title="Our Latest Commercial Projects"
-            body="From a single shoplot roof to a 10 MWp solar farm — delivered end to end by our own engineering and installation teams, on live sites."
-          />
-
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {PROJECTS.map((project, i) => {
-              const Icon = PROJECT_ICONS[project.tag];
-              return (
-                <ScrollReveal key={project.client} delayMs={(i % 3) * 90}>
-                  <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-base-line bg-base-panel shadow-md">
-                    <div className="relative aspect-[16/10] w-full">
-                      {project.image ? (
-                        <Image
-                          src={project.image}
-                          alt={project.imageAlt}
-                          fill
-                          className="object-cover"
-                          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
-                        />
-                      ) : (
-                        /* Stands in until the site photo is added — see the
-                           `image` field in content.ts. Deliberately branded
-                           rather than a grey box, so a card without its photo
-                           still reads as finished. */
-                        <div className="flex h-full w-full items-center justify-center bg-brand-green-tint text-brand-green-deep/60">
-                          <Icon className="h-10 w-10" />
-                        </div>
-                      )}
-                      <span className="absolute left-4 top-4 rounded-full bg-brand-orange-deep px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm">
-                        {project.tag}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-1 flex-col p-6">
-                      <p className="text-2xl font-bold tracking-tight text-base-ink">{project.capacity}</p>
-                      <h3 className="mt-1.5 text-base font-semibold leading-snug text-base-ink">
-                        {project.client}
-                      </h3>
-                      {project.panels && (
-                        <p className="mt-4 flex items-center gap-2.5 border-t border-base-line pt-4 text-sm text-base-slate">
-                          <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange-deep" />
-                          {project.panels}
-                        </p>
-                      )}
-                    </div>
-                  </article>
-                </ScrollReveal>
-              );
-            })}
-          </div>
-
-          <p className="mt-8">
-            <a
-              href={PROJECT_VIDEO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-brand-green-ink underline underline-offset-4 hover:text-brand-green-deep"
-            >
-              Watch our commercial &amp; industrial project showcase
-            </a>
-          </p>
-        </section>
+        <ProjectsCarousel projects={PROJECTS} surface={PROJECTS_SURFACE} videoUrl={PROJECT_VIDEO_URL} />
 
         {/* ---------- 4. Why MAQO for C&I ---------- */}
         <section className="bg-base-panel py-16 sm:py-20" aria-labelledby="why-heading">

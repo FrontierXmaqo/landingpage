@@ -68,6 +68,10 @@ export type Project = {
    *  Prefer .webp at roughly 800x520; next/image handles the rest. */
   image?: string;
   imageAlt: string;
+  /** Shown in the project dialog under the specs. Left empty until marketing
+   *  supplies a signed-off line per site — an empty field simply renders
+   *  nothing rather than a placeholder sentence. */
+  summary?: string;
 };
 
 /**
