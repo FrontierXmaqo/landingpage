@@ -5,8 +5,13 @@
 export const OLD_SITE_IMAGES = {
   logo:
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/6717ae8a5616d5183447846f.png",
-  heroHouse:
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/68e78757df76fe78d1531841.png",
+  // Self-hosted for the same reason as the partner logos below: this is the
+  // LCP image on mobile, and hotlinking it meant the browser waited on two
+  // external services (a GoHighLevel media path, re-encoded by LeadConnector's
+  // image CDN) before the largest element could paint. Serving it from /public
+  // also means a clear-out of the old site's media library cannot silently
+  // empty the hero.
+  heroHouse: "/hero-rooftop.webp",
   billBefore:
     "https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/68e73b88a265ecb57675ca51.png",
   billAfter:
