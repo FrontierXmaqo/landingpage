@@ -135,14 +135,31 @@ export async function moveField(id: string, direction: "up" | "down") {
 }
 
 // ponytail: sequential writes, matches the same pattern (and the same ceiling) as calculator publish/unpublish.
+//
+// Each table's archive step only runs if that table actually has a draft ready
+// to take the published slot. Without this guard, publishing twice in a row
+// (the second time with nothing new drafted — e.g. a stray double-click, or
+// hitting Publish again after a page reload reseeded an identical draft)
+// archives the live published rows and promotes zero rows to replace them,
+// silently wiping every option. Learned the hard way: this happened for real
+// and left every field showing "No options yet".
 export async function publishLeadFormOptions() {
   const profile = await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
   const now = new Date().toISOString();
-  await supabase.from("lead_form_fields").update({ status: "archived" }).eq("status", "published");
-  await supabase.from("lead_form_fields").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
-  await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
-  await supabase.from("lead_form_options").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+
+  const { count: draftFieldsCount } = await supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft");
+  if (draftFieldsCount) {
+    await supabase.from("lead_form_fields").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("lead_form_fields").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+  }
+
+  const { count: draftOptionsCount } = await supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "draft");
+  if (draftOptionsCount) {
+    await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("lead_form_options").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+  }
+
   revalidatePath("/admin/leads-form");
   revalidatePath("/");
 }

@@ -56,14 +56,19 @@ export async function discardEvConfigDraft() {
   revalidatePath("/admin/calculator-ev");
 }
 
-// ponytail: sequential writes, matches the same pattern (and the same ceiling) as the main calculator publish/unpublish.
+// Guarded the same way as the lead form's publish action: only archive the
+// live published row if there's actually a draft ready to take its place, or
+// a second publish with nothing new drafted wipes the config to nothing.
 export async function publishEvCalculator() {
   const profile = await requireRole([...EV_CALC_ROLES]);
   const supabase = await getSupabaseUserClient();
   const now = new Date().toISOString();
 
-  await supabase.from("ev_calculator_config").update({ status: "archived" }).eq("status", "published");
-  await supabase.from("ev_calculator_config").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+  const { count: draftCount } = await supabase.from("ev_calculator_config").select("*", { count: "exact", head: true }).eq("status", "draft");
+  if (draftCount) {
+    await supabase.from("ev_calculator_config").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("ev_calculator_config").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+  }
 
   revalidatePath("/admin/calculator-ev");
   revalidatePath("/");
