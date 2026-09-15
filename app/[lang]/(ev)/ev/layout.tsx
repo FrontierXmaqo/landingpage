@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { SITE_URL } from "@/lib/site";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]/ev">): P
   return {
     title: t.evTitle,
     description: t.evDescription,
+    metadataBase: SITE_URL,
     alternates: {
       canonical: localePath(lang, "/ev"),
       languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/ev")])),

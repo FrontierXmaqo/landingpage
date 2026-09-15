@@ -3,7 +3,8 @@ import { Outfit } from "next/font/google";
 import Script from "next/script";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { LOCALES, HTML_LANG, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { LOCALES, DEFAULT_LOCALE, HTML_LANG, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -24,9 +25,16 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   return {
     title: t.homeTitle,
     description: t.homeDescription,
+    // Cascades to every route under this layout, so their relative canonical
+    // and hreflang values resolve to absolute URLs.
+    metadataBase: SITE_URL,
     alternates: {
       canonical: localePath(lang),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l)])),
+        // Where Google sends a visitor whose language matches none of the three.
+        "x-default": localePath(DEFAULT_LOCALE),
+      },
     },
     verification: {
       google: "FdVlWEEvys2RdCCMKjiAkXv3HGVMWr9foIpy036CmiA",

@@ -37,24 +37,18 @@ export const CREDENTIALS = [
   "ISO 9001:2015",
 ];
 
-export const BRAND_LOGOS = [
-  { name: "AIKO", logo: "https://aikosolar.com/wp-content/uploads/2023/10/logo.svg" },
-  {
-    name: "Huawei",
-    logo: "https://www.huawei.com/-/media/hcomponent-header/1.0.1.20260519084135/component/img/huawei_logo.png",
-  },
-  {
-    name: "FoxESS",
-    logo: "https://www.fox-ess.com/Public/Uploads/uploadfile/images/20260707/201-118.png",
-  },
-  {
-    name: "LIVOLTEK",
-    logo: "https://web-cdn.livoltek.com/wp-content/uploads/2025/02/livoltek-logo-1.png",
-  },
-  {
-    name: "Sigenergy",
-    logo: "https://wwwstatic.sigenergy.com/upload/2026-08-13/1786599860015_9f47ea54-5c7b-4946-a1b4-eb21b3cf0245.png",
-  },
+// Self-hosted in public/logos: these were hotlinked from each manufacturer's own
+// CMS, on upload paths carrying build timestamps and dates, so any redesign on
+// their side dropped a logo from the strip with nothing to notice it by.
+// Livoltek publishes only a wordmark, which at the strip's 36px box is an
+// unreadable smudge next to the same name already set in text — so it carries
+// no logo and renders as the name alone.
+export const BRAND_LOGOS: { name: string; logo?: string }[] = [
+  { name: "AIKO", logo: "/logos/aiko.png" },
+  { name: "Huawei", logo: "/logos/huawei.png" },
+  { name: "FoxESS", logo: "/logos/foxess.png" },
+  { name: "LIVOLTEK" },
+  { name: "Sigenergy", logo: "/logos/sigenergy.png" },
 ];
 
 export const SOLAR_OPTIONS = [
