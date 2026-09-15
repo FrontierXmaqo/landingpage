@@ -35,9 +35,19 @@ export async function ensureCiDraftSeeded() {
     const { data: published } = await supabase.from(table).select("*").eq("status", "published").order("sort_order");
     if (!published?.length) continue;
 
-    await supabase.from(table).insert(
+    const { error } = await supabase.from(table).insert(
       published.map((row) => ({ ...row, id: undefined, status: "draft", published_at: null, published_by: null }))
     );
+
+    // Loudly, on purpose. A seed that fails quietly leaves the editor showing
+    // an empty or partial draft that looks like a legitimate edit, and the next
+    // Publish promotes that instead of the live content — which is how this
+    // section ended up one keystroke from replacing six projects with one.
+    if (error) {
+      throw new Error(
+        `Could not prepare the ${table} draft from what is published (${error.message}). Nothing was changed — reload and try again.`
+      );
+    }
   }
 }
 
@@ -45,6 +55,9 @@ export async function ensureCiDraftSeeded() {
 
 export async function addProject() {
   const profile = await requireRole([...CI_ROLES]);
+  // Seed first: if the draft copy is missing, the new row would be the only
+  // draft, and publishing would swap the whole section for it.
+  await ensureCiDraftSeeded();
   const supabase = await getSupabaseUserClient();
   const { count } = await supabase.from("ci_projects").select("*", { count: "exact", head: true }).eq("status", "draft");
 
@@ -148,6 +161,7 @@ export async function removeProjectPhoto(id: string) {
 export async function addClient(name: string) {
   const profile = await requireRole([...CI_ROLES]);
   const clean = text(name, { max: 80, required: true, field: "name" });
+  await ensureCiDraftSeeded(); // same reason as addProject
   const supabase = await getSupabaseUserClient();
   const { count } = await supabase.from("ci_clients").select("*", { count: "exact", head: true }).eq("status", "draft");
   await supabase.from("ci_clients").insert({ status: "draft", sort_order: count ?? 0, name: clean, updated_by: profile.id });

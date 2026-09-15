@@ -95,16 +95,16 @@ export const PROJECTS: Project[] = [
     capacity: "159.72 kWp",
     client: "Bermaz Motor Trading",
     panels: "264 solar panels",
-    // Awaiting photo — see public/projects/README.md for the filename.
-    imageAlt: "Solar panels across the roof of the Bermaz Motor Trading showroom",
+    image: "/projects/bermaz.webp",
+    imageAlt: "Aerial view of solar panels across the roof of the Bermaz Motor Trading XPENG showroom",
   },
   {
     tag: "School",
     capacity: "185.13 kWp",
     client: "SRJK (C) Khe Beng",
     panels: "306 solar panels",
-    // Awaiting photo — see public/projects/README.md for the filename.
-    imageAlt: "Solar panels installed across the roofs of SRJK (C) Khe Beng",
+    image: "/projects/khe-beng.webp",
+    imageAlt: "Aerial view of a newly installed solar array on the roof of SRJK (C) Khe Beng",
   },
   {
     tag: "Shoplot",
