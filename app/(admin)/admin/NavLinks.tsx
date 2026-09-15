@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { NAV_ICONS } from "./navIcons";
 
 type NavItem = { href: string; label: string };
 
@@ -8,21 +9,22 @@ export default function NavLinks({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex-1 space-y-0.5 px-3 py-4">
+    <nav className="flex-1 space-y-1 px-3 py-4">
       {items.map((item) => {
         const active = item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href);
+        const Icon = NAV_ICONS[item.href];
         return (
           <a
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`relative block rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150 ${
+            className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150 ${
               active
-                ? "bg-brand-green-tint text-brand-green-ink"
-                : "text-base-ink hover:bg-brand-green-tint/60 hover:text-brand-green-ink"
+                ? "bg-brand-green text-white shadow-sm"
+                : "text-sidebar-muted hover:bg-sidebar-bg-raised hover:text-sidebar-ink"
             }`}
           >
-            {active && <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-full bg-brand-green" aria-hidden />}
+            {Icon && <Icon className={`h-[18px] w-[18px] shrink-0 ${active ? "text-white" : "text-sidebar-muted"}`} />}
             {item.label}
           </a>
         );

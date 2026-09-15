@@ -1,4 +1,5 @@
 import { signOut } from "./login/actions";
+import { IconLogOut } from "./navIcons";
 
 /** Server-action sign-out: the session cookie is HttpOnly, so only the server can clear it. */
 export default function SignOutButton() {
@@ -6,9 +7,11 @@ export default function SignOutButton() {
     <form action={signOut}>
       <button
         type="submit"
-        className="w-full rounded-lg border border-base-line px-3 py-2 text-left text-sm font-medium text-base-slate transition-colors duration-150 hover:border-status-critical hover:text-status-critical"
+        aria-label="Sign out"
+        title="Sign out"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sidebar-muted transition-colors duration-150 hover:bg-sidebar-bg-raised hover:text-status-critical"
       >
-        Sign out
+        <IconLogOut className="h-[18px] w-[18px]" />
       </button>
     </form>
   );

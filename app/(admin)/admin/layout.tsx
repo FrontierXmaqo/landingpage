@@ -23,21 +23,33 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   const items = NAV.filter((item) => item.roles.includes(profile.role));
+  const initials = (profile.full_name || profile.role)
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
     <html lang="en" className={`h-full antialiased ${outfit.variable}`}>
       <body className="min-h-full font-sans">
         <div className="flex min-h-screen">
-          <aside className="flex w-64 shrink-0 flex-col border-r border-base-line bg-base-panel">
-            <div className="border-b border-base-line px-5 py-5">
-              <p className="flex items-center gap-2 text-sm font-bold text-base-ink">
+          <aside className="flex w-64 shrink-0 flex-col bg-sidebar-bg">
+            <div className="border-b border-sidebar-line px-5 py-5">
+              <p className="flex items-center gap-2 text-sm font-bold text-sidebar-ink">
                 <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-green text-[11px] font-bold text-white">M</span>
                 MAQO CMS
               </p>
-              <p className="mt-1.5 text-xs text-base-slate">{profile.full_name || "Internal"} · {profile.role}</p>
             </div>
             <NavLinks items={items} />
-            <div className="border-t border-base-line p-3">
+            <div className="flex items-center gap-2.5 border-t border-sidebar-line p-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sidebar-bg-raised text-xs font-semibold text-sidebar-ink">
+                {initials}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-sidebar-ink">{profile.full_name || "Internal"}</p>
+                <p className="truncate text-xs capitalize text-sidebar-muted">{profile.role}</p>
+              </div>
               <SignOutButton />
             </div>
           </aside>

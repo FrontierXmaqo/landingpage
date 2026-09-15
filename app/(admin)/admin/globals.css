@@ -33,6 +33,15 @@
   --color-chart-4: #e0138f;
   --color-chart-5: #1684b5;
 
+  /* Dark sidebar palette — the one deliberately "un-closed" surface in the
+     CMS, styled after modern CRM dashboards (dark rail, bright accent pill)
+     while everything else stays on the light base palette above. */
+  --color-sidebar-bg: #12211a;
+  --color-sidebar-bg-raised: #1a3128;
+  --color-sidebar-line: #24402f;
+  --color-sidebar-ink: #f2f7f3;
+  --color-sidebar-muted: #8fa89a;
+
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   --shadow-card: 0 1px 2px rgba(26, 26, 26, 0.04), 0 8px 24px -12px rgba(26, 26, 26, 0.10);
