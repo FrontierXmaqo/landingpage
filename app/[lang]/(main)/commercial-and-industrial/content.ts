@@ -1,3 +1,5 @@
+import type { ProjectTag } from "./icons";
+
 /**
  * Copy and data for the Commercial & Industrial landing page.
  *
@@ -49,43 +51,77 @@ export const TRUST_STATS = [
   { value: "100%", label: "SEDA / TNB Approved" },
 ];
 
+export type Project = {
+  tag: ProjectTag;
+  /** As published on the original page — "1,071 kWp", "10.25 MWp". Kept as a
+   *  string because the unit changes between kWp and MWp. */
+  capacity: string;
+  client: string;
+  /** Omitted where the count was never published (the Gemas solar farm). */
+  panels?: string;
+  /** Path under /public. While this is undefined the card falls back to a
+   *  branded tile showing the category icon and the capacity, so the section
+   *  looks deliberate rather than broken.
+   *
+   *  To add the real photos: save each one into public/projects/ under the
+   *  filename named in the comment beside it and set `image` to that path.
+   *  Prefer .webp at roughly 800x520; next/image handles the rest. */
+  image?: string;
+  imageAlt: string;
+};
+
 /**
- * TO BE CONFIRMED BEFORE LAUNCH — the client names are real, but the capacity
- * and savings figures below are the indicative examples from the campaign
- * brief, not verified project records. Marketing must replace each `capacity`,
- * `outcome` and `location` with the signed-off number for that site before
- * this page goes live, and add a real photo to /public.
+ * The six reference projects, as published on get.maqosolar.com/commercial-industry.
+ * Capacities, client names and panel counts are MAQO's own published figures —
+ * do not edit them without checking that page or the project record.
  */
-export const PROJECTS = [
+export const PROJECTS: Project[] = [
   {
-    client: "Scientex",
-    title: "Manufacturing Plant Rooftop Solar",
-    tag: "Manufacturing",
-    capacity: "500 kWp",
-    location: "Peninsular Malaysia",
-    outcome: "65% reduction in monthly energy bill",
-    detail:
-      "Full rooftop build-out across the production hall, engineered around a live 24-hour manufacturing operation with no downtime to the line.",
+    tag: "Factory",
+    capacity: "1,071 kWp",
+    client: "Spritzer",
+    panels: "2,380 solar panels",
+    // public/projects/spritzer.webp
+    imageAlt: "Aerial view of the Spritzer factory roof covered in solar panels",
   },
   {
-    client: "DHL",
-    title: "Warehouse & Logistics Hub",
-    tag: "Logistics & Warehousing",
-    capacity: "1.2 MWp",
-    location: "Klang Valley",
-    outcome: "On-grid system offsetting daytime distribution load",
-    detail:
-      "Large-span warehouse roof converted into a generating asset, sized to the site's daytime profile so nearly every unit produced is consumed on site.",
+    tag: "Car Showroom",
+    capacity: "159.72 kWp",
+    client: "Bermaz Motor Trading",
+    panels: "264 solar panels",
+    // public/projects/bermaz.webp
+    imageAlt: "Solar panels across the roof of the Bermaz Motor Trading showroom",
   },
   {
-    client: "Din Tai Fung",
-    title: "Retail & Commercial Complex",
-    tag: "Retail & Commercial",
-    capacity: "350 kWp",
-    location: "Klang Valley",
-    outcome: "BESS-ready for peak demand shaving",
-    detail:
-      "Designed with spare DC headroom and switchgear provisioning so a battery energy storage system can be added later without re-engineering.",
+    tag: "School",
+    capacity: "185.13 kWp",
+    client: "SRJK (C) Khe Beng",
+    panels: "306 solar panels",
+    // public/projects/khe-beng.webp
+    imageAlt: "Solar panels installed across the roofs of SRJK (C) Khe Beng",
+  },
+  {
+    tag: "Shoplot",
+    capacity: "26 kWp",
+    client: "1 Doc Medical Group Sdn Bhd",
+    panels: "40 solar panels",
+    // public/projects/1doc-medical.webp
+    imageAlt: "Solar panels on the shoplot roof of 1 Doc Medical Group",
+  },
+  {
+    tag: "Mosque",
+    capacity: "6.96 kWp",
+    client: "Surau At-Taqwa",
+    panels: "12 solar panels",
+    // public/projects/surau-at-taqwa.webp
+    imageAlt: "Solar panels on the pitched roof of Surau At-Taqwa",
+  },
+  {
+    tag: "Solar Farm",
+    capacity: "10.25 MWp",
+    client: "Amcorp Gemas Solar Plant",
+    // public/projects/amcorp-gemas.webp
+    imageAlt: "Rows of ground-mounted solar panels at the Amcorp Gemas solar plant",
   },
 ];
 

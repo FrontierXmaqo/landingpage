@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -136,35 +137,49 @@ export default async function CommercialAndIndustrialPage({
           <SectionHeading
             eyebrow="Our work"
             title="Our Latest Commercial Projects"
-            body="Rooftop systems delivered end to end by our own engineering and installation teams, on live industrial and commercial sites."
+            body="From a single shoplot roof to a 10 MWp solar farm — delivered end to end by our own engineering and installation teams, on live sites."
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {PROJECTS.map((project, i) => {
-              const Icon = PROJECT_ICONS[project.tag as keyof typeof PROJECT_ICONS];
+              const Icon = PROJECT_ICONS[project.tag];
               return (
-                <ScrollReveal key={project.client} delayMs={i * 90}>
+                <ScrollReveal key={project.client} delayMs={(i % 3) * 90}>
                   <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-base-line bg-base-panel shadow-md">
-                    {/* Placeholder artwork. Swap for a real site photo: drop the
-                        file in /public and render it with next/image here. */}
-                    <div className="relative flex h-44 flex-col items-center justify-center gap-2 bg-brand-green-tint text-brand-green-deep">
-                      {Icon && <Icon className="h-8 w-8" />}
-                      <span className="text-3xl font-bold">{project.capacity}</span>
-                      <span className="absolute left-4 top-4 rounded-full bg-base-panel/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-base-slate">
+                    <div className="relative aspect-[16/10] w-full">
+                      {project.image ? (
+                        <Image
+                          src={project.image}
+                          alt={project.imageAlt}
+                          fill
+                          className="object-cover"
+                          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+                        />
+                      ) : (
+                        /* Stands in until the site photo is added — see the
+                           `image` field in content.ts. Deliberately branded
+                           rather than a grey box, so a card without its photo
+                           still reads as finished. */
+                        <div className="flex h-full w-full items-center justify-center bg-brand-green-tint text-brand-green-deep/60">
+                          <Icon className="h-10 w-10" />
+                        </div>
+                      )}
+                      <span className="absolute left-4 top-4 rounded-full bg-brand-orange-deep px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm">
                         {project.tag}
                       </span>
                     </div>
 
                     <div className="flex flex-1 flex-col p-6">
-                      <h3 className="text-lg font-bold leading-snug text-base-ink">{project.title}</h3>
-                      <p className="mt-1 text-sm font-semibold text-base-slate">
-                        {project.client} · {project.location}
-                      </p>
-                      <p className="mt-4 flex-1 text-sm leading-relaxed text-base-slate">{project.detail}</p>
-                      <p className="mt-5 flex items-start gap-2 border-t border-base-line pt-4 text-sm font-semibold text-brand-green-ink">
-                        <CheckCircle className="mt-0.5 shrink-0" />
-                        {project.outcome}
-                      </p>
+                      <p className="text-2xl font-bold tracking-tight text-base-ink">{project.capacity}</p>
+                      <h3 className="mt-1.5 text-base font-semibold leading-snug text-base-ink">
+                        {project.client}
+                      </h3>
+                      {project.panels && (
+                        <p className="mt-4 flex items-center gap-2.5 border-t border-base-line pt-4 text-sm text-base-slate">
+                          <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange-deep" />
+                          {project.panels}
+                        </p>
+                      )}
                     </div>
                   </article>
                 </ScrollReveal>

@@ -79,13 +79,24 @@ export function IconFactory({ className }: { className?: string }) {
   );
 }
 
-export function IconWarehouse({ className }: { className?: string }) {
+export function IconCar({ className }: { className?: string }) {
   return (
     <Frame className={className}>
-      <path d="M3 28V12L16 5l13 7v16" />
-      <path d="M1 28h30" />
-      <path d="M10 28v-9h12v9" />
-      <path d="M10 23h12" />
+      <path d="M4 22v-5.5L7 9h18l3 7.5V22" />
+      <path d="M4 16.5h24" />
+      <path d="M4 22h24v3h-4v-3M8 25v-3H4" />
+      <circle cx="9.5" cy="19.5" r="1.4" />
+      <circle cx="22.5" cy="19.5" r="1.4" />
+    </Frame>
+  );
+}
+
+export function IconSchool({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="m16 4 13 5.5L16 15 3 9.5 16 4Z" />
+      <path d="M8 12v7c0 2.8 3.6 5 8 5s8-2.2 8-5v-7" />
+      <path d="M27 10v7" />
     </Frame>
   );
 }
@@ -101,12 +112,40 @@ export function IconStorefront({ className }: { className?: string }) {
   );
 }
 
+export function IconMosque({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="M11 28V15a5 5 0 0 1 10 0v13" />
+      <path d="M16 10V7" />
+      <path d="M7 28V14h4M25 28V14h-4" />
+      <path d="M5 28h22" />
+      <path d="M14 28v-5a2 2 0 0 1 4 0v5" />
+    </Frame>
+  );
+}
+
+export function IconSolarFarm({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="M3 17h12l-2 7H5l-2-7ZM17 17h12l-2 7h-8l-2-7Z" />
+      <path d="M3.7 20.5h10.6M17.7 20.5h10.6" />
+      <path d="M9 17V8M23 17V8" />
+      <path d="M6 5h20" />
+    </Frame>
+  );
+}
+
 /** Maps a project's industry tag to its glyph. */
 export const PROJECT_ICONS = {
-  Manufacturing: IconFactory,
-  "Logistics & Warehousing": IconWarehouse,
-  "Retail & Commercial": IconStorefront,
+  Factory: IconFactory,
+  "Car Showroom": IconCar,
+  School: IconSchool,
+  Shoplot: IconStorefront,
+  Mosque: IconMosque,
+  "Solar Farm": IconSolarFarm,
 } as const;
+
+export type ProjectTag = keyof typeof PROJECT_ICONS;
 
 export const PILLAR_ICONS = {
   tax: IconTax,
