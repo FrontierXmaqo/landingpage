@@ -81,7 +81,7 @@ export const PROJECTS: Project[] = [
     capacity: "1,071 kWp",
     client: "Spritzer",
     panels: "2,380 solar panels",
-    // public/projects/spritzer.webp
+    image: "/projects/spritzer.webp",
     imageAlt: "Aerial view of the Spritzer factory roof covered in solar panels",
   },
   {
@@ -89,7 +89,7 @@ export const PROJECTS: Project[] = [
     capacity: "159.72 kWp",
     client: "Bermaz Motor Trading",
     panels: "264 solar panels",
-    // public/projects/bermaz.webp
+    // Awaiting photo — see public/projects/README.md for the filename.
     imageAlt: "Solar panels across the roof of the Bermaz Motor Trading showroom",
   },
   {
@@ -97,7 +97,7 @@ export const PROJECTS: Project[] = [
     capacity: "185.13 kWp",
     client: "SRJK (C) Khe Beng",
     panels: "306 solar panels",
-    // public/projects/khe-beng.webp
+    // Awaiting photo — see public/projects/README.md for the filename.
     imageAlt: "Solar panels installed across the roofs of SRJK (C) Khe Beng",
   },
   {
@@ -105,7 +105,7 @@ export const PROJECTS: Project[] = [
     capacity: "26 kWp",
     client: "1 Doc Medical Group Sdn Bhd",
     panels: "40 solar panels",
-    // public/projects/1doc-medical.webp
+    image: "/projects/1doc-medical.webp",
     imageAlt: "Solar panels on the shoplot roof of 1 Doc Medical Group",
   },
   {
@@ -113,14 +113,14 @@ export const PROJECTS: Project[] = [
     capacity: "6.96 kWp",
     client: "Surau At-Taqwa",
     panels: "12 solar panels",
-    // public/projects/surau-at-taqwa.webp
+    image: "/projects/surau-at-taqwa.webp",
     imageAlt: "Solar panels on the pitched roof of Surau At-Taqwa",
   },
   {
     tag: "Solar Farm",
     capacity: "10.25 MWp",
     client: "Amcorp Gemas Solar Plant",
-    // public/projects/amcorp-gemas.webp
+    image: "/projects/amcorp-gemas.webp",
     imageAlt: "Rows of ground-mounted solar panels at the Amcorp Gemas solar plant",
   },
 ];
