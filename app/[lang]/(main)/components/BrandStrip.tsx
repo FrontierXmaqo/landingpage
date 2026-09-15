@@ -21,16 +21,17 @@ export default function BrandStrip({ t }: { t: Dictionary["brandStrip"] }) {
               key={`${brand.name}-${i}`}
               className="mx-6 flex shrink-0 items-center justify-center gap-2.5 sm:mx-10"
             >
-              <div className="relative h-8 w-8 shrink-0 sm:h-9 sm:w-9">
-                <Image
-                  src={brand.logo}
-                  alt=""
-                  fill
-                  sizes="36px"
-                  className="object-contain opacity-70 grayscale"
-                  unoptimized={brand.logo.endsWith(".svg")}
-                />
-              </div>
+              {brand.logo && (
+                <div className="relative h-8 w-8 shrink-0 sm:h-9 sm:w-9">
+                  <Image
+                    src={brand.logo}
+                    alt=""
+                    fill
+                    sizes="36px"
+                    className="object-contain opacity-70 grayscale"
+                  />
+                </div>
+              )}
               <span className="whitespace-nowrap text-base font-semibold text-base-slate sm:text-lg">
                 {brand.name}
               </span>
