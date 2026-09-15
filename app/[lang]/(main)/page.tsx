@@ -13,8 +13,8 @@ import FAQ from "./components/FAQ";
 import HowItWorks from "./components/HowItWorks";
 import WhatsIncluded from "./components/WhatsIncluded";
 import WhyAtap from "./components/WhyAtap";
-import Achievements from "./components/Achievements";
 import CommercialTeaser from "./components/CommercialTeaser";
+import Achievements from "./components/Achievements";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 
@@ -52,8 +52,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <HowItWorks t={t.howItWorks} />
         <WhatsIncluded t={t.whatsIncluded} space={t.space} />
         <WhyAtap t={t.whyAtap} space={t.space} />
-        <Achievements t={t.achievements} />
         <CommercialTeaser t={t.commercial} />
+        <Achievements t={t.achievements} />
         <FinalCTA t={t.finalCta} space={t.space} />
       </main>
       <Footer locale={lang} t={t.footer} />

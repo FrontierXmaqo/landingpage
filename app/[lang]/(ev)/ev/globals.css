@@ -1,3 +1,30 @@
+/* Utilities only, no Preflight: the shared Header component (rendered on this
+   page so the EV navbar matches every other page) is styled with Tailwind
+   classes, but this page's own reset below already zeroes out element
+   defaults — Preflight on top would fight it. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Same tokens as app/[lang]/(main)/globals.css, needed for the shared Header's
+   bg-base-panel / border-base-line / bg-brand-orange-deep etc. classes to resolve. */
+@theme {
+  --color-base-bg: #f7f8f7;
+  --color-base-panel: #ffffff;
+  --color-base-line: #e4e7e4;
+  --color-base-ink: #1a1a1a;
+  --color-base-slate: #5b6660;
+
+  --color-brand-green: #31ac47;
+  --color-brand-green-deep: #357a3a;
+  --color-brand-green-ink: #0c842b;
+  --color-brand-green-tint: #d0f8d1;
+
+  --color-brand-orange: #ff8c4c;
+  --color-brand-orange-deep: #f97000;
+  --color-brand-orange-ink: #b9540b;
+  --color-brand-orange-tint: #f8e7e0;
+}
+
 /* =========================================================
    MAQO — design system
    Palette derived from the MAQO logo: orange wordmark on a
@@ -113,37 +140,9 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .maqo-img{height:40px; width:auto; display:block;}
 .foot-brand .maqo-img{height:52px;}
 
-/* ---------- Header ---------- */
-header{
-  position:sticky; top:0; z-index:50;
-  background:rgba(255,255,255,0.88); backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.nav{display:flex; align-items:center; gap:28px; padding:8px 28px;}
-.brand{display:flex; align-items:center; flex:none;}
-.nav-links{display:flex; gap:26px; margin-left:auto; font-size:0.9rem; font-weight:500; color:var(--text-dim);}
-.nav-links a{position:relative; padding:4px 0;}
-.nav-links a::after{
-  content:""; position:absolute; left:0; right:100%; bottom:0; height:2px;
-  background:var(--green); border-radius:2px; transition:right .22s ease;
-}
-.nav-links a:hover{color:var(--ink);}
-.nav-links a:hover::after{right:0;}
-.nav-actions{display:flex; gap:10px; align-items:center; flex:none;}
-.nav-actions .btn{padding:10px 18px; font-size:0.86rem; white-space:nowrap;}
-
-/* Language switcher: three links on wide screens, a native select on phones */
-.lang-links{display:flex; align-items:center; gap:2px; padding:3px; border:1px solid var(--line); border-radius:999px;}
-.lang-link{
-  min-width:40px; padding:6px 10px; border-radius:999px; text-align:center;
-  font-size:0.78rem; font-weight:600; color:var(--text-dim); transition:color .18s ease, background .18s ease;
-}
-.lang-link:hover{color:var(--ink);}
-.lang-link[aria-current="true"]{background:var(--ink); color:#fff;}
-.lang-select{
-  display:none; height:38px; padding:0 8px; border:1px solid var(--line); border-radius:999px;
-  background:#fff; font:inherit; font-size:0.8rem; font-weight:600; color:var(--ink);
-}
+/* Header/nav/language-switcher styling lives in the shared Header component
+   (app/[lang]/(main)/components/Header.tsx) now — see the Tailwind imports
+   at the top of this file. */
 
 /* ---------- Hero ---------- */
 .hero{
@@ -434,8 +433,6 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1080px){
-  .nav-links{display:none;}
-  .nav-actions{margin-left:auto;}
   .band-grid{grid-template-columns:repeat(2,1fr); gap:24px 32px;}
   .pillars{grid-template-columns:repeat(2,1fr);}
 }
@@ -458,11 +455,6 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
   form{padding:24px;}
 }
 @media (max-width: 560px){
-  .nav{gap:12px; padding:8px 16px;}
-  .nav-actions{gap:8px;}
-  .nav-actions .btn{padding:10px 12px; font-size:0.8rem;}
-  .lang-links{display:none;}
-  .lang-select{display:block;}
   .maqo-img{height:32px;}
   .res-long{flex-direction:column; gap:16px;}
 }

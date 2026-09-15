@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
-import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
+import Header from "@/app/[lang]/(main)/components/Header";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import { EV_CALC_DEFAULTS } from "@/lib/content";
@@ -18,7 +17,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import { fill, type Dictionary, type Locale } from "@/lib/i18n";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page");
@@ -295,18 +294,18 @@ function ElectronFlow({ t }: { t: EvCopy["how"] }) {
 
 export default function EvPage({
   locale,
+  dict,
   t,
   space,
-  switcherLabel,
   options,
   optionValues,
   customFields,
   evCalcConfig,
 }: {
   locale: Locale;
+  dict: Dictionary;
   t: EvCopy;
   space: string;
-  switcherLabel: string;
   options: Dictionary["formOptions"];
   optionValues?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
@@ -368,29 +367,7 @@ export default function EvPage({
 
   return (
     <>
-      <header>
-        <div className="wrap nav">
-          <a className="brand" href="#top" aria-label={t.homeLabel}>
-            <MaqoLogo alt={t.logoAlt} />
-          </a>
-          <nav className="nav-links">
-            <Link href={localePath(locale, "/")}>{t.nav.residential}</Link>
-            <Link href={localePath(locale, "/commercial")}>{t.nav.commercial}</Link>
-            <Link href={localePath(locale, "/ev")}>{t.nav.ev}</Link>
-            <Link href={localePath(locale, "/about")}>{t.nav.about}</Link>
-          </nav>
-          <div className="nav-actions">
-            <LanguageSwitcher
-              locale={locale}
-              label={switcherLabel}
-              classes={{ root: "lang-switch", links: "lang-links", link: "lang-link", select: "lang-select" }}
-            />
-            <a className="btn btn-primary" href="#assessment">
-              {t.nav.cta}
-            </a>
-          </div>
-        </div>
-      </header>
+      <Header locale={locale} t={dict} />
 
       <main id="top">
         {/* HERO */}

@@ -19,9 +19,9 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
   return (
     <EvPage
       locale={lang}
+      dict={dict}
       t={dict.ev}
       space={dict.space}
-      switcherLabel={dict.languageSwitcher.label}
       options={dict.formOptions}
       optionValues={optionValues}
       customFields={customFields}
