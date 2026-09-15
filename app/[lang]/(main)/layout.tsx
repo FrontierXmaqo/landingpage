@@ -53,26 +53,33 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   return (
     <html lang={HTML_LANG[lang]} className={`h-full antialiased ${outfit.variable}`}>
       <head>
-        <Script id="gtm-script" strategy="afterInteractive" nonce={nonce}>
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_ID}');`}
-        </Script>
-
-        <Script id="meta-pixel" strategy="afterInteractive" nonce={nonce}>
-          {`!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        {/* The tag shims only — a few microseconds of work that define
+            dataLayer and the fbq queue, so any event fired before the
+            libraries land (a fast form submit, the PageView below) is queued
+            and replayed rather than lost. */}
+        <Script id="tag-queue" strategy="afterInteractive" nonce={nonce}>
+          {`window.dataLayer=window.dataLayer||[];
+window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document);
 fbq('init', '${META_PIXEL_ID}');
 fbq('track', 'PageView');`}
         </Script>
+
+        {/* gtm.js and fbevents.js are ~200KB of third-party JS whose parse and
+            execute time lands squarely in Total Blocking Time when it runs
+            during load. Deferring the fetch to after the load event keeps the
+            main thread free through the measured window; the shim above means
+            nothing is missed in the meantime. The CSP uses 'strict-dynamic',
+            so scripts injected by this nonce'd script inherit its trust. */}
+        <Script id="tag-loader" strategy="lazyOnload" nonce={nonce}>
+          {`(function(d){function load(src){var j=d.createElement('script');j.async=true;j.src=src;
+d.getElementsByTagName('script')[0].parentNode.insertBefore(j,null)}
+load('https://www.googletagmanager.com/gtm.js?id=${GTM_ID}');
+load('https://connect.facebook.net/en_US/fbevents.js')})(document);`}
+        </Script>
+
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <noscript>
