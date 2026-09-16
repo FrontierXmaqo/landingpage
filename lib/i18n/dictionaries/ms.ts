@@ -579,6 +579,12 @@ const ms: Dictionary = {
       contact: "Hubungi",
       rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). Hak cipta terpelihara.",
     },
+    finalCta: {
+      titleLead: "Bersedia untuk mengecas EV anda dengan",
+      titleAccent: "cahaya matahari",
+      titleTail: "?",
+      body: "Dapatkan penilaian rumah percuma yang direka bentuk mengikut kereta anda, bukan sekadar rumah anda — tiada obligasi, dan kami uruskan kerja kertas TNB anda.",
+    },
   },
 
   atap: {

@@ -587,6 +587,12 @@ const en = {
       contact: "Contact",
       rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). All rights reserved.",
     },
+    finalCta: {
+      titleLead: "Ready to charge your EV on",
+      titleAccent: "sunlight",
+      titleTail: "?",
+      body: "Get a free home assessment sized around your car, not just your house — no obligation, and we handle your TNB paperwork.",
+    },
   },
 
   atap: {
