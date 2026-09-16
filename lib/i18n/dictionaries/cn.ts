@@ -578,12 +578,6 @@ const cn: Dictionary = {
       contact: "联络方式",
       rights: "© 2026 MAQO Engineering Sdn Bhd（MAQO Solar / MAQO Technologies）。版权所有。",
     },
-    finalCta: {
-      titleLead: "准备好用",
-      titleAccent: "阳光",
-      titleTail: "为您的电动车充电了吗？",
-      body: "立即预约免费上门评估，我们会根据您的爱车（而不仅仅是住宅）来设计系统——无需承诺，TNB 文书作业也由我们代办。",
-    },
   },
 
   atap: {

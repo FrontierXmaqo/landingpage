@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Outfit } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
@@ -11,6 +11,13 @@ const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-outfit",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -42,7 +49,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const nonce = (await headers()).get("x-nonce") || undefined;
 
   return (
-    <html lang={HTML_LANG[lang]} className={`h-full antialiased ${outfit.variable}`}>
+    <html lang={HTML_LANG[lang]} className={`${outfit.variable} ${inter.variable}`}>
       <head>
         {/* Google Tag Manager */}
         <Script id="gtm-init" strategy="afterInteractive" nonce={nonce}>
@@ -78,7 +85,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         </noscript>
         {/* End Meta Pixel Code */}
       </head>
-      <body className="min-h-full flex flex-col font-sans">
+      <body>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
