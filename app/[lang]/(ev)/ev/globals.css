@@ -85,7 +85,11 @@ img{max-width:100%; display:block;}
 a{color:inherit; text-decoration:none;}
 :focus-visible{outline:2.5px solid var(--green-700); outline-offset:3px; border-radius:4px;}
 
-.wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+/* Matches the shared Header/Footer's own max-w-6xl container (1152px) and its
+   16px / 24px responsive side padding, instead of a slightly wider fixed
+   1180px + flat 28px that never quite lined up with them. */
+.wrap{max-width:1152px; margin:0 auto; padding:0 16px;}
+@media (min-width:640px){ .wrap{padding:0 24px;} }
 
 h1,h2,h3,h4,h5{
   font-family:var(--font-head);
@@ -135,10 +139,6 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
   transition:gap .18s ease, border-color .18s ease;
 }
 .link-arrow:hover{gap:12px; border-color:var(--green);}
-
-/* ---------- MAQO logo mark (image) ---------- */
-.maqo-img{height:40px; width:auto; display:block;}
-.foot-brand .maqo-img{height:52px;}
 
 /* Header/nav/language-switcher styling lives in the shared Header component
    (app/[lang]/(main)/components/Header.tsx) now — see the Tailwind imports
@@ -421,6 +421,7 @@ form input:focus, form select:focus{border-color:var(--green); outline:none;}
 /* ---------- Footer ---------- */
 footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108px;}
 .foot-grid{display:grid; grid-template-columns:1.5fr 1fr 1.2fr; gap:48px; padding-bottom:36px; border-bottom:1px solid var(--line-dark); margin-bottom:24px;}
+.foot-brand .foot-wordmark{font-family:var(--font-head); font-size:1.05rem; font-weight:700; color:#fff;}
 .foot-brand p{font-size:0.88rem; max-width:34ch; margin-top:18px; color:rgba(255,255,255,0.6);}
 .foot-certs{list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
 .foot-certs li{font-size:0.7rem; font-weight:600; padding:5px 11px; border:1px solid var(--line-dark); border-radius:var(--pill); color:rgba(255,255,255,0.75);}
@@ -431,20 +432,21 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
 .foot-col p{color:rgba(255,255,255,0.5); font-size:0.84rem; margin-top:6px; max-width:32ch;}
 .foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.78rem; color:rgba(255,255,255,0.45);}
 
-/* ---------- Responsive ---------- */
-@media (max-width: 1080px){
+/* ---------- Responsive ----------
+   Breakpoints now match the real Tailwind breakpoints the rest of the site
+   stacks at — 1024px (lg) and 640px (sm) — instead of the old custom 1080 /
+   980 / 780px cutoffs, so EV's grids flip to a mobile layout at the same
+   viewport widths as the Main and C&I pages, not just nearby ones. */
+@media (max-width: 1024px){
   .band-grid{grid-template-columns:repeat(2,1fr); gap:24px 32px;}
   .pillars{grid-template-columns:repeat(2,1fr);}
-}
-@media (max-width: 980px){
   section{padding:72px 0;}
   .hero{padding:64px 0 80px;}
   .hero-grid, .split, .how-grid, .faq-grid, .form-grid{grid-template-columns:1fr; gap:44px;}
   .flow-card, .faq-grid .section-head{position:static;}
   .foot-grid{grid-template-columns:1fr 1fr; gap:36px;}
 }
-@media (max-width: 780px){
-  .wrap{padding:0 20px;}
+@media (max-width: 640px){
   .compare, .calc-panel, .res-grid, .form-row, .pillars{grid-template-columns:1fr;}
   .calc-panel{padding:26px;}
   .calc-results{border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:28px;}
@@ -455,6 +457,5 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
   form{padding:24px;}
 }
 @media (max-width: 560px){
-  .maqo-img{height:32px;}
   .res-long{flex-direction:column; gap:16px;}
 }

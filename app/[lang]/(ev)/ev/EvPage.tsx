@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
@@ -29,20 +28,6 @@ type EvCopy = Dictionary["ev"];
 
 function optionLabel(map: Record<string, string>, value: string) {
   return map[value] ?? value;
-}
-
-/* MAQO logo mark, trimmed to its content bounds from /public/maqologo.png (which ships with large empty margins) */
-function MaqoLogo({ alt, invert = false }: { alt: string; invert?: boolean }) {
-  return (
-    <Image
-      src="/maqo-logo-mark-v2.png"
-      alt={alt}
-      width={199}
-      height={54}
-      className={"maqo-img" + (invert ? " invert" : "")}
-      priority
-    />
-  );
 }
 
 function ArrowIcon() {
@@ -840,7 +825,7 @@ export default function EvPage({
         <div className="wrap">
           <div className="foot-grid">
             <div className="foot-brand">
-              <MaqoLogo alt={t.logoAlt} invert />
+              <p className="foot-wordmark">MAQO Engineering Sdn Bhd</p>
               <p>{t.footer.tagline}</p>
               <ul className="foot-certs">
                 {t.hero.trust.map((item) => (
