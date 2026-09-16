@@ -1,12 +1,14 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
-import Header from "@/app/[lang]/(main)/components/Header";
+import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
-import { EV_CALC_DEFAULTS } from "@/lib/content";
+import { EV_CALC_DEFAULTS, OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import {
   SALUTATIONS,
@@ -16,7 +18,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import { fill, type Dictionary, type Locale } from "@/lib/i18n";
+import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page");
@@ -350,9 +352,40 @@ export default function EvPage({
     };
   }, [bill, selected, evCalc]);
 
+  const nav = [
+    { href: localePath(locale, "/"), label: t.nav.residential },
+    { href: localePath(locale, "/commercial-and-industrial"), label: t.nav.commercial },
+    { href: localePath(locale, "/ev"), label: t.nav.ev, current: true },
+    { href: localePath(locale, "/atap"), label: t.nav.atap },
+    { href: localePath(locale, "/about"), label: t.nav.about },
+  ];
+
   return (
     <>
-      <Header locale={locale} t={dict} />
+      <header className="topbar">
+        <div className="wrap topbar-inner">
+          <Link href={localePath(locale, "/")} className="topbar-logo" aria-label={dict.header.logoAlt}>
+            <Image src={OLD_SITE_IMAGES.logo} alt={dict.header.logoAlt} fill className="topbar-logo-img" sizes="160px" priority />
+          </Link>
+          <nav className="topnav">
+            {nav.map((item) => (
+              <Link key={item.href} href={item.href} className={item.current ? "current" : ""}>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="topbar-right">
+            <LanguageSwitcher
+              locale={locale}
+              label={dict.languageSwitcher.label}
+              classes={{ root: "lang-switch", links: "lang-pills", link: "lang-pill", select: "lang-select" }}
+            />
+            <a className="btn btn-primary btn-sm" href="#assessment">
+              {dict.header.cta}
+            </a>
+          </div>
+        </div>
+      </header>
 
       <main id="top">
         {/* HERO */}
