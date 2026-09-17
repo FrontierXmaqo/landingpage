@@ -1,7 +1,7 @@
 // Single source of truth for lead form option lists, shared by the client
 // component (rendering <select> options) and the server action (validating
 // submissions against an allowlist instead of trusting raw form values).
-export const SALUTATIONS = ["Mr", "Ms", "Mrs", "Datin", "Dato", "Dr.", "Dato' Sri", "Tun"];
+export const SALUTATIONS = ["Ms", "Mr", "Mrs", "Dr.", "Dato", "Datin", "Dato' Sri", "Tun"];
 
 export const MALAYSIAN_STATES = [
   "Selangor", "Kuala Lumpur", "Putrajaya", "Negeri Sembilan", "Melaka", "Johor",

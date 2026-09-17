@@ -13,6 +13,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
+import { getPublishedLeadFormFields } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
@@ -117,6 +118,19 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
   }
   const phone = toWhatsAppNumber(phoneRaw);
 
+  // Custom fields marketing added in the CMS: only ones currently published are
+  // trusted, and each value is pinned to that field's own published option list —
+  // same allowlist discipline as the core fields above.
+  const customFields = await getPublishedLeadFormFields();
+  const extraFields: Record<string, string> = {};
+  for (const field of customFields) {
+    const value = oneOf(clean(formData.get(field.key), 120), field.values);
+    if (value) extraFields[field.key] = value;
+  }
+  const extraFieldsSummary = customFields
+    .filter((f) => extraFields[f.key])
+    .map((f) => `${f.label}: ${extraFields[f.key]}`);
+
   const emailLooksValid = !email || EMAIL_PATTERN.test(email);
 
   const turnstileOk = await verifyTurnstileToken(turnstileToken, clientIp);
@@ -132,6 +146,7 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
       monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
       electric_supply: electric_supply || null, preferred_language: preferred_language || null,
       lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
+      extra_fields: extraFields,
     });
     if (error) {
       console.error("Supabase insert error", error);
@@ -155,7 +170,7 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,
     sourcePage,
-    remarks: charge_time ? `Usually charges EV: ${charge_time}` : "",
+    remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,
   });
 

@@ -5,8 +5,13 @@
 export const OLD_SITE_IMAGES = {
   logo:
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/6717ae8a5616d5183447846f.png",
-  heroHouse:
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/68e78757df76fe78d1531841.png",
+  // Self-hosted for the same reason as the partner logos below: this is the
+  // LCP image on mobile, and hotlinking it meant the browser waited on two
+  // external services (a GoHighLevel media path, re-encoded by LeadConnector's
+  // image CDN) before the largest element could paint. Serving it from /public
+  // also means a clear-out of the old site's media library cannot silently
+  // empty the hero.
+  heroHouse: "/hero-rooftop.webp",
   billBefore:
     "https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/68e73b88a265ecb57675ca51.png",
   billAfter:
@@ -19,8 +24,8 @@ export const OLD_SITE_IMAGES = {
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/67176495a3b2c4043dab9a1f.png",
   ],
   gallery: [
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e053aa80b446d0fbdc1c19.jpg",
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e0691c190683601a8e9061.jpg",
+    "/gallery-residential-install.jpg",
+    "/gallery-quality-ci.jpg",
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e06c1f93c88e42c38b9267.jpg",
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e0557ddb7c222f717e142f.jpg",
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e05a1080b446d0fbdd9bb8.jpg",
@@ -74,6 +79,21 @@ export const SOLAR_CALC_CONFIG = {
   suriaRebateCap: 3000,
   maqoAnniversaryRebateFlat: 1000,
   maqoAnniversaryRebateValidUntil: "31 October 2026",
+};
+
+/** Fallback for the EV landing page's calculator, mirrored in Supabase's
+ * `ev_calculator_config` table (see lib/publishedContent.ts) — used only if
+ * that table is empty or unreachable. */
+export const EV_CALC_DEFAULTS = {
+  ratePerKwh: 0.44,
+  avgKwhPerKwpMonth: 1463,
+  referenceSystemKwp: 14.3,
+  kwpPerPanel: 0.65,
+  minSystemKwp: 4,
+  minMonthlyBill: 15,
+  offsetDayPercent: 80,
+  offsetNightPercent: 90,
+  offsetMixedPercent: 85,
 };
 
 export type SolarPackage = {

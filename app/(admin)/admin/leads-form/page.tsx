@@ -1,36 +1,40 @@
 import { redirect } from "next/navigation";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
-import { ensureLeadFormDraftSeeded, publishLeadFormOptions, unpublishLeadFormOptions } from "./actions";
-import { FIELDS } from "./fields";
-import OptionField from "./OptionField";
+import {
+  ensureLeadFormDraftSeeded,
+  ensureLeadFormFieldsDraftSeeded,
+  getLeadFormPublishStatus,
+  publishLeadFormOptions,
+  unpublishLeadFormOptions,
+  discardLeadFormDraft,
+} from "./actions";
+import LeadFormTable from "./LeadFormTable";
+import DiscardDraftButton from "../DiscardDraftButton";
+import PublishButton from "../PublishButton";
 import { formatMYDateTime } from "@/lib/datetime";
-
-const LABELS: Record<(typeof FIELDS)[number], string> = {
-  salutation: "Salutation",
-  state: "State",
-  bill_range: "Monthly TNB bill range",
-  property_type: "Property type",
-  electric_supply: "Electric supply",
-  language: "Preferred language",
-};
 
 export default async function LeadFormOptionsPage() {
   const profile = await getCurrentProfile();
   if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin");
 
+  await ensureLeadFormFieldsDraftSeeded();
   await ensureLeadFormDraftSeeded();
 
   const supabase = await getSupabaseUserClient();
-  const { data: rows } = await supabase.from("lead_form_options").select("*").eq("status", "draft").order("sort_order");
-  const { data: published } = await supabase.from("lead_form_options").select("published_at").eq("status", "published").limit(1).maybeSingle();
+  const [{ data: fields }, { data: rows }, { data: published }, publishStatus] = await Promise.all([
+    supabase.from("lead_form_fields").select("*").eq("status", "draft").order("sort_order"),
+    supabase.from("lead_form_options").select("*").eq("status", "draft").order("sort_order"),
+    supabase.from("lead_form_options").select("published_at").eq("status", "published").limit(1).maybeSingle(),
+    getLeadFormPublishStatus(),
+  ]);
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <div className="flex items-center justify-between">
+    <div className="mx-auto max-w-5xl">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-base-ink">Lead Form</h1>
           <p className="mt-1 text-sm text-base-slate">
-            Add, remove, or reorder the dropdown options shown on the public assessment form.
+            Add, edit, or remove fields and their dropdown options on the public assessment form.
           </p>
         </div>
         {published?.published_at && (
@@ -38,26 +42,29 @@ export default async function LeadFormOptionsPage() {
         )}
       </div>
 
-      <div className="mt-6 flex gap-3">
-        <form action={publishLeadFormOptions}>
-          <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]">Publish</button>
-        </form>
-        <form action={unpublishLeadFormOptions}>
-          <button className="rounded-lg border border-status-critical px-4 py-2 text-sm font-semibold text-status-critical transition-transform duration-100 active:scale-[0.98]">
-            Unpublish (revert to previous)
-          </button>
-        </form>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <PublishButton
+          action={publishLeadFormOptions}
+          canRun={publishStatus.canPublish}
+          idleHint="Nothing to publish — the draft matches what's already live."
+          pendingLabel="Publishing…"
+        >
+          Publish
+        </PublishButton>
+        <PublishButton
+          action={unpublishLeadFormOptions}
+          canRun={publishStatus.canUnpublish}
+          idleHint="Nothing to revert to — no earlier published version yet."
+          pendingLabel="Reverting…"
+          variant="outline"
+        >
+          Unpublish (revert to previous)
+        </PublishButton>
+        <DiscardDraftButton action={discardLeadFormDraft} />
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {FIELDS.map((field) => (
-          <OptionField
-            key={field}
-            field={field}
-            label={LABELS[field]}
-            options={(rows ?? []).filter((r) => r.field_name === field).map((r) => ({ id: r.id, value: r.value }))}
-          />
-        ))}
+      <div className="mt-6">
+        <LeadFormTable fields={fields ?? []} options={rows ?? []} />
       </div>
     </div>
   );

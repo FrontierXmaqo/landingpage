@@ -22,7 +22,15 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       new URL("https://images.leadconnectorhq.com/**"),
       new URL("https://assets.cdn.filesafe.space/**"),
+      // Project photos uploaded through the CMS.
+      new URL("https://yhpsidiipdassknsggcz.supabase.co/storage/v1/object/public/**"),
     ],
+  },
+  experimental: {
+    // Default is 1MB, which a phone photo blows past instantly. The upload
+    // action caps the file at 10MB itself and returns a readable error; this
+    // just has to be the larger of the two so the request reaches it.
+    serverActions: { bodySizeLimit: "12mb" },
   },
   async headers() {
     return [

@@ -2,36 +2,69 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabaseUserClient } from "@/lib/supabase/server";
-import { FIELDS, type FieldName } from "./fields";
 import { requireRole } from "../guard";
+import type { PublishState } from "../publishState";
 import { oneOf, text, uuid } from "@/lib/validate";
 
 const LEAD_FORM_ROLES = ["admin", "marketing"] as const;
 
+/** Slug for a custom field's key: lowercase, digits, underscores — mirrors the
+ * shape of the existing core field names (e.g. "bill_range"). */
+const FIELD_KEY = /^[a-z][a-z0-9_]{1,39}$/;
+
+// The check-then-insert this used to do here (one query for "is there a
+// draft?", then a separate insert copying the published rows) raced: this
+// runs on every load of /admin/leads-form, including Next.js's Link
+// prefetch, so two overlapping requests could both see "no draft" before
+// either had inserted, and both would copy the full published set. That is
+// how the salutation options ended up with hundreds of duplicate rows.
+// `ensure_draft_seeded` does the check and the insert inside one Postgres
+// function, under an advisory lock keyed by table name, so a second caller
+// blocks until the first commits and then finds the draft already there.
 export async function ensureLeadFormDraftSeeded() {
   await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
-  for (const field of FIELDS) {
-    const { data: draft } = await supabase.from("lead_form_options").select("id").eq("status", "draft").eq("field_name", field).limit(1);
-    if (draft?.length) continue;
-    const { data: published } = await supabase.from("lead_form_options").select("value, sort_order").eq("status", "published").eq("field_name", field);
-    if (published?.length) {
-      await supabase.from("lead_form_options").insert(
-        published.map((row) => ({ field_name: field, value: row.value, sort_order: row.sort_order, status: "draft" }))
-      );
-    }
+  const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: "lead_form_options" });
+  if (error) {
+    throw new Error(`Could not prepare the lead form options draft (${error.message}). Nothing was changed — reload and try again.`);
   }
 }
 
-export async function addOption(field: FieldName, value: string) {
+/** Same seeding pattern as ensureLeadFormDraftSeeded, for the field *definitions*
+ * themselves rather than their option values — same atomic, lock-guarded
+ * `ensure_draft_seeded` RPC, for the same reason (see that function's comment). */
+export async function ensureLeadFormFieldsDraftSeeded() {
+  await requireRole([...LEAD_FORM_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: "lead_form_fields" });
+  if (error) throw new Error(`Could not prepare the lead form draft (${error.message}).`);
+}
+
+/** A field name is only ever trusted if it's a currently-draft field key —
+ * covers both the 6 core fields and any custom ones marketing has added. */
+async function assertKnownDraftField(fieldName: string) {
+  const supabase = await getSupabaseUserClient();
+  const { data } = await supabase.from("lead_form_fields").select("id").eq("status", "draft").eq("field_key", fieldName).maybeSingle();
+  if (!data) throw new Error("Unknown field.");
+}
+
+export async function addOption(field: string, value: string) {
   const profile = await requireRole([...LEAD_FORM_ROLES]);
-  // `field` names a column-ish value from the client — pin it to the known list.
-  const fieldName = oneOf(field, FIELDS, "field");
+  const fieldName = text(field, { max: 40, required: true, field: "field" });
+  await assertKnownDraftField(fieldName);
   const trimmed = text(value, { max: 120 });
   if (!trimmed) return;
   const supabase = await getSupabaseUserClient();
   const { count } = await supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "draft").eq("field_name", fieldName);
   await supabase.from("lead_form_options").insert({ field_name: fieldName, value: trimmed, sort_order: count ?? 0, status: "draft", updated_by: profile.id });
+  revalidatePath("/admin/leads-form");
+}
+
+export async function updateOption(id: string, value: string) {
+  const profile = await requireRole([...LEAD_FORM_ROLES]);
+  const trimmed = text(value, { max: 120, required: true, field: "value" });
+  const supabase = await getSupabaseUserClient();
+  await supabase.from("lead_form_options").update({ value: trimmed, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("status", "draft");
   revalidatePath("/admin/leads-form");
 }
 
@@ -42,40 +75,153 @@ export async function removeOption(id: string) {
   revalidatePath("/admin/leads-form");
 }
 
-export async function moveOption(id: string, direction: "up" | "down", field: FieldName) {
+/** Adds a brand-new custom dropdown field (always is_core=false — the 6 core
+ * fields are seeded once by migration and never created through this action). */
+export async function addField(key: string, label: string) {
+  const profile = await requireRole([...LEAD_FORM_ROLES]);
+  const fieldKey = text(key, { max: 40, required: true, field: "key" }).toLowerCase();
+  if (!FIELD_KEY.test(fieldKey)) throw new Error("Field key must be lowercase letters, numbers, or underscores, starting with a letter.");
+  const fieldLabel = text(label, { max: 80, required: true, field: "label" });
+
+  const supabase = await getSupabaseUserClient();
+  const { data: existing } = await supabase.from("lead_form_fields").select("id").eq("status", "draft").eq("field_key", fieldKey).maybeSingle();
+  if (existing) throw new Error("A field with that key already exists.");
+
+  const { count } = await supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft");
+  await supabase.from("lead_form_fields").insert({
+    field_key: fieldKey, label: fieldLabel, is_core: false, sort_order: count ?? 0, status: "draft", updated_by: profile.id,
+  });
+  revalidatePath("/admin/leads-form");
+}
+
+export async function updateFieldLabel(id: string, label: string) {
+  const profile = await requireRole([...LEAD_FORM_ROLES]);
+  const fieldLabel = text(label, { max: 80, required: true, field: "label" });
+  const supabase = await getSupabaseUserClient();
+  await supabase.from("lead_form_fields").update({ label: fieldLabel, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("status", "draft");
+  revalidatePath("/admin/leads-form");
+}
+
+/** Deletes a custom field and its draft options. No-ops on core fields — those
+ * are protected because the public form and submitLead.ts hardcode their keys. */
+export async function removeField(id: string) {
   await requireRole([...LEAD_FORM_ROLES]);
-  const fieldName = oneOf(field, FIELDS, "field");
   const rowId = uuid(id);
   const supabase = await getSupabaseUserClient();
-  const { data: rows } = await supabase.from("lead_form_options").select("id, sort_order").eq("status", "draft").eq("field_name", fieldName).order("sort_order");
+  const { data: field } = await supabase.from("lead_form_fields").select("field_key, is_core").eq("id", rowId).eq("status", "draft").maybeSingle();
+  if (!field || field.is_core) return;
+
+  await supabase.from("lead_form_options").delete().eq("status", "draft").eq("field_name", field.field_key);
+  await supabase.from("lead_form_fields").delete().eq("id", rowId);
+  revalidatePath("/admin/leads-form");
+}
+
+export async function moveField(id: string, direction: "up" | "down") {
+  await requireRole([...LEAD_FORM_ROLES]);
+  const rowId = uuid(id);
+  const supabase = await getSupabaseUserClient();
+  const { data: rows } = await supabase.from("lead_form_fields").select("id, sort_order").eq("status", "draft").order("sort_order");
   if (!rows) return;
   const idx = rows.findIndex((r) => r.id === rowId);
   const swapWith = oneOf(direction, ["up", "down"] as const, "direction") === "up" ? idx - 1 : idx + 1;
   if (idx < 0 || swapWith < 0 || swapWith >= rows.length) return;
-  await supabase.from("lead_form_options").update({ sort_order: rows[swapWith].sort_order }).eq("id", rows[idx].id);
-  await supabase.from("lead_form_options").update({ sort_order: rows[idx].sort_order }).eq("id", rows[swapWith].id);
+  await supabase.from("lead_form_fields").update({ sort_order: rows[swapWith].sort_order }).eq("id", rows[idx].id);
+  await supabase.from("lead_form_fields").update({ sort_order: rows[idx].sort_order }).eq("id", rows[swapWith].id);
   revalidatePath("/admin/leads-form");
+}
+
+/** Counts how many rows across both tables are draft/archived right now, so
+ * the page can disable Publish/Unpublish up front instead of only reporting
+ * "nothing to do" after the click. */
+export async function getLeadFormPublishStatus() {
+  await requireRole([...LEAD_FORM_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  const [{ count: draftFields }, { count: draftOptions }, { count: archivedFields }, { count: archivedOptions }] = await Promise.all([
+    supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft"),
+    supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "draft"),
+    supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "archived"),
+    supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "archived"),
+  ]);
+  return {
+    canPublish: Boolean(draftFields || draftOptions),
+    canUnpublish: Boolean(archivedFields || archivedOptions),
+  };
 }
 
 // ponytail: sequential writes, matches the same pattern (and the same ceiling) as calculator publish/unpublish.
-export async function publishLeadFormOptions() {
+//
+// Each table's archive step only runs if that table actually has a draft ready
+// to take the published slot. Without this guard, publishing twice in a row
+// (the second time with nothing new drafted — e.g. a stray double-click, or
+// hitting Publish again after a page reload reseeded an identical draft)
+// archives the live published rows and promotes zero rows to replace them,
+// silently wiping every option. Learned the hard way: this happened for real
+// and left every field showing "No options yet".
+export async function publishLeadFormOptions(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   const profile = await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
   const now = new Date().toISOString();
-  await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
-  await supabase.from("lead_form_options").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+  let published = false;
+
+  const { count: draftFieldsCount } = await supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft");
+  if (draftFieldsCount) {
+    await supabase.from("lead_form_fields").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("lead_form_fields").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+    published = true;
+  }
+
+  const { count: draftOptionsCount } = await supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "draft");
+  if (draftOptionsCount) {
+    await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("lead_form_options").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+    published = true;
+  }
+
   revalidatePath("/admin/leads-form");
   revalidatePath("/");
+
+  return published
+    ? { status: "success", message: "Published — the public form now shows this draft." }
+    : { status: "empty", message: "Nothing to publish — the draft has no changes." };
 }
 
-export async function unpublishLeadFormOptions() {
+export async function unpublishLeadFormOptions(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
+  let reverted = false;
+
+  const { data: lastArchivedFields } = await supabase
+    .from("lead_form_fields").select("published_at").eq("status", "archived").order("published_at", { ascending: false }).limit(1).maybeSingle();
+  if (lastArchivedFields?.published_at) {
+    await supabase.from("lead_form_fields").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("lead_form_fields").update({ status: "published" }).eq("published_at", lastArchivedFields.published_at).eq("status", "archived");
+    reverted = true;
+  }
+
   const { data: lastArchived } = await supabase
     .from("lead_form_options").select("published_at").eq("status", "archived").order("published_at", { ascending: false }).limit(1).maybeSingle();
-  if (!lastArchived?.published_at) return;
-  await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
-  await supabase.from("lead_form_options").update({ status: "published" }).eq("published_at", lastArchived.published_at).eq("status", "archived");
+  if (lastArchived?.published_at) {
+    await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
+    await supabase.from("lead_form_options").update({ status: "published" }).eq("published_at", lastArchived.published_at).eq("status", "archived");
+    reverted = true;
+  }
+
   revalidatePath("/admin/leads-form");
   revalidatePath("/");
+
+  return reverted
+    ? { status: "success", message: "Reverted to the previous published version." }
+    : { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
+}
+
+/** Discards in-progress draft edits (fields + options), resetting the draft
+ * back to match the currently published set. */
+export async function discardLeadFormDraft() {
+  await requireRole([...LEAD_FORM_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  await supabase.from("lead_form_options").delete().eq("status", "draft");
+  await supabase.from("lead_form_fields").delete().eq("status", "draft");
+  await ensureLeadFormDraftSeeded();
+  await ensureLeadFormFieldsDraftSeeded();
+  revalidatePath("/admin/leads-form");
 }

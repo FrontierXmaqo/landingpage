@@ -20,6 +20,12 @@
   --color-brand-orange-ink: #b9540b;
   --color-brand-orange-tint: #f8e7e0;
 
+  /* Deep navy. Unlike the brand steps above it carries no MAQO brand meaning —
+     it exists as a second dark ground for full-width bands, so a page can close
+     on something other than brand-green-deep. Fill only; white text on it clears
+     AA comfortably. */
+  --color-brand-navy: #142744;
+
   --color-accent-violet: #7418e5;
   --color-accent-violet-ink: #7510e8;
   --color-accent-violet-tint: #ebe9f8;
@@ -41,6 +47,45 @@
   --color-chart-5: #1684b5;
 
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Per-page colour themes. Home/ATAP-shared defaults above stay orange; these
+   three pages get their own identity by repointing the same brand-orange-*
+   and brand-green-* custom properties to a different hue, scoped to a
+   `data-theme` wrapper the page renders around itself (see page.tsx files).
+   No component markup changes — every className stays bg-brand-orange-deep,
+   text-brand-green-ink, etc., it just resolves to a different colour here. */
+[data-theme="ci"] {
+  --color-brand-orange: #3d6690;
+  --color-brand-orange-deep: #15304f;
+  --color-brand-orange-ink: #1d4a73;
+  --color-brand-orange-tint: #e4ecf5;
+  --color-brand-green: #2c4a6e;
+  --color-brand-green-deep: #0c2038;
+  --color-brand-green-ink: #1d4a73;
+  --color-brand-green-tint: #e4ecf5;
+}
+
+[data-theme="about"] {
+  --color-brand-orange: #a5486b;
+  --color-brand-orange-deep: #7a2140;
+  --color-brand-orange-ink: #6e1d3a;
+  --color-brand-orange-tint: #f5e6ea;
+  --color-brand-green: #6e1d3a;
+  --color-brand-green-deep: #5c1730;
+  --color-brand-green-ink: #6e1d3a;
+  --color-brand-green-tint: #f5e6ea;
+}
+
+[data-theme="atap"] {
+  --color-brand-orange: #f0a53d;
+  --color-brand-orange-deep: #b66d0c;
+  --color-brand-orange-ink: #9c5b0a;
+  --color-brand-orange-tint: #fbead1;
+  --color-brand-green: #c77d1e;
+  --color-brand-green-deep: #8a5a0f;
+  --color-brand-green-ink: #9c5b0a;
+  --color-brand-green-tint: #fbead1;
 }
 
 body { background: var(--color-base-bg); color: var(--color-base-ink); }
@@ -122,4 +167,24 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .animate-fade-in-up, .animate-modal-in, .animate-credential-highlight { animation: none; }
   .reveal-on-scroll { animation: none; opacity: 1; transform: none; }
   .animate-bar-rise { animation: none; transform: none; }
+}
+
+/* ATAP page hero: a soft brand-colour glow plus a faint dot-grid ("the grid")
+   behind the mock bill card — texture without needing a photo. */
+.atap-hero-glow {
+  background:
+    radial-gradient(680px 420px at 82% -10%, color-mix(in srgb, var(--color-brand-green) 16%, transparent), transparent 65%),
+    radial-gradient(520px 420px at 100% 40%, color-mix(in srgb, var(--color-brand-orange) 14%, transparent), transparent 70%);
+}
+.atap-hero-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--color-base-ink) 16%, transparent) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(560px 460px at 82% 15%, black, transparent 72%);
+          mask-image: radial-gradient(560px 460px at 82% 15%, black, transparent 72%);
+}
+
+@keyframes atap-flow { to { stroke-dashoffset: -24; } }
+.atap-flow-dash { stroke-dasharray: 6 6; animation: atap-flow 1.6s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .atap-flow-dash { animation: none; }
 }

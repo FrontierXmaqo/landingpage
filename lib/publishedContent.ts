@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, type SolarPackage } from "@/lib/content";
+import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, type SolarPackage } from "@/lib/content";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
+
+export type PublishedCustomField = { key: string; label: string; values: string[] };
 
 // Public, RLS-protected anon client — server-side only, reads `status='published'` rows.
 function getAnonClient() {
@@ -87,5 +89,115 @@ export async function getPublishedLeadFormOptions(): Promise<LeadFormOptionLists
     };
   } catch {
     return {};
+  }
+}
+
+/** Fetches the live (published) EV landing page calculator config, falling back to
+ * EV_CALC_DEFAULTS if Supabase is unreachable or empty — same safety net as
+ * getPublishedCalculatorData(). */
+export async function getPublishedEvCalculatorConfig() {
+  try {
+    const supabase = getAnonClient();
+    const { data } = await supabase.from("ev_calculator_config").select("*").eq("status", "published").maybeSingle();
+    if (!data) return EV_CALC_DEFAULTS;
+
+    return {
+      ratePerKwh: Number(data.rate_per_kwh),
+      avgKwhPerKwpMonth: Number(data.avg_kwh_per_kwp_month),
+      referenceSystemKwp: Number(data.reference_system_kwp),
+      kwpPerPanel: Number(data.kwp_per_panel),
+      minSystemKwp: Number(data.min_system_kwp),
+      minMonthlyBill: Number(data.min_monthly_bill),
+      offsetDayPercent: Number(data.offset_day_percent),
+      offsetNightPercent: Number(data.offset_night_percent),
+      offsetMixedPercent: Number(data.offset_mixed_percent),
+    };
+  } catch {
+    return EV_CALC_DEFAULTS;
+  }
+}
+
+/** Fetches published *custom* lead-form fields (anything beyond the 6 core fields),
+ * each with its published option values attached. Empty array on failure — the
+ * public form simply renders none of them, core fields are unaffected. */
+export async function getPublishedLeadFormFields(): Promise<PublishedCustomField[]> {
+  try {
+    const supabase = getAnonClient();
+    const [{ data: fields }, { data: options }] = await Promise.all([
+      supabase.from("lead_form_fields").select("field_key, label, sort_order").eq("status", "published").eq("is_core", false).order("sort_order"),
+      supabase.from("lead_form_options").select("field_name, value, sort_order").eq("status", "published").order("sort_order"),
+    ]);
+
+    return (fields ?? []).map((f) => ({
+      key: f.field_key as string,
+      label: f.label as string,
+      values: (options ?? []).filter((o) => o.field_name === f.field_key).map((o) => o.value as string),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export type PublishedCiProject = {
+  tag: string;
+  capacity: string;
+  client: string;
+  panels?: string;
+  image?: string;
+  imageAlt: string;
+  summary?: string;
+};
+
+/** A roster tile: the logo when there is one, the name otherwise (and as its
+ *  alt text either way). */
+export type PublishedCiClient = { name: string; logo?: string };
+
+export type PublishedCiContent = {
+  projects: PublishedCiProject[];
+  clients: PublishedCiClient[];
+  trustStats: { value: string; label: string }[];
+};
+
+/**
+ * Fetches the published Commercial & Industrial page content — project cards,
+ * client roster and trust stats.
+ *
+ * Each list falls back independently to the hardcoded content in the page's
+ * own content.ts: an empty table, a half-finished publish or an unreachable
+ * Supabase leaves that section showing what it shows today rather than
+ * collapsing to nothing. Same safety net as the calculator and lead form.
+ */
+export async function getPublishedCiContent(fallback: PublishedCiContent): Promise<PublishedCiContent> {
+  try {
+    const supabase = getAnonClient();
+    const [projectsRes, clientsRes, statsRes] = await Promise.all([
+      supabase.from("ci_projects").select("*").eq("status", "published").order("sort_order"),
+      supabase.from("ci_clients").select("name, logo_url").eq("status", "published").order("sort_order"),
+      supabase.from("ci_trust_stats").select("value, label").eq("status", "published").order("sort_order"),
+    ]);
+
+    const projects: PublishedCiProject[] = (projectsRes.data ?? []).map((row) => ({
+      tag: String(row.tag),
+      capacity: String(row.capacity),
+      client: String(row.client),
+      panels: row.panels ? String(row.panels) : undefined,
+      image: row.image_url ? String(row.image_url) : undefined,
+      imageAlt: String(row.image_alt ?? ""),
+      summary: row.summary ? String(row.summary) : undefined,
+    }));
+
+    const clients: PublishedCiClient[] = (clientsRes.data ?? []).map((r) => ({
+      name: String(r.name),
+      logo: r.logo_url ? String(r.logo_url) : undefined,
+    }));
+    const trustStats = (statsRes.data ?? []).map((r) => ({ value: String(r.value), label: String(r.label) }));
+
+    return {
+      projects: projects.length ? projects : fallback.projects,
+      clients: clients.length ? clients : fallback.clients,
+      trustStats: trustStats.length ? trustStats : fallback.trustStats,
+    };
+  } catch {
+    return fallback;
   }
 }

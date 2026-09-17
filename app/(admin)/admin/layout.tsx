@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import { getCurrentProfile, type Role } from "@/lib/supabase/server";
+import { getCurrentProfile } from "@/lib/supabase/server";
 import SignOutButton from "./SignOutButton";
+import NavLinks from "./NavLinks";
+import { NAV } from "./nav";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-outfit", display: "swap" });
 
 export const metadata: Metadata = { title: "MAQO CMS", robots: { index: false, follow: false } };
-
-const NAV: { href: string; label: string; roles: Role[] }[] = [
-  { href: "/admin", label: "Overview", roles: ["admin", "marketing", "sales"] },
-  { href: "/admin/calculator", label: "Solar Calculator Settings", roles: ["admin", "marketing"] },
-  { href: "/admin/leads-form", label: "Lead Form", roles: ["admin", "marketing"] },
-  { href: "/admin/enquiries", label: "Customer Enquiries", roles: ["admin", "sales"] },
-  { href: "/admin/analytics", label: "Performance Analytics", roles: ["admin", "marketing", "sales"] },
-  { href: "/admin/users", label: "User Management", roles: ["admin"] },
-];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentProfile();
@@ -30,28 +23,37 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   const items = NAV.filter((item) => item.roles.includes(profile.role));
+  const initials = (profile.full_name || profile.role)
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
     <html lang="en" className={`h-full antialiased ${outfit.variable}`}>
       <body className="min-h-full font-sans">
-        <div className="flex min-h-screen">
-          <aside className="flex w-64 shrink-0 flex-col border-r border-base-line bg-base-panel">
-            <div className="border-b border-base-line px-5 py-5">
-              <p className="text-sm font-bold text-base-ink">MAQO CMS</p>
-              <p className="mt-0.5 text-xs text-base-slate">{profile.full_name || "Internal"} · {profile.role}</p>
+        <div className="flex min-h-screen items-start">
+          {/* Pinned: the CMS pages are long (the C&I editor runs to a dozen project
+              cards), and the nav used to scroll away with them. Sticky rather than
+              fixed so it still sits in the flex row, and it scrolls internally if a
+              short window cannot fit every link. */}
+          <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col bg-sidebar-bg">
+            <div className="shrink-0 border-b border-sidebar-line px-5 py-5">
+              <p className="flex items-center gap-2 text-sm font-bold text-sidebar-ink">
+                <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-green text-[11px] font-bold text-white">M</span>
+                MAQO CMS
+              </p>
             </div>
-            <nav className="flex-1 space-y-0.5 px-3 py-4">
-              {items.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-base-ink transition-colors duration-150 hover:bg-brand-green-tint hover:text-brand-green-ink"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <div className="border-t border-base-line p-3">
+            <NavLinks items={items} />
+            <div className="flex shrink-0 items-center gap-2.5 border-t border-sidebar-line p-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sidebar-bg-raised text-xs font-semibold text-sidebar-ink">
+                {initials}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-sidebar-ink">{profile.full_name || "Internal"}</p>
+                <p className="truncate text-xs capitalize text-sidebar-muted">{profile.role}</p>
+              </div>
               <SignOutButton />
             </div>
           </aside>

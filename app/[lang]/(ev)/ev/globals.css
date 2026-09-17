@@ -7,15 +7,17 @@
    ========================================================= */
 
 :root{
-  /* Brand */
-  --orange:#F5901E;
-  --orange-600:#E07C0C;
-  --orange-700:#B96208;
-  --orange-050:#FEF3E3;
-  --green:#7DB928;
-  --green-600:#6BA31D;
-  --green-700:#4F7D14;
-  --green-050:#F2F8E7;
+  /* Brand — green is the page's primary (buttons, highlights, active states);
+     --orange-* holds a deeper green tone for ink/link text, kept under its
+     original variable names so every existing class below is unchanged. */
+  --orange:#1E9E52;
+  --orange-600:#178A46;
+  --orange-700:#0F6E37;
+  --orange-050:#E3F5E9;
+  --green:#0B5C2C;
+  --green-600:#0A4E26;
+  --green-700:#08401F;
+  --green-050:#DFF3E5;
 
   /* Surfaces */
   --paper:#FFFFFF;
@@ -58,7 +60,11 @@ img{max-width:100%; display:block;}
 a{color:inherit; text-decoration:none;}
 :focus-visible{outline:2.5px solid var(--green-700); outline-offset:3px; border-radius:4px;}
 
-.wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+/* Matches the shared Header/Footer's own max-w-6xl container (1152px) and its
+   16px / 24px responsive side padding, instead of a slightly wider fixed
+   1180px + flat 28px that never quite lined up with them. */
+.wrap{max-width:1152px; margin:0 auto; padding:0 16px;}
+@media (min-width:640px){ .wrap{padding:0 24px;} }
 
 h1,h2,h3,h4,h5{
   font-family:var(--font-head);
@@ -95,7 +101,7 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .btn-lg{padding:16px 30px; font-size:1rem;}
 .btn-block{width:100%;}
 
-.btn-primary{background:var(--orange); color:#fff; box-shadow:0 12px 28px -14px rgba(245,144,30,0.85);}
+.btn-primary{background:var(--orange); color:#fff; box-shadow:0 12px 28px -14px rgba(30,158,82,0.85);}
 .btn-primary:hover{background:var(--orange-600);}
 .btn-outline{background:transparent; color:var(--ink); border-color:var(--line);}
 .btn-outline:hover{border-color:var(--green); color:var(--green-700); background:var(--green-050);}
@@ -104,46 +110,41 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .link-arrow{
   display:inline-flex; align-items:center; gap:8px;
   font-weight:600; font-size:0.93rem; color:var(--green-700);
-  border-bottom:1.5px solid rgba(125,185,40,0.4); padding-bottom:3px;
+  border-bottom:1.5px solid rgba(11,92,44,0.4); padding-bottom:3px;
   transition:gap .18s ease, border-color .18s ease;
 }
 .link-arrow:hover{gap:12px; border-color:var(--green);}
 
-/* ---------- MAQO logo mark (image) ---------- */
-.maqo-img{height:40px; width:auto; display:block;}
-.foot-brand .maqo-img{height:52px;}
-
 /* ---------- Header ---------- */
-header{
-  position:sticky; top:0; z-index:50;
-  background:rgba(255,255,255,0.88); backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.nav{display:flex; align-items:center; gap:28px; padding:8px 28px;}
-.brand{display:flex; align-items:center; flex:none;}
-.nav-links{display:flex; gap:26px; margin-left:auto; font-size:0.9rem; font-weight:500; color:var(--text-dim);}
-.nav-links a{position:relative; padding:4px 0;}
-.nav-links a::after{
-  content:""; position:absolute; left:0; right:100%; bottom:0; height:2px;
-  background:var(--green); border-radius:2px; transition:right .22s ease;
-}
-.nav-links a:hover{color:var(--ink);}
-.nav-links a:hover::after{right:0;}
-.nav-actions{display:flex; gap:10px; align-items:center; flex:none;}
-.nav-actions .btn{padding:10px 18px; font-size:0.86rem; white-space:nowrap;}
+.topbar{position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:1px solid var(--line);}
+.topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px;}
 
-/* Language switcher: three links on wide screens, a native select on phones */
-.lang-links{display:flex; align-items:center; gap:2px; padding:3px; border:1px solid var(--line); border-radius:999px;}
-.lang-link{
-  min-width:40px; padding:6px 10px; border-radius:999px; text-align:center;
-  font-size:0.78rem; font-weight:600; color:var(--text-dim); transition:color .18s ease, background .18s ease;
+.topbar-logo{position:relative; display:block; width:150px; height:40px; flex-shrink:0;}
+.topbar-logo-img{object-fit:contain; object-position:left center;}
+
+.topnav{display:none; align-items:center; gap:26px; font-size:0.88rem; font-weight:500; color:var(--text-dim);}
+@media (min-width:900px){ .topnav{display:flex;} }
+.topnav a.current{color:var(--ink); font-weight:700;}
+.topnav a:hover{color:var(--green-700);}
+
+.topbar-right{display:flex; align-items:center; gap:14px;}
+.btn-sm{padding:10px 18px; font-size:0.82rem;}
+
+.lang-switch{display:flex; align-items:center;}
+.lang-pills{display:none; align-items:center; gap:2px; border:1px solid var(--line); border-radius:var(--pill); padding:2px;}
+@media (min-width:640px){ .lang-pills{display:flex;} }
+.lang-pill{
+  display:inline-flex; min-width:38px; align-items:center; justify-content:center;
+  padding:6px 10px; border-radius:var(--pill); font-size:0.72rem; font-weight:700;
+  color:var(--text-dim); transition:background .16s ease, color .16s ease;
 }
-.lang-link:hover{color:var(--ink);}
-.lang-link[aria-current="true"]{background:var(--ink); color:#fff;}
+.lang-pill:hover{color:var(--ink);}
+.lang-pill[aria-current="true"]{background:var(--ink); color:#fff;}
 .lang-select{
-  display:none; height:38px; padding:0 8px; border:1px solid var(--line); border-radius:999px;
-  background:#fff; font:inherit; font-size:0.8rem; font-weight:600; color:var(--ink);
+  display:block; height:36px; border-radius:var(--pill); border:1px solid var(--line);
+  background:var(--paper); padding:0 10px; font-size:0.72rem; font-weight:700; color:var(--ink);
 }
+@media (min-width:640px){ .lang-select{display:none;} }
 
 /* ---------- Hero ---------- */
 .hero{
@@ -157,15 +158,15 @@ header{
 .hero::before{
   content:""; position:absolute; inset:0; pointer-events:none;
   background-image:
-    linear-gradient(rgba(125,185,40,0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(125,185,40,0.09) 1px, transparent 1px);
+    linear-gradient(rgba(11,92,44,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,92,44,0.09) 1px, transparent 1px);
   background-size:64px 64px;
   mask-image:radial-gradient(120% 90% at 20% 0%, #000 0%, transparent 72%);
   -webkit-mask-image:radial-gradient(120% 90% at 20% 0%, #000 0%, transparent 72%);
 }
 .hero-blob{position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none;}
-.hero-blob-a{width:420px; height:420px; background:rgba(245,144,30,0.22); top:-140px; right:-80px;}
-.hero-blob-b{width:380px; height:380px; background:rgba(125,185,40,0.20); bottom:-180px; left:-120px;}
+.hero-blob-a{width:420px; height:420px; background:rgba(30,158,82,0.22); top:-140px; right:-80px;}
+.hero-blob-b{width:380px; height:380px; background:rgba(11,92,44,0.20); bottom:-180px; left:-120px;}
 .hero-grid{position:relative; display:grid; grid-template-columns:1.02fr 0.98fr; gap:56px; align-items:center;}
 .hero-copy{max-width:620px;}
 
@@ -178,12 +179,12 @@ header{
 }
 .hero-badge-dot{
   width:8px; height:8px; border-radius:50%; background:var(--green);
-  box-shadow:0 0 0 4px rgba(125,185,40,0.2);
+  box-shadow:0 0 0 4px rgba(11,92,44,0.2);
 }
 .hero h1{margin-bottom:22px;}
 .hero h1 .hl{
   color:var(--orange-700);
-  background-image:linear-gradient(180deg, transparent 60%, rgba(245,144,30,0.34) 60%, rgba(245,144,30,0.34) 94%, transparent 94%);
+  background-image:linear-gradient(180deg, transparent 60%, rgba(30,158,82,0.34) 60%, rgba(30,158,82,0.34) 94%, transparent 94%);
   padding:0 0.05em;
 }
 .hero h1 .strike{
@@ -230,7 +231,7 @@ header{
 /* ---------- Credential band (Actmax stat strip) ---------- */
 .band{background:var(--ink); padding:44px 0; color:#fff;}
 .band-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:28px;}
-.band-item{padding-left:20px; border-left:2px solid rgba(125,185,40,0.55);}
+.band-item{padding-left:20px; border-left:2px solid rgba(11,92,44,0.55);}
 .band-item b{
   display:block; font-family:var(--font-head); font-weight:700;
   font-size:clamp(1.7rem,2.6vw,2.3rem); letter-spacing:-0.03em; color:var(--orange);
@@ -256,7 +257,7 @@ section{padding:96px 0;}
 }
 .bill-card:hover{transform:translateY(-4px); box-shadow:var(--shadow-md);}
 .bill-card.before{border-color:rgba(198,80,58,0.3); background:linear-gradient(180deg,#FDF4F2,#fff);}
-.bill-card.after{border-color:rgba(125,185,40,0.4); background:linear-gradient(180deg,var(--green-050),#fff);}
+.bill-card.after{border-color:rgba(11,92,44,0.4); background:linear-gradient(180deg,var(--green-050),#fff);}
 .bill-tag{font-size:0.74rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;}
 .bill-tag.before{color:var(--danger);}
 .bill-tag.after{color:var(--green-700);}
@@ -330,7 +331,7 @@ section{padding:96px 0;}
   background:var(--paper); border:1px solid var(--line); border-radius:var(--r-md);
   padding:30px 26px; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-.pillar:hover{transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:rgba(125,185,40,0.5);}
+.pillar:hover{transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:rgba(11,92,44,0.5);}
 .pillar-icon{
   display:inline-flex; align-items:center; justify-content:center;
   width:56px; height:56px; border-radius:var(--r-sm);
@@ -342,7 +343,7 @@ section{padding:96px 0;}
 .pillar-cta:hover{border-color:var(--ink);}
 .pillar-cta h3{color:#fff;}
 .pillar-cta p{color:rgba(255,255,255,0.68); margin-bottom:18px;}
-.pillar-cta .link-arrow{color:var(--orange); border-color:rgba(245,144,30,0.45); align-self:flex-start;}
+.pillar-cta .link-arrow{color:var(--orange); border-color:rgba(30,158,82,0.45); align-self:flex-start;}
 .pillar-cta .link-arrow:hover{border-color:var(--orange);}
 
 /* ---------- FAQ ---------- */
@@ -421,8 +422,10 @@ form input:focus, form select:focus{border-color:var(--green); outline:none;}
 
 /* ---------- Footer ---------- */
 footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108px;}
-.foot-grid{display:grid; grid-template-columns:1.5fr 1fr 1.2fr; gap:48px; padding-bottom:36px; border-bottom:1px solid var(--line-dark); margin-bottom:24px;}
+.foot-grid{display:grid; grid-template-columns:1.3fr 0.9fr 0.8fr 1fr; gap:40px; padding-bottom:36px; border-bottom:1px solid var(--line-dark); margin-bottom:24px;}
+.foot-brand .foot-wordmark{font-family:var(--font-head); font-size:1.05rem; font-weight:700; color:#fff;}
 .foot-brand p{font-size:0.88rem; max-width:34ch; margin-top:18px; color:rgba(255,255,255,0.6);}
+.foot-brand .foot-cred-line{margin-top:10px; font-size:0.7rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.45);}
 .foot-certs{list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
 .foot-certs li{font-size:0.7rem; font-weight:600; padding:5px 11px; border:1px solid var(--line-dark); border-radius:var(--pill); color:rgba(255,255,255,0.75);}
 .foot-col{display:flex; flex-direction:column; gap:10px; font-size:0.89rem;}
@@ -432,22 +435,21 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
 .foot-col p{color:rgba(255,255,255,0.5); font-size:0.84rem; margin-top:6px; max-width:32ch;}
 .foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.78rem; color:rgba(255,255,255,0.45);}
 
-/* ---------- Responsive ---------- */
-@media (max-width: 1080px){
-  .nav-links{display:none;}
-  .nav-actions{margin-left:auto;}
+/* ---------- Responsive ----------
+   Breakpoints now match the real Tailwind breakpoints the rest of the site
+   stacks at — 1024px (lg) and 640px (sm) — instead of the old custom 1080 /
+   980 / 780px cutoffs, so EV's grids flip to a mobile layout at the same
+   viewport widths as the Main and C&I pages, not just nearby ones. */
+@media (max-width: 1024px){
   .band-grid{grid-template-columns:repeat(2,1fr); gap:24px 32px;}
   .pillars{grid-template-columns:repeat(2,1fr);}
-}
-@media (max-width: 980px){
   section{padding:72px 0;}
   .hero{padding:64px 0 80px;}
   .hero-grid, .split, .how-grid, .faq-grid, .form-grid{grid-template-columns:1fr; gap:44px;}
   .flow-card, .faq-grid .section-head{position:static;}
   .foot-grid{grid-template-columns:1fr 1fr; gap:36px;}
 }
-@media (max-width: 780px){
-  .wrap{padding:0 20px;}
+@media (max-width: 640px){
   .compare, .calc-panel, .res-grid, .form-row, .pillars{grid-template-columns:1fr;}
   .calc-panel{padding:26px;}
   .calc-results{border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:28px;}
@@ -458,11 +460,5 @@ footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108
   form{padding:24px;}
 }
 @media (max-width: 560px){
-  .nav{gap:12px; padding:8px 16px;}
-  .nav-actions{gap:8px;}
-  .nav-actions .btn{padding:10px 12px; font-size:0.8rem;}
-  .lang-links{display:none;}
-  .lang-select{display:block;}
-  .maqo-img{height:32px;}
   .res-long{flex-direction:column; gap:16px;}
 }

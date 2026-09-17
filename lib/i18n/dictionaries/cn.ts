@@ -15,6 +15,9 @@ const cn: Dictionary = {
     evTitle: "MAQO | 用阳光为电动车充电",
     evDescription:
       "在家为电动车充电正在推高您的 TNB 电费。在 NEM 计划下安装屋顶太阳能，让自家车道变成您的专属加油站，电费最高可减 90%。免费上门评估，ST Class A 与 CIDB G7 认证。",
+    atapTitle: "Solar ATAP 详解 | MAQO Solar 马来西亚",
+    atapDescription:
+      "什么是 Solar ATAP？它和 NEM 有什么不同？一份简明指南，介绍马来西亚现行的屋顶太阳能计划——申请资格、电费回扣如何计算，以及申请方式。",
   },
 
   languageSwitcher: {
@@ -24,6 +27,13 @@ const cn: Dictionary = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "免费评估",
+    nav: {
+      about: "关于我们",
+      residential: "住宅",
+      commercial: "工商业",
+      ev: "电动车",
+      atap: "ATAP",
+    },
   },
 
   hero: {
@@ -401,7 +411,7 @@ const cn: Dictionary = {
     ctaTitleAccent: "未来",
     ctaTitleTail: "注入能量了吗？",
     ctaBody: "与我们的团队聊聊住宅太阳能、工商业 EPC、BESS 或零资本支出 PPA。",
-    cta: "获取免费评估",
+    cta: "获取太阳能报价",
   },
 
   ev: {
@@ -414,6 +424,11 @@ const cn: Dictionary = {
       covered: "配套内容",
       faq: "常见问题",
       cta: "免费评估",
+      about: "关于我们",
+      residential: "住宅",
+      commercial: "工商业",
+      ev: "电动车",
+      atap: "ATAP",
     },
     hero: {
       badge: "MAQO ATAP · 专为有电动车的家庭打造",
@@ -557,12 +572,144 @@ const cn: Dictionary = {
       legal: "提交即表示您同意 MAQO Engineering Sdn Bhd 就太阳能评估与您联系。绝无垃圾信息。",
     },
     footer: {
-      tagline: "MAQO Engineering Sdn Bhd：一次一片太阳能板、一颗电池、一辆电动车。",
+      tagline: "住宅与工商业太阳能EPCC工程,持有ST A级与CIDB G7认证,自2013年起。",
       explore: "浏览",
       calculator: "节省计算器",
       contact: "联络方式",
       rights: "© 2026 MAQO Engineering Sdn Bhd（MAQO Solar / MAQO Technologies）。版权所有。",
     },
+  },
+
+  atap: {
+    eyebrow: "马来西亚屋顶太阳能计划",
+    heroTitleLead: "Solar ATAP：马来西亚人",
+    heroTitleAccent: "获得电费回扣",
+    heroTitleTail: "的全新屋顶太阳能计划",
+    heroBody:
+      "自 2026 年 1 月 1 日起，ATAP（Solar Accelerated Transition Action Programme）已取代 NEM，成为让住宅与企业将多余太阳能电力输送回电网、换取电费回扣的计划。以下用最简单的话，说明它的运作方式。",
+    heroCtaPrimary: "查看 ATAP 与旧制 NEM 的差异",
+    heroCtaSecondary: "了解回扣如何计算",
+    heroSources: "资料来源：Tenaga Nasional Berhad（TNB）与 Sustainable Energy Development Authority（SEDA Malaysia）",
+
+    billTnb: "TNB 电子账单",
+    billIllustrative: "示意范例",
+    billUsage: "用电量",
+    billUsageAmt: "RM 412.30",
+    billService: "服务费",
+    billServiceAmt: "RM 18.50",
+    billCredit: "ATAP 输出回扣",
+    billCreditAmt: "− RM 268.00",
+    billTotal: "应付金额",
+    billTotalAmt: "RM 162.80",
+    billSavedChip: "本月已节省 62%",
+    floatContractVal: "10 年",
+    floatContract: "合约期限",
+    floatHomeownersVal: "1,000+",
+    floatHomeowners: "已安装 MAQO 太阳能的用户",
+
+    stats: [
+      { value: "5 kW", label: "单相住宅最大容量——无需技术评估" },
+      { value: "15 kW", label: "三相住宅最大容量，只需简单的接驳确认检查" },
+      { value: "1,000 kW", label: "企业最大容量——最高为最大需量的 100%" },
+      { value: "10 年", label: "每份 ATAP 输出回扣合约的期限" },
+    ],
+
+    startTag: "从这里开始",
+    startTitle: "ATAP 到底是什么？",
+    startBody1:
+      "ATAP 全称为 Solar Accelerated Transition Action Programme（太阳能加速转型行动计划）。撇开缩写不谈，其实很简单：您在屋顶安装太阳能板，优先使用自家生产的电力，用不完的部分会输送到 TNB 电网。作为回报，TNB 会为您输出的电力提供账单回扣。",
+    startBody2:
+      "这是马来西亚现行的屋顶太阳能计划，由 SEDA Malaysia 与 TNB 共同推行，取代了已于 2025 年 6 月 30 日停止接受新申请的旧制 NEM（Net Energy Metering）计划。",
+    calloutTitle: "与 NEM 最大的不同之处",
+    calloutBody:
+      "每个 ATAP 账户都有一个称为 MAQ（Maximum Allowable Quantity，最高允许输出量）的月度输出上限。超出上限的回扣，或您没有用完的回扣，会在每个账单月结束时被没收，不会像 NEM 那样滚存到下个月。因此，在 ATAP 制度下，系统容量是否贴合自身用电量变得更加重要。",
+
+    mechTag: "运作机制",
+    mechTitle: "您的电费回扣是如何产生的",
+    mechBody: "只要系统运作，以下四件事每天都会依序发生。",
+    mechSteps: [
+      { title: "发电", body: "屋顶太阳能板在日照时段将阳光转化为电力。" },
+      { title: "优先自用", body: "您的住宅或企业会立即使用这些太阳能电力——永远优先于电网供电。" },
+      { title: "输出多余电力", body: "用不完的电力会自动输送到 TNB 电网，无需您采取任何行动。" },
+      { title: "获得 ATAP 回扣", body: "您输出的电力会在每月 MAQ 上限内获得回扣，直接从下期 TNB 账单中扣除。" },
+    ],
+    diagramAlt: "示意图：阳光照射太阳能板，电力优先供自家使用，多余电力输出至 TNB 电网以换取 ATAP 回扣",
+    diagramSolarPanels: "太阳能板",
+    diagramYourHome: "您的住宅",
+    diagramTnbGrid: "TNB 电网",
+    diagramCaption1Label: "步骤 1–2",
+    diagramCaption1Value: "优先使用自家电力",
+    diagramCaption2Label: "步骤 3–4",
+    diagramCaption2Value: "输出电力换取回扣",
+
+    compareTag: "新旧对比",
+    compareTitleLead: "ATAP 与旧制",
+    compareTitleAccent: "NEM",
+    compareTitleTail: "计划的比较",
+    compareBody: "如果您之前了解过太阳能、还记得「NEM」，以下就是确切的变化。",
+    compareColNem: "NEM",
+    compareColNemPill: "已结束",
+    compareColAtap: "ATAP",
+    compareColAtapPill: "现行",
+    compareRows: [
+      { label: "申请", nem: "已于 2025 年 6 月 30 日停止接受新申请", atap: "自 2026 年 1 月 1 日起开放申请" },
+      { label: "未用完的输出回扣", nem: "滚存至未来账单", atap: "每月受 MAQ 上限限制——未用完的回扣会被没收" },
+      { label: "合约期限", nem: "无固定期限", atap: "固定 10 年期限" },
+      { label: "合约结束后", nem: "不适用", atap: "仅可自用，不再享有输出回扣" },
+    ],
+
+    eligTag: "申请资格",
+    eligTitle: "谁可以申请？系统容量上限是多少？",
+    eligBody: "您的类别由 TNB 账户类型决定——以下限制直接来自 SEDA 与 TNB 的规定。",
+    eligBannerAlt: "马来西亚排屋屋顶 MAQO 太阳能安装项目空拍图",
+    eligBannerCaption: "MAQO 在西马各地的真实安装项目",
+    eligHomesTag: "住宅",
+    eligHomesTitle: "住宅账户",
+    eligHomesItems: [
+      { kw: "≤ 5 kW", body: "单相供电——完全无需技术评估。" },
+      { kw: "≤ 15 kW", body: "三相供电——需要一次简单的接驳确认检查。" },
+    ],
+    eligHomesFoot: "您必须是已注册的 TNB 账户持有人，且未曾参与 SelCo 或 NEM 计划。多租户账户不符合申请资格。",
+    eligBizTag: "企业",
+    eligBizTitle: "非住宅账户",
+    eligBizItems: [
+      { kw: "最高 100%", body: "以您注册的最大需量为准，上限为 1,000 kW（1 MW）。" },
+      { kw: "> 425 kW", body: "高压系统需要完整的电力系统研究，包括故障电流分析。" },
+    ],
+    eligBizFoot: "较小型的商业系统通常只需较简单的接驳评估研究，而非完整研究。",
+
+    startedTag: "开始申请",
+    startedTitle: "ATAP 申请步骤",
+    startedBody: "您无需直接处理 SEDA 或 TNB 的文书作业——您的安装商会代为处理。",
+    startedSteps: [
+      { title: "委任 RPVSP", body: "委托一家注册太阳能光伏服务供应商（RPVSP）——例如 Maqo——评估您的屋顶并设计系统。" },
+      { title: "安装与调试", body: "您的 RPVSP 安装系统并完成调试，使其可以发电与输出电力。" },
+      { title: "透过 eATAP 申请", body: "您的 RPVSP 会代您在 eATAP 线上平台（atap.seda.gov.my）提交申请。" },
+      { title: "技术审核", body: "TNB 会确认您的接驳——审核深度取决于系统容量，详见上方说明。" },
+    ],
+
+    finTag: "付款方式",
+    finTitle: "两种系统资金方式",
+    finLeaseKicker: "零首期",
+    finLeaseTitle: "太阳能租赁（PPA）",
+    finLeaseBody: "向注册太阳能光伏投资者（RPVI）租用系统，以低于 TNB 的电费率付费——无需资本支出，从第一天起就能省钱。",
+    finBuyKicker: "全款拥有",
+    finBuyTitle: "直接购买",
+    finBuyBody: "以现金、银行贷款或信用卡购买系统，全额享有 ATAP 回扣与长期节省。",
+
+    faqTag: "常见问题",
+    faqTitle: "常见问题解答",
+    faq: [
+      { q: "NEM 计划怎么了？", a: "NEM（Net Energy Metering）已于 2025 年 6 月 30 日停止接受新申请。ATAP 是马来西亚现行的屋顶太阳能计划，也是目前唯一开放新申请的计划。" },
+      { q: "我已经有 NEM 合约，会受影响吗？", a: "不会。现有的 NEM 合约将按原有条款继续执行。ATAP 仅适用于 2026 年 1 月 1 日起的新申请。" },
+      { q: "MAQ 到底是什么？", a: "MAQ 即 Maximum Allowable Quantity（最高允许输出量）——指单一账单月份中，可获得账单回扣的最高输出电量。超出部分或未用完的回扣，会在月结时被没收，不会累积到下个月。" },
+      { q: "我的 10 年 ATAP 合约到期后会怎样？", a: "您的系统仍可继续运作，但仅限自用于您的住宅或企业。输出回扣将停止——系统不包含自动续约或延续输出安排。" },
+      { q: "申请前需要做技术评估吗？", a: "只有系统容量超过小型单相住宅时才需要。单相住宅（≤5kW）完全无需评估；三相住宅需要简单检查；较大型及企业系统则需要更深入的评估，425kW 以上甚至需要完整的电力系统研究。" },
+    ],
+
+    ctaTitle: "准备好让 ATAP 为您的屋顶创造价值了吗？",
+    ctaBody: "Maqo 是注册太阳能光伏服务供应商。我们为您设计系统、完成安装，并代您提交完整的 eATAP 申请。",
+    ctaButton: "联络我们的太阳能团队",
   },
 };
 
