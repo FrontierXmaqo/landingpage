@@ -20,7 +20,6 @@ export const HERO = {
     "Beat rising tariffs and lock in low energy costs for the next 25 years with customized solar PV solutions.",
   valueProps: [
     "Zero Upfront Capital Options",
-    "GITA Tax Incentives",
     "Tier-1 Solar Technology",
   ],
   primaryCta: "Get Your Free Assessment",

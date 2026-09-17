@@ -40,12 +40,6 @@ const INDUSTRIES = [
   "Others",
 ];
 
-const ROOF_INTEREST = [
-  "Outright purchase (CAPEX)",
-  "Zero upfront / PPA",
-  "Not sure yet — advise me",
-];
-
 type FormValues = {
   salutation: string;
   fullName: string;
@@ -55,7 +49,6 @@ type FormValues = {
   industry: string;
   state: string;
   monthlyBill: string;
-  preference: string;
 };
 
 const EMPTY: FormValues = {
@@ -67,7 +60,6 @@ const EMPTY: FormValues = {
   industry: "",
   state: "",
   monthlyBill: "",
-  preference: "",
 };
 
 const fieldClass =
@@ -282,26 +274,6 @@ export default function CiLeadForm() {
               Select a range
             </option>
             {CI_BILL_RANGES.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className={labelClass} htmlFor="ci-preference">
-          Preferred funding model
-          <select
-            id="ci-preference"
-            name="funding_preference"
-            value={values.preference}
-            onChange={(e) => update("preference", e.target.value)}
-            className={fieldClass}
-          >
-            <option value="" disabled>
-              Select an option
-            </option>
-            {ROOF_INTEREST.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
