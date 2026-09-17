@@ -1,6 +1,13 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "@/lib/i18n";
-import { getPublishedCalculatorData, getPublishedLeadFormOptions, getPublishedLeadFormFields, getPublishedBrandLogos } from "@/lib/publishedContent";
+import {
+  getPublishedCalculatorData,
+  getPublishedLeadFormOptions,
+  getPublishedLeadFormFields,
+  getPublishedBrandLogos,
+  getPublishedAchievements,
+  getPublishedFaq,
+} from "@/lib/publishedContent";
 import PageviewBeacon from "./components/PageviewBeacon";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -26,11 +33,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   // Pricing and lead-form options come from the CMS in every language: the
   // dictionaries carry the surrounding copy, but the numbers and the dropdown
   // values stay whatever marketing last published.
-  const [calculatorData, leadFormOptions, customFields, brands] = await Promise.all([
+  const [calculatorData, leadFormOptions, customFields, brands, achievements, faqItems] = await Promise.all([
     getPublishedCalculatorData(),
     getPublishedLeadFormOptions(),
     getPublishedLeadFormFields(),
     getPublishedBrandLogos(),
+    getPublishedAchievements(t.achievements.items),
+    getPublishedFaq("residential", t.faq.items),
   ]);
 
   return (
@@ -49,12 +58,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         />
         <Testimonials t={t.testimonials} />
         <Gallery t={t.gallery} />
-        <FAQ t={t.faq} />
+        <FAQ t={t.faq} items={faqItems} />
         <HowItWorks t={t.howItWorks} />
         <WhatsIncluded t={t.whatsIncluded} space={t.space} />
         <WhyAtap locale={lang} t={t.whyAtap} space={t.space} />
         <CommercialTeaser t={t.commercial} />
-        <Achievements t={t.achievements} />
+        <Achievements t={t.achievements} items={achievements} />
         <FinalCTA t={t.finalCta} space={t.space} />
       </main>
       <Footer

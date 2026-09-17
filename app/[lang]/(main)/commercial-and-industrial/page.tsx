@@ -24,7 +24,7 @@ import {
   TRUST_STATS,
 } from "./content";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
-import { getPublishedCiContent } from "@/lib/publishedContent";
+import { getPublishedCiContent, getPublishedFaq } from "@/lib/publishedContent";
 
 const PATH = "/commercial-and-industrial";
 
@@ -55,11 +55,16 @@ export default async function CommercialAndIndustrialPage({
 
   // Projects, client roster and trust stats are CMS-managed; the constants in
   // content.ts are the fallback if Supabase is unreachable or a table is empty.
-  const ci = await getPublishedCiContent({
-    projects: PROJECTS,
-    clients: CLIENTS,
-    trustStats: TRUST_STATS,
-  });
+  const [ci, faqItems] = await Promise.all([
+    getPublishedCiContent({
+      projects: PROJECTS,
+      clients: CLIENTS,
+      trustStats: TRUST_STATS,
+    }),
+    // No hardcoded fallback: this page has never had an FAQ section, so an
+    // empty CMS table just means the section doesn't render yet.
+    getPublishedFaq("ci", []),
+  ]);
 
   return (
     <div data-theme="ci" className="contents">
@@ -238,7 +243,36 @@ export default async function CommercialAndIndustrialPage({
           </div>
         </section>
 
-        {/* ---------- 6. Closing CTA ---------- */}
+        {/* ---------- 6. FAQ ---------- */}
+        {/* Only renders once at least one question is published — this page
+            has never had an FAQ before, so an empty draft just means it
+            stays off the live page. */}
+        {faqItems.length > 0 && (
+          <section id="faq" className="scroll-mt-20 bg-base-bg py-16 sm:py-20">
+            <div className="mx-auto max-w-3xl px-4 sm:px-6">
+              <SectionTag>FAQ</SectionTag>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
+                Frequently asked questions
+              </h2>
+              <div className="mt-10 divide-y divide-base-line rounded-2xl border border-base-line bg-base-panel">
+                {faqItems.map((item, i) => (
+                  <details key={item.q} name="ci-faq" open={i === 0} className="group">
+                    <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-base-ink sm:px-6 [&::-webkit-details-marker]:hidden">
+                      {item.q}
+                      <span aria-hidden className="shrink-0 text-lg text-base-slate">
+                        <span className="group-open:hidden">+</span>
+                        <span className="hidden group-open:inline">−</span>
+                      </span>
+                    </summary>
+                    <div className="px-5 pb-5 text-sm leading-relaxed text-base-slate sm:px-6">{item.a}</div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ---------- 7. Closing CTA ---------- */}
         <section className="bg-brand-navy py-16 sm:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <h2 className="text-2xl font-bold leading-tight text-white sm:text-4xl">{FINAL_CTA.title}</h2>
@@ -267,6 +301,7 @@ export default async function CommercialAndIndustrialPage({
           { label: "Our Projects", href: "#projects" },
           { label: "Battery Storage", href: "#bess" },
           { label: "Why MAQO", href: "#why" },
+          ...(faqItems.length > 0 ? [{ label: "FAQ", href: "#faq" }] : []),
           { label: "Get an Assessment", href: "#assessment" },
         ]}
       />

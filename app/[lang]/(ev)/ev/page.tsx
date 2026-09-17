@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "@/lib/i18n";
-import { getPublishedEvCalculatorConfig, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
+import { getPublishedEvCalculatorConfig, getPublishedLeadFormOptions, getPublishedLeadFormFields, getPublishedFaq } from "@/lib/publishedContent";
 import EvPage from "./EvPage";
 
 export default async function Page({ params }: PageProps<"/[lang]/ev">) {
@@ -8,12 +8,13 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
 
-  // Pricing formula and lead-form options come from the CMS, same as the main
-  // site — see app/[lang]/(main)/page.tsx.
-  const [evCalcConfig, optionValues, customFields] = await Promise.all([
+  // Pricing formula, lead-form options and the FAQ come from the CMS, same as
+  // the main site — see app/[lang]/(main)/page.tsx.
+  const [evCalcConfig, optionValues, customFields, faqItems] = await Promise.all([
     getPublishedEvCalculatorConfig(),
     getPublishedLeadFormOptions(),
     getPublishedLeadFormFields(),
+    getPublishedFaq("ev", dict.ev.faq.items),
   ]);
 
   return (
@@ -26,6 +27,7 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
       optionValues={optionValues}
       customFields={customFields}
       evCalcConfig={evCalcConfig}
+      faqItems={faqItems}
     />
   );
 }

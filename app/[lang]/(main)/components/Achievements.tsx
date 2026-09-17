@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n";
+import type { PublishedAchievement } from "@/lib/publishedContent";
 
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -60,7 +61,7 @@ function CountUp({ value, duration = 3200 }: { value: string; duration?: number 
   );
 }
 
-export default function Achievements({ t }: { t: Dictionary["achievements"] }) {
+export default function Achievements({ t, items }: { t: Dictionary["achievements"]; items: PublishedAchievement[] }) {
   return (
     <section className="bg-brand-green-deep py-14">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -68,7 +69,7 @@ export default function Achievements({ t }: { t: Dictionary["achievements"] }) {
           {t.eyebrow}
         </p>
         <div className="mt-6 grid grid-cols-1 gap-8 text-center sm:grid-cols-3">
-          {t.items.map((a) => (
+          {items.map((a) => (
             <div key={a.label}>
               <div className="text-4xl font-bold text-white">
                 <CountUp value={a.value} />

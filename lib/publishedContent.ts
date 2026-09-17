@@ -222,3 +222,41 @@ export async function getPublishedBrandLogos(): Promise<PublishedBrandLogo[]> {
     return BRAND_LOGOS;
   }
 }
+
+export type PublishedAchievement = { value: string; label: string };
+
+/** Fetches the homepage's published achievement figures, falling back to
+ *  whatever `fallback` the caller passes (the dictionary's hardcoded items)
+ *  if Supabase is unreachable or the table is empty. */
+export async function getPublishedAchievements(fallback: PublishedAchievement[]): Promise<PublishedAchievement[]> {
+  try {
+    const supabase = getAnonClient();
+    const { data } = await supabase.from("home_achievements").select("value, label").eq("status", "published").order("sort_order");
+    const items = (data ?? []).map((r) => ({ value: String(r.value), label: String(r.label) }));
+    return items.length ? items : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export type FaqPage = "residential" | "ev" | "ci";
+export type PublishedFaqItem = { q: string; a: string };
+
+/** Fetches a page's published FAQ list, falling back to whatever `fallback`
+ *  the caller passes. Each page (Home/residential, EV, C&I) publishes
+ *  independently, so this is always scoped to one `page` at a time. */
+export async function getPublishedFaq(page: FaqPage, fallback: PublishedFaqItem[]): Promise<PublishedFaqItem[]> {
+  try {
+    const supabase = getAnonClient();
+    const { data } = await supabase
+      .from("faqs")
+      .select("question, answer")
+      .eq("status", "published")
+      .eq("page", page)
+      .order("sort_order");
+    const items = (data ?? []).map((r) => ({ q: String(r.question), a: String(r.answer) }));
+    return items.length ? items : fallback;
+  } catch {
+    return fallback;
+  }
+}

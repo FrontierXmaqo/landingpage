@@ -288,6 +288,7 @@ export default function EvPage({
   optionValues,
   customFields,
   evCalcConfig,
+  faqItems,
 }: {
   locale: Locale;
   dict: Dictionary;
@@ -297,6 +298,7 @@ export default function EvPage({
   optionValues?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
   evCalcConfig?: typeof EV_CALC_DEFAULTS;
+  faqItems?: { q: string; a: string }[];
 }) {
   const [bill, setBill] = useState(650);
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
@@ -307,6 +309,7 @@ export default function EvPage({
   const landingPageSourceRef = useRef<HTMLInputElement>(null);
 
   const evCalc = evCalcConfig ?? EV_CALC_DEFAULTS;
+  const faqList = faqItems?.length ? faqItems : t.faq.items;
   const salutations = optionValues?.salutations?.length ? optionValues.salutations : SALUTATIONS;
   const states = optionValues?.states?.length ? optionValues.states : MALAYSIAN_STATES;
   const billRanges = optionValues?.billRanges?.length ? optionValues.billRanges : BILL_RANGES;
@@ -651,7 +654,7 @@ export default function EvPage({
               </a>
             </div>
             <div className="faq-list">
-              {t.faq.items.map((item, i) => (
+              {faqList.map((item, i) => (
                 <div
                   key={item.q}
                   className={"faq-item" + (openFaq === i ? " open" : "")}
