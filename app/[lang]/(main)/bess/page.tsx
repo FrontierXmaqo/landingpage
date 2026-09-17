@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
+import HiddenChargesButton from "./HiddenChargesButton";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
@@ -123,14 +124,16 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
 
         {/* ---------- 2. The Problem ---------- */}
         <section id="problem" className="scroll-mt-20 bg-base-panel/70 py-20 sm:py-24">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="mx-auto max-w-5xl px-4 text-center sm:px-6">
             <ScrollReveal>
-              <SectionTag>{t.problemTag}</SectionTag>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.problemTitle}</h2>
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-base-slate">{t.problemBody}</p>
+              <div className="flex justify-center">
+                <SectionTag>{t.problemTag}</SectionTag>
+              </div>
+              <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.problemTitle}</h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-base-slate">{t.problemBody}</p>
             </ScrollReveal>
 
-            <ScrollReveal delayMs={80} className="mt-10 max-w-xl">
+            <ScrollReveal delayMs={80} className="mx-auto mt-10 max-w-xl">
               <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
                 <div className="rounded-2xl border border-[#e3b7ad] bg-base-bg p-5 text-center sm:p-6">
                   <p className="text-[11px] font-bold uppercase tracking-wide text-[#a45140]">{t.problemBeforeLabel}</p>
@@ -145,11 +148,14 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                 </div>
               </div>
               <p className="mt-3 text-xs text-base-slate">{t.problemCompareCaption}</p>
+              <div className="mt-6 flex justify-center">
+                <HiddenChargesButton />
+              </div>
             </ScrollReveal>
 
-            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div className="mx-auto mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
               {t.problemFacts.map((fact, i) => (
-                <ScrollReveal key={fact.stat} delayMs={i * 60} className="h-full rounded-2xl border border-base-line bg-base-bg p-5">
+                <ScrollReveal key={fact.stat} delayMs={i * 60} className="h-full rounded-2xl border border-base-line bg-base-bg p-5 text-center">
                   <p className="text-lg font-extrabold text-brand-green-ink">{fact.stat}</p>
                   <p className="mt-1.5 text-sm leading-relaxed text-base-slate">{fact.body}</p>
                 </ScrollReveal>
