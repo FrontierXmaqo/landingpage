@@ -56,6 +56,10 @@ const cn: Dictionary = {
     imageAlt: "夕阳下，MAQO Solar 在马来西亚住宅屋顶完成的太阳能安装",
   },
 
+  credentialBadges: {
+    title: "通过马来西亚最高标准认证",
+  },
+
   brandStrip: {
     title: "我们安装屋主信赖的品牌",
   },

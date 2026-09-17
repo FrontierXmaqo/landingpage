@@ -209,3 +209,38 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 @media (prefers-reduced-motion: reduce) {
   .atap-flow-dash { animation: none; }
 }
+
+/* ---- Credential badges -------------------------------------------------
+   A medallion resting on the page: the plinth carries the depth, the mark
+   itself stays flat and untouched so the certification reads as issued. */
+.credential-plinth {
+  width: 100%;
+  max-width: 17rem;
+}
+.credential-plinth-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.75rem 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(160deg, #ffffff 0%, var(--color-base-panel) 100%);
+  border: 1px solid var(--color-base-line);
+  /* Contact shadow, ambient shadow, then a lit top edge inside the border. */
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.06),
+    0 12px 28px -12px rgb(15 23 42 / 0.18),
+    inset 0 1px 0 rgb(255 255 255 / 0.9);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+}
+.credential-plinth:hover .credential-plinth-face {
+  transform: translateY(-4px) perspective(700px) rotateX(3deg);
+  box-shadow:
+    0 2px 4px rgb(15 23 42 / 0.07),
+    0 22px 42px -14px rgb(15 23 42 / 0.26),
+    inset 0 1px 0 rgb(255 255 255 / 0.95);
+}
+@media (prefers-reduced-motion: reduce) {
+  .credential-plinth-face { transition: none; }
+  .credential-plinth:hover .credential-plinth-face { transform: none; }
+}

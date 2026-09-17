@@ -60,6 +60,10 @@ const en = {
     imageAlt: "MAQO Solar rooftop installation on a Malaysian home at sunset",
   },
 
+  credentialBadges: {
+    title: "Certified to Malaysia's highest standards",
+  },
+
   brandStrip: {
     title: "Installed with brands homeowners trust",
   },

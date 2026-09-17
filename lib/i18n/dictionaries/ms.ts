@@ -55,6 +55,10 @@ const ms: Dictionary = {
     imageAlt: "Pemasangan solar bumbung MAQO Solar di sebuah rumah di Malaysia ketika matahari terbenam",
   },
 
+  credentialBadges: {
+    title: "Diperakui pada standard tertinggi Malaysia",
+  },
+
   brandStrip: {
     title: "Dipasang dengan jenama yang dipercayai pemilik rumah",
   },

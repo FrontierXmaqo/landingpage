@@ -4,6 +4,7 @@ import { getPublishedCalculatorData, getPublishedLeadFormOptions, getPublishedLe
 import PageviewBeacon from "./components/PageviewBeacon";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import CredentialBadges from "./components/CredentialBadges";
 import BrandStrip from "./components/BrandStrip";
 import BillProof from "./components/BillProof";
 import SolarCalculator from "./components/SolarCalculator";
@@ -38,6 +39,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <Header locale={lang} t={t} />
       <main className="flex-1">
         <Hero locale={lang} t={t} leadFormOptions={leadFormOptions} customFields={customFields} />
+        <CredentialBadges t={t.credentialBadges} />
         <BrandStrip t={t.brandStrip} />
         <BillProof t={t.billProof} space={t.space} />
         <SolarCalculator
