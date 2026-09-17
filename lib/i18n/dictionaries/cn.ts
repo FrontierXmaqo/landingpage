@@ -433,6 +433,7 @@ const cn: Dictionary = {
       commercial: "工商业",
       ev: "电动车",
       atap: "ATAP",
+      bess: "BESS",
     },
     hero: {
       badge: "MAQO ATAP · 专为有电动车的家庭打造",
@@ -577,6 +578,7 @@ const cn: Dictionary = {
     },
     footer: {
       tagline: "住宅与工商业太阳能EPCC工程,持有ST A级与CIDB G7认证,自2013年起。",
+      company: "公司",
       explore: "浏览",
       calculator: "节省计算器",
       contact: "联络方式",

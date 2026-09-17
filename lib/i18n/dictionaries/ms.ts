@@ -434,6 +434,7 @@ const ms: Dictionary = {
       commercial: "C&I",
       ev: "EV",
       atap: "ATAP",
+      bess: "BESS",
     },
     hero: {
       badge: "MAQO ATAP · Dibina untuk rumah pemilik EV",
@@ -578,6 +579,7 @@ const ms: Dictionary = {
     },
     footer: {
       tagline: "EPCC solar kediaman & C&I, bertauliah ST Kelas A & CIDB G7, sejak 2013.",
+      company: "Syarikat",
       explore: "Terokai",
       calculator: "Kalkulator penjimatan",
       contact: "Hubungi",

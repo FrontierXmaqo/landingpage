@@ -442,6 +442,7 @@ const en = {
       commercial: "C&I",
       ev: "EV",
       atap: "ATAP",
+      bess: "BESS",
     },
     hero: {
       badge: "MAQO ATAP · Built for EV-owning homes",
@@ -586,6 +587,7 @@ const en = {
     },
     footer: {
       tagline: "Residential & C&I solar EPCC, ST Class A & CIDB G7-certified, since 2013.",
+      company: "Company",
       explore: "Explore",
       calculator: "Savings calculator",
       contact: "Contact",

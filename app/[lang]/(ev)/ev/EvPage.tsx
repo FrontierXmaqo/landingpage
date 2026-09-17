@@ -357,6 +357,7 @@ export default function EvPage({
     { href: localePath(locale, "/commercial-and-industrial"), label: t.nav.commercial },
     { href: localePath(locale, "/ev"), label: t.nav.ev, current: true },
     { href: localePath(locale, "/atap"), label: t.nav.atap },
+    { href: localePath(locale, "/bess"), label: t.nav.bess },
     { href: localePath(locale, "/about"), label: t.nav.about },
   ];
 
@@ -861,7 +862,7 @@ export default function EvPage({
               </ul>
             </div>
             <div className="foot-col">
-              <h5>Pages</h5>
+              <h5>{t.footer.company}</h5>
               {nav.map((item) => (
                 <a key={item.href} href={item.href}>
                   {item.label}
