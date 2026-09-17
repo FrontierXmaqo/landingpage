@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import SectionTag from "./SectionTag";
 import ScrollReveal from "./ScrollReveal";
 import { OLD_SITE_IMAGES } from "@/lib/content";
-import type { Dictionary } from "@/lib/i18n";
+import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
 // One glyph per benefit, each tied to what the item actually says: a quote document,
 // electricity, and protection over time.
@@ -21,7 +22,7 @@ const ICONS = [
   </svg>,
 ];
 
-export default function WhyAtap({ t, space }: { t: Dictionary["whyAtap"]; space: string }) {
+export default function WhyAtap({ locale, t, space }: { locale: Locale; t: Dictionary["whyAtap"]; space: string }) {
   const featured = t.featured;
   const rest = t.items;
 
@@ -37,6 +38,12 @@ export default function WhyAtap({ t, space }: { t: Dictionary["whyAtap"]; space:
         <p className="mt-4 text-base leading-relaxed text-base-slate">
           {t.body}
         </p>
+        <Link
+          href={localePath(locale, "/atap")}
+          className="mt-6 inline-flex items-center justify-center rounded-full border border-base-line px-6 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+        >
+          {t.ctaButton}
+        </Link>
       </ScrollReveal>
 
       <div className="mt-12 grid gap-5 lg:grid-cols-3 lg:grid-rows-3">

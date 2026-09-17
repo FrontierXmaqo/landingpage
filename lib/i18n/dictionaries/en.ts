@@ -127,6 +127,7 @@ const en = {
     titleAccent: "Built to last.",
     body: "The parts of a solar purchase that usually go wrong are the parts we refuse to hand to anyone else.",
     featuredBadge: "Licensed in-house",
+    ctaButton: "What Is ATAP?",
     imageAlt: "MAQO Solar licensed crew installation work on a Malaysian rooftop",
     featured: {
       title: "ST Class A & CIDB G7 certified",

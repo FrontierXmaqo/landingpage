@@ -51,7 +51,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <FAQ t={t.faq} />
         <HowItWorks t={t.howItWorks} />
         <WhatsIncluded t={t.whatsIncluded} space={t.space} />
-        <WhyAtap t={t.whyAtap} space={t.space} />
+        <WhyAtap locale={lang} t={t.whyAtap} space={t.space} />
         <CommercialTeaser t={t.commercial} />
         <Achievements t={t.achievements} />
         <FinalCTA t={t.finalCta} space={t.space} />

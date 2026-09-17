@@ -121,6 +121,7 @@ const cn: Dictionary = {
     titleAccent: "经久耐用。",
     body: "太阳能项目中最容易出问题的环节，正是我们坚持不交给别人的环节。",
     featuredBadge: "持牌自家团队",
+    ctaButton: "什么是 ATAP？",
     imageAlt: "MAQO Solar 持牌团队在马来西亚屋顶进行安装",
     featured: {
       title: "ST Class A 与 CIDB G7 认证",

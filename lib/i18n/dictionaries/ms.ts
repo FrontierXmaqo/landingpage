@@ -122,6 +122,7 @@ const ms: Dictionary = {
     titleAccent: "Tahan lama.",
     body: "Bahagian pembelian solar yang biasanya bermasalah ialah bahagian yang kami enggan serahkan kepada orang lain.",
     featuredBadge: "Pasukan sendiri berlesen",
+    ctaButton: "Apakah Itu ATAP?",
     imageAlt: "Kru berlesen MAQO Solar membuat kerja pemasangan di atas bumbung di Malaysia",
     featured: {
       title: "Bertauliah ST Class A & CIDB G7",
