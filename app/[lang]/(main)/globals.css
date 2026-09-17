@@ -65,6 +65,12 @@
   --color-brand-green-deep: #0c2038;
   --color-brand-green-ink: #1d4a73;
   --color-brand-green-tint: #e4ecf5;
+
+  /* Backdrop only. Blur spreads a colour thin, and the thinner it spreads the
+     more its lightness is what you see — the deep steps above go to slate at
+     90px, which is why the hero needed its own lighter pair. */
+  --color-ci-sky: #5d9ad6;
+  --color-ci-sky-soft: #7db2e4;
 }
 
 [data-theme="about"] {
@@ -257,8 +263,8 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .ci-hero-wash {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--color-brand-green) 14%, transparent) 0%,
-    color-mix(in srgb, var(--color-brand-green) 4%, transparent) 58%,
+    color-mix(in srgb, var(--color-ci-sky) 22%, transparent) 0%,
+    color-mix(in srgb, var(--color-ci-sky) 6%, transparent) 56%,
     transparent 100%
   );
 }
@@ -273,7 +279,7 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .ci-hero-blob,
 .ci-hero-blob-deep {
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(70px);
 }
-.ci-hero-blob { background: color-mix(in srgb, var(--color-brand-green) 30%, transparent); }
-.ci-hero-blob-deep { background: color-mix(in srgb, var(--color-brand-green-deep) 22%, transparent); }
+.ci-hero-blob { background: color-mix(in srgb, var(--color-ci-sky) 30%, transparent); }
+.ci-hero-blob-deep { background: color-mix(in srgb, var(--color-ci-sky-soft) 24%, transparent); }
