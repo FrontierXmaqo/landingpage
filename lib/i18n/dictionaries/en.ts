@@ -22,6 +22,9 @@ const en = {
     atapTitle: "Solar ATAP Explained | MAQO Solar Malaysia",
     atapDescription:
       "What is Solar ATAP and how is it different from NEM? A plain-language guide to Malaysia's current rooftop solar programme — eligibility, how the bill credit works, and how to apply.",
+    bessTitle: "BESS | Battery Energy Storage Systems | MAQO Solar Malaysia",
+    bessDescription:
+      "Reduce high Maximum Demand (MD) charges with a MAQO Battery Energy Storage System. Zero-CAPEX financing available, ST Class A & CIDB G7-certified design, install and maintenance.",
   },
 
   languageSwitcher: {
@@ -37,6 +40,7 @@ const en = {
       commercial: "C&I",
       ev: "EV",
       atap: "ATAP",
+      bess: "BESS",
     },
   },
 
@@ -719,6 +723,90 @@ const en = {
     ctaTitle: "Ready to make ATAP work for your roof?",
     ctaBody: "Maqo is a Registered PV Service Provider. We design your system, install it, and submit your entire eATAP application for you.",
     ctaButton: "Talk to our solar team",
+  },
+
+  bess: {
+    eyebrow: "Battery Energy Storage Systems",
+    heroTitleLead: "Reduce High Maximum Demand Charges",
+    heroTitleAccent: "With BESS",
+    heroBody:
+      "Zero-CAPEX battery storage that charges when power is cheap and discharges during your peak — cutting Maximum Demand charges without changing how your business runs.",
+    heroCtaPrimary: "Get a BESS Quote",
+    heroCtaSecondary: "Talk to Our BESS Team",
+    heroTrust: ["ST Class A", "CIDB G7", "SEDA Registered", "Zero CAPEX Available"],
+
+    problemTag: "The Problem",
+    problemTitle: "Maximum Demand charges are climbing fast",
+    problemBody:
+      "TNB's 2025 tariff restructuring sharply increased Maximum Demand (MD) charges — billed on your single highest 30-minute usage spike, not your total consumption.",
+    problemBeforeLabel: "Before",
+    problemBeforeAmt: "RM 100k",
+    problemAfterLabel: "After restructuring",
+    problemAfterAmt: "RM 200k",
+    problemCompareCaption: "Typical monthly MD charge for the same facility",
+    problemFacts: [
+      { stat: "2pm – 10pm", body: "Weekday peak window where a single spike sets your MD charge" },
+      { stat: "30 minutes", body: "MD is billed on your highest 30-min block, not your total usage" },
+      { stat: "Tens of thousands", body: "What one uncontrolled spike can add to a single month's bill" },
+    ],
+
+    whatTag: "What Is BESS?",
+    whatTitle: "A large-scale battery, working like an industrial power bank",
+    whatBody:
+      "A Battery Energy Storage System stores electricity when it's cheap or plentiful, then releases it exactly when your site needs it most — a process called peak shaving. Modern lithium-ion systems run at 80–90% round-trip efficiency.",
+    chargeBadge: "Off-Peak · Charging",
+    chargeTitle: "Store energy while it's cheap",
+    chargeBody: "The battery charges from solar generation or low-tariff grid power, building up reserve for the hours ahead.",
+    dischargeBadge: "Peak · Discharging",
+    dischargeTitle: "Deploy it during your spike",
+    dischargeBody: "When your load climbs toward a new Maximum Demand peak, the battery discharges automatically to flatten it.",
+
+    flowTag: "How BESS Works",
+    flowTitle: "From solar and grid, to a flatter bill",
+    flowSteps: [
+      { title: "Solar / Grid", body: "Energy flows in from your rooftop solar and the grid during low-demand hours." },
+      { title: "Battery Storage", body: "The BESS stores it on-site, sized to your actual load profile." },
+      { title: "Smart Energy Management", body: "Software decides when to charge, hold, or discharge — no manual switching." },
+      { title: "Business Load", body: "Stored power covers your peak, keeping your Maximum Demand flat." },
+    ],
+
+    benefitsTag: "Key Benefits",
+    benefitsTitle: "Six reasons businesses are adding BESS",
+    benefits: [
+      { title: "Maximum Demand / Peak Shaving", body: "Flatten your highest 30-minute spike, the single number your MD charge is based on." },
+      { title: "Lower Energy Costs", body: "Shift consumption away from your most expensive tariff periods automatically." },
+      { title: "Energy Management", body: "One system that reads your load profile and makes the charge/discharge call in real time." },
+      { title: "Solar Energy Optimisation", body: "Capture excess solar generation instead of exporting or curtailing it, and use every kWh on-site." },
+      { title: "Backup / Energy Resilience", body: "Keep critical loads running through short grid interruptions." },
+      { title: "Real-Time Monitoring", body: "Track charge level, savings and system health from a web or mobile dashboard." },
+    ],
+
+    solutionTag: "The MAQO BESS Solution",
+    solutionTitle: "One in-house team, start to finish",
+    solutionBody: "The same team that assesses your site designs, builds, and keeps your BESS running for as long as you own it.",
+    solutionStages: [
+      { title: "Energy Analysis & Site Assessment", body: "We study your load profile and TNB bill to size a system that pays for itself." },
+      { title: "MAQO Invests & Builds", body: "Our in-house, SEDA-qualified team designs, supplies and installs the system." },
+      { title: "Operate & Maintain", body: "We monitor and maintain the system for its full operating life." },
+      { title: "You Save From Day One", body: "Lower MD charges show up on your very next TNB bill." },
+    ],
+
+    modelTag: "Business Model",
+    modelTitle: "Two ways to fund your BESS",
+    modelZeroKicker: "Zero upfront cost",
+    modelZeroTitle: "Zero CAPEX (BESS-as-a-Service)",
+    modelZeroBody:
+      "MAQO finances, designs, installs and manages the entire system. You pay nothing upfront and keep predictable energy cost savings, with zero hassle.",
+    modelZeroPoints: ["No capital outlay", "MAQO owns operating risk", "Savings from your first bill"],
+    modelBuyKicker: "Own it outright",
+    modelBuyTitle: "Direct Purchase",
+    modelBuyBody: "Buy your system with cash, a bank loan, or a credit facility, and keep 100% of your MD savings and long-term returns.",
+    modelBuyPoints: ["Full ownership from day one", "Maximum long-term savings", "Still fully MAQO-installed & maintained"],
+
+    ctaTitle: "Talk to MAQO About BESS",
+    ctaBody: "Free site assessment — we'll show you exactly how much a battery system could cut from your Maximum Demand charges.",
+    ctaPrimary: "Get a BESS Assessment",
+    ctaSecondary: "Talk to Our BESS Team",
   },
 };
 

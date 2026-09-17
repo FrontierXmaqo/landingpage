@@ -91,6 +91,18 @@
   --color-brand-green-tint: #fbead1;
 }
 
+[data-theme="bess"] {
+  --color-base-bg: #f3f9fa;
+  --color-brand-orange: #0e7c86;
+  --color-brand-orange-deep: #0a5f67;
+  --color-brand-orange-ink: #0b6169;
+  --color-brand-orange-tint: #dff0f1;
+  --color-brand-green: #0e7c86;
+  --color-brand-green-deep: #0a5f67;
+  --color-brand-green-ink: #0b6169;
+  --color-brand-green-tint: #dff0f1;
+}
+
 body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .section-eyebrow { letter-spacing: 0.08em; }
 

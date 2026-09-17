@@ -861,20 +861,20 @@ export default function EvPage({
               </ul>
             </div>
             <div className="foot-col">
-              <h5>{t.footer.explore}</h5>
-              <a href="#the-problem">{t.nav.problem}</a>
-              <a href="#calculator">{t.footer.calculator}</a>
-              <a href="#how-it-works">{t.nav.howItWorks}</a>
-              <a href="#covered">{t.nav.covered}</a>
-              <a href="#faq">{t.nav.faq}</a>
-            </div>
-            <div className="foot-col">
               <h5>Pages</h5>
               {nav.map((item) => (
                 <a key={item.href} href={item.href}>
                   {item.label}
                 </a>
               ))}
+            </div>
+            <div className="foot-col">
+              <h5>{t.footer.explore}</h5>
+              <a href="#the-problem">{t.nav.problem}</a>
+              <a href="#calculator">{t.footer.calculator}</a>
+              <a href="#how-it-works">{t.nav.howItWorks}</a>
+              <a href="#covered">{t.nav.covered}</a>
+              <a href="#faq">{t.nav.faq}</a>
             </div>
             <div className="foot-col">
               <h5>{t.footer.contact}</h5>

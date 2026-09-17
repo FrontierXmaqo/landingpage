@@ -18,6 +18,9 @@ const cn: Dictionary = {
     atapTitle: "Solar ATAP 详解 | MAQO Solar 马来西亚",
     atapDescription:
       "什么是 Solar ATAP？它和 NEM 有什么不同？一份简明指南，介绍马来西亚现行的屋顶太阳能计划——申请资格、电费回扣如何计算，以及申请方式。",
+    bessTitle: "BESS | 电池储能系统 | MAQO Solar 马来西亚",
+    bessDescription:
+      "使用 MAQO 电池储能系统，降低高昂的最高需量（MD）收费。提供零资本支出（Zero-CAPEX）融资方案，由 ST Class A 与 CIDB G7 认证团队设计、安装与维护。",
   },
 
   languageSwitcher: {
@@ -33,6 +36,7 @@ const cn: Dictionary = {
       commercial: "工商业",
       ev: "电动车",
       atap: "ATAP",
+      bess: "BESS",
     },
   },
 
@@ -710,6 +714,90 @@ const cn: Dictionary = {
     ctaTitle: "准备好让 ATAP 为您的屋顶创造价值了吗？",
     ctaBody: "Maqo 是注册太阳能光伏服务供应商。我们为您设计系统、完成安装，并代您提交完整的 eATAP 申请。",
     ctaButton: "联络我们的太阳能团队",
+  },
+
+  bess: {
+    eyebrow: "电池储能系统",
+    heroTitleLead: "降低高额最高需量收费",
+    heroTitleAccent: "选择 BESS",
+    heroBody:
+      "零资本支出（Zero-CAPEX）电池储能系统，在电力便宜时充电，在您的用电高峰时放电——在不改变营运方式的情况下，降低最高需量（MD）收费。",
+    heroCtaPrimary: "索取 BESS 报价",
+    heroCtaSecondary: "联络我们的 BESS 团队",
+    heroTrust: ["ST Class A", "CIDB G7", "SEDA 注册", "可申请零资本支出"],
+
+    problemTag: "问题所在",
+    problemTitle: "最高需量收费正快速攀升",
+    problemBody:
+      "TNB 于 2025 年调整电费结构后，最高需量（MD）收费大幅上升——收费依据是您单次最高的 30 分钟用电高峰，而非总用电量。",
+    problemBeforeLabel: "调整前",
+    problemBeforeAmt: "RM 100k",
+    problemAfterLabel: "调整后",
+    problemAfterAmt: "RM 200k",
+    problemCompareCaption: "同一设施的典型每月 MD 收费",
+    problemFacts: [
+      { stat: "下午2时至晚上10时", body: "工作日高峰时段，单次用电高峰即可决定您的 MD 收费" },
+      { stat: "30 分钟", body: "MD 收费依据是您最高的 30 分钟用电区间，而非总用电量" },
+      { stat: "数万令吉", body: "一次失控的用电高峰，可能为单月账单增加的金额" },
+    ],
+
+    whatTag: "什么是 BESS？",
+    whatTitle: "大型电池，如同工业级电力银行",
+    whatBody:
+      "电池储能系统在电力便宜或充裕时储存电力，并在您的场所最需要时精准释放——这个过程称为削峰（peak shaving）。现代锂电池系统的往返效率可达 80% 至 90%。",
+    chargeBadge: "离峰 · 充电中",
+    chargeTitle: "在电力便宜时储存能源",
+    chargeBody: "电池透过太阳能发电或低电价时段的电网电力充电，为接下来的时段储备电力。",
+    dischargeBadge: "高峰 · 放电中",
+    dischargeTitle: "在用电高峰时释放电力",
+    dischargeBody: "当您的用电量趋向新的最高需量高峰时，电池会自动放电以削平高峰。",
+
+    flowTag: "BESS 运作原理",
+    flowTitle: "从太阳能与电网，到更平稳的账单",
+    flowSteps: [
+      { title: "太阳能／电网", body: "在用电需求较低的时段，电力从屋顶太阳能与电网流入系统。" },
+      { title: "电池储能", body: "BESS 就地储存电力，容量依您实际的用电模式设计。" },
+      { title: "智能能源管理", body: "软件自动判断何时充电、保持或放电——无需人手切换。" },
+      { title: "企业用电负载", body: "储存的电力用于应付高峰用电，让您的最高需量保持平稳。" },
+    ],
+
+    benefitsTag: "主要优势",
+    benefitsTitle: "企业选择 BESS 的六大理由",
+    benefits: [
+      { title: "最高需量／削峰", body: "削平您最高的 30 分钟用电高峰——也就是决定 MD 收费的关键数字。" },
+      { title: "降低能源成本", body: "自动将用电从电价最高的时段转移出去。" },
+      { title: "能源管理", body: "一套系统读取您的用电模式，实时做出充放电决策。" },
+      { title: "太阳能优化利用", body: "捕获多余的太阳能发电，而非将其输出或限制，让每一度电都在现场发挥作用。" },
+      { title: "备用电力／能源韧性", body: "在短暂电网中断期间，维持关键负载持续运作。" },
+      { title: "实时监控", body: "透过网页或手机仪表板追踪电池电量、节省金额与系统健康状况。" },
+    ],
+
+    solutionTag: "MAQO BESS 解决方案",
+    solutionTitle: "一支内部团队，从头到尾全程负责",
+    solutionBody: "评估您场地的团队，同时也是设计、建置，并在您使用系统期间持续维护 BESS 的团队。",
+    solutionStages: [
+      { title: "能源分析与场地评估", body: "我们研究您的用电模式与 TNB 账单，设计出能够回本的系统规格。" },
+      { title: "MAQO 投资与建置", body: "我们具备 SEDA 资格的内部团队负责设计、供应与安装系统。" },
+      { title: "运营与维护", body: "我们在系统整个运作期间持续监控与维护。" },
+      { title: "第一天起就开始节省", body: "更低的 MD 收费将在您下一期 TNB 账单中体现。" },
+    ],
+
+    modelTag: "商业模式",
+    modelTitle: "两种为 BESS 融资的方式",
+    modelZeroKicker: "无需预付资金",
+    modelZeroTitle: "零资本支出（BESS 即服务）",
+    modelZeroBody:
+      "MAQO 负责整套系统的融资、设计、安装与管理。您无需支付任何预付款项，即可享有可预期的能源成本节省，完全无需操心。",
+    modelZeroPoints: ["无需资本支出", "MAQO 承担运营风险", "从第一期账单起即可节省"],
+    modelBuyKicker: "完全拥有系统",
+    modelBuyTitle: "直接购买",
+    modelBuyBody: "以现金、银行贷款或信贷方式购买系统，并保留 100% 的 MD 节省金额与长期回报。",
+    modelBuyPoints: ["从第一天起完全拥有", "长期节省金额最大化", "仍由 MAQO 全程安装与维护"],
+
+    ctaTitle: "联络 MAQO，了解 BESS",
+    ctaBody: "免费场地评估——我们将具体说明电池系统能为您的最高需量收费节省多少金额。",
+    ctaPrimary: "预约 BESS 评估",
+    ctaSecondary: "联络我们的 BESS 团队",
   },
 };
 
