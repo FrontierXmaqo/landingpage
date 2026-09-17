@@ -24,8 +24,8 @@ export const OLD_SITE_IMAGES = {
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/67176495a3b2c4043dab9a1f.png",
   ],
   gallery: [
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e053aa80b446d0fbdc1c19.jpg",
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e0691c190683601a8e9061.jpg",
+    "/gallery-residential-install.jpg",
+    "/gallery-quality-ci.jpg",
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e06c1f93c88e42c38b9267.jpg",
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e0557ddb7c222f717e142f.jpg",
     "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/69e05a1080b446d0fbdd9bb8.jpg",

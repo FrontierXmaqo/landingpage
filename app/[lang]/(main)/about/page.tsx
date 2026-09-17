@@ -204,6 +204,21 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
                 {s}
                 <span className="text-brand-orange-ink">{t.teamTitleAccent}</span>
               </h2>
+              <div className="mt-6 flex items-center gap-3">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-base-panel shadow-md">
+                  <Image
+                    src="/kong-kok-king.jpg"
+                    alt="Kong Kok King, Managing Director of MAQO Solar"
+                    fill
+                    className="object-cover"
+                    sizes="56px"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-base-ink">Kong Kok King</p>
+                  <p className="text-xs text-base-slate">Managing Director</p>
+                </div>
+              </div>
               <p className="mt-5 text-base leading-relaxed text-base-slate">
                 {t.teamBody1}
               </p>
