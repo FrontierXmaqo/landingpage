@@ -32,7 +32,7 @@ export default function ClientMarquee({ clients }: { clients: Client[] }) {
                 alt={client.name}
                 width={160}
                 height={56}
-                className="max-h-12 w-auto object-contain"
+                className="max-h-12 w-auto max-w-full object-contain"
                 unoptimized
               />
             ) : (
