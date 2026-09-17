@@ -38,9 +38,19 @@ export async function ensureLeadFormFieldsDraftSeeded() {
 
   const { data: published } = await supabase.from("lead_form_fields").select("*").eq("status", "published");
   if (published?.length) {
-    await supabase.from("lead_form_fields").insert(
-      published.map((row) => ({ ...row, id: undefined, status: "draft", published_at: null, published_by: null }))
+    // See the C&I seeding for the full explanation: `id: undefined` inside an
+    // array insert arrives as an explicit null and violates the primary key,
+    // so the key has to be absent rather than undefined. This seeding has been
+    // failing silently — its result was never checked — which is why the field
+    // list could come up empty after a publish.
+    const { error } = await supabase.from("lead_form_fields").insert(
+      published.map((row) => {
+        const seeded: Record<string, unknown> = { ...row, status: "draft", published_at: null, published_by: null };
+        delete seeded.id;
+        return seeded;
+      })
     );
+    if (error) throw new Error(`Could not prepare the lead form draft (${error.message}).`);
   }
 }
 

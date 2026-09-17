@@ -35,8 +35,17 @@ export async function ensureCiDraftSeeded() {
     const { data: published } = await supabase.from(table).select("*").eq("status", "published").order("sort_order");
     if (!published?.length) continue;
 
+    // `id` is dropped by destructuring, not by setting it to undefined.
+    // supabase-js normalises the keys across an array insert and fills any gap
+    // with an explicit null, so `id: undefined` reaches Postgres as `id: null`
+    // and trips the primary key's NOT NULL. Leaving the key out entirely is the
+    // only form that lets the column default to gen_random_uuid().
     const { error } = await supabase.from(table).insert(
-      published.map((row) => ({ ...row, id: undefined, status: "draft", published_at: null, published_by: null }))
+      published.map((row) => {
+        const seeded: Record<string, unknown> = { ...row, status: "draft", published_at: null, published_by: null };
+        delete seeded.id;
+        return seeded;
+      })
     );
 
     // Loudly, on purpose. A seed that fails quietly leaves the editor showing
@@ -132,7 +141,13 @@ export async function uploadProjectPhoto(id: string, formData: FormData) {
   const supabase = await getSupabaseUserClient();
   const path = `${rowId}/${Date.now()}.webp`;
   const { error } = await supabase.storage.from(BUCKET).upload(path, webp, { contentType: "image/webp", upsert: true });
-  if (error) throw new ValidationError("The image could not be uploaded. Please try again.");
+  // The reason matters: "violates row-level security policy" and "bucket not
+  // found" need completely different fixes, and a blanket "try again" sent
+  // someone round the same loop four times.
+  if (error) {
+    console.error("Project photo upload failed", error);
+    throw new ValidationError(`The image could not be uploaded: ${error.message}`);
+  }
 
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
   await supabase
