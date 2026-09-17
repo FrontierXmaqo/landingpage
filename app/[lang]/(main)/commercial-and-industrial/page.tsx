@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 import SectionTag from "../components/SectionTag";
 import ScrollReveal from "../components/ScrollReveal";
 import CiLeadForm from "./CiLeadForm";
+import ClientMarquee from "./ClientMarquee";
+import CountUpStat from "./CountUpStat";
 import ProjectsCarousel, { type Surface } from "./ProjectsCarousel";
 import { CheckCircle, PILLAR_ICONS } from "./icons";
 import {
@@ -132,36 +134,17 @@ export default async function CommercialAndIndustrialPage({
               Trusted by Leading Commercial &amp; Industrial Brands Across Malaysia
             </h2>
 
-            <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {ci.clients.map((client) => (
-                <li
-                  key={client.name}
-                  className="flex h-20 items-center justify-center rounded-xl border border-base-line bg-base-bg px-4 text-center text-base font-semibold text-base-slate"
-                >
-                  {client.logo ? (
-                    // Contained, not cropped: logos come in every aspect ratio, and
-                    // the name stays as the alt text so the tile still reads aloud.
-                    <Image
-                      src={client.logo}
-                      alt={client.name}
-                      width={160}
-                      height={56}
-                      className="max-h-12 w-auto object-contain"
-                      unoptimized
-                    />
-                  ) : (
-                    client.name
-                  )}
-                </li>
-              ))}
-            </ul>
+            <ClientMarquee clients={ci.clients} />
 
             <dl className="mt-10 grid grid-cols-1 gap-8 border-t border-base-line pt-10 text-center sm:grid-cols-3">
               {ci.trustStats.map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
-                    <span className="block text-4xl font-bold text-brand-green-ink">{stat.value}</span>
+                    <CountUpStat
+                      value={stat.value}
+                      className="block text-4xl font-bold text-brand-green-ink"
+                    />
                     <span className="mt-2 block text-sm text-base-slate">{stat.label}</span>
                   </dd>
                 </div>
