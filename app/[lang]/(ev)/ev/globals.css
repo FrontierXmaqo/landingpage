@@ -21,7 +21,7 @@
 
   /* Surfaces */
   --paper:#FFFFFF;
-  --sand:#F7F9F3;
+  --sand:#F5FAF6;
   --ink:#0E2116;
   --ink-2:#17301F;
   --line:#E3EADD;
@@ -421,19 +421,22 @@ form input:focus, form select:focus{border-color:var(--green); outline:none;}
 .hp-field{position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;}
 
 /* ---------- Footer ---------- */
-footer{background:var(--ink-2); color:rgba(255,255,255,0.72); padding:64px 0 108px;}
-.foot-grid{display:grid; grid-template-columns:1.3fr 0.9fr 0.8fr 1fr; gap:40px; padding-bottom:36px; border-bottom:1px solid var(--line-dark); margin-bottom:24px;}
-.foot-brand .foot-wordmark{font-family:var(--font-head); font-size:1.05rem; font-weight:700; color:#fff;}
-.foot-brand p{font-size:0.88rem; max-width:34ch; margin-top:18px; color:rgba(255,255,255,0.6);}
-.foot-brand .foot-cred-line{margin-top:10px; font-size:0.7rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.45);}
-.foot-certs{list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
-.foot-certs li{font-size:0.7rem; font-weight:600; padding:5px 11px; border:1px solid var(--line-dark); border-radius:var(--pill); color:rgba(255,255,255,0.75);}
-.foot-col{display:flex; flex-direction:column; gap:10px; font-size:0.89rem;}
-.foot-col h5{font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--green); margin-bottom:6px;}
-.foot-col a{color:rgba(255,255,255,0.72); transition:color .16s ease;}
-.foot-col a:hover{color:var(--orange);}
-.foot-col p{color:rgba(255,255,255,0.5); font-size:0.84rem; margin-top:6px; max-width:32ch;}
-.foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.78rem; color:rgba(255,255,255,0.45);}
+/* Light footer, matching every other page's site-wide footer treatment
+   (white panel, hairline border, neutral ink/slate text) instead of a
+   page-specific dark band. */
+footer{background:var(--paper); color:var(--text-dim); padding:56px 0 40px; border-top:1px solid var(--line);}
+.foot-grid{display:grid; grid-template-columns:1.3fr 0.9fr 0.8fr 1fr; gap:40px; padding-bottom:32px; border-bottom:1px solid var(--line); margin-bottom:24px;}
+.foot-brand .foot-wordmark{font-family:var(--font-head); font-size:0.9rem; font-weight:600; color:var(--text);}
+.foot-brand p{font-size:0.875rem; max-width:34ch; margin-top:8px; color:var(--text-dim);}
+.foot-brand .foot-cred-line{margin-top:16px; font-size:0.7rem; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--text-dim);}
+.foot-certs{list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.foot-certs li{font-size:0.75rem; font-weight:600; padding:4px 12px; border:1px solid var(--line); border-radius:var(--pill); color:var(--text-dim); background:var(--sand);}
+.foot-col{display:flex; flex-direction:column; gap:8px; font-size:0.875rem;}
+.foot-col h5{font-size:0.875rem; font-weight:600; color:var(--text); margin-bottom:4px;}
+.foot-col a{color:var(--text-dim); transition:color .16s ease;}
+.foot-col a:hover{color:var(--text);}
+.foot-col p{color:var(--text-faint); font-size:0.8rem; margin-top:4px; max-width:32ch;}
+.foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.75rem; color:var(--text-faint);}
 
 /* ---------- Responsive ----------
    Breakpoints now match the real Tailwind breakpoints the rest of the site

@@ -17,6 +17,9 @@ const ms: Dictionary = {
     atapTitle: "Solar ATAP Dijelaskan | MAQO Solar Malaysia",
     atapDescription:
       "Apakah itu Solar ATAP dan apa bezanya dengan NEM? Panduan mudah tentang program solar bumbung semasa Malaysia — kelayakan, cara kredit bil berfungsi, dan cara memohon.",
+    bessTitle: "BESS | Sistem Simpanan Tenaga Bateri | MAQO Solar Malaysia",
+    bessDescription:
+      "Kurangkan caj Permintaan Maksimum (MD) yang tinggi dengan Sistem Simpanan Tenaga Bateri MAQO. Pembiayaan Sifar-CAPEX tersedia, reka bentuk, pemasangan dan penyelenggaraan bertauliah ST Class A & CIDB G7.",
   },
 
   languageSwitcher: {
@@ -32,6 +35,7 @@ const ms: Dictionary = {
       commercial: "C&I",
       ev: "EV",
       atap: "ATAP",
+      bess: "BESS",
     },
   },
 
@@ -711,6 +715,90 @@ const ms: Dictionary = {
     ctaTitle: "Bersedia untuk memanfaatkan ATAP untuk bumbung anda?",
     ctaBody: "Maqo ialah Pembekal Perkhidmatan PV Berdaftar. Kami mereka bentuk sistem anda, memasangnya, dan menghantar keseluruhan permohonan eATAP anda bagi pihak anda.",
     ctaButton: "Hubungi pasukan solar kami",
+  },
+
+  bess: {
+    eyebrow: "Sistem Simpanan Tenaga Bateri",
+    heroTitleLead: "Kurangkan Caj Permintaan Maksimum",
+    heroTitleAccent: "Dengan BESS",
+    heroBody:
+      "Simpanan bateri Sifar-CAPEX yang mengecas semasa tenaga murah dan menyahcas semasa waktu puncak anda — mengurangkan caj Permintaan Maksimum tanpa mengubah cara perniagaan anda beroperasi.",
+    heroCtaPrimary: "Dapatkan Sebut Harga BESS",
+    heroCtaSecondary: "Hubungi Pasukan BESS Kami",
+    heroTrust: ["ST Class A", "CIDB G7", "Berdaftar SEDA", "Sifar CAPEX Tersedia"],
+
+    problemTag: "Masalahnya",
+    problemTitle: "Caj Permintaan Maksimum semakin meningkat",
+    problemBody:
+      "Penstrukturan semula tarif TNB 2025 telah meningkatkan caj Permintaan Maksimum (MD) dengan ketara — dikenakan berdasarkan lonjakan penggunaan 30 minit tertinggi anda, bukan jumlah penggunaan keseluruhan.",
+    problemBeforeLabel: "Sebelum",
+    problemBeforeAmt: "RM 100k",
+    problemAfterLabel: "Selepas penstrukturan semula",
+    problemAfterAmt: "RM 200k",
+    problemCompareCaption: "Caj MD bulanan biasa untuk kemudahan yang sama",
+    problemFacts: [
+      { stat: "2 tgh – 10 mlm", body: "Waktu puncak hari bekerja yang menentukan caj MD anda dengan satu lonjakan sahaja" },
+      { stat: "30 minit", body: "MD dikenakan berdasarkan blok 30 minit tertinggi anda, bukan jumlah penggunaan keseluruhan" },
+      { stat: "Puluhan ribu", body: "Jumlah yang boleh ditambah oleh satu lonjakan tidak terkawal pada bil sebulan" },
+    ],
+
+    whatTag: "Apakah BESS?",
+    whatTitle: "Bateri berskala besar, berfungsi seperti bank kuasa industri",
+    whatBody:
+      "Sistem Simpanan Tenaga Bateri menyimpan elektrik semasa ia murah atau berlebihan, kemudian melepaskannya tepat pada waktu tapak anda memerlukannya — proses yang dipanggil peak shaving. Sistem litium-ion moden berfungsi pada kecekapan pusingan penuh 80–90%.",
+    chargeBadge: "Luar Puncak · Mengecas",
+    chargeTitle: "Simpan tenaga semasa ia murah",
+    chargeBody: "Bateri mengecas daripada janaan solar atau kuasa grid bertarif rendah, membina rizab untuk waktu akan datang.",
+    dischargeBadge: "Puncak · Menyahcas",
+    dischargeTitle: "Gunakan semasa lonjakan anda",
+    dischargeBody: "Apabila beban anda meningkat ke arah puncak Permintaan Maksimum baharu, bateri menyahcas secara automatik untuk meratakannya.",
+
+    flowTag: "Cara BESS Berfungsi",
+    flowTitle: "Daripada solar dan grid, kepada bil yang lebih rata",
+    flowSteps: [
+      { title: "Solar / Grid", body: "Tenaga mengalir masuk daripada solar bumbung anda dan grid semasa waktu permintaan rendah." },
+      { title: "Simpanan Bateri", body: "BESS menyimpannya di tapak, disaiz mengikut profil beban sebenar anda." },
+      { title: "Pengurusan Tenaga Pintar", body: "Perisian menentukan bila untuk mengecas, menahan, atau menyahcas — tanpa suis manual." },
+      { title: "Beban Perniagaan", body: "Kuasa tersimpan menampung waktu puncak anda, mengekalkan Permintaan Maksimum anda rata." },
+    ],
+
+    benefitsTag: "Faedah Utama",
+    benefitsTitle: "Enam sebab perniagaan menambah BESS",
+    benefits: [
+      { title: "Permintaan Maksimum / Peak Shaving", body: "Ratakan lonjakan 30 minit tertinggi anda, angka tunggal yang menjadi asas caj MD anda." },
+      { title: "Kos Tenaga Lebih Rendah", body: "Alihkan penggunaan daripada tempoh tarif paling mahal anda secara automatik." },
+      { title: "Pengurusan Tenaga", body: "Satu sistem yang membaca profil beban anda dan membuat keputusan cas/nyahcas secara masa nyata." },
+      { title: "Pengoptimuman Tenaga Solar", body: "Tangkap lebihan janaan solar dan bukannya mengeksport atau mengehadkannya, dan gunakan setiap kWh di tapak." },
+      { title: "Sandaran / Daya Tahan Tenaga", body: "Kekalkan beban kritikal berjalan semasa gangguan grid yang singkat." },
+      { title: "Pemantauan Masa Nyata", body: "Jejak tahap cas, penjimatan dan kesihatan sistem daripada papan pemuka web atau mudah alih." },
+    ],
+
+    solutionTag: "Penyelesaian BESS MAQO",
+    solutionTitle: "Satu pasukan dalaman, dari mula hingga selesai",
+    solutionBody: "Pasukan yang sama yang menilai tapak anda mereka bentuk, membina, dan mengekalkan BESS anda berfungsi selagi anda memilikinya.",
+    solutionStages: [
+      { title: "Analisis Tenaga & Penilaian Tapak", body: "Kami mengkaji profil beban dan bil TNB anda untuk mensaiz sistem yang berbaloi." },
+      { title: "MAQO Melabur & Membina", body: "Pasukan dalaman kami yang berkelayakan SEDA mereka bentuk, membekal dan memasang sistem." },
+      { title: "Operasi & Penyelenggaraan", body: "Kami memantau dan menyelenggara sistem sepanjang tempoh operasinya." },
+      { title: "Anda Jimat Dari Hari Pertama", body: "Caj MD yang lebih rendah muncul pada bil TNB anda yang seterusnya." },
+    ],
+
+    modelTag: "Model Perniagaan",
+    modelTitle: "Dua cara untuk membiayai BESS anda",
+    modelZeroKicker: "Tiada kos pendahuluan",
+    modelZeroTitle: "Sifar CAPEX (BESS-as-a-Service)",
+    modelZeroBody:
+      "MAQO membiayai, mereka bentuk, memasang dan menguruskan keseluruhan sistem. Anda tidak membayar apa-apa pendahuluan dan terus menikmati penjimatan kos tenaga yang boleh diramal, tanpa kesulitan.",
+    modelZeroPoints: ["Tiada perbelanjaan modal", "MAQO menanggung risiko operasi", "Penjimatan bermula dari bil pertama anda"],
+    modelBuyKicker: "Miliki sepenuhnya",
+    modelBuyTitle: "Pembelian Terus",
+    modelBuyBody: "Beli sistem anda secara tunai, pinjaman bank, atau kemudahan kredit, dan kekalkan 100% penjimatan MD serta pulangan jangka panjang anda.",
+    modelBuyPoints: ["Pemilikan penuh dari hari pertama", "Penjimatan jangka panjang maksimum", "Tetap dipasang & diselenggara sepenuhnya oleh MAQO"],
+
+    ctaTitle: "Hubungi MAQO Tentang BESS",
+    ctaBody: "Penilaian tapak percuma — kami akan tunjukkan dengan tepat berapa banyak sistem bateri boleh mengurangkan caj Permintaan Maksimum anda.",
+    ctaPrimary: "Dapatkan Penilaian BESS",
+    ctaSecondary: "Hubungi Pasukan BESS Kami",
   },
 };
 
