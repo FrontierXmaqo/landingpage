@@ -196,7 +196,7 @@ export default async function CommercialAndIndustrialPage({
         </section>
       </main>
 
-      <Footer locale={lang} t={dict.footer} />
+      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
     </div>
   );
 }

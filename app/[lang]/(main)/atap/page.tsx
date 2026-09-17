@@ -397,7 +397,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
           </ScrollReveal>
         </section>
       </main>
-      <Footer locale={lang} t={dict.footer} />
+      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
     </div>
   );
 }

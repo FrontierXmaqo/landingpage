@@ -367,13 +367,6 @@ export default function EvPage({
           <Link href={localePath(locale, "/")} className="topbar-logo" aria-label={dict.header.logoAlt}>
             <Image src={OLD_SITE_IMAGES.logo} alt={dict.header.logoAlt} fill className="topbar-logo-img" sizes="160px" priority />
           </Link>
-          <nav className="topnav">
-            {nav.map((item) => (
-              <Link key={item.href} href={item.href} className={item.current ? "current" : ""}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
           <div className="topbar-right">
             <LanguageSwitcher
               locale={locale}
@@ -873,6 +866,14 @@ export default function EvPage({
               <a href="#how-it-works">{t.nav.howItWorks}</a>
               <a href="#covered">{t.nav.covered}</a>
               <a href="#faq">{t.nav.faq}</a>
+            </div>
+            <div className="foot-col">
+              <h5>Pages</h5>
+              {nav.map((item) => (
+                <a key={item.href} href={item.href}>
+                  {item.label}
+                </a>
+              ))}
             </div>
             <div className="foot-col">
               <h5>{t.footer.contact}</h5>

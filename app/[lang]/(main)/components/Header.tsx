@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { OLD_SITE_IMAGES } from "@/lib/content";
-import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import type { Dictionary, Locale } from "@/lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header({
@@ -17,14 +17,6 @@ export default function Header({
    * link instead — e.g. `localePath(locale, "/#assessment")`. */
   ctaHref?: string;
 }) {
-  const nav = [
-    { href: localePath(locale, "/"), label: t.header.nav.residential },
-    { href: localePath(locale, "/commercial-and-industrial"), label: t.header.nav.commercial },
-    { href: localePath(locale, "/ev"), label: t.header.nav.ev },
-    { href: localePath(locale, "/atap"), label: t.header.nav.atap },
-    { href: localePath(locale, "/about"), label: t.header.nav.about },
-  ];
-
   return (
     <header className="sticky top-0 z-40 w-full border-b border-base-line bg-base-panel/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -38,13 +30,6 @@ export default function Header({
             priority
           />
         </div>
-        <nav className="hidden items-center gap-6 text-sm font-medium text-base-slate md:flex">
-          {nav.map((item) => (
-            <Link key={item.href} href={item.href} className="transition hover:text-base-ink">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
         <div className="flex items-center gap-2 sm:gap-4">
           <LanguageSwitcher
             locale={locale}

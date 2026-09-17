@@ -469,7 +469,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
           </ScrollReveal>
         </section>
       </main>
-      <Footer locale={lang} t={dict.footer} />
+      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
     </div>
   );
 }

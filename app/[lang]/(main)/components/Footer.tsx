@@ -1,9 +1,23 @@
 import { CONTACT, CREDENTIALS } from "@/lib/content";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
-export default function Footer({ locale, t }: { locale: Locale; t: Dictionary["footer"] }) {
+export default function Footer({
+  locale,
+  t,
+  nav,
+}: {
+  locale: Locale;
+  t: Dictionary["footer"];
+  /** The site's cross-page nav, moved here now that the header no longer
+   * shows it. Same labels/order Header used to render. */
+  nav: Dictionary["header"]["nav"];
+}) {
   const links = [
-    { label: t.about, href: localePath(locale, "/about") },
+    { label: nav.residential, href: localePath(locale, "/") },
+    { label: nav.commercial, href: localePath(locale, "/commercial-and-industrial") },
+    { label: nav.ev, href: localePath(locale, "/ev") },
+    { label: nav.atap, href: localePath(locale, "/atap") },
+    { label: nav.about, href: localePath(locale, "/about") },
     { label: t.contactUs, href: localePath(locale, "/#assessment") },
   ];
 
@@ -24,12 +38,7 @@ export default function Footer({ locale, t }: { locale: Locale; t: Dictionary["f
             <ul className="mt-3 space-y-2 text-sm text-base-slate">
               {links.map((l) => (
                 <li key={l.label}>
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-base-ink"
-                  >
+                  <a href={l.href} className="hover:text-base-ink">
                     {l.label}
                   </a>
                 </li>

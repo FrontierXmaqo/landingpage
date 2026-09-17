@@ -56,7 +56,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Achievements t={t.achievements} />
         <FinalCTA t={t.finalCta} space={t.space} />
       </main>
-      <Footer locale={lang} t={t.footer} />
+      <Footer locale={lang} t={t.footer} nav={t.header.nav} />
     </>
   );
 }
