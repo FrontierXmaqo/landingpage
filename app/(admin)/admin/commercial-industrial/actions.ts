@@ -19,6 +19,8 @@ const BUCKET = "project-photos";
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 /** Wider than the card ever renders, even at 2x on a large screen. */
 const MAX_IMAGE_WIDTH = 1600;
+/** Client logos render as small tiles, so they never need project-photo width. */
+const MAX_LOGO_WIDTH = 600;
 
 /**
  * Seeds a draft copy of whatever is published, so editing always starts from
@@ -176,6 +178,64 @@ export async function addClient(name: string) {
   revalidatePath("/admin/commercial-industrial");
 }
 
+/**
+ * Uploads a client logo, re-encoded to WebP the same way project photos are.
+ * Capped narrower because these render as small tiles, and transparency is
+ * preserved so a logo on a transparent background still sits on the tile.
+ */
+export async function uploadClientLogo(id: string, formData: FormData) {
+  const profile = await requireRole([...CI_ROLES]);
+  const rowId = uuid(id);
+  const file = formData.get("logo");
+
+  if (!(file instanceof File) || file.size === 0) throw new ValidationError("Choose an image file to upload.");
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new ValidationError(
+      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB — a logo about 600px wide is plenty.`
+    );
+  }
+
+  let webp: Buffer;
+  try {
+    webp = await sharp(Buffer.from(await file.arrayBuffer()))
+      .rotate()
+      .resize({ width: MAX_LOGO_WIDTH, withoutEnlargement: true })
+      .webp({ quality: 88 })
+      .toBuffer();
+  } catch {
+    throw new ValidationError("That file could not be read as an image. Try exporting the logo again as PNG or JPEG.");
+  }
+
+  const supabase = await getSupabaseUserClient();
+  const path = `clients/${rowId}/${Date.now()}.webp`;
+  const { error } = await supabase.storage.from(BUCKET).upload(path, webp, { contentType: "image/webp", upsert: true });
+  if (error) {
+    console.error("Client logo upload failed", error);
+    throw new ValidationError(`The logo could not be uploaded: ${error.message}`);
+  }
+
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  await supabase
+    .from("ci_clients")
+    .update({ logo_url: data.publicUrl, updated_by: profile.id, updated_at: new Date().toISOString() })
+    .eq("id", rowId)
+    .eq("status", "draft");
+
+  revalidatePath("/admin/commercial-industrial");
+}
+
+/** Clears the logo, putting the tile back to the client's name in text. */
+export async function removeClientLogo(id: string) {
+  const profile = await requireRole([...CI_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  await supabase
+    .from("ci_clients")
+    .update({ logo_url: null, updated_by: profile.id, updated_at: new Date().toISOString() })
+    .eq("id", uuid(id))
+    .eq("status", "draft");
+  revalidatePath("/admin/commercial-industrial");
+}
+
 export async function updateClient(id: string, name: string) {
   const profile = await requireRole([...CI_ROLES]);
   const clean = text(name, { max: 80, required: true, field: "name" });
@@ -229,23 +289,46 @@ export async function moveRow(table: string, id: string, direction: "up" | "down
 
 /* --------------------------- publish workflow --------------------------- */
 
-/** Counts how many rows across the three tables are draft/archived right
- * now, so the page can disable Publish/Unpublish up front instead of only
- * reporting "nothing to do" after the click. */
+/** The fields a visitor actually sees, per table. Row ids and timestamps differ
+ *  on every draft seed, so comparing whole rows would always look changed. */
+const COMPARED: Record<Table, string[]> = {
+  ci_projects: ["tag", "capacity", "client", "panels", "image_url", "image_alt", "summary"],
+  ci_clients: ["name", "logo_url"],
+  ci_trust_stats: ["value", "label"],
+};
+
+/** Order-sensitive fingerprint of a table's rows, so a reorder counts too. */
+function signature(rows: Record<string, unknown>[] | null, table: Table) {
+  return JSON.stringify((rows ?? []).map((row) => COMPARED[table].map((f) => row[f] ?? null)));
+}
+
+/**
+ * Whether Publish and Unpublish have anything to do, so the page can disable
+ * them up front rather than only reporting it after the click.
+ *
+ * Publish compares the draft against what is live field by field: a draft row
+ * always exists (the page seeds one on every load), so "there is a draft" was
+ * never the question — "does the draft differ" is. With nothing to publish the
+ * button cannot be pressed at all, which is what turned one intended publish
+ * into a dozen.
+ */
 export async function getCiPublishStatus() {
   await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
-  const counts = await Promise.all(
+
+  const results = await Promise.all(
     TABLES.map((table) =>
       Promise.all([
-        supabase.from(table).select("*", { count: "exact", head: true }).eq("status", "draft"),
+        supabase.from(table).select("*").eq("status", "draft").order("sort_order"),
+        supabase.from(table).select("*").eq("status", "published").order("sort_order"),
         supabase.from(table).select("*", { count: "exact", head: true }).eq("status", "archived"),
       ])
     )
   );
+
   return {
-    canPublish: counts.some(([draft]) => Boolean(draft.count)),
-    canUnpublish: counts.some(([, archived]) => Boolean(archived.count)),
+    canPublish: results.some(([draft, live], i) => signature(draft.data, TABLES[i]) !== signature(live.data, TABLES[i])),
+    canUnpublish: results.some(([, , archived]) => Boolean(archived.count)),
   };
 }
 
@@ -256,26 +339,32 @@ export async function getCiPublishStatus() {
  * the same reason: archiving the live rows when there is no draft to replace
  * them promotes nothing and silently empties the section on the public page.
  */
+/**
+ * Promotes each table's draft to published.
+ *
+ * One locked transaction in the database (`ci_publish()`): archive the live
+ * rows, promote the draft, then drop all but the newest three archived
+ * snapshots so the history cannot grow without bound. Doing it here as a
+ * read-then-write per table is what let a double-clicked Publish interleave
+ * with the draft re-seed and multiply the section. Tables with no draft rows
+ * are skipped — archiving live rows with nothing to replace them would
+ * silently empty the section on the public page.
+ */
 export async function publishCiContent(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   const profile = await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
-  const now = new Date().toISOString();
-  let published = false;
 
-  for (const table of TABLES) {
-    const { count } = await supabase.from(table).select("*", { count: "exact", head: true }).eq("status", "draft");
-    if (!count) continue;
-    await supabase.from(table).update({ status: "archived" }).eq("status", "published");
-    await supabase.from(table).update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
-    published = true;
+  const { canPublish } = await getCiPublishStatus();
+  if (!canPublish) return { status: "empty", message: "Nothing to publish — the draft matches what is already live." };
+
+  const { error } = await supabase.rpc("ci_publish", { p_user: profile.id });
+  if (error) {
+    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed — reload and try again.` };
   }
 
   revalidatePath("/admin/commercial-industrial");
   revalidatePath("/", "layout");
-
-  return published
-    ? { status: "success", message: "Published — the public page now shows this draft." }
-    : { status: "empty", message: "Nothing to publish — the draft has no changes." };
+  return { status: "success", message: "Published — the public page now shows this draft." };
 }
 
 /** Reverts to the snapshot taken by the previous publish. */

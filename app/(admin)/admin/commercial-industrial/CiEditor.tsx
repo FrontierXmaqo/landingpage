@@ -1,17 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import {
   addClient,
   addProject,
   moveRow,
   removeClient,
+  removeClientLogo,
   removeProject,
   removeProjectPhoto,
   updateClient,
   updateProject,
   updateStat,
+  uploadClientLogo,
   uploadProjectPhoto,
 } from "./actions";
 
@@ -26,7 +28,7 @@ export type ProjectRow = {
   image_alt: string | null;
   summary: string | null;
 };
-export type ClientRow = { id: string; name: string };
+export type ClientRow = { id: string; name: string; logo_url: string | null };
 export type StatRow = { id: string; value: string; label: string };
 
 /** Categories that have a drawn icon. Anything else is accepted and falls back
@@ -159,6 +161,94 @@ function PhotoField({ project }: { project: ProjectRow }) {
   );
 }
 
+/**
+ * Reports the id of a row that appeared since the last render, so the editor can
+ * point at it. Adding a project used to give no feedback at all — the new card
+ * landed at the bottom of a long list, off screen, and it was not obvious the
+ * button had done anything.
+ */
+function useAddedRow(ids: string[]) {
+  const [added, setAdded] = useState<string | null>(null);
+  const seen = useRef<string[] | null>(null);
+
+  useEffect(() => {
+    const previous = seen.current;
+    seen.current = ids;
+    if (!previous) return; // first render: nothing was "added"
+    const fresh = ids.find((id) => !previous.includes(id));
+    if (!fresh) return;
+
+    setAdded(fresh);
+    document.getElementById(`ci-row-${fresh}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const timer = setTimeout(() => setAdded(null), 5000);
+    return () => clearTimeout(timer);
+  }, [ids.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return added;
+}
+
+/** Optional logo for a roster tile. Without one the tile shows the name, as before. */
+function ClientLogoField({ client }: { client: ClientRow }) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="relative h-9 w-16 shrink-0 overflow-hidden rounded-md border border-base-line bg-base-panel">
+        {client.logo_url ? (
+          <Image src={client.logo_url} alt="" fill className="object-contain p-1" sizes="64px" unoptimized />
+        ) : (
+          <span className="flex h-full items-center justify-center text-[10px] text-base-slate">No logo</span>
+        )}
+      </div>
+
+      <div>
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() => inputRef.current?.click()}
+          className="rounded-md border border-base-line px-2 py-1 text-xs font-semibold text-base-slate hover:border-base-slate disabled:opacity-40"
+        >
+          {pending ? "Uploading…" : client.logo_url ? "Replace logo" : "Add logo"}
+        </button>
+        {client.logo_url && !pending && (
+          <button
+            type="button"
+            onClick={() => startTransition(() => removeClientLogo(client.id))}
+            className="ml-2 text-xs font-semibold text-base-slate hover:text-status-critical"
+          >
+            Remove logo
+          </button>
+        )}
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/avif"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const data = new FormData();
+            data.set("logo", file);
+            setError(null);
+            startTransition(async () => {
+              try {
+                await uploadClientLogo(client.id, data);
+              } catch (err) {
+                setError(err instanceof Error ? err.message : "Upload failed.");
+              } finally {
+                if (inputRef.current) inputRef.current.value = "";
+              }
+            });
+          }}
+        />
+        <ErrorNote message={error} />
+      </div>
+    </div>
+  );
+}
+
 function MoveButtons({ table, id, first, last }: { table: string; id: string; first: boolean; last: boolean }) {
   const [pending, startTransition] = useTransition();
   const base = "rounded-md border border-base-line px-2 py-1 text-xs font-semibold text-base-slate disabled:opacity-30 hover:border-base-slate";
@@ -184,8 +274,11 @@ export default function CiEditor({
   stats: StatRow[];
 }) {
   const [pending, startTransition] = useTransition();
+  const [adding, startAdding] = useTransition();
   const [newClient, setNewClient] = useState("");
   const [clientError, setClientError] = useState<string | null>(null);
+  const addedProject = useAddedRow(projects.map((p) => p.id));
+  const addedClient = useAddedRow(clients.map((c) => c.id));
 
   return (
     <div className="space-y-10">
@@ -204,14 +297,22 @@ export default function CiEditor({
               The cards in the carousel, in the order they appear. Changes save as you leave each box.
             </p>
           </div>
-          <button
-            type="button"
-            disabled={pending}
-            onClick={() => startTransition(() => addProject())}
-            className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]"
-          >
-            Add project
-          </button>
+          <div className="flex items-center gap-3">
+            <span role="status" aria-live="polite" className="text-xs font-semibold text-base-slate">
+              {adding && "Adding…"}
+              {!adding && addedProject && (
+                <span className="text-brand-green-ink">✓ Project added below — fill it in, then Publish.</span>
+              )}
+            </span>
+            <button
+              type="button"
+              disabled={pending || adding}
+              onClick={() => startAdding(() => addProject())}
+              className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {adding ? "Adding…" : "Add project"}
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 space-y-4">
@@ -222,10 +323,21 @@ export default function CiEditor({
           )}
 
           {projects.map((project, i) => (
-            <div key={project.id} className="admin-card p-5">
+            <div
+              key={project.id}
+              id={`ci-row-${project.id}`}
+              className={`admin-card p-5 transition-shadow ${
+                addedProject === project.id ? "ring-2 ring-brand-green ring-offset-2 ring-offset-base-bg" : ""
+              }`}
+            >
               <div className="flex items-center justify-between gap-3">
                 <span className="text-xs font-semibold uppercase tracking-wide text-base-slate">
                   {i + 1}. {project.client}
+                  {addedProject === project.id && (
+                    <span className="ml-2 rounded-full bg-brand-green-tint px-2 py-0.5 text-[10px] font-bold text-brand-green-ink">
+                      NEW
+                    </span>
+                  )}
                 </span>
                 <span className="flex items-center gap-2">
                   <MoveButtons table="ci_projects" id={project.id} first={i === 0} last={i === projects.length - 1} />
@@ -293,7 +405,7 @@ export default function CiEditor({
       <section>
         <h2 className="text-lg font-semibold text-base-ink">Client roster</h2>
         <p className="mt-0.5 text-sm text-base-slate">
-          The names under &ldquo;Trusted by leading commercial &amp; industrial brands&rdquo;.
+          The tiles under &ldquo;Trusted by leading commercial &amp; industrial brands&rdquo;. Add a logo and the tile shows the logo instead of the name — the name is still used for screen readers.
         </p>
 
         <div className="admin-card mt-4 p-5">
@@ -332,10 +444,19 @@ export default function CiEditor({
             </button>
           </form>
           <ErrorNote message={clientError} />
+          <p role="status" aria-live="polite" className="mt-2 text-xs font-semibold text-brand-green-ink">
+            {addedClient && "✓ Client added to the list below."}
+          </p>
 
           <ul className="mt-4 space-y-2">
             {clients.map((client, i) => (
-              <li key={client.id} className="flex items-center gap-3 rounded-lg bg-base-bg px-3 py-2">
+              <li
+                key={client.id}
+                id={`ci-row-${client.id}`}
+                className={`flex flex-wrap items-center gap-3 rounded-lg bg-base-bg px-3 py-2 ${
+                  addedClient === client.id ? "ring-2 ring-brand-green" : ""
+                }`}
+              >
                 <input
                   defaultValue={client.name}
                   onBlur={(e) => {
@@ -348,6 +469,7 @@ export default function CiEditor({
                   }}
                   className="min-w-0 flex-1 rounded-md border border-transparent bg-transparent px-2 py-1 text-sm text-base-ink hover:border-base-line focus:border-brand-green focus:bg-base-panel focus:outline-none"
                 />
+                <ClientLogoField client={client} />
                 <MoveButtons table="ci_clients" id={client.id} first={i === 0} last={i === clients.length - 1} />
                 <button
                   type="button"

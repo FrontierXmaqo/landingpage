@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -119,12 +120,25 @@ export default async function CommercialAndIndustrialPage({
             </h2>
 
             <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {ci.clients.map((name) => (
+              {ci.clients.map((client) => (
                 <li
-                  key={name}
+                  key={client.name}
                   className="flex h-20 items-center justify-center rounded-xl border border-base-line bg-base-bg px-4 text-center text-base font-semibold text-base-slate"
                 >
-                  {name}
+                  {client.logo ? (
+                    // Contained, not cropped: logos come in every aspect ratio, and
+                    // the name stays as the alt text so the tile still reads aloud.
+                    <Image
+                      src={client.logo}
+                      alt={client.name}
+                      width={160}
+                      height={56}
+                      className="max-h-12 w-auto object-contain"
+                      unoptimized
+                    />
+                  ) : (
+                    client.name
+                  )}
                 </li>
               ))}
             </ul>

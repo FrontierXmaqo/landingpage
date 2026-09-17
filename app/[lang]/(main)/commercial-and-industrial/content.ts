@@ -32,15 +32,17 @@ export const HERO = {
  * the repo carries no logo files for these brands. Drop PNGs into
  * /public/logos/clients and add a `logo` key here to switch to images.
  */
+/** Fallback roster, used when the CMS table is empty or unreachable. Logos are
+ *  CMS-only — the built-in list is names, which is what the tiles showed before. */
 export const CLIENTS = [
-  "Spritzer",
-  "DHL",
-  "Scientex",
-  "A&W",
-  "Mazda",
-  "Xpeng",
-  "Press Metal",
-  "Delloyd",
+  { name: "Spritzer" },
+  { name: "DHL" },
+  { name: "Scientex" },
+  { name: "A&W" },
+  { name: "Mazda" },
+  { name: "Xpeng" },
+  { name: "Press Metal" },
+  { name: "Delloyd" },
 ];
 
 export const TRUST_STATS = [

@@ -148,9 +148,13 @@ export type PublishedCiProject = {
   summary?: string;
 };
 
+/** A roster tile: the logo when there is one, the name otherwise (and as its
+ *  alt text either way). */
+export type PublishedCiClient = { name: string; logo?: string };
+
 export type PublishedCiContent = {
   projects: PublishedCiProject[];
-  clients: string[];
+  clients: PublishedCiClient[];
   trustStats: { value: string; label: string }[];
 };
 
@@ -168,7 +172,7 @@ export async function getPublishedCiContent(fallback: PublishedCiContent): Promi
     const supabase = getAnonClient();
     const [projectsRes, clientsRes, statsRes] = await Promise.all([
       supabase.from("ci_projects").select("*").eq("status", "published").order("sort_order"),
-      supabase.from("ci_clients").select("name").eq("status", "published").order("sort_order"),
+      supabase.from("ci_clients").select("name, logo_url").eq("status", "published").order("sort_order"),
       supabase.from("ci_trust_stats").select("value, label").eq("status", "published").order("sort_order"),
     ]);
 
@@ -182,7 +186,10 @@ export async function getPublishedCiContent(fallback: PublishedCiContent): Promi
       summary: row.summary ? String(row.summary) : undefined,
     }));
 
-    const clients = (clientsRes.data ?? []).map((r) => String(r.name));
+    const clients: PublishedCiClient[] = (clientsRes.data ?? []).map((r) => ({
+      name: String(r.name),
+      logo: r.logo_url ? String(r.logo_url) : undefined,
+    }));
     const trustStats = (statsRes.data ?? []).map((r) => ({ value: String(r.value), label: String(r.label) }));
 
     return {
