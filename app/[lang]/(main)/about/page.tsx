@@ -418,6 +418,14 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
                   </div>
                 ))}
               </div>
+              <div className="mt-8 flex justify-center">
+                <Link
+                  href={`${localePath(lang, "/commercial-and-industrial")}#projects`}
+                  className="inline-flex items-center justify-center rounded-full border border-base-line px-6 py-2.5 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+                >
+                  View More
+                </Link>
+              </div>
             </ScrollReveal>
           </div>
         </section>
