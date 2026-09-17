@@ -3,12 +3,14 @@ import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server"
 import {
   ensureLeadFormDraftSeeded,
   ensureLeadFormFieldsDraftSeeded,
+  getLeadFormPublishStatus,
   publishLeadFormOptions,
   unpublishLeadFormOptions,
   discardLeadFormDraft,
 } from "./actions";
 import LeadFormTable from "./LeadFormTable";
 import DiscardDraftButton from "../DiscardDraftButton";
+import PublishButton from "../PublishButton";
 import { formatMYDateTime } from "@/lib/datetime";
 
 export default async function LeadFormOptionsPage() {
@@ -19,10 +21,11 @@ export default async function LeadFormOptionsPage() {
   await ensureLeadFormDraftSeeded();
 
   const supabase = await getSupabaseUserClient();
-  const [{ data: fields }, { data: rows }, { data: published }] = await Promise.all([
+  const [{ data: fields }, { data: rows }, { data: published }, publishStatus] = await Promise.all([
     supabase.from("lead_form_fields").select("*").eq("status", "draft").order("sort_order"),
     supabase.from("lead_form_options").select("*").eq("status", "draft").order("sort_order"),
     supabase.from("lead_form_options").select("published_at").eq("status", "published").limit(1).maybeSingle(),
+    getLeadFormPublishStatus(),
   ]);
 
   return (
@@ -40,14 +43,23 @@ export default async function LeadFormOptionsPage() {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <form action={publishLeadFormOptions}>
-          <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]">Publish</button>
-        </form>
-        <form action={unpublishLeadFormOptions}>
-          <button className="rounded-lg border border-status-critical px-4 py-2 text-sm font-semibold text-status-critical transition-transform duration-100 active:scale-[0.98]">
-            Unpublish (revert to previous)
-          </button>
-        </form>
+        <PublishButton
+          action={publishLeadFormOptions}
+          canRun={publishStatus.canPublish}
+          idleHint="Nothing to publish — the draft matches what's already live."
+          pendingLabel="Publishing…"
+        >
+          Publish
+        </PublishButton>
+        <PublishButton
+          action={unpublishLeadFormOptions}
+          canRun={publishStatus.canUnpublish}
+          idleHint="Nothing to revert to — no earlier published version yet."
+          pendingLabel="Reverting…"
+          variant="outline"
+        >
+          Unpublish (revert to previous)
+        </PublishButton>
         <DiscardDraftButton action={discardLeadFormDraft} />
       </div>
 

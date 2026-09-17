@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseUserClient } from "@/lib/supabase/server";
 import { requireRole } from "../guard";
+import type { PublishState } from "../publishState";
 import { oneOf, text, uuid } from "@/lib/validate";
 
 const LEAD_FORM_ROLES = ["admin", "marketing"] as const;
@@ -129,6 +130,24 @@ export async function moveField(id: string, direction: "up" | "down") {
   revalidatePath("/admin/leads-form");
 }
 
+/** Counts how many rows across both tables are draft/archived right now, so
+ * the page can disable Publish/Unpublish up front instead of only reporting
+ * "nothing to do" after the click. */
+export async function getLeadFormPublishStatus() {
+  await requireRole([...LEAD_FORM_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  const [{ count: draftFields }, { count: draftOptions }, { count: archivedFields }, { count: archivedOptions }] = await Promise.all([
+    supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft"),
+    supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "draft"),
+    supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "archived"),
+    supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "archived"),
+  ]);
+  return {
+    canPublish: Boolean(draftFields || draftOptions),
+    canUnpublish: Boolean(archivedFields || archivedOptions),
+  };
+}
+
 // ponytail: sequential writes, matches the same pattern (and the same ceiling) as calculator publish/unpublish.
 //
 // Each table's archive step only runs if that table actually has a draft ready
@@ -138,36 +157,45 @@ export async function moveField(id: string, direction: "up" | "down") {
 // archives the live published rows and promotes zero rows to replace them,
 // silently wiping every option. Learned the hard way: this happened for real
 // and left every field showing "No options yet".
-export async function publishLeadFormOptions() {
+export async function publishLeadFormOptions(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   const profile = await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
   const now = new Date().toISOString();
+  let published = false;
 
   const { count: draftFieldsCount } = await supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft");
   if (draftFieldsCount) {
     await supabase.from("lead_form_fields").update({ status: "archived" }).eq("status", "published");
     await supabase.from("lead_form_fields").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+    published = true;
   }
 
   const { count: draftOptionsCount } = await supabase.from("lead_form_options").select("*", { count: "exact", head: true }).eq("status", "draft");
   if (draftOptionsCount) {
     await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
     await supabase.from("lead_form_options").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+    published = true;
   }
 
   revalidatePath("/admin/leads-form");
   revalidatePath("/");
+
+  return published
+    ? { status: "success", message: "Published — the public form now shows this draft." }
+    : { status: "empty", message: "Nothing to publish — the draft has no changes." };
 }
 
-export async function unpublishLeadFormOptions() {
+export async function unpublishLeadFormOptions(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
+  let reverted = false;
 
   const { data: lastArchivedFields } = await supabase
     .from("lead_form_fields").select("published_at").eq("status", "archived").order("published_at", { ascending: false }).limit(1).maybeSingle();
   if (lastArchivedFields?.published_at) {
     await supabase.from("lead_form_fields").update({ status: "archived" }).eq("status", "published");
     await supabase.from("lead_form_fields").update({ status: "published" }).eq("published_at", lastArchivedFields.published_at).eq("status", "archived");
+    reverted = true;
   }
 
   const { data: lastArchived } = await supabase
@@ -175,10 +203,15 @@ export async function unpublishLeadFormOptions() {
   if (lastArchived?.published_at) {
     await supabase.from("lead_form_options").update({ status: "archived" }).eq("status", "published");
     await supabase.from("lead_form_options").update({ status: "published" }).eq("published_at", lastArchived.published_at).eq("status", "archived");
+    reverted = true;
   }
 
   revalidatePath("/admin/leads-form");
   revalidatePath("/");
+
+  return reverted
+    ? { status: "success", message: "Reverted to the previous published version." }
+    : { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
 }
 
 /** Discards in-progress draft edits (fields + options), resetting the draft

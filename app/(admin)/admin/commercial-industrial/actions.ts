@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 import { getSupabaseUserClient } from "@/lib/supabase/server";
 import { requireRole } from "../guard";
+import type { PublishState } from "../publishState";
 import { text, uuid, oneOf, ValidationError } from "@/lib/validate";
 
 const CI_ROLES = ["admin", "marketing"] as const;
@@ -228,6 +229,26 @@ export async function moveRow(table: string, id: string, direction: "up" | "down
 
 /* --------------------------- publish workflow --------------------------- */
 
+/** Counts how many rows across the three tables are draft/archived right
+ * now, so the page can disable Publish/Unpublish up front instead of only
+ * reporting "nothing to do" after the click. */
+export async function getCiPublishStatus() {
+  await requireRole([...CI_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  const counts = await Promise.all(
+    TABLES.map((table) =>
+      Promise.all([
+        supabase.from(table).select("*", { count: "exact", head: true }).eq("status", "draft"),
+        supabase.from(table).select("*", { count: "exact", head: true }).eq("status", "archived"),
+      ])
+    )
+  );
+  return {
+    canPublish: counts.some(([draft]) => Boolean(draft.count)),
+    canUnpublish: counts.some(([, archived]) => Boolean(archived.count)),
+  };
+}
+
 /**
  * Promotes each table's draft to published.
  *
@@ -235,26 +256,33 @@ export async function moveRow(table: string, id: string, direction: "up" | "down
  * the same reason: archiving the live rows when there is no draft to replace
  * them promotes nothing and silently empties the section on the public page.
  */
-export async function publishCiContent() {
+export async function publishCiContent(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   const profile = await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
   const now = new Date().toISOString();
+  let published = false;
 
   for (const table of TABLES) {
     const { count } = await supabase.from(table).select("*", { count: "exact", head: true }).eq("status", "draft");
     if (!count) continue;
     await supabase.from(table).update({ status: "archived" }).eq("status", "published");
     await supabase.from(table).update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
+    published = true;
   }
 
   revalidatePath("/admin/commercial-industrial");
   revalidatePath("/", "layout");
+
+  return published
+    ? { status: "success", message: "Published — the public page now shows this draft." }
+    : { status: "empty", message: "Nothing to publish — the draft has no changes." };
 }
 
 /** Reverts to the snapshot taken by the previous publish. */
-export async function unpublishCiContent() {
+export async function unpublishCiContent(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
   await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
+  let reverted = false;
 
   for (const table of TABLES) {
     const { data: lastArchived } = await supabase
@@ -272,10 +300,15 @@ export async function unpublishCiContent() {
       .update({ status: "published" })
       .eq("published_at", lastArchived.published_at)
       .eq("status", "archived");
+    reverted = true;
   }
 
   revalidatePath("/admin/commercial-industrial");
   revalidatePath("/", "layout");
+
+  return reverted
+    ? { status: "success", message: "Reverted to the previous published version." }
+    : { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
 }
 
 /** Throws away in-progress edits, reseeding the draft from what is published. */

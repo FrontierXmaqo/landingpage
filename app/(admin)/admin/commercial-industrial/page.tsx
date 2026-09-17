@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
-import { ensureCiDraftSeeded, publishCiContent, unpublishCiContent, discardCiDraft } from "./actions";
+import { ensureCiDraftSeeded, getCiPublishStatus, publishCiContent, unpublishCiContent, discardCiDraft } from "./actions";
 import CiEditor, { type ClientRow, type ProjectRow, type StatRow } from "./CiEditor";
 import DiscardDraftButton from "../DiscardDraftButton";
+import PublishButton from "../PublishButton";
 import { formatMYDateTime } from "@/lib/datetime";
 
 export default async function CommercialIndustrialPage() {
@@ -12,11 +13,12 @@ export default async function CommercialIndustrialPage() {
   await ensureCiDraftSeeded();
 
   const supabase = await getSupabaseUserClient();
-  const [{ data: projects }, { data: clients }, { data: stats }, { data: published }] = await Promise.all([
+  const [{ data: projects }, { data: clients }, { data: stats }, { data: published }, publishStatus] = await Promise.all([
     supabase.from("ci_projects").select("*").eq("status", "draft").order("sort_order"),
     supabase.from("ci_clients").select("*").eq("status", "draft").order("sort_order"),
     supabase.from("ci_trust_stats").select("*").eq("status", "draft").order("sort_order"),
     supabase.from("ci_projects").select("published_at").eq("status", "published").order("published_at", { ascending: false }).limit(1).maybeSingle(),
+    getCiPublishStatus(),
   ]);
 
   return (
@@ -35,16 +37,23 @@ export default async function CommercialIndustrialPage() {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <form action={publishCiContent}>
-          <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]">
-            Publish
-          </button>
-        </form>
-        <form action={unpublishCiContent}>
-          <button className="rounded-lg border border-status-critical px-4 py-2 text-sm font-semibold text-status-critical transition-transform duration-100 active:scale-[0.98]">
-            Unpublish (revert to previous)
-          </button>
-        </form>
+        <PublishButton
+          action={publishCiContent}
+          canRun={publishStatus.canPublish}
+          idleHint="Nothing to publish — the draft matches what's already live."
+          pendingLabel="Publishing…"
+        >
+          Publish
+        </PublishButton>
+        <PublishButton
+          action={unpublishCiContent}
+          canRun={publishStatus.canUnpublish}
+          idleHint="Nothing to revert to — no earlier published version yet."
+          pendingLabel="Reverting…"
+          variant="outline"
+        >
+          Unpublish (revert to previous)
+        </PublishButton>
         <DiscardDraftButton action={discardCiDraft} />
       </div>
 
