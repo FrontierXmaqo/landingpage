@@ -156,16 +156,36 @@ export default function ProjectsCarousel({
     return () => query.removeEventListener("change", sync);
   }, []);
 
+  // Autoplay only runs while the section is on screen, and turns one card as
+  // soon as it scrolls into view so the motion is seen instead of missed.
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.25 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inView || !playing || reducedMotion) return;
+    const id = window.setTimeout(() => go(1), 400);
+    return () => window.clearTimeout(id);
+    // Only on entering the viewport, not on every play/pause toggle.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
+
   // Autoplay stops while the visitor is hovering or tabbing through the
   // carousel, while the dialog is open, while the tab is in the background, and
   // whenever the visitor has asked for reduced motion.
   useEffect(() => {
-    if (!playing || paused || reducedMotion || openIndex !== null) return;
+    if (!inView || !playing || paused || reducedMotion || openIndex !== null) return;
     const id = window.setInterval(() => {
       if (document.visibilityState === "visible") go(1);
     }, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [playing, paused, reducedMotion, openIndex, go]);
+  }, [inView, playing, paused, reducedMotion, openIndex, go]);
 
   // Dialog: escape to close, focus moved in and restored on the way out, and
   // the page behind held still.
@@ -208,7 +228,7 @@ export default function ProjectsCarousel({
   const openProject = projects[openIndex ?? 0];
 
   return (
-    <section id="projects" className={`scroll-mt-20 py-16 sm:py-20 ${s.section}`} aria-labelledby={labelId}>
+    <section ref={sectionRef} id="projects" className={`scroll-mt-20 py-16 sm:py-20 ${s.section}`} aria-labelledby={labelId}>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className={`flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.14em] ${s.body}`}>
           <span aria-hidden className="h-2 w-2 shrink-0 bg-brand-orange-deep" />
