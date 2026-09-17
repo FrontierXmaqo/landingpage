@@ -187,6 +187,47 @@ export const PILLARS = [
   },
 ];
 
+/**
+ * Battery storage, pitched to the same MV customer the rest of this page
+ * speaks to. Deliberately qualitative: TNB revises its demand-charge rates,
+ * and a published RM/kW figure on a landing page goes stale without anyone
+ * noticing. The numbers belong in the proposal, not here.
+ */
+export const BESS = {
+  eyebrow: "Battery Energy Storage",
+  title: "Solar cuts your consumption. A battery cuts your demand charge.",
+  body:
+    "On a TNB maximum demand tariff, one half-hour spike sets the charge for the entire month — and solar alone cannot flatten it. A Battery Energy Storage System discharges into those peaks, so the meter never records them.",
+  points: [
+    {
+      icon: "peak" as const,
+      title: "Peak shaving, automatic",
+      body:
+        "The system reads your load in real time and discharges the moment demand climbs toward your ceiling. Nothing changes on the production floor and nobody has to watch a screen.",
+    },
+    {
+      icon: "battery" as const,
+      title: "Charges from solar or off-peak grid",
+      body:
+        "Store the midday generation you are currently exporting, or charge from the grid while the tariff is at its lowest. The battery works with an existing rooftop system or on its own.",
+    },
+    {
+      icon: "wallet" as const,
+      title: "CAPEX or zero-capex",
+      body:
+        "Buy the system outright, or take it under a savings-sharing agreement where MAQO funds and owns the asset and you pay only out of what it saves you.",
+    },
+    {
+      icon: "gear" as const,
+      title: "Metered, so the saving is visible",
+      body:
+        "The Xfiniti energy management system meters solar, battery and grid together, so each month you can see exactly what the battery shaved off your bill.",
+    },
+  ],
+  foot:
+    "Supplied through Xfiniti Energy, MAQO's storage and energy-management arm, and commissioned by the same in-house licensed wiremen and chargemen who build our solar.",
+};
+
 export const CREDENTIAL_LINE = [
   "ST Class A",
   "CIDB G7",

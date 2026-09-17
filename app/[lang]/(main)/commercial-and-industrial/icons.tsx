@@ -230,6 +230,37 @@ export function ProjectIcon({ tag, className }: { tag: string; className?: strin
   }
 }
 
+/** Battery stack — the BESS section's opening mark. */
+export function IconBattery({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <rect x="6" y="5" width="20" height="22" rx="3" />
+      <path d="M13 3h6" />
+      <path d="M11 21h10" />
+      <path d="M17 9l-5 7h4l-1 5 5-7h-4z" />
+    </Frame>
+  );
+}
+
+/** A load profile with its peak shaved flat — the point of the whole section. */
+export function IconPeakShave({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="M4 27V6" />
+      <path d="M4 27h24" />
+      <path d="M6 22l4-2 3-9 4 12 3-6 4 3 3-1" />
+      <path d="M8 12h18" strokeDasharray="3 3" />
+    </Frame>
+  );
+}
+
+export const BESS_ICONS = {
+  battery: IconBattery,
+  peak: IconPeakShave,
+  wallet: IconWallet,
+  gear: IconGear,
+} as const;
+
 export const PILLAR_ICONS = {
   tax: IconTax,
   wallet: IconWallet,

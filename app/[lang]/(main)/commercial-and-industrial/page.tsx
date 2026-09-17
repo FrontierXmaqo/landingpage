@@ -9,8 +9,9 @@ import CiLeadForm from "./CiLeadForm";
 import ClientMarquee from "./ClientMarquee";
 import CountUpStat from "./CountUpStat";
 import ProjectsCarousel, { type Surface } from "./ProjectsCarousel";
-import { CheckCircle, PILLAR_ICONS } from "./icons";
+import { BESS_ICONS, CheckCircle, PILLAR_ICONS } from "./icons";
 import {
+  BESS,
   CI_META,
   CLIENTS,
   CREDENTIAL_LINE,
@@ -155,7 +156,51 @@ export default async function CommercialAndIndustrialPage({
         {/* ---------- 3. Latest projects ---------- */}
         <ProjectsCarousel projects={ci.projects} surface={PROJECTS_SURFACE} videoUrl={PROJECT_VIDEO_URL} />
 
-        {/* ---------- 4. Why MAQO for C&I ---------- */}
+        {/* ---------- 4. Battery storage ---------- */}
+        {/* Sits between the navy carousel and the panel-grey pillar grid, so it
+            takes the paper background and states its points as a ruled list
+            rather than a second deck of shadowed cards. */}
+        <section id="bess" className="bg-base-bg py-16 sm:py-20" aria-labelledby="bess-heading">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-16">
+              <div className="lg:sticky lg:top-24 lg:self-start">
+                <SectionTag>{BESS.eyebrow}</SectionTag>
+                <h2
+                  id="bess-heading"
+                  className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl"
+                >
+                  {BESS.title}
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-base-slate sm:text-base">{BESS.body}</p>
+              </div>
+
+              <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-base-line sm:grid-cols-2">
+                {BESS.points.map((point, i) => {
+                  const Icon = BESS_ICONS[point.icon];
+                  return (
+                    <li key={point.title} className="bg-base-panel">
+                      <ScrollReveal delayMs={i * 80}>
+                        <div className="h-full p-6 sm:p-7">
+                          <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-green-tint text-brand-green-deep">
+                            <Icon />
+                          </span>
+                          <h3 className="mt-4 text-base font-bold text-base-ink">{point.title}</h3>
+                          <p className="mt-2 text-sm leading-relaxed text-base-slate">{point.body}</p>
+                        </div>
+                      </ScrollReveal>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <p className="mt-8 border-t border-base-line pt-6 text-xs leading-relaxed text-base-slate sm:text-sm">
+              {BESS.foot}
+            </p>
+          </div>
+        </section>
+
+        {/* ---------- 5. Why MAQO for C&I ---------- */}
         <section id="why" className="bg-base-panel py-16 sm:py-20" aria-labelledby="why-heading">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <SectionTag>Why MAQO</SectionTag>
@@ -185,7 +230,7 @@ export default async function CommercialAndIndustrialPage({
           </div>
         </section>
 
-        {/* ---------- 5. Closing CTA ---------- */}
+        {/* ---------- 6. Closing CTA ---------- */}
         <section className="bg-brand-navy py-16 sm:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <h2 className="text-2xl font-bold leading-tight text-white sm:text-4xl">{FINAL_CTA.title}</h2>
@@ -212,6 +257,7 @@ export default async function CommercialAndIndustrialPage({
         explore={[
           { label: "Client Roster", href: "#clients" },
           { label: "Our Projects", href: "#projects" },
+          { label: "Battery Storage", href: "#bess" },
           { label: "Why MAQO", href: "#why" },
           { label: "Get an Assessment", href: "#assessment" },
         ]}
