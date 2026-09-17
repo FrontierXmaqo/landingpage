@@ -23,31 +23,23 @@ const MAX_IMAGE_WIDTH = 1600;
  * Seeds a draft copy of whatever is published, so editing always starts from
  * what is live. Runs per table: a section published before another existed
  * still gets its own draft.
+ *
+ * The "is there a draft yet?" check and the copy-from-published insert used to
+ * happen as two separate round-trips from here, which raced: this runs on
+ * every load of /admin/commercial-industrial, including Next.js's Link
+ * prefetch, so two overlapping requests could both see "no draft" before
+ * either had inserted, and both would copy the full published set — that's
+ * how projects/clients/stats each ended up duplicated dozens of times over.
+ * `ensure_draft_seeded` does the check and the insert inside one Postgres
+ * function, under an advisory lock keyed by table name, so a second caller
+ * blocks until the first commits and then finds the draft already there.
  */
 export async function ensureCiDraftSeeded() {
   await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
 
   for (const table of TABLES) {
-    const { data: draft } = await supabase.from(table).select("id").eq("status", "draft").limit(1);
-    if (draft?.length) continue;
-
-    const { data: published } = await supabase.from(table).select("*").eq("status", "published").order("sort_order");
-    if (!published?.length) continue;
-
-    // `id` is dropped by destructuring, not by setting it to undefined.
-    // supabase-js normalises the keys across an array insert and fills any gap
-    // with an explicit null, so `id: undefined` reaches Postgres as `id: null`
-    // and trips the primary key's NOT NULL. Leaving the key out entirely is the
-    // only form that lets the column default to gen_random_uuid().
-    const { error } = await supabase.from(table).insert(
-      published.map((row) => {
-        const seeded: Record<string, unknown> = { ...row, status: "draft", published_at: null, published_by: null };
-        delete seeded.id;
-        return seeded;
-      })
-    );
-
+    const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: table });
     // Loudly, on purpose. A seed that fails quietly leaves the editor showing
     // an empty or partial draft that looks like a legitimate edit, and the next
     // Publish promotes that instead of the live content — which is how this

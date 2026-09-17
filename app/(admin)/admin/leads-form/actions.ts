@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabaseUserClient } from "@/lib/supabase/server";
-import { FIELDS } from "./fields";
 import { requireRole } from "../guard";
 import { oneOf, text, uuid } from "@/lib/validate";
 
@@ -12,46 +11,32 @@ const LEAD_FORM_ROLES = ["admin", "marketing"] as const;
  * shape of the existing core field names (e.g. "bill_range"). */
 const FIELD_KEY = /^[a-z][a-z0-9_]{1,39}$/;
 
+// The check-then-insert this used to do here (one query for "is there a
+// draft?", then a separate insert copying the published rows) raced: this
+// runs on every load of /admin/leads-form, including Next.js's Link
+// prefetch, so two overlapping requests could both see "no draft" before
+// either had inserted, and both would copy the full published set. That is
+// how the salutation options ended up with hundreds of duplicate rows.
+// `ensure_draft_seeded` does the check and the insert inside one Postgres
+// function, under an advisory lock keyed by table name, so a second caller
+// blocks until the first commits and then finds the draft already there.
 export async function ensureLeadFormDraftSeeded() {
   await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
-  for (const field of FIELDS) {
-    const { data: draft } = await supabase.from("lead_form_options").select("id").eq("status", "draft").eq("field_name", field).limit(1);
-    if (draft?.length) continue;
-    const { data: published } = await supabase.from("lead_form_options").select("value, sort_order").eq("status", "published").eq("field_name", field);
-    if (published?.length) {
-      await supabase.from("lead_form_options").insert(
-        published.map((row) => ({ field_name: field, value: row.value, sort_order: row.sort_order, status: "draft" }))
-      );
-    }
+  const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: "lead_form_options" });
+  if (error) {
+    throw new Error(`Could not prepare the lead form options draft (${error.message}). Nothing was changed — reload and try again.`);
   }
 }
 
 /** Same seeding pattern as ensureLeadFormDraftSeeded, for the field *definitions*
- * themselves rather than their option values. */
+ * themselves rather than their option values — same atomic, lock-guarded
+ * `ensure_draft_seeded` RPC, for the same reason (see that function's comment). */
 export async function ensureLeadFormFieldsDraftSeeded() {
   await requireRole([...LEAD_FORM_ROLES]);
   const supabase = await getSupabaseUserClient();
-
-  const { data: draft } = await supabase.from("lead_form_fields").select("id").eq("status", "draft").limit(1);
-  if (draft?.length) return;
-
-  const { data: published } = await supabase.from("lead_form_fields").select("*").eq("status", "published");
-  if (published?.length) {
-    // See the C&I seeding for the full explanation: `id: undefined` inside an
-    // array insert arrives as an explicit null and violates the primary key,
-    // so the key has to be absent rather than undefined. This seeding has been
-    // failing silently — its result was never checked — which is why the field
-    // list could come up empty after a publish.
-    const { error } = await supabase.from("lead_form_fields").insert(
-      published.map((row) => {
-        const seeded: Record<string, unknown> = { ...row, status: "draft", published_at: null, published_by: null };
-        delete seeded.id;
-        return seeded;
-      })
-    );
-    if (error) throw new Error(`Could not prepare the lead form draft (${error.message}).`);
-  }
+  const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: "lead_form_fields" });
+  if (error) throw new Error(`Could not prepare the lead form draft (${error.message}).`);
 }
 
 /** A field name is only ever trusted if it's a currently-draft field key —
