@@ -411,7 +411,7 @@ const cn: Dictionary = {
     ctaTitleAccent: "未来",
     ctaTitleTail: "注入能量了吗？",
     ctaBody: "与我们的团队聊聊住宅太阳能、工商业 EPC、BESS 或零资本支出 PPA。",
-    cta: "获取免费评估",
+    cta: "获取太阳能报价",
   },
 
   ev: {

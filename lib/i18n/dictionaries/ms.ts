@@ -412,7 +412,7 @@ const ms: Dictionary = {
     ctaTitleAccent: "masa depan",
     ctaTitleTail: " anda?",
     ctaBody: "Bincang dengan pasukan kami tentang solar kediaman, EPC C&I, BESS, atau PPA Zero Capex.",
-    cta: "Dapatkan Penilaian Percuma",
+    cta: "Dapatkan Sebutharga Solar",
   },
 
   ev: {

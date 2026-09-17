@@ -420,7 +420,7 @@ const en = {
     ctaTitleAccent: "future",
     ctaTitleTail: "?",
     ctaBody: "Talk to our team about residential solar, C&I EPC, BESS, or Zero Capex PPA.",
-    cta: "Get My Free Assessment",
+    cta: "Get a Solar Quote",
   },
 
   ev: {
