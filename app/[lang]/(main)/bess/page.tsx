@@ -40,7 +40,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
   return (
     <div data-theme="bess" className="contents">
       <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
-      <main className="flex-1 overflow-x-clip bg-base-bg">
+      <main className="bess-page-wash flex-1 overflow-x-clip">
         {/* ---------- 1. Hero ---------- */}
         <section className="relative overflow-hidden pb-20 pt-14 sm:pt-16">
           <div aria-hidden className="atap-hero-glow atap-hero-dots pointer-events-none absolute inset-0" />
@@ -122,7 +122,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         </section>
 
         {/* ---------- 2. The Problem ---------- */}
-        <section id="problem" className="scroll-mt-20 bg-base-panel py-20 sm:py-24">
+        <section id="problem" className="scroll-mt-20 bg-base-panel/70 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal>
               <SectionTag>{t.problemTag}</SectionTag>
@@ -192,7 +192,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         </section>
 
         {/* ---------- 5. How BESS Works ---------- */}
-        <section id="how-it-works" className="scroll-mt-20 bg-base-panel py-20 sm:py-24">
+        <section id="how-it-works" className="scroll-mt-20 bg-base-panel/70 py-20 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <ScrollReveal>
               <SectionTag>{t.flowTag}</SectionTag>
@@ -241,7 +241,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         </section>
 
         {/* ---------- 6. MAQO BESS Solution ---------- */}
-        <section id="solution" className="scroll-mt-20 bg-base-panel py-20 sm:py-24">
+        <section id="solution" className="scroll-mt-20 bg-base-panel/70 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal>
               <SectionTag>{t.solutionTag}</SectionTag>

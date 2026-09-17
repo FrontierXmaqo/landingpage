@@ -255,6 +255,24 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .credential-plinth:hover .credential-plinth-face { transform: none; }
 }
 
+/* ---- BESS page wash ----------------------------------------------------
+   A single gradient behind the whole page rather than per-section colour:
+   warm rose at the top where the hero sits, paper through the middle, and a
+   faint return of the rose at the foot so the page closes on colour. The
+   alternating bands are translucent on top of it (bg-base-panel/70), so the
+   section rhythm survives and the wash still reads through them. */
+.bess-page-wash {
+  background:
+    radial-gradient(900px 620px at 88% -8%, color-mix(in srgb, var(--color-brand-orange) 9%, transparent), transparent 68%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-brand-orange) 5%, var(--color-base-bg)) 0%,
+      var(--color-base-bg) 26%,
+      #ffffff 58%,
+      color-mix(in srgb, var(--color-brand-orange) 6%, var(--color-base-bg)) 100%
+    );
+}
+
 /* ---- C&I hero backdrop -------------------------------------------------
    Blue counterpart to the EV hero: a vertical wash, a 64px rule grid masked
    to the top-left so it dissolves before it reaches the enquiry form, and two
