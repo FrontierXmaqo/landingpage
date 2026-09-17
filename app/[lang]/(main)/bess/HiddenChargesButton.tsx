@@ -44,30 +44,31 @@ export default function HiddenChargesButton() {
           role="dialog"
           aria-modal="true"
           aria-label="Detailed calculation of your TNB bill"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-base-ink/80 p-4 sm:p-8"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-base-ink/85 p-2 sm:p-6"
           onClick={() => setOpen(false)}
         >
           <div
-            className="relative max-h-full w-full max-w-4xl overflow-auto rounded-2xl bg-base-panel p-3 shadow-2xl sm:p-5"
+            className="relative flex h-full max-h-[96vh] w-full max-w-[1600px] items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close"
-              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-base-panel text-base-ink shadow-md transition hover:bg-base-bg"
+              className="absolute -top-2 right-0 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-base-panel text-base-ink shadow-md transition hover:bg-base-bg sm:-top-4 sm:-right-4"
             >
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M6 6l12 12M18 6 6 18" />
               </svg>
             </button>
-            <div className="relative aspect-[1200/675] w-full">
+            <div className="relative aspect-[1200/675] max-h-full w-full overflow-hidden rounded-2xl bg-base-panel shadow-2xl">
               <Image
                 src="/bess/hidden-charges-bill-breakdown.webp"
                 alt="Detailed calculation of a TNB bill, showing how Maximum Demand charges (Capacity Charge plus Network Charge, multiplied by Maximum Demand) and Energy Charges (total energy used multiplied by the energy rate) map onto the itemised bill"
                 fill
+                priority
                 className="object-contain"
-                sizes="(min-width: 1024px) 900px, 100vw"
+                sizes="96vw"
               />
             </div>
           </div>
