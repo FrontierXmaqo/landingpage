@@ -13,10 +13,13 @@ import DiscardDraftButton from "../DiscardDraftButton";
 import PublishButton from "../PublishButton";
 import { formatMYDateTime } from "@/lib/datetime";
 
-const SECTIONS: { page: FaqPage; title: string; hint: string }[] = [
-  { page: "residential", title: "Residential FAQ", hint: "Shown on the homepage, under “Everything homeowners ask about ATAP.”" },
-  { page: "ev", title: "EV FAQ", hint: "Shown on /ev, under “What EV owners ask us.”" },
-  { page: "ci", title: "C&I FAQ", hint: "Not shown on /commercial-and-industrial until at least one question here is published." },
+/** Same per-page brand colour each page uses on the live site (Home's
+ *  orange, EV's green, C&I's navy), so this nav visually maps to the pages
+ *  it edits instead of reading as three interchangeable tabs. */
+const SECTIONS: { page: FaqPage; title: string; navLabel: string; hint: string; dot: string }[] = [
+  { page: "residential", title: "Residential FAQ", navLabel: "Residential", dot: "#F97000", hint: "Shown on the homepage, under “Everything homeowners ask about ATAP.”" },
+  { page: "ev", title: "EV FAQ", navLabel: "EV", dot: "#1E9E52", hint: "Shown on /ev, under “What EV owners ask us.”" },
+  { page: "ci", title: "C&I FAQ", navLabel: "C&I", dot: "#15304F", hint: "Not shown on /commercial-and-industrial until at least one question here is published." },
 ];
 
 async function loadSection(page: FaqPage) {
@@ -49,14 +52,35 @@ export default async function FaqAdminPage() {
         </p>
       </div>
 
+      {/* Quick nav: jumps to the matching page's section below, coloured to
+          match that page's own identity on the live site. */}
+      <nav
+        aria-label="Jump to a page's FAQ"
+        className="sticky top-0 z-10 mt-6 flex w-fit gap-1 rounded-full border border-base-line bg-base-panel/95 p-1 shadow-sm backdrop-blur"
+      >
+        {SECTIONS.map((section) => (
+          <a
+            key={section.page}
+            href={`#${section.page}`}
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-base-slate transition hover:bg-base-bg hover:text-base-ink"
+          >
+            <span aria-hidden className="h-2 w-2 rounded-full" style={{ backgroundColor: section.dot }} />
+            {section.navLabel}
+          </a>
+        ))}
+      </nav>
+
       <div className="mt-8 space-y-12">
         {SECTIONS.map((section, i) => {
           const { items, lastPublished, publishStatus } = sections[i];
           return (
-            <section key={section.page}>
+            <section key={section.page} id={section.page} className="scroll-mt-20">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h2 className="text-lg font-semibold text-base-ink">{section.title}</h2>
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-base-ink">
+                    <span aria-hidden className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: section.dot }} />
+                    {section.title}
+                  </h2>
                   <p className="mt-0.5 text-sm text-base-slate">{section.hint}</p>
                 </div>
                 {lastPublished && <span className="text-xs text-base-slate">Last published {formatMYDateTime(lastPublished)}</span>}
