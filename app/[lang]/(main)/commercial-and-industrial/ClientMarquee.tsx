@@ -14,9 +14,9 @@ export default function ClientMarquee({ clients }: { clients: Client[] }) {
   const track = [...clients, ...clients];
 
   return (
-    <div className="relative mt-8 overflow-hidden">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-base-panel to-transparent sm:w-24" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-base-panel to-transparent sm:w-24" />
+    <div className="relative mt-8 w-full overflow-hidden">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-base-panel to-transparent sm:w-24" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-base-panel to-transparent sm:w-24" />
       <ul className="flex w-max animate-marquee-clients items-stretch">
         {track.map((client, i) => (
           <li

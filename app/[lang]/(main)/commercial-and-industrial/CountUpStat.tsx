@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
  * run of digits is animated and whatever surrounds it is kept verbatim. A value
  * with no digits, or a visitor who asked for reduced motion, renders as-is.
  */
-const DURATION_MS = 1400;
+const DURATION_MS = 4000;
 
 export default function CountUpStat({ value, className }: { value: string; className?: string }) {
   const match = value.match(/[\d,]*\d/);

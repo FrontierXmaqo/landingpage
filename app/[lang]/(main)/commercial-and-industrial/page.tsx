@@ -133,9 +133,12 @@ export default async function CommercialAndIndustrialPage({
             >
               Trusted by Leading Commercial &amp; Industrial Brands Across Malaysia
             </h2>
+          </div>
 
-            <ClientMarquee clients={ci.clients} />
+          {/* Full-bleed: the roster runs edge to edge, outside the page gutter. */}
+          <ClientMarquee clients={ci.clients} />
 
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <dl className="mt-10 grid grid-cols-1 gap-8 border-t border-base-line pt-10 text-center sm:grid-cols-3">
               {ci.trustStats.map((stat) => (
                 <div key={stat.label}>

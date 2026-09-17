@@ -100,7 +100,7 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 
 /* Client roster: same loop, but the track is far longer, so it needs a much
    slower sweep to read at a comfortable pace. */
-.animate-marquee-clients { animation: marquee-ltr 120s linear infinite; }
+.animate-marquee-clients { animation: marquee-ltr 60s linear infinite; }
 .animate-marquee-clients:hover { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .animate-marquee-clients { animation: none; } }
 

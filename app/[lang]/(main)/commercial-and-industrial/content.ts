@@ -68,6 +68,7 @@ export const CLIENTS = [
   { name: "Superdaya" },
   { name: "Universiti Teknologi MARA" },
   { name: "Bermaz Auto" },
+  { name: "Water Engineering Technology" },
 ];
 
 export const TRUST_STATS = [
