@@ -12,6 +12,7 @@ import {
   CI_META,
   CLIENTS,
   CREDENTIAL_LINE,
+  CREDENTIALS,
   FINAL_CTA,
   HERO,
   PILLARS,
@@ -61,7 +62,7 @@ export default async function CommercialAndIndustrialPage({
     <div data-theme="ci" className="contents">
       <Header locale={lang} t={dict} />
 
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-clip">
         {/* ---------- 1. Hero + enquiry form ---------- */}
         <section id="assessment" className="relative overflow-hidden bg-base-bg">
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
@@ -98,9 +99,21 @@ export default async function CommercialAndIndustrialPage({
                 </a>
               </div>
 
-              <p className="mt-8 border-t border-base-line pt-6 text-xs font-semibold uppercase tracking-[0.14em] text-base-slate">
-                {CREDENTIAL_LINE.join(" · ")}
-              </p>
+              <ul className="mt-8 grid grid-cols-2 gap-3 border-t border-base-line pt-6 sm:grid-cols-4">
+                {CREDENTIALS.map((c) => (
+                  <li
+                    key={c.mark}
+                    className="flex flex-col items-start gap-1 rounded-xl border border-base-line bg-base-panel px-3 py-3"
+                  >
+                    {c.logo ? (
+                      <Image src={c.logo} alt={c.mark} width={96} height={32} className="h-8 w-auto object-contain" />
+                    ) : (
+                      <span className="text-base font-bold leading-tight text-brand-green-ink">{c.mark}</span>
+                    )}
+                    <span className="text-xs leading-snug text-base-slate">{c.issuer}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="lg:pl-4">

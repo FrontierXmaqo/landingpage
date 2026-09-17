@@ -169,6 +169,14 @@ export const CREDENTIAL_LINE = [
   "ISO 9001:2015",
 ];
 
+// Hero tiles. Add `logo` (a path under /public) once the official marks are supplied.
+export const CREDENTIALS: { mark: string; issuer: string; logo?: string }[] = [
+  { mark: "ST Class A", issuer: "Suruhanjaya Tenaga" },
+  { mark: "CIDB G7", issuer: "Highest contractor grade" },
+  { mark: "SEDA", issuer: "Registered installer" },
+  { mark: "ISO 9001:2015", issuer: "Quality managed" },
+];
+
 export const FINAL_CTA = {
   title: "Ready to Lock in Your Energy Costs for the Next 25 Years?",
   body:
