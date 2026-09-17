@@ -20,16 +20,18 @@ export default function CountUpStat({ value, className }: { value: string; class
   useEffect(() => {
     const node = ref.current;
     if (node === null || target === null) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setCount(target);
-      return;
-    }
-
     let frame = 0;
     const observer = new IntersectionObserver(
       (entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return;
         observer.disconnect();
+
+        // Checked here rather than up front so the state only ever changes
+        // from a callback, never synchronously during the effect.
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          setCount(target);
+          return;
+        }
 
         const start = performance.now();
         const step = (now: number) => {
