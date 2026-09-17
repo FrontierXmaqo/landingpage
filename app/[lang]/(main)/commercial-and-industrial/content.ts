@@ -195,7 +195,7 @@ export const PILLARS = [
  */
 export const BESS = {
   eyebrow: "Battery Energy Storage",
-  title: "Solar cuts your consumption. A battery cuts your demand charge.",
+  title: "BESS",
   body:
     "On a TNB maximum demand tariff, one half-hour spike sets the charge for the entire month — and solar alone cannot flatten it. A Battery Energy Storage System discharges into those peaks, so the meter never records them.",
   points: [
@@ -224,6 +224,7 @@ export const BESS = {
         "The Xfiniti energy management system meters solar, battery and grid together, so each month you can see exactly what the battery shaved off your bill.",
     },
   ],
+  cta: "Learn more about BESS",
   foot:
     "Supplied through Xfiniti Energy, MAQO's storage and energy-management arm, and commissioned by the same in-house licensed wiremen and chargemen who build our solar.",
 };

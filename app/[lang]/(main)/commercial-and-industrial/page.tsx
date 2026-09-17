@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -9,7 +10,7 @@ import CiLeadForm from "./CiLeadForm";
 import ClientMarquee from "./ClientMarquee";
 import CountUpStat from "./CountUpStat";
 import ProjectsCarousel, { type Surface } from "./ProjectsCarousel";
-import { BESS_ICONS, CheckCircle, PILLAR_ICONS } from "./icons";
+import { BESS_ICONS, CheckCircle, IconChevron, PILLAR_ICONS } from "./icons";
 import {
   BESS,
   CI_META,
@@ -172,6 +173,13 @@ export default async function CommercialAndIndustrialPage({
                   {BESS.title}
                 </h2>
                 <p className="mt-4 text-sm leading-relaxed text-base-slate sm:text-base">{BESS.body}</p>
+                <Link
+                  href={localePath(lang, "/bess")}
+                  className="group mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-green-ink transition hover:text-brand-green-deep"
+                >
+                  {BESS.cta}
+                  <IconChevron className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </div>
 
               <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-base-line sm:grid-cols-2">
