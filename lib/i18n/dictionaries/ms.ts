@@ -573,7 +573,7 @@ const ms: Dictionary = {
       legal: "Dengan menghantar, anda bersetuju untuk dihubungi oleh MAQO Engineering Sdn Bhd mengenai penilaian solar anda. Tiada spam.",
     },
     footer: {
-      tagline: "MAQO Engineering Sdn Bhd: satu panel solar, satu bateri, satu EV dicas pada satu masa.",
+      tagline: "EPCC solar kediaman & C&I, bertauliah ST Kelas A & CIDB G7, sejak 2013.",
       explore: "Terokai",
       calculator: "Kalkulator penjimatan",
       contact: "Hubungi",

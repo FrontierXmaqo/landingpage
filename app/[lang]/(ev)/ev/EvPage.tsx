@@ -853,6 +853,7 @@ export default function EvPage({
             <div className="foot-brand">
               <p className="foot-wordmark">MAQO Engineering Sdn Bhd</p>
               <p>{t.footer.tagline}</p>
+              <p className="foot-cred-line">Suruhanjaya Tenaga · SEDA · CIDB G7</p>
               <ul className="foot-certs">
                 {t.hero.trust.map((item) => (
                   <li key={item}>{item}</li>
@@ -887,7 +888,6 @@ export default function EvPage({
           </div>
           <div className="foot-bottom">
             <span>{t.footer.rights}</span>
-            <span>Suruhanjaya Tenaga · SEDA · CIDB G7</span>
           </div>
         </div>
       </footer>

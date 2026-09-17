@@ -572,7 +572,7 @@ const cn: Dictionary = {
       legal: "提交即表示您同意 MAQO Engineering Sdn Bhd 就太阳能评估与您联系。绝无垃圾信息。",
     },
     footer: {
-      tagline: "MAQO Engineering Sdn Bhd：一次一片太阳能板、一颗电池、一辆电动车。",
+      tagline: "住宅与工商业太阳能EPCC工程,持有ST A级与CIDB G7认证,自2013年起。",
       explore: "浏览",
       calculator: "节省计算器",
       contact: "联络方式",

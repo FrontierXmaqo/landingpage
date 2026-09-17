@@ -581,7 +581,7 @@ const en = {
       legal: "By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar assessment. No spam.",
     },
     footer: {
-      tagline: "MAQO Engineering Sdn Bhd — one solar panel, one battery, one EV charged at a time.",
+      tagline: "Residential & C&I solar EPCC, ST Class A & CIDB G7-certified, since 2013.",
       explore: "Explore",
       calculator: "Savings calculator",
       contact: "Contact",

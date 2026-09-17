@@ -94,9 +94,8 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-base-line pt-6 text-xs text-base-slate sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 border-t border-base-line pt-6 text-xs text-base-slate">
           <span>{t.rights}</span>
-          <span>Suruhanjaya Tenaga · SEDA · CIDB G7</span>
         </div>
       </div>
     </footer>
