@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SectionTag from "../components/SectionTag";
 import ScrollReveal from "../components/ScrollReveal";
+import CredentialBadges from "../components/CredentialBadges";
 import CiLeadForm from "./CiLeadForm";
 import ClientMarquee from "./ClientMarquee";
 import CountUpStat from "./CountUpStat";
@@ -14,7 +14,6 @@ import {
   CI_META,
   CLIENTS,
   CREDENTIAL_LINE,
-  CREDENTIALS,
   FINAL_CTA,
   HERO,
   PILLARS,
@@ -104,21 +103,6 @@ export default async function CommercialAndIndustrialPage({
                 </a>
               </div>
 
-              <ul className="mt-8 grid grid-cols-2 gap-3 border-t border-base-line pt-6 sm:grid-cols-4">
-                {CREDENTIALS.map((c) => (
-                  <li
-                    key={c.mark}
-                    className="flex flex-col items-start gap-1 rounded-xl border border-base-line bg-base-panel px-3 py-3"
-                  >
-                    {c.logo ? (
-                      <Image src={c.logo} alt={c.mark} width={96} height={32} className="h-8 w-auto object-contain" />
-                    ) : (
-                      <span className="text-base font-bold leading-tight text-brand-green-ink">{c.mark}</span>
-                    )}
-                    <span className="text-xs leading-snug text-base-slate">{c.issuer}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
 
             <div className="lg:pl-4">
@@ -126,6 +110,8 @@ export default async function CommercialAndIndustrialPage({
             </div>
           </div>
         </section>
+
+        <CredentialBadges t={dict.credentialBadges} set="commercial" />
 
         {/* ---------- 2. Client roster + trust stats ---------- */}
         <section id="clients" className="border-y border-base-line bg-base-panel py-16" aria-labelledby="clients-heading">
