@@ -18,7 +18,7 @@ const BADGES: { src: string; alt: string; caption: string }[] = [
     caption: "Highest construction grade",
   },
   {
-    src: "/logos/credentials/iso-9001.png",
+    src: "/logos/credentials/iso-9001.webp",
     alt: "ISO 9001:2015 certified company",
     caption: "Quality management certified",
   },
