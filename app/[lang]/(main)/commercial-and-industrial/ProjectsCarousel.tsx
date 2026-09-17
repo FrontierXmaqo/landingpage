@@ -17,7 +17,7 @@ import { IconChevron, IconClose, IconPause, IconPlay, ProjectIcon } from "./icon
  * edges) to a desktop without measuring anything in JS.
  */
 
-const AUTOPLAY_MS = 4500;
+const AUTOPLAY_MS = 3000;
 /** Slides further out than this are not painted at all. One either side of
  *  the centre keeps the stage inside the container at every width. */
 const VISIBLE_RANGE = 1;
