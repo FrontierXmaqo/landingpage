@@ -46,7 +46,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
   const home = (hash: string) => localePath(lang, `/${hash}`);
 
   return (
-    <>
+    <div data-theme="about" className="contents">
       <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
       <main className="flex-1 overflow-x-clip bg-base-panel">
         {/* Hero: full-bleed real installation photo, gradient overlay for legibility, floating stat card breaks the frame */}
@@ -470,6 +470,6 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         </section>
       </main>
       <Footer locale={lang} t={dict.footer} />
-    </>
+    </div>
   );
 }

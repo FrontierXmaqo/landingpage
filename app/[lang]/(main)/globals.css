@@ -49,6 +49,45 @@
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
+/* Per-page colour themes. Home/ATAP-shared defaults above stay orange; these
+   three pages get their own identity by repointing the same brand-orange-*
+   and brand-green-* custom properties to a different hue, scoped to a
+   `data-theme` wrapper the page renders around itself (see page.tsx files).
+   No component markup changes — every className stays bg-brand-orange-deep,
+   text-brand-green-ink, etc., it just resolves to a different colour here. */
+[data-theme="ci"] {
+  --color-brand-orange: #3d6690;
+  --color-brand-orange-deep: #15304f;
+  --color-brand-orange-ink: #1d4a73;
+  --color-brand-orange-tint: #e4ecf5;
+  --color-brand-green: #2c4a6e;
+  --color-brand-green-deep: #0c2038;
+  --color-brand-green-ink: #1d4a73;
+  --color-brand-green-tint: #e4ecf5;
+}
+
+[data-theme="about"] {
+  --color-brand-orange: #a5486b;
+  --color-brand-orange-deep: #7a2140;
+  --color-brand-orange-ink: #6e1d3a;
+  --color-brand-orange-tint: #f5e6ea;
+  --color-brand-green: #6e1d3a;
+  --color-brand-green-deep: #5c1730;
+  --color-brand-green-ink: #6e1d3a;
+  --color-brand-green-tint: #f5e6ea;
+}
+
+[data-theme="atap"] {
+  --color-brand-orange: #f0a53d;
+  --color-brand-orange-deep: #b66d0c;
+  --color-brand-orange-ink: #9c5b0a;
+  --color-brand-orange-tint: #fbead1;
+  --color-brand-green: #c77d1e;
+  --color-brand-green-deep: #8a5a0f;
+  --color-brand-green-ink: #9c5b0a;
+  --color-brand-green-tint: #fbead1;
+}
+
 body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .section-eyebrow { letter-spacing: 0.08em; }
 

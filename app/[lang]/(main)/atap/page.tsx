@@ -37,7 +37,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
   const home = (hash: string) => localePath(lang, `/${hash}`);
 
   return (
-    <>
+    <div data-theme="atap" className="contents">
       <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
       <main className="flex-1 overflow-x-clip bg-base-bg">
         {/* Hero: a mock TNB bill with the ATAP credit applied stands in for a
@@ -398,6 +398,6 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
         </section>
       </main>
       <Footer locale={lang} t={dict.footer} />
-    </>
+    </div>
   );
 }

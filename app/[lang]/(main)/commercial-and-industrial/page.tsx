@@ -57,7 +57,7 @@ export default async function CommercialAndIndustrialPage({
   });
 
   return (
-    <>
+    <div data-theme="ci" className="contents">
       <Header locale={lang} t={dict} />
 
       <main className="flex-1">
@@ -197,6 +197,6 @@ export default async function CommercialAndIndustrialPage({
       </main>
 
       <Footer locale={lang} t={dict.footer} />
-    </>
+    </div>
   );
 }
