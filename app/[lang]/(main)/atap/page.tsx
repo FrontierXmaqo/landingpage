@@ -135,7 +135,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
 
         {/* What is ATAP: plain-language explainer + the one thing that's
             genuinely different from NEM (the MAQ export cap). */}
-        <section className="bg-base-panel py-20 sm:py-24">
+        <section id="what-is-atap" className="scroll-mt-20 bg-base-panel py-20 sm:py-24">
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-start">
             <ScrollReveal>
               <SectionTag>{t.startTag}</SectionTag>
@@ -274,7 +274,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
         </section>
 
         {/* Eligibility: real installs banner + Domestic vs Non-domestic cards */}
-        <section className="py-20 sm:py-24">
+        <section id="eligibility" className="scroll-mt-20 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal>
               <SectionTag>{t.eligTag}</SectionTag>
@@ -360,7 +360,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
         </section>
 
         {/* FAQ */}
-        <section className="bg-base-panel py-20 sm:py-24">
+        <section id="faq" className="scroll-mt-20 bg-base-panel py-20 sm:py-24">
           <div className="mx-auto max-w-3xl px-4 sm:px-6">
             <ScrollReveal>
               <SectionTag>{t.faqTag}</SectionTag>
@@ -397,7 +397,18 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
           </ScrollReveal>
         </section>
       </main>
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer
+        locale={lang}
+        t={dict.footer}
+        nav={dict.header.nav}
+        explore={[
+          { label: "What Is ATAP", href: "#what-is-atap" },
+          { label: "How It Works", href: "#how" },
+          { label: "ATAP vs. NEM", href: "#compare" },
+          { label: "Eligibility", href: "#eligibility" },
+          { label: "FAQ", href: "#faq" },
+        ]}
+      />
     </div>
   );
 }

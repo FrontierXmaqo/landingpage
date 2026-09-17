@@ -12,7 +12,7 @@ export default function WhatsIncluded({
   space: string;
 }) {
   return (
-    <section className="border-y border-base-line bg-base-panel py-20 sm:py-24">
+    <section id="whats-included" className="scroll-mt-20 border-y border-base-line bg-base-panel py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <ScrollReveal>

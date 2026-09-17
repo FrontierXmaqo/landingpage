@@ -63,7 +63,7 @@ export default async function CommercialAndIndustrialPage({
 
       <main className="flex-1">
         {/* ---------- 1. Hero + enquiry form ---------- */}
-        <section className="relative overflow-hidden bg-base-bg">
+        <section id="assessment" className="relative overflow-hidden bg-base-bg">
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
             <div>
               <span className="section-eyebrow inline-flex items-center rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase text-brand-green-ink">
@@ -110,7 +110,7 @@ export default async function CommercialAndIndustrialPage({
         </section>
 
         {/* ---------- 2. Client roster + trust stats ---------- */}
-        <section className="border-y border-base-line bg-base-panel py-16" aria-labelledby="clients-heading">
+        <section id="clients" className="border-y border-base-line bg-base-panel py-16" aria-labelledby="clients-heading">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2
               id="clients-heading"
@@ -161,7 +161,7 @@ export default async function CommercialAndIndustrialPage({
         <ProjectsCarousel projects={ci.projects} surface={PROJECTS_SURFACE} videoUrl={PROJECT_VIDEO_URL} />
 
         {/* ---------- 4. Why MAQO for C&I ---------- */}
-        <section className="bg-base-panel py-16 sm:py-20" aria-labelledby="why-heading">
+        <section id="why" className="bg-base-panel py-16 sm:py-20" aria-labelledby="why-heading">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <SectionTag>Why MAQO</SectionTag>
             <h2
@@ -210,7 +210,17 @@ export default async function CommercialAndIndustrialPage({
         </section>
       </main>
 
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer
+        locale={lang}
+        t={dict.footer}
+        nav={dict.header.nav}
+        explore={[
+          { label: "Client Roster", href: "#clients" },
+          { label: "Our Projects", href: "#projects" },
+          { label: "Why MAQO", href: "#why" },
+          { label: "Get an Assessment", href: "#assessment" },
+        ]}
+      />
     </div>
   );
 }

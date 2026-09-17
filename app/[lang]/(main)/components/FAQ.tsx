@@ -10,7 +10,7 @@ import type { Dictionary } from "@/lib/i18n";
  */
 export default function FAQ({ t }: { t: Dictionary["faq"] }) {
   return (
-    <section className="bg-base-bg py-16">
+    <section id="faq" className="scroll-mt-20 bg-base-bg py-16">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <SectionHeading eyebrow={t.eyebrow} title={t.title} />
         <div className="mt-10 divide-y divide-base-line rounded-2xl border border-base-line bg-base-panel">

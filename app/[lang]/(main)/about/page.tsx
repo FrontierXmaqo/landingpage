@@ -94,7 +94,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         <Achievements t={dict.achievements} />
 
         {/* Who we are: alternating asymmetric photo/text rows */}
-        <section className="py-20 sm:py-24">
+        <section id="who-we-are" className="scroll-mt-20 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <div className="grid items-center gap-10 sm:grid-cols-[1.1fr_0.9fr] sm:gap-14">
               <ScrollReveal>
@@ -195,7 +195,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         </section>
 
         {/* Team: the real crew, photographed. The strongest trust signal we have. */}
-        <section className="bg-base-bg py-20 sm:py-24">
+        <section id="team" className="scroll-mt-20 bg-base-bg py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal className="max-w-xl">
               <SectionTag>{t.teamTag}</SectionTag>
@@ -245,7 +245,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         </section>
 
         {/* Core values: an editorial index, not another card grid */}
-        <section className="py-20 sm:py-24">
+        <section id="values" className="scroll-mt-20 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal className="max-w-xl">
               <SectionTag>{t.valuesTag}</SectionTag>
@@ -395,7 +395,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         </section>
 
         {/* Gallery: asymmetric photo layout, real installs, not a decorative grid */}
-        <section className="py-20 sm:py-24">
+        <section id="gallery" className="scroll-mt-20 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal>
               <p className="text-sm font-bold uppercase tracking-wide text-brand-green-ink">
@@ -469,7 +469,18 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
           </ScrollReveal>
         </section>
       </main>
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer
+        locale={lang}
+        t={dict.footer}
+        nav={dict.header.nav}
+        explore={[
+          { label: "Who We Are", href: "#who-we-are" },
+          { label: "Our Team", href: "#team" },
+          { label: "Core Values", href: "#values" },
+          { label: "Standards", href: "#standards" },
+          { label: "Our Work", href: "#gallery" },
+        ]}
+      />
     </div>
   );
 }

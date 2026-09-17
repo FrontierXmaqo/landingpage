@@ -80,7 +80,7 @@ export default function SolarCalculator({
   }, [hasResult]);
 
   return (
-    <section id="packages" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section id="packages" className="scroll-mt-20 mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <SectionHeading
         eyebrow={t.eyebrow}
         title={t.title}
