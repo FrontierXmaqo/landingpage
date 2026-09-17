@@ -176,7 +176,7 @@ export default function ProjectsCarousel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  // Autoplay stops while the visitor is hovering or tabbing through the
+  // Autoplay stops while the visitor is tabbing through the
   // carousel, while the dialog is open, while the tab is in the background, and
   // whenever the visitor has asked for reduced motion.
   useEffect(() => {
@@ -245,8 +245,6 @@ export default function ProjectsCarousel({
         <div
           className="relative mt-12"
           aria-roledescription="carousel"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={() => setPaused(false)}
         >
