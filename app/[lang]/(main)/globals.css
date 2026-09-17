@@ -190,12 +190,16 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .animate-bar-rise { animation: none; transform: none; }
 }
 
-/* ATAP page hero: a soft brand-colour glow plus a faint dot-grid ("the grid")
-   behind the mock bill card — texture without needing a photo. */
+/* Every themed hero: a soft brand-colour glow plus a faint dot-grid ("the
+   grid"), with a top-fade tint underneath — matching EV's real hero gradient
+   (linear-gradient(180deg, #F4F9EC 0%, #FFFFFF 72%)) in each page's own
+   colour. The tint is the last (bottom-most) layer so the blobs and dots
+   still read clearly on top of it. */
 .atap-hero-glow {
   background:
     radial-gradient(680px 420px at 82% -10%, color-mix(in srgb, var(--color-brand-green) 16%, transparent), transparent 65%),
-    radial-gradient(520px 420px at 100% 40%, color-mix(in srgb, var(--color-brand-orange) 14%, transparent), transparent 70%);
+    radial-gradient(520px 420px at 100% 40%, color-mix(in srgb, var(--color-brand-orange) 14%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--color-brand-orange-tint) 0%, transparent 68%);
 }
 .atap-hero-dots {
   background-image: radial-gradient(color-mix(in srgb, var(--color-base-ink) 16%, transparent) 1.5px, transparent 1.5px);
