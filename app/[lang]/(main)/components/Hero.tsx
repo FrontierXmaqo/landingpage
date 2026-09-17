@@ -18,7 +18,11 @@ export default function Hero({
   const t = dict.hero;
   return (
     <section className="relative overflow-hidden bg-base-bg">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 pb-12 sm:px-6 sm:pb-16 lg:grid-cols-2 lg:items-center lg:py-20">
+      {/* Grid-line + colour-blob glow, matching the density already used on
+          EV/ATAP's heroes. Hidden below lg, where the roof photo fills the
+          same space instead. */}
+      <div aria-hidden className="atap-hero-glow atap-hero-dots pointer-events-none absolute inset-0 hidden lg:block" />
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 pb-12 sm:px-6 sm:pb-16 lg:grid-cols-2 lg:items-center lg:py-20">
         {/* Below lg the copy sits directly on the roof photo, full-bleed to the
             screen edges. On a phone the old white text block had nothing to
             carry it, and the photo was buried below the fold. From lg the

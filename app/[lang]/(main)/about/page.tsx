@@ -60,6 +60,10 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-base-ink/90 via-base-ink/60 to-base-ink/25" />
+          {/* Same colour-blob glow used behind Home/C&I's hero, blended over
+              the photo instead of sitting on a plain background — echoes the
+              site's density without a dot-grid competing with the image. */}
+          <div aria-hidden className="atap-hero-glow pointer-events-none absolute inset-0 opacity-70 mix-blend-overlay" />
 
           <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-28 sm:px-6 sm:pb-20">
             <span className="section-eyebrow inline-flex w-fit items-center rounded-full bg-base-panel/10 px-3 py-1 text-xs font-semibold uppercase text-white ring-1 ring-white/20 backdrop-blur-sm">

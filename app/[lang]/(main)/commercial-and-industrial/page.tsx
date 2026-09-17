@@ -67,7 +67,10 @@ export default async function CommercialAndIndustrialPage({
       <main className="flex-1 overflow-x-clip">
         {/* ---------- 1. Hero + enquiry form ---------- */}
         <section id="assessment" className="relative overflow-hidden bg-base-bg">
-          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
+          {/* Grid-line + colour-blob glow, matching the density already used
+              on EV/ATAP's heroes. */}
+          <div aria-hidden className="atap-hero-glow atap-hero-dots pointer-events-none absolute inset-0" />
+          <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
             <div>
               <span className="section-eyebrow inline-flex items-center rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase text-brand-green-ink">
                 {HERO.eyebrow}
