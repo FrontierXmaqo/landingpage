@@ -98,15 +98,15 @@
 }
 
 [data-theme="bess"] {
-  --color-base-bg: #f3f9fa;
-  --color-brand-orange: #0e7c86;
-  --color-brand-orange-deep: #0a5f67;
-  --color-brand-orange-ink: #0b6169;
-  --color-brand-orange-tint: #dff0f1;
-  --color-brand-green: #0e7c86;
-  --color-brand-green-deep: #0a5f67;
-  --color-brand-green-ink: #0b6169;
-  --color-brand-green-tint: #dff0f1;
+  --color-base-bg: #fff5f6;
+  --color-brand-orange: #f43f5e;
+  --color-brand-orange-deep: #e11d48;
+  --color-brand-orange-ink: #9f1239;
+  --color-brand-orange-tint: #ffe4e6;
+  --color-brand-green: #f43f5e;
+  --color-brand-green-deep: #e11d48;
+  --color-brand-green-ink: #9f1239;
+  --color-brand-green-tint: #ffe4e6;
 }
 
 body { background: var(--color-base-bg); color: var(--color-base-ink); }
