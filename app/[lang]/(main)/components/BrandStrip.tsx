@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { BRAND_LOGOS } from "@/lib/content";
 import type { Dictionary } from "@/lib/i18n";
+import type { PublishedBrandLogo } from "@/lib/publishedContent";
 
-export default function BrandStrip({ t }: { t: Dictionary["brandStrip"] }) {
-  const track = [...BRAND_LOGOS, ...BRAND_LOGOS];
+export default function BrandStrip({ t, brands }: { t: Dictionary["brandStrip"]; brands: PublishedBrandLogo[] }) {
+  const track = [...brands, ...brands];
 
   return (
     <section className="border-y border-base-line bg-base-bg py-8">

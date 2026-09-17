@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, type SolarPackage } from "@/lib/content";
+import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, BRAND_LOGOS, type SolarPackage } from "@/lib/content";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 
 export type PublishedCustomField = { key: string; label: string; values: string[] };
@@ -199,5 +199,26 @@ export async function getPublishedCiContent(fallback: PublishedCiContent): Promi
     };
   } catch {
     return fallback;
+  }
+}
+
+export type PublishedBrandLogo = { name: string; logo?: string };
+
+/** Fetches the published brand-logo strip (Home's "Installed with brands
+ *  homeowners trust"), falling back to the hardcoded BRAND_LOGOS in
+ *  lib/content.ts — same safety net as getPublishedCiContent's client roster. */
+export async function getPublishedBrandLogos(): Promise<PublishedBrandLogo[]> {
+  try {
+    const supabase = getAnonClient();
+    const { data } = await supabase.from("brand_logos").select("name, logo_url").eq("status", "published").order("sort_order");
+
+    const brands: PublishedBrandLogo[] = (data ?? []).map((r) => ({
+      name: String(r.name),
+      logo: r.logo_url ? String(r.logo_url) : undefined,
+    }));
+
+    return brands.length ? brands : BRAND_LOGOS;
+  } catch {
+    return BRAND_LOGOS;
   }
 }

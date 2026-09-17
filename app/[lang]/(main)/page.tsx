@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "@/lib/i18n";
-import { getPublishedCalculatorData, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
+import { getPublishedCalculatorData, getPublishedLeadFormOptions, getPublishedLeadFormFields, getPublishedBrandLogos } from "@/lib/publishedContent";
 import PageviewBeacon from "./components/PageviewBeacon";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -26,10 +26,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   // Pricing and lead-form options come from the CMS in every language: the
   // dictionaries carry the surrounding copy, but the numbers and the dropdown
   // values stay whatever marketing last published.
-  const [calculatorData, leadFormOptions, customFields] = await Promise.all([
+  const [calculatorData, leadFormOptions, customFields, brands] = await Promise.all([
     getPublishedCalculatorData(),
     getPublishedLeadFormOptions(),
     getPublishedLeadFormFields(),
+    getPublishedBrandLogos(),
   ]);
 
   return (
@@ -38,7 +39,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <Header locale={lang} t={t} />
       <main className="flex-1">
         <Hero locale={lang} t={t} leadFormOptions={leadFormOptions} customFields={customFields} />
-        <BrandStrip t={t.brandStrip} />
+        <BrandStrip t={t.brandStrip} brands={brands} />
         <BillProof t={t.billProof} space={t.space} />
         <SolarCalculator
           t={t.calculator}

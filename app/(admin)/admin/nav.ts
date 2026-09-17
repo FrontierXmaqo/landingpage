@@ -5,6 +5,7 @@ import type { Role } from "@/lib/supabase/server";
  * can't drift apart. */
 export const NAV: { href: string; label: string; description: string; roles: Role[] }[] = [
   { href: "/admin", label: "Overview", description: "Dashboard home.", roles: ["admin", "marketing", "sales"] },
+  { href: "/admin/product-brands", label: "Product Brands", description: "The brand logo strip on the homepage.", roles: ["admin", "marketing"] },
   { href: "/admin/calculator-ev", label: "EV Calculator Settings", description: "The formula behind the /ev landing page's calculator.", roles: ["admin", "marketing"] },
   { href: "/admin/commercial-industrial", label: "Commercial & Industrial Page", description: "Projects, clients and stats on the C&I landing page.", roles: ["admin", "marketing"] },
   { href: "/admin/leads-form", label: "Lead Form", description: "Fields and dropdown options on the public assessment form.", roles: ["admin", "marketing"] },
