@@ -66,10 +66,16 @@ export default async function CommercialAndIndustrialPage({
       <main className="flex-1 overflow-x-clip">
         {/* ---------- 1. Hero + enquiry form ---------- */}
         <section id="assessment" className="relative overflow-hidden bg-base-bg">
-          {/* Grid-line + colour-blob glow, matching the density already used
-              on EV/ATAP's heroes. */}
-          <div aria-hidden className="atap-hero-glow atap-hero-dots pointer-events-none absolute inset-0" />
-          <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
+          {/* Backdrop in three layers: a wash that goes to paper by the fold,
+              a faint rule grid masked to one corner, and two blurred discs for
+              the wash to pool in. Approved on the C&I colour canvas. */}
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <div className="ci-hero-wash absolute inset-0" />
+            <div className="ci-hero-rules absolute inset-0" />
+            <div className="ci-hero-blob absolute -right-24 -top-44 h-[460px] w-[460px]" />
+            <div className="ci-hero-blob-deep absolute -bottom-52 -left-32 h-[400px] w-[400px]" />
+          </div>
+          <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 pb-12 pt-8 sm:px-6 lg:grid-cols-2 lg:items-center lg:pb-16 lg:pt-12">
             <div>
               <span className="section-eyebrow inline-flex items-center rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase text-brand-green-ink">
                 {HERO.eyebrow}
@@ -103,6 +109,9 @@ export default async function CommercialAndIndustrialPage({
                 </a>
               </div>
 
+              <div className="mt-8 border-t border-base-line pt-6">
+                <CredentialBadges t={dict.credentialBadges} set="commercial" inline />
+              </div>
             </div>
 
             <div className="lg:pl-4">
@@ -110,8 +119,6 @@ export default async function CommercialAndIndustrialPage({
             </div>
           </div>
         </section>
-
-        <CredentialBadges t={dict.credentialBadges} set="commercial" />
 
         {/* ---------- 2. Client roster + trust stats ---------- */}
         <section id="clients" className="border-y border-base-line bg-base-panel py-16" aria-labelledby="clients-heading">

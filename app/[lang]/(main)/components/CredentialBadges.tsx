@@ -47,11 +47,62 @@ const SETS = {
 export default function CredentialBadges({
   t,
   set = "residential",
+  inline = false,
 }: {
   t: Dictionary["credentialBadges"];
   set?: keyof typeof SETS;
+  /** Inside a hero column: no band, no heading, and marks sized to fit beside
+   *  an enquiry form. The standalone band keeps its own heading and scale. */
+  inline?: boolean;
 }) {
   const badges = SETS[set];
+  const markSize = inline ? "h-11 sm:h-12" : "h-16 sm:h-20";
+
+  const list = (
+    <ul
+      className={`grid justify-items-center ${
+        inline ? "grid-cols-2 gap-3 sm:grid-cols-4" : "mt-6 grid-cols-2 gap-4 sm:gap-6"
+      } ${!inline && badges.length === 4 ? "sm:grid-cols-4" : ""} ${
+        !inline && badges.length === 3 ? "sm:grid-cols-3" : ""
+      }`}
+    >
+      {badges.map((badge) => (
+        <li key={"src" in badge ? badge.src : badge.mark} className="credential-plinth group">
+          <div className={`credential-plinth-face ${inline ? "px-3 py-3" : ""}`}>
+            {"src" in badge ? (
+              <Image
+                src={badge.src}
+                alt={badge.alt}
+                width={220}
+                height={220}
+                className={`${markSize} w-auto max-w-full object-contain`}
+              />
+            ) : (
+              <span className={`flex ${markSize} flex-col items-center justify-center text-center`}>
+                <span
+                  className={`font-bold leading-none text-brand-green-ink ${inline ? "text-lg" : "text-2xl"}`}
+                >
+                  {badge.mark}
+                </span>
+                <span className="mt-1 text-[10px] uppercase tracking-wider text-base-slate">
+                  {badge.issuer}
+                </span>
+              </span>
+            )}
+          </div>
+          <p
+            className={`text-center text-base-slate ${
+              inline ? "mt-2 text-[11px] leading-snug" : "mt-3 text-xs sm:text-sm"
+            }`}
+          >
+            {badge.caption}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+
+  if (inline) return <div className="max-w-xl">{list}</div>;
 
   return (
     <section
@@ -65,36 +116,7 @@ export default function CredentialBadges({
         >
           {t.title}
         </h2>
-
-        <ul
-          className={`mt-6 grid grid-cols-2 justify-items-center gap-4 sm:gap-6 ${
-            badges.length === 4 ? "sm:grid-cols-4" : "sm:grid-cols-3"
-          }`}
-        >
-          {badges.map((badge) => (
-            <li key={"src" in badge ? badge.src : badge.mark} className="credential-plinth group">
-              <div className="credential-plinth-face">
-                {"src" in badge ? (
-                  <Image
-                    src={badge.src}
-                    alt={badge.alt}
-                    width={220}
-                    height={220}
-                    className="h-16 w-auto max-w-full object-contain sm:h-20"
-                  />
-                ) : (
-                  <span className="flex h-16 flex-col items-center justify-center text-center sm:h-20">
-                    <span className="text-2xl font-bold leading-none text-brand-green-ink">{badge.mark}</span>
-                    <span className="mt-1.5 text-[11px] uppercase tracking-wider text-base-slate">
-                      {badge.issuer}
-                    </span>
-                  </span>
-                )}
-              </div>
-              <p className="mt-3 text-center text-xs text-base-slate sm:text-sm">{badge.caption}</p>
-            </li>
-          ))}
-        </ul>
+        {list}
       </div>
     </section>
   );

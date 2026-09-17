@@ -248,3 +248,32 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .credential-plinth-face { transition: none; }
   .credential-plinth:hover .credential-plinth-face { transform: none; }
 }
+
+/* ---- C&I hero backdrop -------------------------------------------------
+   Blue counterpart to the EV hero: a vertical wash, a 64px rule grid masked
+   to the top-left so it dissolves before it reaches the enquiry form, and two
+   blurred discs bleeding off the corners. Built from the theme's own tokens,
+   so it follows if the C&I blue is ever retuned. */
+.ci-hero-wash {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-brand-green) 14%, transparent) 0%,
+    color-mix(in srgb, var(--color-brand-green) 4%, transparent) 58%,
+    transparent 100%
+  );
+}
+.ci-hero-rules {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-brand-green-deep) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-brand-green-deep) 8%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
+          mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
+}
+.ci-hero-blob,
+.ci-hero-blob-deep {
+  border-radius: 50%;
+  filter: blur(90px);
+}
+.ci-hero-blob { background: color-mix(in srgb, var(--color-brand-green) 30%, transparent); }
+.ci-hero-blob-deep { background: color-mix(in srgb, var(--color-brand-green-deep) 22%, transparent); }
