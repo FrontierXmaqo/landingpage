@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Project } from "./content";
+import type { CiCopy } from "./copy";
 import { IconChevron, IconClose, IconPause, IconPlay, ProjectIcon } from "./icons";
 
 /**
@@ -72,10 +73,12 @@ function wrappedOffset(i: number, active: number, total: number) {
 
 function ProjectCard({
   project,
+  actionLabel,
   large = false,
   showAction = false,
 }: {
   project: Project;
+  actionLabel: string;
   large?: boolean;
   showAction?: boolean;
 }) {
@@ -113,7 +116,7 @@ function ProjectCard({
             and takes up the slack under a short panel count. */}
         {showAction && (
           <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-brand-orange-ink">
-            View details
+            {actionLabel}
             <IconChevron className="h-4 w-4" />
           </span>
         )}
@@ -126,10 +129,12 @@ export default function ProjectsCarousel({
   projects,
   surface = "light",
   videoUrl,
+  t,
 }: {
   projects: Project[];
   surface?: Surface;
   videoUrl?: string;
+  t: CiCopy["projects"];
 }) {
   const total = projects.length;
   const s = SURFACE[surface];
@@ -232,14 +237,13 @@ export default function ProjectsCarousel({
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className={`flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.14em] ${s.body}`}>
           <span aria-hidden className="h-2 w-2 shrink-0 bg-brand-orange-deep" />
-          Our work
+          {t.eyebrow}
         </p>
         <h2 id={labelId} className={`mt-4 max-w-2xl text-3xl font-bold leading-tight sm:text-4xl ${s.heading}`}>
-          Our Latest Commercial Projects
+          {t.title}
         </h2>
         <p className={`mt-4 max-w-2xl text-base leading-relaxed ${s.body}`}>
-          From a single shoplot roof to a 10 MWp solar farm — delivered end to end by our own engineering and
-          installation teams, on live sites.
+          {t.body}
         </p>
 
         <div
@@ -300,14 +304,16 @@ export default function ProjectsCarousel({
                     }}
                     aria-label={
                       isActive
-                        ? `View details for ${project.client}, ${project.capacity}`
+                        ? t.viewDetailsFor
+                            .replace("{client}", project.client)
+                            .replace("{capacity}", project.capacity)
                         : `Show ${project.client}`
                     }
                     className="relative flex h-[370px] w-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-base-line bg-base-panel text-left shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange-deep sm:h-[390px]"
                   >
-                    <ProjectCard project={project} showAction={isActive} />
+                    <ProjectCard project={project} actionLabel={t.viewDetails} showAction={isActive} />
 
-                    {/* Side cards are pushed back visually as well as spatially —
+                    {/* Side cards are pushed back visually as well as spatially -
                         this is the darkening, and it lifts on the centre card. */}
                     <span
                       aria-hidden
@@ -329,7 +335,7 @@ export default function ProjectsCarousel({
             <button
               type="button"
               onClick={() => go(-1)}
-              aria-label="Previous project"
+              aria-label={t.prev}
               className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${s.control}`}
             >
               <IconChevron direction="left" />
@@ -354,7 +360,7 @@ export default function ProjectsCarousel({
             <button
               type="button"
               onClick={() => go(1)}
-              aria-label="Next project"
+              aria-label={t.next}
               className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${s.control}`}
             >
               <IconChevron />
@@ -364,7 +370,7 @@ export default function ProjectsCarousel({
             <button
               type="button"
               onClick={() => setPlaying((p) => !p)}
-              aria-label={playing ? "Pause automatic sliding" : "Resume automatic sliding"}
+              aria-label={playing ? t.pause : t.resume}
               className={`ml-1 inline-flex h-11 w-11 items-center justify-center rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${s.control}`}
             >
               {playing ? <IconPause /> : <IconPlay />}
@@ -380,7 +386,7 @@ export default function ProjectsCarousel({
               rel="noopener noreferrer"
               className={`text-sm font-semibold underline underline-offset-4 ${s.link}`}
             >
-              Watch our commercial &amp; industrial project showcase
+              {t.videoLink}
             </a>
           </p>
         )}
@@ -395,7 +401,7 @@ export default function ProjectsCarousel({
         >
           <button
             type="button"
-            aria-label="Close"
+            aria-label={t.close}
             tabIndex={-1}
             onClick={() => setOpenIndex(null)}
             className="absolute inset-0 cursor-default bg-base-ink/70 backdrop-blur-sm"
@@ -409,34 +415,34 @@ export default function ProjectsCarousel({
               ref={closeButtonRef}
               type="button"
               onClick={() => setOpenIndex(null)}
-              aria-label="Close project details"
+              aria-label={t.closeDialog}
               className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-base-panel/90 text-base-ink shadow-md transition hover:bg-base-panel focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange-deep"
             >
               <IconClose />
             </button>
 
-            <ProjectCard project={openProject} large />
+            <ProjectCard project={openProject} actionLabel={t.viewDetails} large />
 
             <div className="border-t border-base-line px-6 pb-7 pt-6 sm:px-8">
               <h2 id="project-dialog-title" className="sr-only">
-                {openProject.client} — {openProject.capacity}
+                {openProject.client}, {openProject.capacity}
               </h2>
               <dl className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
                 <div>
-                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">Client</dt>
+                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">{t.client}</dt>
                   <dd className="mt-1 text-sm font-semibold text-base-ink">{openProject.client}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">Category</dt>
+                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">{t.category}</dt>
                   <dd className="mt-1 text-sm font-semibold text-base-ink">{openProject.tag}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">Capacity</dt>
+                  <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">{t.capacity}</dt>
                   <dd className="mt-1 text-sm font-semibold text-base-ink">{openProject.capacity}</dd>
                 </div>
                 {openProject.panels && (
                   <div>
-                    <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">Modules</dt>
+                    <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-base-slate">{t.modules}</dt>
                     <dd className="mt-1 text-sm font-semibold text-base-ink">{openProject.panels}</dd>
                   </div>
                 )}
@@ -451,7 +457,7 @@ export default function ProjectsCarousel({
                 onClick={() => setOpenIndex(null)}
                 className="mt-7 inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-6 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange-deep"
               >
-                Get a quote for your site
+                {t.quoteCta}
               </a>
             </div>
           </div>

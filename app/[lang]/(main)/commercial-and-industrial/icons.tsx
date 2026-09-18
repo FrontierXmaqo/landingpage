@@ -21,7 +21,7 @@ function Frame({ children, className }: { children: React.ReactNode; className?:
   );
 }
 
-/** Solid check in a circle — used inline with the hero value props. */
+/** Solid check in a circle, used inline with the hero value props. */
 export function CheckCircle({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" className={className} fill="currentColor">
@@ -230,7 +230,7 @@ export function ProjectIcon({ tag, className }: { tag: string; className?: strin
   }
 }
 
-/** Battery stack — the BESS section's opening mark. */
+/** Battery stack, the BESS section's opening mark. */
 export function IconBattery({ className }: { className?: string }) {
   return (
     <Frame className={className}>
@@ -242,7 +242,7 @@ export function IconBattery({ className }: { className?: string }) {
   );
 }
 
-/** A load profile with its peak shaved flat — the point of the whole section. */
+/** A load profile with its peak shaved flat, the point of the whole section. */
 export function IconPeakShave({ className }: { className?: string }) {
   return (
     <Frame className={className}>
@@ -257,7 +257,7 @@ export function IconPeakShave({ className }: { className?: string }) {
 /**
  * Animated counterparts of the four BESS glyphs above. Kept separate from
  * IconBattery/IconWallet/IconGear rather than animating those directly,
- * because IconWallet and IconGear are also reused by PILLAR_ICONS — those
+ * because IconWallet and IconGear are also reused by PILLAR_ICONS, those
  * pillar cards should stay static.
  */
 
@@ -309,10 +309,25 @@ export function IconGearAnimated({ className }: { className?: string }) {
   );
 }
 
+/** Utility meter: the dial needle sweeps up toward the peak and settles back. */
+export function IconUtilityMeterAnimated({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <rect x="5" y="4" width="22" height="20" rx="3" />
+      <circle cx="16" cy="13" r="6" />
+      <path d="M16 13l4-3" className="bess-icon-meter-needle" />
+      <path d="M10 24v4" />
+      <path d="M22 24v4" />
+      <path d="M8 28h16" />
+    </Frame>
+  );
+}
+
 export const BESS_ICONS = {
   battery: IconBatteryAnimated,
   peak: IconPeakShaveAnimated,
   wallet: IconWalletAnimated,
+  utility: IconUtilityMeterAnimated,
   gear: IconGearAnimated,
 } as const;
 

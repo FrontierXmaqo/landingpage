@@ -330,11 +330,22 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 }
 .bess-icon-wallet-coin { animation: bess-icon-coin-drop 2.2s ease-in-out infinite; }
 
+/* Utility meter needle: sweeps up to the peak, holds, falls back. */
+@keyframes bess-icon-needle-sweep {
+  0%, 100% { transform: rotate(0deg); }
+  45%, 70% { transform: rotate(-58deg); }
+}
+.bess-icon-meter-needle {
+  transform-origin: 16px 13px;
+  animation: bess-icon-needle-sweep 3.6s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bess-icon-gear-spin,
   .bess-icon-battery-bolt,
   .bess-icon-peak-dash,
-  .bess-icon-wallet-coin {
+  .bess-icon-wallet-coin,
+  .bess-icon-meter-needle {
     animation: none;
   }
 }
@@ -360,16 +371,16 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   -webkit-mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
           mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
 }
-/* Hero headline accent: the page's own green, painted as a band behind the
-   figure rather than under it, so the descender of the % stays readable. */
+/* Hero headline accent: the C&I navy on a band of the page's own sky blue,
+   painted across the lower half of the figure the way the EV hero does it. */
 .ci-hero-hl {
-  color: var(--color-brand-green-ink);
+  color: var(--color-brand-orange-deep);
   background-image: linear-gradient(
     180deg,
-    transparent 58%,
-    var(--color-brand-green-tint) 58%,
-    var(--color-brand-green-tint) 94%,
-    transparent 94%
+    transparent 34%,
+    color-mix(in srgb, var(--color-ci-sky) 40%, transparent) 34%,
+    color-mix(in srgb, var(--color-ci-sky) 40%, transparent) 84%,
+    transparent 84%
   );
   padding: 0 0.05em;
 }

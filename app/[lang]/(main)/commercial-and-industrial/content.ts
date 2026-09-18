@@ -1,40 +1,19 @@
 /**
- * Copy and data for the Commercial & Industrial landing page.
+ * Structural data for the Commercial & Industrial landing page: the client
+ * roster, trust stats, reference projects and credential tiles.
  *
- * English only for now, deliberately: the rest of the site keeps its copy in
- * lib/i18n/dictionaries, but marketing has not signed off BM/CN for this page
- * yet. Everything visitor-facing lives here in one place so lifting it into the
- * dictionaries later is a move, not a rewrite.
+ * These are the fallbacks the page renders when the CMS is empty or
+ * unreachable, and they are not translated: the CMS itself stores one English
+ * row per project. All translated copy lives in copy.ts.
  */
 
-export const CI_META = {
-  title: "Commercial & Industrial Solar Malaysia | MAQO Solar",
-  description:
-    "Cut your company's electricity bill by up to 70% with MAQO Solar. ST Class A & CIDB G7 certified EPCC for factories, warehouses and commercial buildings.",
-};
-
-export const HERO = {
-  eyebrow: "Commercial & Industrial Solar Solutions",
-  /** Split so the hero can paint a highlight band behind the figure. */
-  title: "Cut Your Company's Electric Bill & Save Up to ",
-  titleAccent: "70%",
-  body:
-    "Beat rising tariffs and lock in low energy costs for the next 25 years with customized solar PV solutions.",
-  valueProps: [
-    "Zero Upfront Capital Options",
-    "Tier-1 Solar Technology",
-  ],
-  primaryCta: "Get Your Free Assessment",
-  secondaryCta: "See our projects",
-};
-
 /**
- * Client roster supplied by marketing. Rendered as wordmarks, not images —
+ * Client roster supplied by marketing. Rendered as wordmarks, not images -
  * the repo carries no logo files for these brands. Drop PNGs into
  * /public/logos/clients and add a `logo` key here to switch to images.
  */
 /** Fallback roster, used when the CMS table is empty or unreachable. Logos are
- *  CMS-only — the built-in list is names, which is what the tiles showed before. */
+ *  CMS-only, the built-in list is names, which is what the tiles showed before. */
 export const CLIENTS = [
   { name: "Spritzer" },
   { name: "DHL" },
@@ -79,9 +58,9 @@ export const TRUST_STATS = [
 ];
 
 export type Project = {
-  /** Free text — see projectIcon() in icons.ts for how an unknown one renders. */
+  /** Free text, see projectIcon() in icons.ts for how an unknown one renders. */
   tag: string;
-  /** As published on the original page — "1,071 kWp", "10.25 MWp". Kept as a
+  /** As published on the original page, "1,071 kWp", "10.25 MWp". Kept as a
    *  string because the unit changes between kWp and MWp. */
   capacity: string;
   client: string;
@@ -97,7 +76,7 @@ export type Project = {
   image?: string;
   imageAlt: string;
   /** Shown in the project dialog under the specs. Left empty until marketing
-   *  supplies a signed-off line per site — an empty field simply renders
+   *  supplies a signed-off line per site, an empty field simply renders
    *  nothing rather than a placeholder sentence. */
   summary?: string;
 };
@@ -162,94 +141,6 @@ export const PROJECTS: Project[] = [
 
 export const PROJECT_VIDEO_URL = "https://www.youtube.com/watch?v=mqUqlW1gC_g";
 
-export const PILLARS = [
-  {
-    icon: "tax" as const,
-    title: "Tax Incentives on Capital Outlay",
-    body:
-      "Qualifying solar assets can attract government tax incentives, offsetting a substantial share of your capital outlay against statutory income. We prepare the documentation your tax agent needs.",
-  },
-  {
-    icon: "wallet" as const,
-    title: "PPA / Solar Leasing",
-    body:
-      "RM0 upfront CAPEX. MAQO funds, builds, owns and maintains the system on your roof; you simply buy the electricity it produces at a rate below the tariff, from day one.",
-  },
-  {
-    icon: "shield" as const,
-    title: "Premium Equipment & 25-Year Warranty",
-    body:
-      "Premium panels and inverters only, backed by a 25-year performance warranty on the modules.",
-  },
-  {
-    icon: "gear" as const,
-    title: "End-to-End EPCC",
-    body:
-      "Engineering, Procurement, Construction and Commissioning under one contract, delivered by our own licensed wiremen and chargemen. No subcontracting of the critical works.",
-  },
-];
-
-/**
- * Battery storage, pitched to the same MV customer the rest of this page
- * speaks to. Deliberately qualitative: TNB revises its demand-charge rates,
- * and a published RM/kW figure on a landing page goes stale without anyone
- * noticing. The numbers belong in the proposal, not here.
- */
-export const BESS = {
-  eyebrow: "Battery Energy Storage",
-  title: "BESS",
-  body:
-    "On a TNB maximum demand tariff, one half-hour spike sets the charge for the entire month — and solar alone cannot flatten it. A Battery Energy Storage System discharges into those peaks, so the meter never records them.",
-  points: [
-    {
-      icon: "peak" as const,
-      title: "AI dynamic peak shaving",
-      bullets: [
-        "Reads your load in real time",
-        "Discharges the moment demand climbs toward your ceiling",
-        "Nothing changes on the production floor — nobody watches a screen",
-      ],
-    },
-    {
-      icon: "battery" as const,
-      title: "Charges from solar or off-peak grid",
-      bullets: [
-        "Stores the midday solar generation you're currently exporting",
-        "Or charges from the grid while the tariff is at its lowest",
-        "Works with an existing rooftop system, or on its own",
-      ],
-    },
-    {
-      icon: "wallet" as const,
-      title: "CAPEX or zero-capex",
-      bullets: [
-        "Buy the system outright",
-        "Or take it under a savings-sharing agreement",
-        "MAQO funds and owns the asset — you pay only out of what it saves you",
-      ],
-    },
-    {
-      icon: "gear" as const,
-      title: "Metered, so the saving is visible",
-      bullets: [
-        "Metering ties the battery to your existing rooftop solar system and the grid",
-        "See exactly what the battery shaved off your bill",
-        "Reported every month",
-      ],
-    },
-  ],
-  cta: "Learn more about BESS",
-  foot:
-    "Supplied and commissioned by the same in-house licensed wiremen and chargemen who build our solar, and designed to sit alongside your existing rooftop solar system.",
-};
-
-export const CREDENTIAL_LINE = [
-  "ST Class A",
-  "CIDB G7",
-  "SEDA Registered",
-  "ISO 9001:2015",
-];
-
 // Hero tiles. Add `logo` (a path under /public) once the official marks are supplied.
 export const CREDENTIALS: { mark: string; issuer: string; logo?: string }[] = [
   { mark: "ST Class A", issuer: "Suruhanjaya Tenaga" },
@@ -257,10 +148,3 @@ export const CREDENTIALS: { mark: string; issuer: string; logo?: string }[] = [
   { mark: "SEDA", issuer: "Registered installer" },
   { mark: "ISO 9001:2015", issuer: "Quality managed" },
 ];
-
-export const FINAL_CTA = {
-  title: "Ready to Lock in Your Energy Costs for the Next 25 Years?",
-  body:
-    "Send us a recent TNB bill and a roof plan. We will come back with an indicative system size, an ROI projection and the funding options open to your business.",
-  cta: "Get Free Solar Assessment & ROI Quote",
-};

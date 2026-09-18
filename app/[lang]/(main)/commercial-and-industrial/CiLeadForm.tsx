@@ -9,12 +9,13 @@ import type { LeadFormOptionLists } from "../components/LeadForm";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import { SALUTATIONS, MALAYSIAN_STATES } from "@/lib/leadFormOptions";
 import { localePath, type Locale } from "@/lib/i18n";
+import type { CiCopy } from "./copy";
 
 const initialState: LeadFormState = { status: "idle" };
 const submitCiLead = submitLead.bind(null, "MAQO C&I Landing Page", "ci");
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-/** C&I bands, not the residential RM200–RM900 ladder used on the main site —
+/** C&I bands, not the residential RM200–RM900 ladder used on the main site -
  *  fallback only, the CMS's own published values (page "ci") take priority. */
 const CI_BILL_RANGES = [
   "Below RM5,000",
@@ -49,10 +50,12 @@ function RequiredMark() {
 
 export default function CiLeadForm({
   locale,
+  t,
   options,
   customFields,
 }: {
   locale: Locale;
+  t: CiCopy["form"];
   options?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
 }) {
@@ -60,7 +63,7 @@ export default function CiLeadForm({
   const states = options?.states?.length ? options.states : MALAYSIAN_STATES;
   const billRanges = options?.billRanges?.length ? options.billRanges : CI_BILL_RANGES;
   // "Industry" is a CMS custom field like any other, but always rendered in
-  // this fixed spot rather than appended at the end — it's core to what a C&I
+  // this fixed spot rather than appended at the end, it's core to what a C&I
   // enquiry needs, not an incidental extra.
   const industryField = customFields?.find((f) => f.key === "industry");
   const industries = industryField?.values.length ? industryField.values : INDUSTRIES;
@@ -99,9 +102,9 @@ export default function CiLeadForm({
       id="assessment"
       className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-lg shadow-base-line/50 sm:p-8"
     >
-      <h2 className="text-lg font-semibold text-base-ink">Request your free C&amp;I solar assessment</h2>
+      <h2 className="text-lg font-semibold text-base-ink">{t.title}</h2>
       <p className="mt-1 text-sm text-base-slate">
-        Tell us about your site and we will come back with an indicative system size, savings and payback.
+        {t.body}
       </p>
 
       {state.status === "error" && state.message && (
@@ -119,16 +122,16 @@ export default function CiLeadForm({
         <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
         <div className="absolute left-[-9999px]" aria-hidden="true">
           <label>
-            Leave this field empty
+            {t.honeypot}
             <input type="text" name="company_website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
 
         <label className={labelClass} htmlFor="ci-salutation">
-          Salutation
+          {t.salutation}
           <select id="ci-salutation" name="salutation" defaultValue="" className={fieldClass}>
             <option value="" disabled>
-              Select
+              {t.select}
             </option>
             {salutations.map((s) => (
               <option key={s} value={s}>
@@ -140,7 +143,7 @@ export default function CiLeadForm({
 
         <label className={labelClass} htmlFor="ci-full-name">
           <span>
-            Full name
+            {t.fullName}
             <RequiredMark />
           </span>
           <input
@@ -148,14 +151,14 @@ export default function CiLeadForm({
             name="full_name"
             required
             autoComplete="name"
-            placeholder="Your name"
+            placeholder={t.fullNamePlaceholder}
             className={fieldClass}
           />
         </label>
 
         <label className={labelClass} htmlFor="ci-company">
           <span>
-            Company name
+            {t.company}
             <RequiredMark />
           </span>
           <input
@@ -163,19 +166,19 @@ export default function CiLeadForm({
             name="company_name"
             required
             autoComplete="organization"
-            placeholder="Registered company name"
+            placeholder={t.companyPlaceholder}
             className={fieldClass}
           />
         </label>
 
         <label className={labelClass} htmlFor="ci-industry">
           <span>
-            Industry / sector
+            {t.industry}
             <RequiredMark />
           </span>
           <select id="ci-industry" name="industry" required defaultValue="" className={fieldClass}>
             <option value="" disabled>
-              Select your industry
+              {t.industryPlaceholder}
             </option>
             {industries.map((s) => (
               <option key={s} value={s}>
@@ -187,7 +190,7 @@ export default function CiLeadForm({
 
         <label className={labelClass} htmlFor="ci-phone">
           <span>
-            Mobile number
+            {t.phone}
             <RequiredMark />
           </span>
           <input
@@ -202,15 +205,15 @@ export default function CiLeadForm({
         </label>
 
         <label className={labelClass} htmlFor="ci-email">
-          Work email
+          {t.email}
           <input id="ci-email" name="email" type="email" autoComplete="email" placeholder="you@company.com" className={fieldClass} />
         </label>
 
         <label className={labelClass} htmlFor="ci-state">
-          Site location
+          {t.state}
           <select id="ci-state" name="state" defaultValue="" className={fieldClass}>
             <option value="" disabled>
-              Select a state
+              {t.statePlaceholder}
             </option>
             {states.map((s) => (
               <option key={s} value={s}>
@@ -221,10 +224,10 @@ export default function CiLeadForm({
         </label>
 
         <label className={labelClass} htmlFor="ci-bill">
-          Average monthly TNB bill
+          {t.bill}
           <select id="ci-bill" name="monthly_bill_range" defaultValue="" className={fieldClass}>
             <option value="" disabled>
-              Select a range
+              {t.billPlaceholder}
             </option>
             {billRanges.map((s) => (
               <option key={s} value={s}>
@@ -238,7 +241,7 @@ export default function CiLeadForm({
           <label key={f.key} className={labelClass}>
             {f.label}
             <select name={f.key} defaultValue="" className={fieldClass}>
-              <option value="">—</option>
+              <option value="">-</option>
               {f.values.map((v) => (
                 <option key={v} value={v}>
                   {v}
@@ -260,11 +263,11 @@ export default function CiLeadForm({
           disabled={pending}
           className="mt-1 inline-flex items-center justify-center rounded-lg bg-brand-orange-deep px-6 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {pending ? "Submitting…" : "Get Free Solar Assessment & ROI Quote"}
+          {pending ? t.submitting : t.submit}
         </button>
 
         <p className="text-xs text-base-slate">
-          By submitting, you agree to be contacted by MAQO Solar about your enquiry.
+          {t.consent}
         </p>
       </form>
     </div>

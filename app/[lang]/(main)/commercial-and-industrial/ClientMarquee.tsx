@@ -7,7 +7,7 @@ export type Client = { name: string; logo?: string };
  *
  * The track is the roster twice over and slides exactly half its width, so the
  * second copy lands where the first started and the loop is seamless. Pure CSS
- * — no JS, so it stays a server component — and it stops under
+ * (no JS, so it stays a server component) and it stops under
  * prefers-reduced-motion via .animate-marquee-clients.
  */
 export default function ClientMarquee({ clients }: { clients: Client[] }) {
