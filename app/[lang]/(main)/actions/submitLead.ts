@@ -13,7 +13,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import { getPublishedLeadFormFields, type LeadFormPage } from "@/lib/publishedContent";
+import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
@@ -98,15 +98,33 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     return { status: "success", message: t.success };
   }
 
-  const salutation = oneOf(clean(formData.get("salutation"), 10), SALUTATIONS);
+  // Each core field is validated against this page's own published CMS
+  // options, falling back to the hardcoded list when the CMS has none — same
+  // fallback LeadForm.tsx renders with, so a value the visitor was actually
+  // offered never gets silently dropped for not matching a different page's
+  // list (e.g. C&I's "Below RM5,000" bill bands vs the residential RM200–900
+  // ladder that used to be the only allowlist every page validated against).
+  const [pageOptions, customFields] = await Promise.all([
+    getPublishedLeadFormOptions(formPage),
+    getPublishedLeadFormFields(formPage),
+  ]);
+  const salutationOptions = pageOptions.salutations?.length ? pageOptions.salutations : SALUTATIONS;
+  const stateOptions = pageOptions.states?.length ? pageOptions.states : MALAYSIAN_STATES;
+  const billRangeOptions = pageOptions.billRanges?.length ? pageOptions.billRanges : BILL_RANGES;
+  const propertyTypeOptions = pageOptions.propertyTypes?.length ? pageOptions.propertyTypes : PROPERTY_TYPES;
+  const electricSupplyOptions = pageOptions.electricSupply?.length ? pageOptions.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languageOptions = pageOptions.languages?.length ? pageOptions.languages : COMMUNICATION_LANGUAGES;
+
+  const salutation = oneOf(clean(formData.get("salutation"), 10), salutationOptions);
   const full_name = clean(formData.get("full_name")).replace(/[\p{Cc}\p{Cf}]/gu, "");
+  const company_name = clean(formData.get("company_name"), 150);
   const phoneRaw = clean(formData.get("phone"), 30);
   const email = clean(formData.get("email"));
-  const state = oneOf(clean(formData.get("state"), 50), MALAYSIAN_STATES);
-  const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), BILL_RANGES);
-  const property_type = oneOf(clean(formData.get("property_type"), 80), PROPERTY_TYPES);
-  const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), ELECTRIC_SUPPLY_OPTIONS);
-  const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), COMMUNICATION_LANGUAGES);
+  const state = oneOf(clean(formData.get("state"), 50), stateOptions);
+  const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), billRangeOptions);
+  const property_type = oneOf(clean(formData.get("property_type"), 80), propertyTypeOptions);
+  const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
+  const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), languageOptions);
   const campaign_id = clean(formData.get("campaign_id"), 100);
   const landing_referrer = clean(formData.get("landing_referrer"), 500);
   const landing_page_source = clean(formData.get("landing_page_source"), 300);
@@ -116,16 +134,22 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   if (!full_name || !PHONE_PATTERN.test(phoneRaw)) {
     return { status: "error", message: t.invalid };
   }
+  if (formPage === "ci" && !company_name) {
+    return { status: "error", message: t.invalid };
+  }
   const phone = toWhatsAppNumber(phoneRaw);
 
-  // Custom fields marketing added in the CMS: only ones currently published are
-  // trusted, and each value is pinned to that field's own published option list —
-  // same allowlist discipline as the core fields above.
-  const customFields = await getPublishedLeadFormFields(formPage);
+  // Custom fields marketing added in the CMS (e.g. C&I's "Industry / sector"):
+  // only ones currently published are trusted, and each value is pinned to
+  // that field's own published option list — same allowlist discipline as the
+  // core fields above.
   const extraFields: Record<string, string> = {};
   for (const field of customFields) {
     const value = oneOf(clean(formData.get(field.key), 120), field.values);
     if (value) extraFields[field.key] = value;
+  }
+  if (formPage === "ci" && !extraFields["industry"]) {
+    return { status: "error", message: t.invalid };
   }
   const extraFieldsSummary = customFields
     .filter((f) => extraFields[f.key])
@@ -146,7 +170,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
       monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
       electric_supply: electric_supply || null, preferred_language: preferred_language || null,
       lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-      extra_fields: extraFields,
+      extra_fields: company_name ? { ...extraFields, company_name } : extraFields,
     });
     if (error) {
       console.error("Supabase insert error", error);
@@ -160,12 +184,14 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   await forwardToWebhook({
     salutation,
     fullName: full_name,
+    companyName: company_name,
     phone,
     email: emailLooksValid ? email : "",
     state,
     monthlyBillRange: monthly_bill_range,
     propertyType: property_type,
     electricSupply: electric_supply,
+    industry: extraFields["industry"] ?? "",
     preferredLanguage: preferred_language,
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,

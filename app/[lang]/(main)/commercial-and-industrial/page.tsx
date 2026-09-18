@@ -24,7 +24,7 @@ import {
   TRUST_STATS,
 } from "./content";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
-import { getPublishedCiContent, getPublishedFaq } from "@/lib/publishedContent";
+import { getPublishedCiContent, getPublishedFaq, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
 
 const PATH = "/commercial-and-industrial";
 
@@ -55,7 +55,7 @@ export default async function CommercialAndIndustrialPage({
 
   // Projects, client roster and trust stats are CMS-managed; the constants in
   // content.ts are the fallback if Supabase is unreachable or a table is empty.
-  const [ci, faqItems] = await Promise.all([
+  const [ci, faqItems, leadFormOptions, customFields] = await Promise.all([
     getPublishedCiContent({
       projects: PROJECTS,
       clients: CLIENTS,
@@ -64,6 +64,8 @@ export default async function CommercialAndIndustrialPage({
     // No hardcoded fallback: this page has never had an FAQ section, so an
     // empty CMS table just means the section doesn't render yet.
     getPublishedFaq("ci", []),
+    getPublishedLeadFormOptions("ci"),
+    getPublishedLeadFormFields("ci"),
   ]);
 
   return (
@@ -122,7 +124,7 @@ export default async function CommercialAndIndustrialPage({
             </div>
 
             <div className="lg:pl-4">
-              <CiLeadForm />
+              <CiLeadForm locale={lang} options={leadFormOptions} customFields={customFields} />
             </div>
           </div>
         </section>
