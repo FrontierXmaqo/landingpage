@@ -91,8 +91,8 @@ export default function CredentialBadges({
             )}
           </div>
           <p
-            className={`text-center text-base-slate ${
-              inline ? "mt-2 text-[11px] leading-snug" : "mt-3 text-xs sm:text-sm"
+            className={`text-center text-base-slate underline decoration-2 decoration-brand-green-deep underline-offset-4 ${
+              inline ? "mt-2 text-xs leading-snug" : "mt-3 text-sm sm:text-base"
             }`}
           >
             {badge.caption}
