@@ -35,8 +35,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   // values stay whatever marketing last published.
   const [calculatorData, leadFormOptions, customFields, brands, achievements, faqItems] = await Promise.all([
     getPublishedCalculatorData(),
-    getPublishedLeadFormOptions(),
-    getPublishedLeadFormFields(),
+    getPublishedLeadFormOptions("main"),
+    getPublishedLeadFormFields("main"),
     getPublishedBrandLogos(),
     getPublishedAchievements(t.achievements.items),
     getPublishedFaq("residential", t.faq.items),

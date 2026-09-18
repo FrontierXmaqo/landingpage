@@ -85,8 +85,41 @@ function IconBuildings(props: IconProps) {
   );
 }
 
+function IconTag(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M11.5 3H5a2 2 0 0 0-2 2v6.5a2 2 0 0 0 .59 1.41l8.5 8.5a2 2 0 0 0 2.82 0l6.5-6.5a2 2 0 0 0 0-2.82l-8.5-8.5A2 2 0 0 0 11.5 3Z" />
+      <circle cx="7.5" cy="7.5" r="1.25" />
+    </Icon>
+  );
+}
+
+function IconTrophy(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+      <path d="M7 5H4v1.5A3.5 3.5 0 0 0 7.5 10" />
+      <path d="M17 5h3v1.5A3.5 3.5 0 0 1 16.5 10" />
+      <path d="M12 14v3M9 21h6M9.5 21c0-2 .8-3 2.5-4 1.7 1 2.5 2 2.5 4" />
+    </Icon>
+  );
+}
+
+function IconQuestion(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.25 9.5a2.75 2.75 0 1 1 4.15 2.37c-.9.55-1.4 1-1.4 2.13" />
+      <line x1="12" y1="17" x2="12" y2="17.01" />
+    </Icon>
+  );
+}
+
 export const NAV_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   "/admin": IconGrid,
+  "/admin/product-brands": IconTag,
+  "/admin/achievements": IconTrophy,
+  "/admin/faq": IconQuestion,
   "/admin/calculator-ev": IconZap,
   "/admin/commercial-industrial": IconBuildings,
   "/admin/leads-form": IconClipboard,

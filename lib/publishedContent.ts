@@ -66,15 +66,18 @@ export async function getPublishedCalculatorData() {
   }
 }
 
-/** Fetches published lead-form dropdown options, grouped by field, falling back
- * to the hardcoded lists in lib/leadFormOptions.ts per field when empty. */
-export async function getPublishedLeadFormOptions(): Promise<LeadFormOptionLists> {
+export type LeadFormPage = "main" | "ev" | "ci";
+
+/** Fetches published lead-form dropdown options for one page, grouped by field,
+ * falling back to the hardcoded lists in lib/leadFormOptions.ts per field when empty. */
+export async function getPublishedLeadFormOptions(page: LeadFormPage): Promise<LeadFormOptionLists> {
   try {
     const supabase = getAnonClient();
     const { data } = await supabase
       .from("lead_form_options")
       .select("field_name, value")
       .eq("status", "published")
+      .eq("page", page)
       .order("sort_order");
 
     const byField = (field: string) => (data ?? []).filter((r) => r.field_name === field).map((r) => r.value as string);
@@ -117,15 +120,15 @@ export async function getPublishedEvCalculatorConfig() {
   }
 }
 
-/** Fetches published *custom* lead-form fields (anything beyond the 6 core fields),
- * each with its published option values attached. Empty array on failure — the
- * public form simply renders none of them, core fields are unaffected. */
-export async function getPublishedLeadFormFields(): Promise<PublishedCustomField[]> {
+/** Fetches published *custom* lead-form fields for one page (anything beyond the
+ * 6 core fields), each with its published option values attached. Empty array on
+ * failure — the public form simply renders none of them, core fields are unaffected. */
+export async function getPublishedLeadFormFields(page: LeadFormPage): Promise<PublishedCustomField[]> {
   try {
     const supabase = getAnonClient();
     const [{ data: fields }, { data: options }] = await Promise.all([
-      supabase.from("lead_form_fields").select("field_key, label, sort_order").eq("status", "published").eq("is_core", false).order("sort_order"),
-      supabase.from("lead_form_options").select("field_name, value, sort_order").eq("status", "published").order("sort_order"),
+      supabase.from("lead_form_fields").select("field_key, label, sort_order").eq("status", "published").eq("page", page).eq("is_core", false).order("sort_order"),
+      supabase.from("lead_form_options").select("field_name, value, sort_order").eq("status", "published").eq("page", page).order("sort_order"),
     ]);
 
     return (fields ?? []).map((f) => ({

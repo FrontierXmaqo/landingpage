@@ -21,7 +21,7 @@ import {
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
 const initialFormState: LeadFormState = { status: "idle" };
-const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page");
+const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type ChargeTime = "day" | "night" | "mixed";

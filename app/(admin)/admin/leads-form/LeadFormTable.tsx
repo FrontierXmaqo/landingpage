@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { addField, updateFieldLabel, removeField, moveField, addOption, updateOption, removeOption } from "./actions";
+import { addField, updateFieldLabel, removeField, moveField, addOption, updateOption, removeOption, type LeadFormPage } from "./actions";
 
 type Field = { id: string; field_key: string; label: string; is_core: boolean };
 type Option = { id: string; field_name: string; value: string };
@@ -103,7 +103,7 @@ function OptionRow({ option }: { option: Option }) {
 
 /** Add/Edit modal for one field: label, its full list of current selections
  * (each independently editable/removable), and a form to add a new one. */
-function FieldModal({ field, options, onClose }: { field: Field | null; options: Option[]; onClose: () => void }) {
+function FieldModal({ page, field, options, onClose }: { page: LeadFormPage; field: Field | null; options: Option[]; onClose: () => void }) {
   const isCreate = field === null;
   const [key, setKey] = useState("");
   const [label, setLabel] = useState(field?.label ?? "");
@@ -120,7 +120,7 @@ function FieldModal({ field, options, onClose }: { field: Field | null; options:
             setError(null);
             setPending(true);
             try {
-              await addField(key, label);
+              await addField(page, key, label);
               onClose();
             } catch (err) {
               setError(err instanceof Error ? err.message : "Couldn't add that field.");
@@ -190,7 +190,7 @@ function FieldModal({ field, options, onClose }: { field: Field | null; options:
               if (!newOption.trim()) return;
               setPending(true);
               try {
-                await addOption(field.field_key, newOption);
+                await addOption(page, field.field_key, newOption);
                 setNewOption("");
               } finally {
                 setPending(false);
@@ -219,7 +219,7 @@ function FieldModal({ field, options, onClose }: { field: Field | null; options:
   );
 }
 
-function FieldTableRow({ field, options, index, total, onEdit }: { field: Field; options: Option[]; index: number; total: number; onEdit: () => void }) {
+function FieldTableRow({ page, field, options, index, total, onEdit }: { page: LeadFormPage; field: Field; options: Option[]; index: number; total: number; onEdit: () => void }) {
   const preview = options.map((o) => o.value);
   const shown = preview.slice(0, 4).join(", ");
   const extra = preview.length - 4;
@@ -228,8 +228,8 @@ function FieldTableRow({ field, options, index, total, onEdit }: { field: Field;
     <tr>
       <td className="w-14 py-4 pl-6 pr-2">
         <div className="flex flex-col items-center gap-0.5">
-          <button type="button" disabled={index === 0} onClick={() => moveField(field.id, "up")} className="text-base-slate hover:text-brand-green-ink disabled:opacity-25">▲</button>
-          <button type="button" disabled={index === total - 1} onClick={() => moveField(field.id, "down")} className="text-base-slate hover:text-brand-green-ink disabled:opacity-25">▼</button>
+          <button type="button" disabled={index === 0} onClick={() => moveField(page, field.id, "up")} className="text-base-slate hover:text-brand-green-ink disabled:opacity-25">▲</button>
+          <button type="button" disabled={index === total - 1} onClick={() => moveField(page, field.id, "down")} className="text-base-slate hover:text-brand-green-ink disabled:opacity-25">▼</button>
         </div>
       </td>
       <td className="w-56 py-4 pr-4">
@@ -271,7 +271,7 @@ function FieldTableRow({ field, options, index, total, onEdit }: { field: Field;
   );
 }
 
-export default function LeadFormTable({ fields, options }: { fields: Field[]; options: Option[] }) {
+export default function LeadFormTable({ page, fields, options }: { page: LeadFormPage; fields: Field[]; options: Option[] }) {
   const [modal, setModal] = useState<"create" | { fieldId: string } | null>(null);
   const editingField = modal && modal !== "create" ? fields.find((f) => f.id === modal.fieldId) ?? null : null;
 
@@ -301,6 +301,7 @@ export default function LeadFormTable({ fields, options }: { fields: Field[]; op
             {fields.map((f, i) => (
               <FieldTableRow
                 key={f.id}
+                page={page}
                 field={f}
                 index={i}
                 total={fields.length}
@@ -312,9 +313,10 @@ export default function LeadFormTable({ fields, options }: { fields: Field[]; op
         </table>
       </div>
 
-      {modal === "create" && <FieldModal field={null} options={[]} onClose={() => setModal(null)} />}
+      {modal === "create" && <FieldModal page={page} field={null} options={[]} onClose={() => setModal(null)} />}
       {editingField && (
         <FieldModal
+          page={page}
           field={editingField}
           options={options.filter((o) => o.field_name === editingField.field_key)}
           onClose={() => setModal(null)}

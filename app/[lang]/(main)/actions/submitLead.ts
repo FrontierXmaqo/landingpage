@@ -13,7 +13,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import { getPublishedLeadFormFields } from "@/lib/publishedContent";
+import { getPublishedLeadFormFields, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
@@ -83,7 +83,7 @@ async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload
   }
 }
 
-export async function submitLead(sourcePage: string, _prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
+export async function submitLead(sourcePage: string, formPage: LeadFormPage, _prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
   const localeRaw = clean(formData.get("locale"), 5);
   const t = getDictionary(hasLocale(localeRaw) ? localeRaw : DEFAULT_LOCALE).leadMessages;
   const clientIp = await getClientIp();
@@ -121,7 +121,7 @@ export async function submitLead(sourcePage: string, _prevState: LeadFormState, 
   // Custom fields marketing added in the CMS: only ones currently published are
   // trusted, and each value is pinned to that field's own published option list —
   // same allowlist discipline as the core fields above.
-  const customFields = await getPublishedLeadFormFields();
+  const customFields = await getPublishedLeadFormFields(formPage);
   const extraFields: Record<string, string> = {};
   for (const field of customFields) {
     const value = oneOf(clean(formData.get(field.key), 120), field.values);

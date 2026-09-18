@@ -19,7 +19,7 @@ const initialState: LeadFormState = { status: "idle" };
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site");
+const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site", "main");
 
 /** Dropdown option lists — CMS-managed in Supabase (lead_form_options), falling
  * back to these hardcoded lists so the form never breaks if a table is empty. */

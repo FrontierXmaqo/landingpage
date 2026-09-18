@@ -12,8 +12,8 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
   // the main site — see app/[lang]/(main)/page.tsx.
   const [evCalcConfig, optionValues, customFields, faqItems] = await Promise.all([
     getPublishedEvCalculatorConfig(),
-    getPublishedLeadFormOptions(),
-    getPublishedLeadFormFields(),
+    getPublishedLeadFormOptions("ev"),
+    getPublishedLeadFormFields("ev"),
     getPublishedFaq("ev", dict.ev.faq.items),
   ]);
 
