@@ -25,7 +25,7 @@ const CIDB: Badge = {
 const ISO: Badge = {
   src: "/logos/credentials/cpg-iso-9001.png",
   alt: "Certification Partner Global ISO 9001:2015 certified company",
-  caption: "Quality management certified",
+  caption: "ISO 9001:2015 certified",
 };
 const SEDA: Badge = {
   src: "/logos/credentials/seda-pvms.png",
