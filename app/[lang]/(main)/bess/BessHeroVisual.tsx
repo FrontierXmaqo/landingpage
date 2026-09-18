@@ -1,3 +1,5 @@
+import type { Dictionary } from "@/lib/i18n";
+
 /**
  * Replaces the old battery-charge-level graphic: a clear "3 sources feed one
  * facility" flow diagram (Solar Panel, BESS, TNB Grid), each on its own
@@ -69,31 +71,31 @@ function FacilityIcon() {
   );
 }
 
-const TILES = [
-  { key: "solar", label: "Solar Panel", caption: "Generates power by day", tint: "bg-brand-orange-tint", Icon: SolarPanelIcon },
-  { key: "bess", label: "BESS", caption: "Stores & discharges", tint: "bg-brand-green-tint", Icon: BessIcon },
-  { key: "grid", label: "TNB Grid", caption: "Backup & export credit", tint: "bg-[color-mix(in_srgb,var(--color-chart-5)_12%,white)]", Icon: GridIcon },
+const TILE_DEFS = [
+  { key: "solar", tint: "bg-brand-orange-tint", Icon: SolarPanelIcon },
+  { key: "bess", tint: "bg-brand-green-tint", Icon: BessIcon },
+  { key: "grid", tint: "bg-[color-mix(in_srgb,var(--color-chart-5)_12%,white)]", Icon: GridIcon },
 ] as const;
 
-export default function BessHeroVisual() {
+export default function BessHeroVisual({ t }: { t: Dictionary["bess"]["heroVisual"] }) {
   return (
     <div className="relative rounded-2xl border border-base-line bg-base-panel p-6 shadow-xl sm:p-7">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-sm font-bold text-base-ink">Three systems, one cheaper bill</span>
+        <span className="text-sm font-bold text-base-ink">{t.title}</span>
         <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-orange-tint px-2.5 py-1">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-orange-ink" />
-          <span className="text-[10px] font-bold uppercase tracking-wide text-brand-orange-ink">Live flow</span>
+          <span className="text-[10px] font-bold uppercase tracking-wide text-brand-orange-ink">{t.liveFlow}</span>
         </span>
       </div>
 
       <div className="mt-6 grid grid-cols-3 gap-3">
-        {TILES.map(({ key, label, caption, tint, Icon }) => (
+        {TILE_DEFS.map(({ key, tint, Icon }, i) => (
           <div key={key} className="text-center">
             <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl sm:h-20 sm:w-20 ${tint}`}>
               <Icon />
             </div>
-            <p className="mt-2.5 text-xs font-bold text-base-ink sm:text-sm">{label}</p>
-            <p className="mt-0.5 text-[10.5px] leading-snug text-base-slate sm:text-[11px]">{caption}</p>
+            <p className="mt-2.5 text-xs font-bold text-base-ink sm:text-sm">{t.tiles[i].label}</p>
+            <p className="mt-0.5 text-[10.5px] leading-snug text-base-slate sm:text-[11px]">{t.tiles[i].caption}</p>
           </div>
         ))}
       </div>
@@ -104,17 +106,17 @@ export default function BessHeroVisual() {
       <svg viewBox="0 0 300 92" className="mx-auto mt-1 block w-full max-w-[300px]" aria-hidden>
         <line x1="50" y1="0" x2="50" y2="30" stroke="var(--color-chart-2)" strokeWidth="2" />
         <text x="50" y="42" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="var(--color-brand-orange-ink)">
-          Charges by day
+          {t.lanes[0]}
         </text>
 
         <line x1="150" y1="0" x2="150" y2="30" stroke="var(--color-chart-1)" strokeWidth="2" />
         <text x="150" y="42" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="var(--color-brand-green-ink)">
-          Discharges at peak
+          {t.lanes[1]}
         </text>
 
         <line x1="250" y1="0" x2="250" y2="30" stroke="var(--color-chart-5)" strokeWidth="2" />
         <text x="250" y="42" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="var(--color-chart-5)">
-          Backup only
+          {t.lanes[2]}
         </text>
 
         <path d="M50,50 H250" stroke="var(--color-base-ink)" strokeWidth="1.6" strokeLinecap="round" opacity="0.6" />
@@ -133,14 +135,12 @@ export default function BessHeroVisual() {
       <div className="mx-auto flex max-w-[220px] items-center justify-center gap-2.5 rounded-2xl bg-base-ink px-4 py-3 shadow-lg">
         <FacilityIcon />
         <div className="text-left">
-          <p className="text-xs font-bold text-white sm:text-sm">Your Facility</p>
-          <p className="text-[10px] text-white/70">Maximum Demand, flattened</p>
+          <p className="text-xs font-bold text-white sm:text-sm">{t.facilityTitle}</p>
+          <p className="text-[10px] text-white/70">{t.facilitySubtitle}</p>
         </div>
       </div>
 
-      <p className="mt-3 text-center text-[11px] leading-relaxed text-base-slate">
-        Solar and BESS do the work of shaving your peak — the grid only steps in as backup.
-      </p>
+      <p className="mt-3 text-center text-[11px] leading-relaxed text-base-slate">{t.footer}</p>
     </div>
   );
 }

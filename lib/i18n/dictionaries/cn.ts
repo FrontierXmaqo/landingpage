@@ -754,6 +754,19 @@ const cn: Dictionary = {
       "1,000+ 位客户",
       "一站式解决方案",
     ],
+    heroVisual: {
+      title: "三套系统，一张更便宜的账单",
+      liveFlow: "实时能源流动",
+      tiles: [
+        { label: "太阳能板", caption: "白天发电" },
+        { label: "BESS", caption: "储存与释放" },
+        { label: "TNB 电网", caption: "备用与馈电积分" },
+      ],
+      lanes: ["白天充电", "高峰放电", "仅作备用"],
+      facilityTitle: "您的场所",
+      facilitySubtitle: "最高需量已降低",
+      footer: "太阳能与 BESS 共同削减您的用电高峰——电网只在需要时作为备用。",
+    },
 
     problemTag: "问题所在",
     problemTitle: "最高需量收费正快速攀升",

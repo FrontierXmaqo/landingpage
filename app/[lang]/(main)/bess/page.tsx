@@ -75,7 +75,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            <BessHeroVisual />
+            <BessHeroVisual t={t.heroVisual} />
           </div>
         </section>
 

@@ -763,6 +763,19 @@ const en = {
       "1,000+ customers",
       "Turn-Key Solution",
     ],
+    heroVisual: {
+      title: "Three systems, one cheaper bill",
+      liveFlow: "Live flow",
+      tiles: [
+        { label: "Solar Panel", caption: "Generates power by day" },
+        { label: "BESS", caption: "Stores & discharges" },
+        { label: "TNB Grid", caption: "Backup & export credit" },
+      ],
+      lanes: ["Charges by day", "Discharges at peak", "Backup only"],
+      facilityTitle: "Your Facility",
+      facilitySubtitle: "Maximum Demand, flattened",
+      footer: "Solar and BESS do the work of shaving your peak — the grid only steps in as backup.",
+    },
 
     problemTag: "The Problem",
     problemTitle: "Maximum Demand charges are climbing fast",

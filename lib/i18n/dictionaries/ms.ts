@@ -755,6 +755,19 @@ const ms: Dictionary = {
       "1,000+ pelanggan",
       "Penyelesaian Sehenti",
     ],
+    heroVisual: {
+      title: "Tiga sistem, satu bil yang lebih murah",
+      liveFlow: "Aliran tenaga langsung",
+      tiles: [
+        { label: "Panel Solar", caption: "Menjana kuasa pada waktu siang" },
+        { label: "BESS", caption: "Menyimpan & menyahcas" },
+        { label: "Grid TNB", caption: "Sandaran & kredit eksport" },
+      ],
+      lanes: ["Mengecas pada waktu siang", "Menyahcas semasa puncak", "Sandaran sahaja"],
+      facilityTitle: "Fasiliti Anda",
+      facilitySubtitle: "Permintaan Maksimum diturunkan",
+      footer: "Solar dan BESS melakukan kerja mengurangkan puncak anda — grid hanya bertindak sebagai sandaran.",
+    },
 
     problemTag: "Masalahnya",
     problemTitle: "Caj Permintaan Maksimum semakin meningkat",
