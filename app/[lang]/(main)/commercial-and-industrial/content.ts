@@ -10,7 +10,7 @@
 export const CI_META = {
   title: "Commercial & Industrial Solar Malaysia | MAQO Solar",
   description:
-    "Cut your company's electricity bill by up to 70% with MAQO Solar. ST Class A & CIDB G7 certified EPCC, zero-capex PPA options and GITA incentives for factories, warehouses and commercial buildings.",
+    "Cut your company's electricity bill by up to 70% with MAQO Solar. ST Class A & CIDB G7 certified EPCC for factories, warehouses and commercial buildings.",
 };
 
 export const HERO = {
@@ -163,9 +163,9 @@ export const PROJECT_VIDEO_URL = "https://www.youtube.com/watch?v=mqUqlW1gC_g";
 export const PILLARS = [
   {
     icon: "tax" as const,
-    title: "GITA Capital Allowance",
+    title: "Tax Incentives on Capital Outlay",
     body:
-      "Qualifying solar assets attract the Green Investment Tax Allowance, offsetting a substantial share of your capital outlay against statutory income. We prepare the documentation your tax agent needs.",
+      "Qualifying solar assets can attract government tax incentives, offsetting a substantial share of your capital outlay against statutory income. We prepare the documentation your tax agent needs.",
   },
   {
     icon: "wallet" as const,
@@ -175,9 +175,9 @@ export const PILLARS = [
   },
   {
     icon: "shield" as const,
-    title: "Tier-1 Equipment & 25-Year Warranty",
+    title: "Premium Equipment & 25-Year Warranty",
     body:
-      "AIKO back-contact panels and Huawei or Sungrow inverters only — Bloomberg Tier-1 manufacturers, backed by a 25-year performance warranty on the modules.",
+      "Premium panels and inverters only, backed by a 25-year performance warranty on the modules.",
   },
   {
     icon: "gear" as const,
