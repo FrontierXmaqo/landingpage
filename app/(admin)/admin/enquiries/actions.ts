@@ -28,3 +28,24 @@ export async function updateEnquiryNotes(id: string, notes: string) {
     .eq("id", uuid(id));
   revalidatePath("/admin/enquiries");
 }
+
+/** Same as updateEnquiryStatus/updateEnquiryNotes, for C&I's own ci_leads table. */
+export async function updateCiEnquiryStatus(id: string, status: string) {
+  await requireRole([...ENQUIRY_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  await supabase
+    .from("ci_leads")
+    .update({ status: oneOf(status, STATUSES, "status"), updated_at: new Date().toISOString() })
+    .eq("id", uuid(id));
+  revalidatePath("/admin/enquiries");
+}
+
+export async function updateCiEnquiryNotes(id: string, notes: string) {
+  await requireRole([...ENQUIRY_ROLES]);
+  const supabase = await getSupabaseUserClient();
+  await supabase
+    .from("ci_leads")
+    .update({ notes: text(notes, { max: MAX_TEXT }), updated_at: new Date().toISOString() })
+    .eq("id", uuid(id));
+  revalidatePath("/admin/enquiries");
+}
