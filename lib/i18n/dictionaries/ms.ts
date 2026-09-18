@@ -188,10 +188,14 @@ const ms: Dictionary = {
 
   achievements: {
     eyebrow: "Pencapaian kami",
+    title: "Kenapa MAQO?",
     items: [
-      { value: "1000+", label: "Projek Solar Kediaman Disiapkan" },
-      { value: "500+", label: "Pelanggan Komersial & Industri Dilayani" },
-      { value: "13+", label: "Tahun Pengalaman Industri" },
+      { title: "Pemenang Anugerah SME100", description: "Kami menyampaikan penyelesaian tenaga yang dipercayai dengan kepakaran dan kecemerlangan yang terbukti." },
+      { title: "EC Kelas A | CIDB G7", description: "Lesen elektrik dan pembinaan gred tertinggi yang dikeluarkan di Malaysia" },
+      { title: "Disahkan ISO 9001:2015", description: "Pengurusan kualiti terbina dalam setiap peringkat penghantaran" },
+      { title: "Disahkan SEDA", description: "Pereka GCPV Bertauliah RPVSP & RPVI SEDA, Jurupasang & Juruteknik GCPV Bertauliah" },
+      { title: "1,000+ pelanggan", description: "260+ MWp dipasang merentas Malaysia dan Filipina" },
+      { title: "Penyelesaian Sehenti", description: "Kajian beban, reka bentuk, pemasangan, pentauliahan, O&M dan pemantauan" },
     ],
   },
 

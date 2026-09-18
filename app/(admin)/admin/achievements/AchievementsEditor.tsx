@@ -124,14 +124,14 @@ export default function AchievementsEditor({ items }: { items: AchievementRow[] 
           }}
           className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {adding ? "Adding…" : "Add figure"}
+          {adding ? "Adding…" : "Add achievement"}
         </button>
       </div>
       <ErrorNote message={addError} />
 
-      {items.length === 0 && <p className="mt-4 text-sm text-base-slate">No figures yet — add one above.</p>}
+      {items.length === 0 && <p className="mt-4 text-sm text-base-slate">No achievements yet — add one above.</p>}
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {items.map((item, i) => (
           <div
             key={item.id}
@@ -145,7 +145,7 @@ export default function AchievementsEditor({ items }: { items: AchievementRow[] 
                 <button
                   type="button"
                   onClick={() => {
-                    if (!window.confirm("Remove this figure?")) return;
+                    if (!window.confirm("Remove this achievement?")) return;
                     startTransition(() => removeAchievement(item.id));
                   }}
                   className="text-xs font-semibold text-base-slate hover:text-status-critical"
@@ -154,8 +154,8 @@ export default function AchievementsEditor({ items }: { items: AchievementRow[] 
                 </button>
               </span>
             </div>
-            <Field label="Figure" defaultValue={item.value} placeholder="1000+" onSave={(v) => updateAchievement(item.id, "value", v)} />
-            <Field label="Label" defaultValue={item.label} placeholder="Residential Solar Projects Done" onSave={(v) => updateAchievement(item.id, "label", v)} />
+            <Field label="Title" defaultValue={item.value} placeholder="SME100 Award Winner" onSave={(v) => updateAchievement(item.id, "value", v)} />
+            <Field label="Description" defaultValue={item.label} placeholder="One-line description of this achievement" onSave={(v) => updateAchievement(item.id, "label", v)} />
           </div>
         ))}
       </div>
