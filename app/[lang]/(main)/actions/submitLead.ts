@@ -162,16 +162,30 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     return { status: "error", message: t.captcha };
   }
 
+  // C&I leads are commercial enquiries, not residential/EV ones — different
+  // shape (a company, an industry, no property type or electric supply) and a
+  // different sales workflow, so they get their own table rather than being
+  // squeezed into atap_leads's residential/EV columns.
   let supabaseOk = true;
   try {
     const supabase = getSupabaseServerClient();
-    const { error } = await supabase.from("atap_leads").insert({
-      full_name, phone, email: emailLooksValid && email ? email : null, state: state || null,
-      monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
-      electric_supply: electric_supply || null, preferred_language: preferred_language || null,
-      lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-      extra_fields: company_name ? { ...extraFields, company_name } : extraFields,
-    });
+    const { industry: _industry, ...ciExtraFields } = extraFields;
+    const { error } =
+      formPage === "ci"
+        ? await supabase.from("ci_leads").insert({
+            full_name, company_name, industry: extraFields["industry"] || null,
+            phone, email: emailLooksValid && email ? email : null, state: state || null,
+            monthly_bill_range: monthly_bill_range || null,
+            lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
+            extra_fields: ciExtraFields,
+          })
+        : await supabase.from("atap_leads").insert({
+            full_name, phone, email: emailLooksValid && email ? email : null, state: state || null,
+            monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
+            electric_supply: electric_supply || null, preferred_language: preferred_language || null,
+            lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
+            extra_fields: extraFields,
+          });
     if (error) {
       console.error("Supabase insert error", error);
       supabaseOk = false;
