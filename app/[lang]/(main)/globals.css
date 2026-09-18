@@ -116,6 +116,32 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .animate-marquee-ltr { animation: marquee-ltr 32s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .animate-marquee-ltr { animation: none; } }
 
+/* Brand roster. Starts at 0 so the first logo is the first thing on screen, and
+   slides left by half the track — two identical copies, so the second lands
+   exactly where the first began. translate3d keeps it on the compositor, which
+   is what stops mobile Safari and Chrome from stuttering or dropping it. */
+@keyframes brand-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+.brand-marquee {
+  animation: brand-marquee 32s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Reduced motion: a static centred grid, not a parked track. Half the roster
+   sits beyond the right edge of a phone viewport, so freezing the marquee would
+   hide brands permanently — wrapping shows every one of them instead. */
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1.25rem;
+  }
+  .brand-marquee-dupe { display: none; }
+  .brand-marquee-fade { display: none; }
+}
+
 /* Client roster: same loop, but the track is far longer, so it needs a much
    slower sweep to read at a comfortable pace. */
 .animate-marquee-clients { animation: marquee-ltr 60s linear infinite; }
