@@ -7,6 +7,11 @@
   --color-base-bg: #fbf7f1;
   --color-base-panel: #ffffff;
   --color-base-line: #e4e7e4;
+  /* Form control borders only. base-line is ~1.2:1 on white, which is fine for
+     dividers but well under the 3:1 WCAG asks of a control boundary — at that
+     contrast an input reads as floating text with no box around it. This clears
+     3:1 while staying quieter than slate. */
+  --color-base-field: #8a9490;
   --color-base-ink: #1a1a1a;
   --color-base-slate: #5b6660;
 

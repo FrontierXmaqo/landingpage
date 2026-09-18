@@ -15,6 +15,7 @@ import {
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import { PillField, SelectField, TextField, type Option } from "./formFields";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -38,32 +39,33 @@ export type LeadFormOptionLists = {
  * is translated. A value marketing adds in the CMS that has no dictionary entry
  * yet falls through to showing the value itself, so a new option appears in all
  * three languages immediately rather than rendering blank.
+ *
+ * The value posted is always the raw CMS string, never the translated label —
+ * the server validates against the same allowlist in every language.
  */
-function label(map: Record<string, string>, value: string) {
-  return map[value] ?? value;
+function options(values: string[], map: Record<string, string>): Option[] {
+  return values.map((value) => ({ value, label: map[value] ?? value }));
 }
 
 export default function LeadForm({
   locale,
   t,
   labels,
-  defaultPackage,
-  options,
+  options: lists,
   customFields,
 }: {
   locale: Locale;
   t: Dictionary["leadForm"];
   labels: Dictionary["formOptions"];
-  defaultPackage?: string;
   options?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
 }) {
-  const salutations = options?.salutations?.length ? options.salutations : SALUTATIONS;
-  const states = options?.states?.length ? options.states : MALAYSIAN_STATES;
-  const billRanges = options?.billRanges?.length ? options.billRanges : BILL_RANGES;
-  const propertyTypes = options?.propertyTypes?.length ? options.propertyTypes : PROPERTY_TYPES;
-  const electricSupply = options?.electricSupply?.length ? options.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
-  const languages = options?.languages?.length ? options.languages : COMMUNICATION_LANGUAGES;
+  const salutations = lists?.salutations?.length ? lists.salutations : SALUTATIONS;
+  const states = lists?.states?.length ? lists.states : MALAYSIAN_STATES;
+  const billRanges = lists?.billRanges?.length ? lists.billRanges : BILL_RANGES;
+  const propertyTypes = lists?.propertyTypes?.length ? lists.propertyTypes : PROPERTY_TYPES;
+  const electricSupply = lists?.electricSupply?.length ? lists.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languages = lists?.languages?.length ? lists.languages : COMMUNICATION_LANGUAGES;
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
@@ -121,152 +123,79 @@ export default function LeadForm({
           </label>
         </div>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.salutation}
-          <select
-            name="salutation"
-            defaultValue=""
-            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-          >
-            <option value="" disabled>
-              {t.salutationPlaceholder}
-            </option>
-            {salutations.map((s) => (
-              <option key={s} value={s}>
-                {label(labels.salutations, s)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.fullName}
-          <input
-            name="full_name"
-            required
-            placeholder={t.fullNamePlaceholder}
-            className="rounded-lg border border-base-line px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.mobile}
-          <input
-            name="phone"
-            required
-            placeholder="012-345 6789"
-            className="rounded-lg border border-base-line px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.email}
-          <input
-            type="email"
-            name="email"
-            placeholder="you@email.com"
-            className="rounded-lg border border-base-line px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.state}
-          <select
-            name="state"
-            defaultValue=""
-            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-          >
-            <option value="" disabled>
-              {t.statePlaceholder}
-            </option>
-            {states.map((s) => (
-              <option key={s} value={s}>
-                {label(labels.states, s)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.bill}
-          <select
-            name="monthly_bill_range"
-            defaultValue=""
-            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-          >
-            <option value="" disabled>
-              {t.billPlaceholder}
-            </option>
-            {billRanges.map((s) => (
-              <option key={s} value={s}>
-                {label(labels.billRanges, s)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.propertyType}
-          <select
-            name="property_type"
-            defaultValue=""
-            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-          >
-            <option value="" disabled>
-              {t.propertyTypePlaceholder}
-            </option>
-            {propertyTypes.map((s) => (
-              <option key={s} value={s}>
-                {label(labels.propertyTypes, s)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.supply}
-          <select
-            name="electric_supply"
-            defaultValue=""
-            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-          >
-            <option value="" disabled>
-              {t.supplyPlaceholder}
-            </option>
-            {electricSupply.map((s) => (
-              <option key={s} value={s}>
-                {label(labels.supply, s)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-          {t.language}
-          <select
-            name="preferred_language"
-            defaultValue=""
-            className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-          >
-            <option value="" disabled>
-              {t.languagePlaceholder}
-            </option>
-            {languages.map((s) => (
-              <option key={s} value={s}>
-                {label(labels.languages, s)}
-              </option>
-            ))}
-          </select>
-        </label>
+        {/* Salutation and state stay dropdowns: eight titles and eleven states
+            laid out as pills would dwarf the fields that actually qualify a
+            lead. The four short lists below are pills instead — every option
+            visible, no picker wheel to scroll on a phone. */}
+        <SelectField
+          label={t.salutation}
+          name="salutation"
+          placeholder={t.salutationPlaceholder}
+          options={options(salutations, labels.salutations)}
+        />
+        <TextField
+          label={t.fullName}
+          name="full_name"
+          required
+          placeholder={t.fullNamePlaceholder}
+          autoComplete="name"
+        />
+        <TextField
+          label={t.mobile}
+          name="phone"
+          required
+          placeholder="012-345 6789"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+        />
+        <TextField
+          label={t.email}
+          name="email"
+          placeholder="you@email.com"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+        />
+        <SelectField
+          label={t.state}
+          name="state"
+          placeholder={t.statePlaceholder}
+          options={options(states, labels.states)}
+        />
+        <PillField
+          label={t.bill}
+          name="monthly_bill_range"
+          options={options(billRanges, labels.billRanges)}
+        />
+        <PillField
+          label={t.propertyType}
+          name="property_type"
+          options={options(propertyTypes, labels.propertyTypes)}
+        />
+        <PillField
+          label={t.supply}
+          name="electric_supply"
+          options={options(electricSupply, labels.supply)}
+        />
+        <PillField
+          label={t.language}
+          name="preferred_language"
+          options={options(languages, labels.languages)}
+        />
 
+        {/* CMS-defined extras. Kept as dropdowns because marketing can add a
+            list of any length here, and an unbounded pill grid would take over
+            the form. Values are authored in one language, so no label map. */}
         {customFields?.map((f) => (
-          <label key={f.key} className="flex flex-col gap-1 text-sm font-medium text-base-ink">
-            {f.label}
-            <select
-              name={f.key}
-              defaultValue=""
-              className="rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green focus:border-brand-green focus:ring-2"
-            >
-              <option value="">—</option>
-              {f.values.map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-          </label>
+          <SelectField
+            key={f.key}
+            label={f.label}
+            name={f.key}
+            placeholder="—"
+            clearable
+            options={f.values.map((value) => ({ value, label: value }))}
+          />
         ))}
 
         {TURNSTILE_SITE_KEY && (
@@ -279,12 +208,12 @@ export default function LeadForm({
         <button
           type="submit"
           disabled={pending}
-          className="mt-1 inline-flex items-center justify-center rounded-lg bg-brand-orange-deep px-6 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-1 inline-flex min-h-14 items-center justify-center rounded-xl bg-brand-orange-deep px-6 text-base font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {pending ? t.submitting : t.submit}
         </button>
 
-        <p className="text-xs text-base-slate">
+        <p className="text-xs leading-relaxed text-base-slate">
           {t.consent}
         </p>
       </form>
