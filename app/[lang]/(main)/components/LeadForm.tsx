@@ -15,7 +15,7 @@ import {
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
-import { PillField, SelectField, TextField, type Option } from "./formFields";
+import { SelectField, TextField, type Option } from "./formFields";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -123,10 +123,6 @@ export default function LeadForm({
           </label>
         </div>
 
-        {/* Salutation and state stay dropdowns: eight titles and eleven states
-            laid out as pills would dwarf the fields that actually qualify a
-            lead. The four short lists below are pills instead — every option
-            visible, no picker wheel to scroll on a phone. */}
         <SelectField
           label={t.salutation}
           name="salutation"
@@ -163,30 +159,33 @@ export default function LeadForm({
           placeholder={t.statePlaceholder}
           options={options(states, labels.states)}
         />
-        <PillField
+        <SelectField
           label={t.bill}
           name="monthly_bill_range"
+          placeholder={t.billPlaceholder}
           options={options(billRanges, labels.billRanges)}
         />
-        <PillField
+        <SelectField
           label={t.propertyType}
           name="property_type"
+          placeholder={t.propertyTypePlaceholder}
           options={options(propertyTypes, labels.propertyTypes)}
         />
-        <PillField
+        <SelectField
           label={t.supply}
           name="electric_supply"
+          placeholder={t.supplyPlaceholder}
           options={options(electricSupply, labels.supply)}
         />
-        <PillField
+        <SelectField
           label={t.language}
           name="preferred_language"
+          placeholder={t.languagePlaceholder}
           options={options(languages, labels.languages)}
         />
 
-        {/* CMS-defined extras. Kept as dropdowns because marketing can add a
-            list of any length here, and an unbounded pill grid would take over
-            the form. Values are authored in one language, so no label map. */}
+        {/* CMS-defined extras. Values are authored in one language, so no
+            label map — the value doubles as its own label. */}
         {customFields?.map((f) => (
           <SelectField
             key={f.key}

@@ -67,7 +67,7 @@ export function TextField({
 export type Option = { value: string; label: string };
 
 /**
- * A labelled dropdown. Used where the list is too long to lay out as pills.
+ * A labelled dropdown.
  *
  * `clearable` leaves the empty option selectable, so an optional field can be
  * set back to nothing after a value has been picked; otherwise the placeholder
@@ -100,42 +100,5 @@ export function SelectField({
         ))}
       </select>
     </label>
-  );
-}
-
-/**
- * Tap-to-choose alternative to a dropdown, for lists short enough to show at
- * once: no picker wheel to scroll, every choice visible, each one a 48px
- * target, and the chosen one obvious at a glance.
- *
- * Real radio inputs underneath, so keyboard and screen-reader behaviour comes
- * for free and the submitted value is byte-identical to what the <select>
- * posted — the server's allowlist validation needs no change. A fieldset rather
- * than a wrapping <label>, because a group of controls needs a legend.
- */
-export function PillField({
-  label,
-  name,
-  options,
-}: {
-  label: string;
-  name: string;
-  options: Option[];
-}) {
-  return (
-    <fieldset className="flex flex-col gap-1.5">
-      <legend className={`${LABEL} mb-1.5`}>{label}</legend>
-      <div className="flex flex-wrap gap-2">
-        {options.map((o) => (
-          <label
-            key={o.value}
-            className="inline-flex min-h-12 cursor-pointer items-center rounded-xl border-2 border-base-field bg-base-panel px-4 text-base font-medium text-base-ink transition has-[:checked]:border-brand-green has-[:checked]:bg-brand-green-tint has-[:checked]:font-semibold has-[:checked]:text-brand-green-ink has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand-green/25"
-          >
-            <input type="radio" name={name} value={o.value} className="sr-only" />
-            {o.label}
-          </label>
-        ))}
-      </div>
-    </fieldset>
   );
 }
