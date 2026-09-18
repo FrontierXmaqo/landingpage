@@ -202,26 +202,38 @@ export const BESS = {
     {
       icon: "peak" as const,
       title: "Peak shaving, automatic",
-      body:
-        "The system reads your load in real time and discharges the moment demand climbs toward your ceiling. Nothing changes on the production floor and nobody has to watch a screen.",
+      bullets: [
+        "Reads your load in real time",
+        "Discharges the moment demand climbs toward your ceiling",
+        "Nothing changes on the production floor — nobody watches a screen",
+      ],
     },
     {
       icon: "battery" as const,
       title: "Charges from solar or off-peak grid",
-      body:
-        "Store the midday generation you are currently exporting, or charge from the grid while the tariff is at its lowest. The battery works with an existing rooftop system or on its own.",
+      bullets: [
+        "Stores the midday solar generation you're currently exporting",
+        "Or charges from the grid while the tariff is at its lowest",
+        "Works with an existing rooftop system, or on its own",
+      ],
     },
     {
       icon: "wallet" as const,
       title: "CAPEX or zero-capex",
-      body:
-        "Buy the system outright, or take it under a savings-sharing agreement where MAQO funds and owns the asset and you pay only out of what it saves you.",
+      bullets: [
+        "Buy the system outright",
+        "Or take it under a savings-sharing agreement",
+        "MAQO funds and owns the asset — you pay only out of what it saves you",
+      ],
     },
     {
       icon: "gear" as const,
       title: "Metered, so the saving is visible",
-      body:
-        "The Xfiniti energy management system meters solar, battery and grid together, so each month you can see exactly what the battery shaved off your bill.",
+      bullets: [
+        "Xfiniti energy management system meters solar, battery and grid together",
+        "See exactly what the battery shaved off your bill",
+        "Reported every month",
+      ],
     },
   ],
   cta: "Learn more about BESS",

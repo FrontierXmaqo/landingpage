@@ -254,11 +254,66 @@ export function IconPeakShave({ className }: { className?: string }) {
   );
 }
 
+/**
+ * Animated counterparts of the four BESS glyphs above. Kept separate from
+ * IconBattery/IconWallet/IconGear rather than animating those directly,
+ * because IconWallet and IconGear are also reused by PILLAR_ICONS — those
+ * pillar cards should stay static.
+ */
+
+/** Battery with its charge bolt pulsing, as if it were actively cycling. */
+export function IconBatteryAnimated({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <rect x="6" y="5" width="20" height="22" rx="3" />
+      <path d="M13 3h6" />
+      <path d="M11 21h10" />
+      <path d="M17 9l-5 7h4l-1 5 5-7h-4z" className="bess-icon-battery-bolt" />
+    </Frame>
+  );
+}
+
+/** Peak-shave chart with the dashed ceiling line flowing left to right. */
+export function IconPeakShaveAnimated({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="M4 27V6" />
+      <path d="M4 27h24" />
+      <path d="M6 22l4-2 3-9 4 12 3-6 4 3 3-1" />
+      <path d="M8 12h18" strokeDasharray="3 3" className="bess-icon-peak-dash" />
+    </Frame>
+  );
+}
+
+/** Wallet with a coin dropping into the slot on a loop. */
+export function IconWalletAnimated({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <path d="M4 9a3 3 0 0 1 3-3h17v5" />
+      <rect x="4" y="9" width="24" height="18" rx="3" />
+      <path d="M28 16h-5a3 3 0 0 0 0 6h5" />
+      <circle cx="23" cy="13" r="1.8" fill="currentColor" stroke="none" className="bess-icon-wallet-coin" />
+    </Frame>
+  );
+}
+
+/** Gear, rotating slowly and continuously. */
+export function IconGearAnimated({ className }: { className?: string }) {
+  return (
+    <Frame className={className}>
+      <g className="bess-icon-gear-spin">
+        <circle cx="16" cy="16" r="4.2" />
+        <path d="M26 16a10 10 0 0 0-.14-1.66l2.6-1.9-2.5-4.33-3 1.17a10 10 0 0 0-2.88-1.67L19.6 4.3h-5l-.48 3.31a10 10 0 0 0-2.88 1.67l-3-1.17-2.5 4.33 2.6 1.9a10.1 10.1 0 0 0 0 3.32l-2.6 1.9 2.5 4.33 3-1.17a10 10 0 0 0 2.88 1.67l.48 3.31h5l.48-3.31a10 10 0 0 0 2.88-1.67l3 1.17 2.5-4.33-2.6-1.9c.09-.54.14-1.1.14-1.66Z" />
+      </g>
+    </Frame>
+  );
+}
+
 export const BESS_ICONS = {
-  battery: IconBattery,
-  peak: IconPeakShave,
-  wallet: IconWallet,
-  gear: IconGear,
+  battery: IconBatteryAnimated,
+  peak: IconPeakShaveAnimated,
+  wallet: IconWalletAnimated,
+  gear: IconGearAnimated,
 } as const;
 
 export const PILLAR_ICONS = {

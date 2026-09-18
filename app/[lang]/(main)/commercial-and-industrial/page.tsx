@@ -198,7 +198,14 @@ export default async function CommercialAndIndustrialPage({
                             <Icon />
                           </span>
                           <h3 className="mt-4 text-base font-bold text-base-ink">{point.title}</h3>
-                          <p className="mt-2 text-sm leading-relaxed text-base-slate">{point.body}</p>
+                          <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-base-slate">
+                            {point.bullets.map((bullet) => (
+                              <li key={bullet} className="flex gap-2">
+                                <span className="mt-2 h-1 w-1 flex-none rounded-full bg-brand-green-deep" aria-hidden="true" />
+                                <span>{bullet}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </ScrollReveal>
                     </li>

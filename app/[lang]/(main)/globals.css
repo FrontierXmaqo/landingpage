@@ -273,6 +273,40 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
     );
 }
 
+/* ---- BESS point icons ---------------------------------------------------
+   Subtle, continuous loops on the four BESS "how it works" glyphs only —
+   scoped to *Animated icon variants in icons.tsx so the shared
+   IconWallet/IconGear used elsewhere (the pillar grid) stay static. */
+@keyframes bess-icon-spin { to { transform: rotate(360deg); } }
+.bess-icon-gear-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bess-icon-spin 9s linear infinite;
+}
+
+@keyframes bess-icon-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.bess-icon-battery-bolt { animation: bess-icon-pulse 1.8s ease-in-out infinite; }
+
+@keyframes bess-icon-flow { to { stroke-dashoffset: -12; } }
+.bess-icon-peak-dash { animation: bess-icon-flow 1.4s linear infinite; }
+
+@keyframes bess-icon-coin-drop {
+  0% { transform: translateY(-6px); opacity: 0; }
+  35% { opacity: 1; }
+  70% { transform: translateY(3px); opacity: 1; }
+  100% { transform: translateY(3px); opacity: 0; }
+}
+.bess-icon-wallet-coin { animation: bess-icon-coin-drop 2.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bess-icon-gear-spin,
+  .bess-icon-battery-bolt,
+  .bess-icon-peak-dash,
+  .bess-icon-wallet-coin {
+    animation: none;
+  }
+}
+
 /* ---- C&I hero backdrop -------------------------------------------------
    Blue counterpart to the EV hero: a vertical wash, a 64px rule grid masked
    to the top-left so it dissolves before it reaches the enquiry form, and two
