@@ -755,7 +755,7 @@ const en = {
       "Battery storage that quietly charges up when power is cheap and kicks in right at your peak — so your Maximum Demand charges drop without changing a single thing about how your business runs.",
     heroCtaPrimary: "Get a BESS Quote",
     heroCtaSecondary: "Talk to Our BESS Team",
-    heroTrust: ["ST Class A", "CIDB G7", "SEDA Registered", "Zero CAPEX Available"],
+    heroTrust: ["EC Class A", "CIDB G7", "SEDA Certified", "Zero CAPEX Available"],
 
     problemTag: "The Problem",
     problemTitle: "Maximum Demand charges are climbing fast",

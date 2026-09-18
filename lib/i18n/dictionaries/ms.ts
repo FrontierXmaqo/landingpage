@@ -747,7 +747,7 @@ const ms: Dictionary = {
       "Simpanan bateri yang mengecas semasa tenaga murah dan terus bertindak semasa waktu puncak anda — secara senyap mengurangkan caj Permintaan Maksimum tanpa mengubah cara perniagaan anda beroperasi.",
     heroCtaPrimary: "Dapatkan Sebut Harga BESS",
     heroCtaSecondary: "Hubungi Pasukan BESS Kami",
-    heroTrust: ["ST Class A", "CIDB G7", "Berdaftar SEDA", "Sifar CAPEX Tersedia"],
+    heroTrust: ["EC Class A", "CIDB G7", "Disahkan SEDA", "Sifar CAPEX Tersedia"],
 
     problemTag: "Masalahnya",
     problemTitle: "Caj Permintaan Maksimum semakin meningkat",

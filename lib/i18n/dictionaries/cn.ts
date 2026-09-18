@@ -746,7 +746,7 @@ const cn: Dictionary = {
       "电池储能系统会在电力便宜时静静充电，在您用电高峰时立即启动——让您的最高需量（MD）收费不知不觉降下来，完全不必改变营运方式。",
     heroCtaPrimary: "索取 BESS 报价",
     heroCtaSecondary: "联络我们的 BESS 团队",
-    heroTrust: ["ST Class A", "CIDB G7", "SEDA 注册", "可申请零资本支出"],
+    heroTrust: ["EC Class A", "CIDB G7", "SEDA 认证", "可申请零资本支出"],
 
     problemTag: "问题所在",
     problemTitle: "最高需量收费正快速攀升",
