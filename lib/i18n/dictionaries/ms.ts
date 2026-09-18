@@ -741,10 +741,10 @@ const ms: Dictionary = {
 
   bess: {
     eyebrow: "Sistem Simpanan Tenaga Bateri",
-    heroTitleLead: "Kurangkan Caj Permintaan Maksimum",
-    heroTitleAccent: "Dengan BESS",
+    heroTitleLead: "Bosan Dengan Caj Permintaan Maksimum Yang Tinggi?",
+    heroTitleAccent: "BESS Penyelesaiannya",
     heroBody:
-      "Simpanan bateri Sifar-CAPEX yang mengecas semasa tenaga murah dan menyahcas semasa waktu puncak anda — mengurangkan caj Permintaan Maksimum tanpa mengubah cara perniagaan anda beroperasi.",
+      "Simpanan bateri yang mengecas semasa tenaga murah dan terus bertindak semasa waktu puncak anda — secara senyap mengurangkan caj Permintaan Maksimum tanpa mengubah cara perniagaan anda beroperasi.",
     heroCtaPrimary: "Dapatkan Sebut Harga BESS",
     heroCtaSecondary: "Hubungi Pasukan BESS Kami",
     heroTrust: ["ST Class A", "CIDB G7", "Berdaftar SEDA", "Sifar CAPEX Tersedia"],

@@ -740,10 +740,10 @@ const cn: Dictionary = {
 
   bess: {
     eyebrow: "电池储能系统",
-    heroTitleLead: "降低高额最高需量收费",
-    heroTitleAccent: "选择 BESS",
+    heroTitleLead: "还在为高额最高需量收费烦恼吗？",
+    heroTitleAccent: "BESS 就是解方",
     heroBody:
-      "零资本支出（Zero-CAPEX）电池储能系统，在电力便宜时充电，在您的用电高峰时放电——在不改变营运方式的情况下，降低最高需量（MD）收费。",
+      "电池储能系统会在电力便宜时静静充电，在您用电高峰时立即启动——让您的最高需量（MD）收费不知不觉降下来，完全不必改变营运方式。",
     heroCtaPrimary: "索取 BESS 报价",
     heroCtaSecondary: "联络我们的 BESS 团队",
     heroTrust: ["ST Class A", "CIDB G7", "SEDA 注册", "可申请零资本支出"],

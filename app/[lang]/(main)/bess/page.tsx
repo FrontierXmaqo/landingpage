@@ -7,6 +7,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
+import BessHeroVisual from "./BessHeroVisual";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
@@ -74,51 +75,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            {/* Battery visual stands in for a lead form/photo: a charge level
-                that's mostly full, with the top cell pulsing to suggest it's
-                actively topping up. */}
-            <div className="relative rounded-2xl border border-base-line bg-base-panel p-8 shadow-xl">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-base-line bg-base-bg px-3 py-1.5 text-xs font-bold text-base-slate">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-green-ink">
-                    <circle cx="12" cy="12" r="5" />
-                    <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                  </svg>
-                  Solar
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-base-line bg-base-bg px-3 py-1.5 text-xs font-bold text-base-slate">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" className="text-brand-green-ink">
-                    <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
-                  </svg>
-                  Grid
-                </span>
-              </div>
-
-              <div className="relative mx-auto mt-8 w-28">
-                <span aria-hidden className="absolute -top-3.5 left-1/2 h-2.5 w-11 -translate-x-1/2 rounded-t bg-base-ink" />
-                <div className="flex h-52 flex-col-reverse gap-1.5 rounded-2xl border-[3px] border-base-ink p-2">
-                  <div className="h-1/4 animate-pulse rounded-md bg-gradient-to-t from-brand-green to-brand-green-deep" />
-                  <div className="h-1/4 rounded-md bg-gradient-to-t from-brand-green to-brand-green-deep" />
-                  <div className="h-1/4 rounded-md bg-gradient-to-t from-brand-green to-brand-green-deep" />
-                  <div className="h-1/4 rounded-md bg-base-line" />
-                </div>
-                <svg
-                  viewBox="0 0 24 24"
-                  width="34"
-                  height="34"
-                  fill="currentColor"
-                  aria-hidden
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow"
-                >
-                  <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
-                </svg>
-              </div>
-
-              <p className="mt-6 text-center text-xs font-bold text-base-slate">Your Business</p>
-              <p className="mt-3 text-center text-sm leading-relaxed text-base-slate">
-                <span className="font-bold text-base-ink">Charges off-peak.</span> Discharges during your peak — automatically.
-              </p>
-            </div>
+            <BessHeroVisual />
           </div>
         </section>
 

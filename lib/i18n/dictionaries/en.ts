@@ -749,10 +749,10 @@ const en = {
 
   bess: {
     eyebrow: "Battery Energy Storage Systems",
-    heroTitleLead: "Reduce High Maximum Demand Charges",
-    heroTitleAccent: "With BESS",
+    heroTitleLead: "Tired of High Maximum Demand Charges?",
+    heroTitleAccent: "BESS Is Your Fix",
     heroBody:
-      "Zero-CAPEX battery storage that charges when power is cheap and discharges during your peak — cutting Maximum Demand charges without changing how your business runs.",
+      "Battery storage that quietly charges up when power is cheap and kicks in right at your peak — so your Maximum Demand charges drop without changing a single thing about how your business runs.",
     heroCtaPrimary: "Get a BESS Quote",
     heroCtaSecondary: "Talk to Our BESS Team",
     heroTrust: ["ST Class A", "CIDB G7", "SEDA Registered", "Zero CAPEX Available"],
