@@ -20,11 +20,11 @@ type Badge =
 const CIDB: Badge = {
   src: "/logos/credentials/cidb-g7.png",
   alt: "CIDB Malaysia Grade G7 certification",
-  caption: "Highest construction grade",
+  caption: "CIDB G7",
 };
 const ISO: Badge = {
-  src: "/logos/credentials/iso-9001.webp",
-  alt: "ISO 9001:2015 certified company",
+  src: "/logos/credentials/cpg-iso-9001.png",
+  alt: "Certification Partner Global ISO 9001:2015 certified company",
   caption: "Quality management certified",
 };
 const SEDA: Badge = {
@@ -35,7 +35,7 @@ const SEDA: Badge = {
 const ST_CLASS_A: Badge = {
   mark: "Class A",
   issuer: "Suruhanjaya Tenaga",
-  caption: "Highest electrical grade",
+  caption: "EC Class A",
 };
 
 /** The C&I audience buys on the electrical licence, so that page leads with it. */
