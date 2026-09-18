@@ -54,9 +54,9 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
       </header>
 
       <main id="top">
-        <section className="form-section" style={{ paddingTop: "96px", paddingBottom: "96px" }}>
+        <section style={{ background: "var(--sand)", paddingTop: "96px", paddingBottom: "96px" }}>
           <div className="wrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-            <span className="eyebrow light">
+            <span className="eyebrow">
               <i />
               {t.thankYou.eyebrow}
             </span>
