@@ -783,12 +783,12 @@ const ms: Dictionary = {
     dischargeBody: "Apabila beban anda meningkat ke arah puncak Permintaan Maksimum baharu, bateri menyahcas secara automatik untuk meratakannya.",
 
     flowTag: "Cara BESS Berfungsi",
-    flowTitle: "Daripada solar dan grid, kepada bil yang lebih rata",
+    flowTitle: "Daripada solar dan grid, kepada bil yang lebih murah",
     flowSteps: [
-      { title: "Solar / Grid", body: "Tenaga mengalir masuk daripada solar bumbung anda dan grid semasa waktu permintaan rendah." },
-      { title: "Simpanan Bateri", body: "BESS menyimpannya di tapak, disaiz mengikut profil beban sebenar anda." },
+      { title: "Solar / Grid", body: "Tenaga mengalir masuk daripada solar bumbung anda dan grid semasa waktu luar puncak." },
+      { title: "Simpanan Bateri", body: "BESS anda menyimpan tenaga itu di tapak, sedia digunakan bila-bila masa." },
       { title: "Pengurusan Tenaga Pintar", body: "Perisian menentukan bila untuk mengecas, menahan, atau menyahcas — tanpa suis manual." },
-      { title: "Beban Perniagaan", body: "Kuasa tersimpan menampung waktu puncak anda, mengekalkan Permintaan Maksimum anda rata." },
+      { title: "Beban Perniagaan", body: "Kuasa tersimpan menampung waktu puncak anda, menurunkan Permintaan Maksimum anda." },
     ],
 
     benefitsTag: "Faedah Utama",
@@ -815,7 +815,7 @@ const ms: Dictionary = {
     modelTag: "Model Perniagaan",
     modelTitle: "Dua cara untuk membiayai BESS anda",
     modelZeroKicker: "Tiada kos pendahuluan",
-    modelZeroTitle: "Sifar CAPEX (BESS-as-a-Service)",
+    modelZeroTitle: "Sifar CAPEX",
     modelZeroBody:
       "MAQO membiayai, mereka bentuk, memasang dan menguruskan keseluruhan sistem. Anda tidak membayar apa-apa pendahuluan dan terus menikmati penjimatan kos tenaga yang boleh diramal, tanpa kesulitan.",
     modelZeroPoints: ["Tiada perbelanjaan modal", "MAQO menanggung risiko operasi", "Penjimatan bermula dari bil pertama anda"],

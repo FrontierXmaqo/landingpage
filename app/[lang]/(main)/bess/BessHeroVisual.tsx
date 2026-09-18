@@ -79,7 +79,7 @@ export default function BessHeroVisual() {
   return (
     <div className="relative rounded-2xl border border-base-line bg-base-panel p-6 shadow-xl sm:p-7">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-sm font-bold text-base-ink">Three systems, one flatter bill</span>
+        <span className="text-sm font-bold text-base-ink">Three systems, one cheaper bill</span>
         <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-orange-tint px-2.5 py-1">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-orange-ink" />
           <span className="text-[10px] font-bold uppercase tracking-wide text-brand-orange-ink">Live flow</span>

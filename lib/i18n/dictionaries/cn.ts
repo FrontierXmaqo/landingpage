@@ -782,12 +782,12 @@ const cn: Dictionary = {
     dischargeBody: "当您的用电量趋向新的最高需量高峰时，电池会自动放电以削平高峰。",
 
     flowTag: "BESS 运作原理",
-    flowTitle: "从太阳能与电网，到更平稳的账单",
+    flowTitle: "从太阳能与电网，到更便宜的账单",
     flowSteps: [
-      { title: "太阳能／电网", body: "在用电需求较低的时段，电力从屋顶太阳能与电网流入系统。" },
-      { title: "电池储能", body: "BESS 就地储存电力，容量依您实际的用电模式设计。" },
+      { title: "太阳能／电网", body: "在离峰时段，电力从屋顶太阳能与电网流入系统。" },
+      { title: "电池储能", body: "BESS 会把这些电力就地储存起来，随时可用。" },
       { title: "智能能源管理", body: "软件自动判断何时充电、保持或放电——无需人手切换。" },
-      { title: "企业用电负载", body: "储存的电力用于应付高峰用电，让您的最高需量保持平稳。" },
+      { title: "企业用电负载", body: "储存的电力用于应付高峰用电，降低您的最高需量。" },
     ],
 
     benefitsTag: "主要优势",
@@ -814,7 +814,7 @@ const cn: Dictionary = {
     modelTag: "商业模式",
     modelTitle: "两种为 BESS 融资的方式",
     modelZeroKicker: "无需预付资金",
-    modelZeroTitle: "零资本支出（BESS 即服务）",
+    modelZeroTitle: "零资本支出",
     modelZeroBody:
       "MAQO 负责整套系统的融资、设计、安装与管理。您无需支付任何预付款项，即可享有可预期的能源成本节省，完全无需操心。",
     modelZeroPoints: ["无需资本支出", "MAQO 承担运营风险", "从第一期账单起即可节省"],

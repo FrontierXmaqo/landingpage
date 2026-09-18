@@ -791,12 +791,12 @@ const en = {
     dischargeBody: "When your load climbs toward a new Maximum Demand peak, the battery discharges automatically to flatten it.",
 
     flowTag: "How BESS Works",
-    flowTitle: "From solar and grid, to a flatter bill",
+    flowTitle: "From solar and grid, to a cheaper bill",
     flowSteps: [
-      { title: "Solar / Grid", body: "Energy flows in from your rooftop solar and the grid during low-demand hours." },
-      { title: "Battery Storage", body: "The BESS stores it on-site, sized to your actual load profile." },
+      { title: "Solar / Grid", body: "Energy flows in from your rooftop solar and the grid during off-peak hours." },
+      { title: "Battery Storage", body: "Your BESS stores that energy on-site, ready to use whenever you need it." },
       { title: "Smart Energy Management", body: "Software decides when to charge, hold, or discharge — no manual switching." },
-      { title: "Business Load", body: "Stored power covers your peak, keeping your Maximum Demand flat." },
+      { title: "Business Load", body: "Stored power covers your peak, lowering your Maximum Demand." },
     ],
 
     benefitsTag: "Key Benefits",
@@ -823,7 +823,7 @@ const en = {
     modelTag: "Business Model",
     modelTitle: "Two ways to fund your BESS",
     modelZeroKicker: "Zero upfront cost",
-    modelZeroTitle: "Zero CAPEX (BESS-as-a-Service)",
+    modelZeroTitle: "Zero CAPEX",
     modelZeroBody:
       "MAQO finances, designs, installs and manages the entire system. You pay nothing upfront and keep predictable energy cost savings, with zero hassle.",
     modelZeroPoints: ["No capital outlay", "MAQO owns operating risk", "Savings from your first bill"],
