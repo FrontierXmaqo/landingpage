@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
+import ThankYouTracking from "@/app/[lang]/(main)/components/ThankYouTracking";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
@@ -33,6 +34,7 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
 
   return (
     <>
+      <ThankYouTracking id="ev" />
       <header className="topbar">
         <div className="wrap topbar-inner">
           <Link href={localePath(locale, "/")} className="topbar-logo" aria-label={dict.header.logoAlt}>

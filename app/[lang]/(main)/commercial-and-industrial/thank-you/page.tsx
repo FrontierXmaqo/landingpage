@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ThankYouTracking from "../../components/ThankYouTracking";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({
@@ -25,6 +26,7 @@ export default async function CiThankYouPage({
 
   return (
     <div data-theme="ci" className="contents">
+      <ThankYouTracking id="ci" />
       <Header locale={lang} t={dict} ctaHref={localePath(lang, "/commercial-and-industrial#assessment")} />
       <main className="flex flex-1 items-center justify-center bg-base-bg px-4 py-20 sm:py-28">
         <div className="mx-auto flex max-w-xl flex-col items-center text-center">
