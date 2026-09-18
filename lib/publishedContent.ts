@@ -226,18 +226,16 @@ export async function getPublishedBrandLogos(): Promise<PublishedBrandLogo[]> {
   }
 }
 
-export type PublishedAchievement = { title: string; description: string };
+export type PublishedAchievement = { value: string; label: string };
 
-/** Fetches the homepage's published "Why MAQO" achievements, falling back to
+/** Fetches the homepage's published achievement figures, falling back to
  *  whatever `fallback` the caller passes (the dictionary's hardcoded items)
- *  if Supabase is unreachable or the table is empty. The table's own columns
- *  stay `value`/`label` (unchanged, no migration) — this is just the nicer
- *  name the rest of the app reads them by. */
+ *  if Supabase is unreachable or the table is empty. */
 export async function getPublishedAchievements(fallback: PublishedAchievement[]): Promise<PublishedAchievement[]> {
   try {
     const supabase = getAnonClient();
     const { data } = await supabase.from("home_achievements").select("value, label").eq("status", "published").order("sort_order");
-    const items = (data ?? []).map((r) => ({ title: String(r.value), description: String(r.label) }));
+    const items = (data ?? []).map((r) => ({ value: String(r.value), label: String(r.label) }));
     return items.length ? items : fallback;
   } catch {
     return fallback;

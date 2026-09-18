@@ -31,8 +31,8 @@ export default async function AchievementsPage() {
         <div>
           <h1 className="text-2xl font-bold text-base-ink">Achievements</h1>
           <p className="mt-1 text-sm text-base-slate">
-            The &ldquo;Why MAQO?&rdquo; credentials band on the homepage — a title and a one-line description per card.
-            Edits save as a draft — publish when you want the public page to show them.
+            The stat band on the homepage (&ldquo;1,000+ Residential Solar Projects Done&rdquo; and the figures next to
+            it). Edits save as a draft — publish when you want the public page to show them.
           </p>
         </div>
         {published?.published_at && (

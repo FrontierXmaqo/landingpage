@@ -193,14 +193,10 @@ const en = {
 
   achievements: {
     eyebrow: "Our achievements",
-    title: "Why MAQO?",
     items: [
-      { title: "SME100 Award Winner", description: "We deliver trusted energy solutions with proven expertise and excellence." },
-      { title: "EC Class A | CIDB G7", description: "The highest grade electrical and construction licences issued in Malaysia" },
-      { title: "ISO 9001:2015 certified", description: "Quality management built into every stage of delivery" },
-      { title: "SEDA Certified", description: "SEDA RPVSP & RPVI Certified GCPV Designer, Certified GCPV Wireman & Chargeman" },
-      { title: "1,000+ customers", description: "260+ MWp installed across Malaysia and Philippines" },
-      { title: "Turn-Key Solution", description: "Load study, design, installation, commissioning, O&M and monitoring" },
+      { value: "1000+", label: "Residential Solar Projects Done" },
+      { value: "500+", label: "Commercial & Industrial Clients Served" },
+      { value: "13+", label: "Years of Industry Experience" },
     ],
   },
 

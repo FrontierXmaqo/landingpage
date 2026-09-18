@@ -187,14 +187,10 @@ const cn: Dictionary = {
 
   achievements: {
     eyebrow: "我们的成就",
-    title: "为什么选择 MAQO？",
     items: [
-      { title: "SME100 大奖得主", description: "凭借专业实力与卓越表现，为您提供值得信赖的能源解决方案。" },
-      { title: "EC A 级 | CIDB G7", description: "马来西亚颁发的最高级别电气与建筑执照" },
-      { title: "ISO 9001:2015 认证", description: "品质管理贯穿每一个交付环节" },
-      { title: "SEDA 认证", description: "SEDA RPVSP 与 RPVI 认证光伏系统设计师，持有 GCPV 电工与电气技师资格" },
-      { title: "1,000+ 位客户", description: "已在马来西亚与菲律宾安装超过 260+ MWp" },
-      { title: "一站式解决方案", description: "涵盖负载评估、设计、安装、调试、运维与监控" },
+      { value: "1000+", label: "已完成住宅太阳能项目" },
+      { value: "500+", label: "服务过的工商业客户" },
+      { value: "13+", label: "年行业经验" },
     ],
   },
 

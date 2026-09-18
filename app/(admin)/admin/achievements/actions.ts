@@ -27,8 +27,8 @@ export async function addAchievement() {
   await supabase.from("home_achievements").insert({
     status: "draft",
     sort_order: count ?? 0,
-    value: "New title",
-    label: "One-line description of this achievement",
+    value: "0+",
+    label: "New achievement",
     updated_by: profile.id,
   });
   revalidatePath("/admin/achievements");
@@ -37,7 +37,7 @@ export async function addAchievement() {
 export async function updateAchievement(id: string, field: string, value: string) {
   const profile = await requireRole([...ROLES]);
   const column = oneOf(field, ["value", "label"] as const, "field");
-  const clean = text(value, { max: column === "label" ? 220 : 80, required: true, field: column });
+  const clean = text(value, { max: 60, required: true, field: column });
   const supabase = await getSupabaseUserClient();
   await supabase
     .from("home_achievements")
