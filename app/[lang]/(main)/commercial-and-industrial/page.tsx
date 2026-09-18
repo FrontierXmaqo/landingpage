@@ -91,6 +91,7 @@ export default async function CommercialAndIndustrialPage({
               </span>
               <h1 className="mt-4 text-4xl font-bold leading-tight text-base-ink sm:text-5xl">
                 {HERO.title}
+                <span className="ci-hero-hl">{HERO.titleAccent}</span>
               </h1>
               <p className="mt-4 max-w-xl text-base text-base-slate sm:text-lg">{HERO.body}</p>
 

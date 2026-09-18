@@ -15,7 +15,9 @@ export const CI_META = {
 
 export const HERO = {
   eyebrow: "Commercial & Industrial Solar Solutions",
-  title: "Cut Your Company's Electric Bill & Save Up to 70%",
+  /** Split so the hero can paint a highlight band behind the figure. */
+  title: "Cut Your Company's Electric Bill & Save Up to ",
+  titleAccent: "70%",
   body:
     "Beat rising tariffs and lock in low energy costs for the next 25 years with customized solar PV solutions.",
   valueProps: [
@@ -201,7 +203,7 @@ export const BESS = {
   points: [
     {
       icon: "peak" as const,
-      title: "Peak shaving, automatic",
+      title: "AI dynamic peak shaving",
       bullets: [
         "Reads your load in real time",
         "Discharges the moment demand climbs toward your ceiling",
@@ -230,7 +232,7 @@ export const BESS = {
       icon: "gear" as const,
       title: "Metered, so the saving is visible",
       bullets: [
-        "Xfiniti energy management system meters solar, battery and grid together",
+        "Metering ties the battery to your existing rooftop solar system and the grid",
         "See exactly what the battery shaved off your bill",
         "Reported every month",
       ],
@@ -238,7 +240,7 @@ export const BESS = {
   ],
   cta: "Learn more about BESS",
   foot:
-    "Supplied through Xfiniti Energy, MAQO's storage and energy-management arm, and commissioned by the same in-house licensed wiremen and chargemen who build our solar.",
+    "Supplied and commissioned by the same in-house licensed wiremen and chargemen who build our solar, and designed to sit alongside your existing rooftop solar system.",
 };
 
 export const CREDENTIAL_LINE = [
