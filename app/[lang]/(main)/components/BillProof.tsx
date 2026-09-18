@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import SectionTag from "./SectionTag";
 import { fill, type Dictionary } from "@/lib/i18n";
@@ -51,6 +51,94 @@ function money(m: Month) {
 // Narrow screens cannot fit six "RM522.20" labels across, so they get the rounded ringgit.
 function moneyShort(m: Month) {
   return Math.round(m.v).toLocaleString("en-MY");
+}
+
+/**
+ * The falling-bill bars, raised the first time the chart scrolls into view.
+ *
+ * A plain CSS animation would run at mount, which on this page means the bars
+ * have finished rising long before anyone has scrolled down to them — so the
+ * effect was never actually seen. An observer is used rather than
+ * `animation-timeline: view()` because Safari, and every iOS browser with it,
+ * does not support scroll-driven timelines.
+ *
+ * Bars render at full height until the animation is armed, so a visitor whose
+ * JS never runs sees a complete chart rather than an empty one. The parent
+ * re-keys this component per case, which re-arms it when tabs are switched.
+ */
+function BillChart({
+  months,
+  peak,
+  monthLabel,
+}: {
+  months: Month[];
+  peak: Month;
+  monthLabel: (m: Month) => string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [risen, setRisen] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (node === null) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        setRisen(true);
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="mt-8">
+      <div className="flex h-56 items-end gap-2 sm:gap-4">
+        {months.map((m, i) => {
+          const isLow = m.v <= peak.v * 0.5;
+          return (
+            <div
+              key={m.m}
+              className="flex h-full flex-1 flex-col items-center justify-end"
+            >
+              <span
+                className={`mb-2 whitespace-nowrap text-[10px] font-bold sm:text-xs ${
+                  isLow ? "text-brand-green-ink" : "text-base-slate"
+                }`}
+              >
+                <span className="sm:hidden">{moneyShort(m)}</span>
+                <span className="hidden sm:inline">{money(m)}</span>
+              </span>
+              {/* One data series, so one chart token. The low months are the same
+                  colour at full strength rather than a second hue, and every bar
+                  already carries its ringgit value and month as a label. */}
+              <div
+                className={`w-full max-w-[44px] rounded-full bg-chart-1 ${
+                  risen ? "animate-bar-rise" : ""
+                } ${isLow ? "" : "opacity-30"}`}
+                style={{
+                  height: `${(m.v / peak.v) * 80}%`,
+                  animationDelay: risen ? `${i * 90}ms` : undefined,
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 flex gap-2 border-t border-base-line pt-3 sm:gap-4">
+        {months.map((m) => (
+          <span
+            key={m.m}
+            className="flex-1 text-center text-xs font-medium text-base-slate"
+          >
+            {monthLabel(m)}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function BillProof({ t, space }: { t: Dictionary["billProof"]; space: string }) {
@@ -184,50 +272,7 @@ export default function BillProof({ t, space }: { t: Dictionary["billProof"]; sp
               </figcaption>
             </figure>
           ) : (
-            <div key={c.id} className="mt-8">
-              <div className="flex h-56 items-end gap-2 sm:gap-4">
-                {c.months.map((m, i) => {
-                  const isLow = m.v <= peak.v * 0.5;
-                  return (
-                    <div
-                      key={m.m}
-                      className="flex h-full flex-1 flex-col items-center justify-end"
-                    >
-                      <span
-                        className={`mb-2 whitespace-nowrap text-[10px] font-bold sm:text-xs ${
-                          isLow ? "text-brand-green-ink" : "text-base-slate"
-                        }`}
-                      >
-                        <span className="sm:hidden">{moneyShort(m)}</span>
-                        <span className="hidden sm:inline">{money(m)}</span>
-                      </span>
-                      {/* One data series, so one chart token. The low months are the same
-                          colour at full strength rather than a second hue, and every bar
-                          already carries its ringgit value and month as a label. */}
-                      <div
-                        className={`animate-bar-rise w-full max-w-[44px] rounded-full bg-chart-1 ${
-                          isLow ? "" : "opacity-30"
-                        }`}
-                        style={{
-                          height: `${(m.v / peak.v) * 80}%`,
-                          animationDelay: `${i * 90}ms`,
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mt-3 flex gap-2 border-t border-base-line pt-3 sm:gap-4">
-                {c.months.map((m) => (
-                  <span
-                    key={m.m}
-                    className="flex-1 text-center text-xs font-medium text-base-slate"
-                  >
-                    {monthLabel(m)}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <BillChart key={c.id} months={c.months} peak={peak} monthLabel={monthLabel} />
           )}
         </div>
 
