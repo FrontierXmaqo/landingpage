@@ -820,7 +820,7 @@ const en = {
       { title: "Energy Management", body: "One system that reads your load profile and makes the charge/discharge call in real time." },
       { title: "Solar Energy Optimisation", body: "Capture excess solar generation instead of exporting or curtailing it, and use every kWh on-site." },
       { title: "Backup / Energy Resilience", body: "Keep critical loads running through short grid interruptions." },
-      { title: "Real-Time Monitoring", body: "Track charge level, savings and system health from a web or mobile dashboard." },
+      { title: "Fully Integrated System", body: "Solar, battery and grid work as one — solar powers your site and charges the BESS, the BESS discharges to cut your peak, and the grid stays purely as backup and export credit." },
     ],
 
     solutionTag: "The MAQO BESS Solution",

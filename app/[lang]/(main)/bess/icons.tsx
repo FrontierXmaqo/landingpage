@@ -73,15 +73,17 @@ export function IconShieldBolt({ className }: { className?: string }) {
   );
 }
 
-/** Real-Time Monitoring: a dashboard screen with a live line chart. */
-export function IconMonitor({ className }: { className?: string }) {
+/** Fully Integrated System: a hub node wired to solar, grid and facility nodes. */
+export function IconIntegrate({ className }: { className?: string }) {
   return (
     <Frame className={className}>
-      <rect x="3" y="6" width="26" height="17" rx="2" />
-      <path d="M13 28h6M16 23v5" />
-      <path d="M7 18l4-5 3 3 5-7 4 4" />
+      <circle cx="16" cy="6" r="3" />
+      <circle cx="6" cy="24" r="3" />
+      <circle cx="26" cy="24" r="3" />
+      <circle cx="16" cy="16" r="3" />
+      <path d="M16 9v4M9.3 21.7l4-3.7M22.7 21.7l-4-3.7" />
     </Frame>
   );
 }
 
-export const BESS_BENEFIT_ICONS = [IconPeakShave, IconCost, IconSliders, IconSun, IconShieldBolt, IconMonitor] as const;
+export const BESS_BENEFIT_ICONS = [IconPeakShave, IconCost, IconSliders, IconSun, IconShieldBolt, IconIntegrate] as const;

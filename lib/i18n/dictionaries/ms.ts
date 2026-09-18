@@ -812,7 +812,7 @@ const ms: Dictionary = {
       { title: "Pengurusan Tenaga", body: "Satu sistem yang membaca profil beban anda dan membuat keputusan cas/nyahcas secara masa nyata." },
       { title: "Pengoptimuman Tenaga Solar", body: "Tangkap lebihan janaan solar dan bukannya mengeksport atau mengehadkannya, dan gunakan setiap kWh di tapak." },
       { title: "Sandaran / Daya Tahan Tenaga", body: "Kekalkan beban kritikal berjalan semasa gangguan grid yang singkat." },
-      { title: "Pemantauan Masa Nyata", body: "Jejak tahap cas, penjimatan dan kesihatan sistem daripada papan pemuka web atau mudah alih." },
+      { title: "Sistem Bersepadu Sepenuhnya", body: "Solar, bateri dan grid berfungsi sebagai satu — solar memberi kuasa kepada tapak anda dan mengecas BESS, BESS menyahcas untuk mengurangkan puncak anda, dan grid kekal semata-mata sebagai sandaran dan kredit eksport." },
     ],
 
     solutionTag: "Penyelesaian BESS MAQO",
