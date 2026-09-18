@@ -36,7 +36,6 @@ export const CLIENTS = [
   { name: "Tenaga Nasional" },
   { name: "KTH Paint" },
   { name: "PMB Technology" },
-  { name: "PVMS" },
   { name: "Everlas" },
   { name: "EAN Labels" },
   { name: "iKYellow" },
