@@ -811,7 +811,7 @@ const en = {
     ],
 
     solutionTag: "The MAQO BESS Solution",
-    solutionTitle: "One in-house team, start to finish",
+    solutionTitle: "A turn-key solution, start to finish",
     solutionBody: "The same team that assesses your site designs, builds, and keeps your BESS running for as long as you own it.",
     solutionStages: [
       { title: "Energy Analysis & Site Assessment", body: "We study your load profile and TNB bill to size a system that pays for itself." },

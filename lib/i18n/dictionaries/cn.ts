@@ -802,7 +802,7 @@ const cn: Dictionary = {
     ],
 
     solutionTag: "MAQO BESS 解决方案",
-    solutionTitle: "一支内部团队，从头到尾全程负责",
+    solutionTitle: "一站式解决方案，从头到尾全程负责",
     solutionBody: "评估您场地的团队，同时也是设计、建置，并在您使用系统期间持续维护 BESS 的团队。",
     solutionStages: [
       { title: "能源分析与场地评估", body: "我们研究您的用电模式与 TNB 账单，设计出能够回本的系统规格。" },

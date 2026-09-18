@@ -803,7 +803,7 @@ const ms: Dictionary = {
     ],
 
     solutionTag: "Penyelesaian BESS MAQO",
-    solutionTitle: "Satu pasukan dalaman, dari mula hingga selesai",
+    solutionTitle: "Penyelesaian sehenti, dari mula hingga selesai",
     solutionBody: "Pasukan yang sama yang menilai tapak anda mereka bentuk, membina, dan mengekalkan BESS anda berfungsi selagi anda memilikinya.",
     solutionStages: [
       { title: "Analisis Tenaga & Penilaian Tapak", body: "Kami mengkaji profil beban dan bil TNB anda untuk mensaiz sistem yang berbaloi." },
