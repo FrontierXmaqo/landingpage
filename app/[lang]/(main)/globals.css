@@ -43,6 +43,7 @@
   --color-status-warn: #7b5c00;
   --color-status-critical: #9f223a;
   --color-status-info: #145c99;
+  --color-status-info-tint: #dbeafe;
   --color-status-inactive: #848b85;
 
   --color-chart-1: #357a3a;
