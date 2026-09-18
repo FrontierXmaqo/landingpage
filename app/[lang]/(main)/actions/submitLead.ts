@@ -126,6 +126,8 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
   const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), languageOptions);
   const campaign_id = clean(formData.get("campaign_id"), 100);
+  const gclid = clean(formData.get("gclid"), 100);
+  const fbclid = clean(formData.get("fbclid"), 200);
   const landing_referrer = clean(formData.get("landing_referrer"), 500);
   const landing_page_source = clean(formData.get("landing_page_source"), 300);
   const charge_time = clean(formData.get("charge_time"), 80);
@@ -209,6 +211,8 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     preferredLanguage: preferred_language,
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,
+    gclid,
+    fbclid,
     sourcePage,
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,

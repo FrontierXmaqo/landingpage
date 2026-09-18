@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
@@ -13,7 +14,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import type { Dictionary, Locale } from "@/lib/i18n";
+import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -64,7 +65,10 @@ export default function LeadForm({
   const electricSupply = options?.electricSupply?.length ? options.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
   const languages = options?.languages?.length ? options.languages : COMMUNICATION_LANGUAGES;
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
+  const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
+  const gclidRef = useRef<HTMLInputElement>(null);
+  const fbclidRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
   const landingPageSourceRef = useRef<HTMLInputElement>(null);
 
@@ -72,25 +76,22 @@ export default function LeadForm({
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
     if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
+    if (gclidRef.current) gclidRef.current.value = params.get("gclid") || "";
+    if (fbclidRef.current) fbclidRef.current.value = params.get("fbclid") || "";
     if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
     // Hardcoded, not derived from location.pathname: this component is only ever
     // the main site's landing page, regardless of query strings on the URL.
     if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin;
   }, []);
 
+  useEffect(() => {
+    if (state.status === "success") {
+      router.push(localePath(locale, "/thank-you"));
+    }
+  }, [state.status, router, locale]);
+
   if (state.status === "success") {
-    return (
-      <div
-        id="assessment"
-        className="rounded-2xl border border-brand-green bg-brand-green-tint p-8 text-center shadow-sm"
-      >
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-green text-white">
-          ✓
-        </div>
-        <h2 className="text-lg font-semibold text-base-ink">{t.successTitle}</h2>
-        <p className="mt-2 text-sm text-base-slate">{state.message}</p>
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -109,6 +110,8 @@ export default function LeadForm({
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="locale" value={locale} />
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+        <input type="hidden" name="gclid" ref={gclidRef} />
+        <input type="hidden" name="fbclid" ref={fbclidRef} />
         <input type="hidden" name="landing_referrer" ref={referrerRef} />
         <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
         <div className="absolute left-[-9999px]" aria-hidden="true">

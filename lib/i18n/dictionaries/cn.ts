@@ -330,6 +330,14 @@ const cn: Dictionary = {
     generic: "提交评估时出现问题。请直接致电 603-8069 1706 联系我们。",
   },
 
+  thankYou: {
+    eyebrow: "已收到您的咨询",
+    title: "感谢您的咨询！",
+    body: "我们的能源顾问将在 1 个工作日内致电给您，安排免费屋顶评估。",
+    learnMore: "了解更多关于 MAQO",
+    backHome: "返回首页",
+  },
+
   about: {
     heroAlt: "夕阳下，MAQO Solar 在马来西亚住宅屋顶完成的太阳能安装",
     heroEyebrow: "关于 MAQO Solar",
@@ -580,6 +588,13 @@ const cn: Dictionary = {
       submitting: "发送中…",
       submit: "获取免费上门评估",
       legal: "提交即表示您同意 MAQO Engineering Sdn Bhd 就太阳能评估与您联系。绝无垃圾信息。",
+    },
+    thankYou: {
+      eyebrow: "已收到评估申请",
+      title: "您的电动车＋太阳能方案正在处理中。",
+      body: "我们的充电顾问将在 1 个工作日内致电给您，一并评估您的家用充电桩与太阳能配置。",
+      learnMore: "了解更多关于 MAQO",
+      backHome: "返回首页",
     },
     footer: {
       tagline: "住宅与工商业太阳能EPCC工程,持有ST A级与CIDB G7认证,自2013年起。",

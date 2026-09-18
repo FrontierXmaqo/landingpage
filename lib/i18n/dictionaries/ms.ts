@@ -331,6 +331,14 @@ const ms: Dictionary = {
     generic: "Berlaku masalah semasa menghantar penilaian anda. Sila hubungi kami di 603-8069 1706.",
   },
 
+  thankYou: {
+    eyebrow: "Pertanyaan Diterima",
+    title: "Terima kasih atas pertanyaan anda!",
+    body: "Salah seorang perunding tenaga kami akan menghubungi anda dalam 1 hari bekerja untuk mengatur penilaian bumbung percuma anda.",
+    learnMore: "Ketahui lebih lanjut tentang MAQO",
+    backHome: "Kembali ke laman utama",
+  },
+
   about: {
     heroAlt: "Pemasangan solar bumbung MAQO Solar di sebuah rumah di Malaysia ketika matahari terbenam",
     heroEyebrow: "Tentang MAQO Solar",
@@ -581,6 +589,13 @@ const ms: Dictionary = {
       submitting: "Menghantar…",
       submit: "Dapatkan Penilaian Rumah Percuma",
       legal: "Dengan menghantar, anda bersetuju untuk dihubungi oleh MAQO Engineering Sdn Bhd mengenai penilaian solar anda. Tiada spam.",
+    },
+    thankYou: {
+      eyebrow: "Penilaian Diminta",
+      title: "Pelan EV + solar anda sedang diproses.",
+      body: "Perunding pengecasan kami akan menghubungi anda dalam 1 hari bekerja untuk menyesuaikan pengecas rumah dan ofset solar anda bersama-sama.",
+      learnMore: "Ketahui lebih lanjut tentang MAQO",
+      backHome: "Kembali ke laman utama",
     },
     footer: {
       tagline: "EPCC solar kediaman & C&I, bertauliah ST Kelas A & CIDB G7, sejak 2013.",

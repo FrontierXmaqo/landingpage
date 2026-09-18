@@ -1,14 +1,14 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import type { LeadFormOptionLists } from "../components/LeadForm";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import { SALUTATIONS, MALAYSIAN_STATES } from "@/lib/leadFormOptions";
-import type { Locale } from "@/lib/i18n";
-import { CheckCircle } from "./icons";
+import { localePath, type Locale } from "@/lib/i18n";
 
 const initialState: LeadFormState = { status: "idle" };
 const submitCiLead = submitLead.bind(null, "MAQO C&I Landing Page", "ci");
@@ -67,7 +67,10 @@ export default function CiLeadForm({
   const otherCustomFields = customFields?.filter((f) => f.key !== "industry") ?? [];
 
   const [state, formAction, pending] = useActionState(submitCiLead, initialState);
+  const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
+  const gclidRef = useRef<HTMLInputElement>(null);
+  const fbclidRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
   const landingPageSourceRef = useRef<HTMLInputElement>(null);
 
@@ -75,26 +78,20 @@ export default function CiLeadForm({
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
     if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
+    if (gclidRef.current) gclidRef.current.value = params.get("gclid") || "";
+    if (fbclidRef.current) fbclidRef.current.value = params.get("fbclid") || "";
     if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
     if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin;
   }, []);
 
+  useEffect(() => {
+    if (state.status === "success") {
+      router.push(localePath(locale, "/commercial-and-industrial/thank-you"));
+    }
+  }, [state.status, router, locale]);
+
   if (state.status === "success") {
-    return (
-      <div
-        id="assessment"
-        className="rounded-2xl border border-brand-green bg-brand-green-tint p-8 text-center shadow-sm"
-        role="status"
-      >
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-green text-white">
-          <CheckCircle className="h-6 w-6" />
-        </div>
-        <h2 className="text-lg font-semibold text-base-ink">Thank you for your enquiry.</h2>
-        <p className="mt-2 text-sm text-base-slate">
-          Our commercial team will be in touch to arrange your site assessment and ROI projection.
-        </p>
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -116,6 +113,8 @@ export default function CiLeadForm({
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="locale" value={locale} />
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+        <input type="hidden" name="gclid" ref={gclidRef} />
+        <input type="hidden" name="fbclid" ref={fbclidRef} />
         <input type="hidden" name="landing_referrer" ref={referrerRef} />
         <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
         <div className="absolute left-[-9999px]" aria-hidden="true">

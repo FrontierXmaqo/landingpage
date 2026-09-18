@@ -18,6 +18,8 @@ export type LeadWebhookInput = {
   preferredLanguage: string;
   sourceOfLeads: string;
   campaignId: string;
+  gclid: string;
+  fbclid: string;
   /** Which of our own landing pages this lead was submitted from (e.g. "MAQO Main Site", "MAQO EV Landing Page"). */
   sourcePage: string;
   remarks: string;
@@ -153,6 +155,7 @@ function blankTemplate() {
       "Source of Leads": "",
       "Campaign ID": "",
       "Landing Page Source": "",
+      "Fbclid": "",
     },
   };
 }
@@ -170,6 +173,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["Industry"] = input.industry;
   payload["Preferred Communication Language 2"] = input.preferredLanguage;
   payload["contact_source"] = input.sourcePage;
+  payload["gclid"] = input.gclid;
   if (input.remarks) payload["Remarks"] = input.remarks;
 
   payload.customData["Name"] = input.fullName;
@@ -179,6 +183,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload.customData["Source of Leads"] = input.sourceOfLeads;
   payload.customData["Campaign ID"] = input.campaignId;
   payload.customData["Landing Page Source"] = input.landingPageSource;
+  payload.customData["Fbclid"] = input.fbclid;
 
   return payload;
 }

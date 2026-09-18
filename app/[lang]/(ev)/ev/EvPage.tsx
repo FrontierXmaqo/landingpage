@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
@@ -304,7 +305,10 @@ export default function EvPage({
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
+  const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
+  const gclidRef = useRef<HTMLInputElement>(null);
+  const fbclidRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
   const landingPageSourceRef = useRef<HTMLInputElement>(null);
 
@@ -329,12 +333,20 @@ export default function EvPage({
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
     if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
+    if (gclidRef.current) gclidRef.current.value = params.get("gclid") || "";
+    if (fbclidRef.current) fbclidRef.current.value = params.get("fbclid") || "";
     if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
     // Hardcoded, not derived from location.pathname: this page is reachable both
     // at /ev directly and at /?site=ev (rewritten by proxy.ts), but it's always
     // the EV landing page — never derive this from the visible URL/query string.
     if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/ev";
   }, []);
+
+  useEffect(() => {
+    if (formState.status === "success") {
+      router.push(localePath(locale, "/ev/thank-you"));
+    }
+  }, [formState.status, router, locale]);
 
   const selected = CHARGE_OPTIONS.find((c) => c.key === chargeTime)!;
   const selectedCopy = t.calculator.options[chargeTime];
@@ -696,19 +708,15 @@ export default function EvPage({
               ))}
             </ul>
           </div>
-          {formState.status === "success" ? (
-            <div className="form-success">
-              <span className="form-success-icon">✓</span>
-              <h3>{t.form.successTitle}</h3>
-              <p>{formState.message}</p>
-            </div>
-          ) : (
+          {formState.status === "success" ? null : (
           <form action={formAction}>
             {formState.status === "error" && formState.message && (
               <p className="form-alert">{formState.message}</p>
             )}
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+            <input type="hidden" name="gclid" ref={gclidRef} />
+            <input type="hidden" name="fbclid" ref={fbclidRef} />
             <input type="hidden" name="landing_referrer" ref={referrerRef} />
             <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}

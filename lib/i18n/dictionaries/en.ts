@@ -339,6 +339,14 @@ const en = {
     generic: "Something went wrong submitting your assessment. Please call us at 603-8069 1706 instead.",
   },
 
+  thankYou: {
+    eyebrow: "Enquiry Received",
+    title: "Thank you for your enquiry!",
+    body: "One of our energy consultants will call you within 1 business day to arrange your free rooftop assessment.",
+    learnMore: "Learn more about MAQO",
+    backHome: "Back to homepage",
+  },
+
   about: {
     heroAlt: "MAQO Solar rooftop installation on a Malaysian home at sunset",
     heroEyebrow: "About MAQO Solar",
@@ -589,6 +597,13 @@ const en = {
       submitting: "Sending…",
       submit: "Get My Free Home Assessment",
       legal: "By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar assessment. No spam.",
+    },
+    thankYou: {
+      eyebrow: "Assessment Requested",
+      title: "Your EV + solar plan is on its way.",
+      body: "A charging consultant will call you within 1 business day to size your home charger and solar offset together.",
+      learnMore: "Learn more about MAQO",
+      backHome: "Back to homepage",
     },
     footer: {
       tagline: "Residential & C&I solar EPCC, ST Class A & CIDB G7-certified, since 2013.",
