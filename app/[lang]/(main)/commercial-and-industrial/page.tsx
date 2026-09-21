@@ -68,11 +68,11 @@ export default async function CommercialAndIndustrialPage({
       <main className="flex-1 overflow-x-clip">
         {/* ---------- 1. Hero + enquiry form ---------- */}
         <section id="assessment" className="relative overflow-hidden bg-base-bg">
-          {/* Backdrop: a rooftop solar photo with a light wash so it stays
-              airy rather than a dark scrim, plus the wash/rules/blob layers
-              for the C&I tint. Copy sits on its own solid panel instead of
-              directly on the photo, so it stays legible regardless of what
-              part of the image is behind it. */}
+          {/* Backdrop: a rooftop solar photo darkened by a flat 60%-opacity
+              overlay, plus the wash/rules/blob layers for the C&I tint. Copy
+              sits on its own solid panel instead of directly on the photo,
+              so it stays legible regardless of what part of the image is
+              behind it. */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <Image
               src="/ci-hero-solar-rooftop.png"
@@ -117,7 +117,7 @@ export default async function CommercialAndIndustrialPage({
                 </a>
                 <a
                   href="#projects"
-                  className="inline-flex items-center justify-center rounded-full border border-base-line px-6 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-brand-orange-deep px-6 py-3 text-sm font-semibold text-brand-orange-deep transition hover:bg-brand-orange-deep hover:text-white"
                 >
                   {c.hero.secondaryCta}
                 </a>

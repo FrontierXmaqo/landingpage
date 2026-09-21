@@ -363,15 +363,11 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
     transparent 100%
   );
 }
-/* Lightens the rooftop photo just enough that it reads as backdrop, not
+/* Flat 60%-opacity dark overlay so the photo reads as backdrop, not
    foreground, now that the copy sits on its own panel rather than on the
    photo directly. */
 .ci-hero-photo-wash {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--color-base-bg) 8%, transparent) 0%,
-    color-mix(in srgb, var(--color-base-bg) 28%, transparent) 100%
-  );
+  background: color-mix(in srgb, var(--color-base-ink) 60%, transparent);
 }
 .ci-hero-rules {
   background-image:
