@@ -46,16 +46,16 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         {/* ---------- 1. Hero ---------- */}
         <section className="relative overflow-hidden pb-20 pt-14 sm:pt-16">
           <div aria-hidden className="atap-hero-glow atap-hero-dots pointer-events-none absolute inset-0" />
-          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto max-w-2xl text-center">
+          <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8">
+            <div>
               <SectionTag>{t.eyebrow}</SectionTag>
-              <h1 className="mx-auto mt-5 max-w-lg text-4xl font-extrabold leading-[1.1] tracking-tight text-base-ink sm:text-5xl">
+              <h1 className="mt-5 max-w-lg text-4xl font-extrabold leading-[1.1] tracking-tight text-base-ink sm:text-5xl">
                 {t.heroTitleLead}
                 {dict.space}
                 <span className="text-brand-orange-ink">{t.heroTitleAccent}</span>
               </h1>
-              <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-base-slate sm:text-lg">{t.heroBody}</p>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-base-slate sm:text-lg">{t.heroBody}</p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link href={home("#assessment")} className={buttonPrimary}>
                   {t.heroCtaPrimary}
                 </Link>
@@ -63,7 +63,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   {t.heroCtaSecondary}
                 </a>
               </div>
-              <div className="mt-6 flex flex-wrap justify-center gap-2">
+              <div className="mt-6 flex flex-wrap gap-2">
                 {t.heroTrust.map((badge) => (
                   <span
                     key={badge}
@@ -75,9 +75,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            <div className="mx-auto mt-12">
-              <BessFlowDiagram t={t.heroVisual} />
-            </div>
+            <BessFlowDiagram t={t.heroVisual} />
           </div>
         </section>
 

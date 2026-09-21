@@ -775,6 +775,8 @@ const cn: Dictionary = {
       footerPrefix: "TNB 按您 ",
       footerBold: "当月用电最高峰的那半小时",
       footerSuffix: "收费。电池悄悄削平那个高峰——账单上的这笔费用也随之下降。",
+      zoomLabel: "点击放大",
+      zoomCloseLabel: "关闭",
     },
 
     problemTag: "问题所在",

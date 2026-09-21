@@ -777,6 +777,8 @@ const ms: Dictionary = {
       footerBold: "setengah jam tersibuk anda dalam sebulan",
       footerSuffix:
         ". Bateri diam-diam menampung lonjakan itu — jadi caj itu, dan bil anda, berkurangan.",
+      zoomLabel: "Ketik untuk zum",
+      zoomCloseLabel: "Tutup",
     },
 
     problemTag: "Masalahnya",

@@ -785,6 +785,8 @@ const en = {
       footerBold: "single busiest half-hour of the month",
       footerSuffix:
         ". The battery quietly covers that spike — so that charge, and your bill, come down.",
+      zoomLabel: "Tap to zoom in",
+      zoomCloseLabel: "Close",
     },
 
     problemTag: "The Problem",
