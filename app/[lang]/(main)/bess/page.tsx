@@ -7,6 +7,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
+import BessFlowDiagram from "./BessFlowDiagram";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
@@ -45,16 +46,16 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         {/* ---------- 1. Hero ---------- */}
         <section className="relative overflow-hidden pb-20 pt-14 sm:pt-16">
           <div aria-hidden className="atap-hero-glow atap-hero-dots pointer-events-none absolute inset-0" />
-          <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8">
-            <div>
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="mx-auto max-w-2xl text-center">
               <SectionTag>{t.eyebrow}</SectionTag>
-              <h1 className="mt-5 max-w-lg text-4xl font-extrabold leading-[1.1] tracking-tight text-base-ink sm:text-5xl">
+              <h1 className="mx-auto mt-5 max-w-lg text-4xl font-extrabold leading-[1.1] tracking-tight text-base-ink sm:text-5xl">
                 {t.heroTitleLead}
                 {dict.space}
                 <span className="text-brand-orange-ink">{t.heroTitleAccent}</span>
               </h1>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-base-slate sm:text-lg">{t.heroBody}</p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-base-slate sm:text-lg">{t.heroBody}</p>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <Link href={home("#assessment")} className={buttonPrimary}>
                   {t.heroCtaPrimary}
                 </Link>
@@ -62,7 +63,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   {t.heroCtaSecondary}
                 </a>
               </div>
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="mt-6 flex flex-wrap justify-center gap-2">
                 {t.heroTrust.map((badge) => (
                   <span
                     key={badge}
@@ -74,13 +75,9 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            <img
-              src="/images/bess-flow.gif"
-              alt={t.heroVisual.title}
-              width={600}
-              height={480}
-              className="mx-auto w-full max-w-[600px] rounded-2xl border border-base-line shadow-xl"
-            />
+            <div className="mx-auto mt-12">
+              <BessFlowDiagram t={t.heroVisual} />
+            </div>
           </div>
         </section>
 
