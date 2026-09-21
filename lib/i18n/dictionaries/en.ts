@@ -797,6 +797,8 @@ const en = {
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "After restructuring",
     problemAfterAmt: "RM 200k",
+    problemDoubledBadge: "Doubled",
+    problemDeltaLabel: "RM 100k more",
     problemCompareCaption: "Typical monthly MD charge for the same facility",
     problemFacts: [
       { stat: "2pm – 10pm", body: "Weekday peak window where a single spike sets your MD charge" },

@@ -787,6 +787,8 @@ const cn: Dictionary = {
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "调整后",
     problemAfterAmt: "RM 200k",
+    problemDoubledBadge: "翻倍",
+    problemDeltaLabel: "多 RM 100k",
     problemCompareCaption: "同一设施的典型每月 MD 收费",
     problemFacts: [
       { stat: "下午2时至晚上10时", body: "工作日高峰时段，单次用电高峰即可决定您的 MD 收费" },

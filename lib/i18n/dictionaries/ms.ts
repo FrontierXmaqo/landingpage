@@ -789,6 +789,8 @@ const ms: Dictionary = {
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "Selepas penstrukturan semula",
     problemAfterAmt: "RM 200k",
+    problemDoubledBadge: "Berganda",
+    problemDeltaLabel: "RM 100k lagi",
     problemCompareCaption: "Caj MD bulanan biasa untuk kemudahan yang sama",
     problemFacts: [
       { stat: "2 tgh – 10 mlm", body: "Waktu puncak hari bekerja yang menentukan caj MD anda dengan satu lonjakan sahaja" },
