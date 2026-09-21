@@ -371,15 +371,18 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   -webkit-mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
           mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
 }
-/* Hero headline accent: the C&I navy on a band of the page's own sky blue,
-   painted across the lower half of the figure the way the EV hero does it. */
+/* Hero headline accent: bright sky blue on a solid band, painted across the
+   lower half of the figure the way the EV hero does it. Bright rather than
+   the navy-on-tint pairing, so the stat still pops now the hero sits on the
+   dark rooftop photo instead of the page's paper background. */
 .ci-hero-hl {
-  color: var(--color-brand-orange-deep);
+  color: var(--color-ci-sky-soft);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--color-ci-sky-soft) 70%, transparent);
   background-image: linear-gradient(
     180deg,
     transparent 34%,
-    color-mix(in srgb, var(--color-ci-sky) 40%, transparent) 34%,
-    color-mix(in srgb, var(--color-ci-sky) 40%, transparent) 84%,
+    color-mix(in srgb, var(--color-ci-sky) 55%, transparent) 34%,
+    color-mix(in srgb, var(--color-ci-sky) 55%, transparent) 84%,
     transparent 84%
   );
   padding: 0 0.05em;
