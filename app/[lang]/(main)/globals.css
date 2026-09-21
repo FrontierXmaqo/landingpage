@@ -377,10 +377,18 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   -webkit-mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
           mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
 }
-/* Hero headline accent: plain navy, no highlight band. The copy panel is
-   solid now, so the stat doesn't need a band of its own to stay legible. */
+/* Hero headline accent: navy on a sky-blue band across the lower half of
+   the figure, painted the way the EV hero does it. */
 .ci-hero-hl {
   color: var(--color-brand-orange-deep);
+  background-image: linear-gradient(
+    180deg,
+    transparent 34%,
+    color-mix(in srgb, var(--color-ci-sky) 45%, transparent) 34%,
+    color-mix(in srgb, var(--color-ci-sky) 45%, transparent) 84%,
+    transparent 84%
+  );
+  padding: 0 0.05em;
 }
 .ci-hero-blob,
 .ci-hero-blob-deep {
