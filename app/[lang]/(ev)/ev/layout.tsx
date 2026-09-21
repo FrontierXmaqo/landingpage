@@ -6,7 +6,6 @@ import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
-import PageviewBeacon from "@/app/[lang]/(main)/components/PageviewBeacon";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -99,7 +98,6 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         {/* End Google Tag Manager (noscript) */}
 
         {children}
-        <PageviewBeacon />
       </body>
     </html>
   );

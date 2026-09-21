@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { SEGMENT_DOT } from "@/lib/segments";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
 import {
   ensureFaqDraftSeeded,
@@ -18,9 +17,9 @@ import { formatMYDateTime } from "@/lib/datetime";
  *  orange, EV's green, C&I's navy), so this nav visually maps to the pages
  *  it edits instead of reading as three interchangeable tabs. */
 const SECTIONS: { page: FaqPage; title: string; navLabel: string; hint: string; dot: string }[] = [
-  { page: "residential", title: "Residential FAQ", navLabel: "Residential", dot: SEGMENT_DOT.residential, hint: "Shown on the homepage, under “Everything homeowners ask about ATAP.”" },
-  { page: "ci", title: "C&I FAQ", navLabel: "C&I", dot: SEGMENT_DOT.ci, hint: "Not shown on /commercial-and-industrial until at least one question here is published." },
-  { page: "ev", title: "EV FAQ", navLabel: "EV", dot: SEGMENT_DOT.ev, hint: "Shown on /ev, under “What EV owners ask us.”" },
+  { page: "residential", title: "Residential FAQ", navLabel: "Residential", dot: "#F97000", hint: "Shown on the homepage, under “Everything homeowners ask about ATAP.”" },
+  { page: "ev", title: "EV FAQ", navLabel: "EV", dot: "#1E9E52", hint: "Shown on /ev, under “What EV owners ask us.”" },
+  { page: "ci", title: "C&I FAQ", navLabel: "C&I", dot: "#15304F", hint: "Not shown on /commercial-and-industrial until at least one question here is published." },
 ];
 
 async function loadSection(page: FaqPage) {
