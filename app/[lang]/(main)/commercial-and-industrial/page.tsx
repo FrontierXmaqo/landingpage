@@ -89,7 +89,7 @@ export default async function CommercialAndIndustrialPage({
             <div className="ci-hero-blob-deep absolute -bottom-52 -left-32 h-[400px] w-[400px]" />
           </div>
           <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-8 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-16">
-            <div className="rounded-3xl bg-base-panel/95 p-6 shadow-xl shadow-base-ink/10 ring-1 ring-base-line backdrop-blur-sm sm:p-8">
+            <div className="rounded-3xl bg-base-panel/60 p-6 shadow-xl shadow-base-ink/10 ring-1 ring-base-line backdrop-blur-sm sm:p-8">
               <span className="section-eyebrow inline-flex items-center rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase text-brand-green-ink">
                 {c.hero.eyebrow}
               </span>

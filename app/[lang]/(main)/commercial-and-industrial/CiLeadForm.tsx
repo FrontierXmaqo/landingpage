@@ -101,7 +101,7 @@ export default function CiLeadForm({
   return (
     <div
       id="assessment"
-      className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-lg shadow-base-line/50 sm:p-8"
+      className="rounded-2xl border border-base-line bg-base-panel/60 p-6 shadow-lg shadow-base-line/50 backdrop-blur-sm sm:p-8"
     >
       <h2 className="text-lg font-semibold text-base-ink">{t.title}</h2>
       <p className="mt-1 text-sm text-base-slate">
