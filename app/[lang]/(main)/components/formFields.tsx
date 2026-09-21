@@ -78,31 +78,24 @@ export function formatMyPhone(raw: string): string {
 
 export type Option = { value: string; label: string };
 
-/**
- * A labelled dropdown.
- *
- * `clearable` leaves the empty option selectable, so an optional field can be
- * set back to nothing after a value has been picked; otherwise the placeholder
- * is a prompt the visitor cannot choose.
- */
+/** A labelled dropdown. Every field is required, so the placeholder is a
+ *  prompt the visitor cannot submit the form while still selected. */
 export function SelectField({
   label,
   name,
   placeholder,
   options,
-  clearable,
 }: {
   label: string;
   name: string;
   placeholder: string;
   options: Option[];
-  clearable?: boolean;
 }) {
   return (
     <label className="flex flex-col gap-1.5">
       <span className={LABEL}>{label}</span>
-      <select name={name} defaultValue="" className={SELECT} style={CHEVRON}>
-        <option value="" disabled={!clearable}>
+      <select name={name} required defaultValue="" className={SELECT} style={CHEVRON}>
+        <option value="" disabled>
           {placeholder}
         </option>
         {options.map((o) => (

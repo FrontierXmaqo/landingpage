@@ -734,8 +734,8 @@ export default function EvPage({
             <div className="form-row form-row-name">
               <div className="field">
                 <label htmlFor="salutation">{t.form.salutation}</label>
-                <select id="salutation" name="salutation" defaultValue="" disabled={submitting}>
-                  <option value="">—</option>
+                <select id="salutation" name="salutation" required defaultValue="" disabled={submitting}>
+                  <option value="" disabled>—</option>
                   {salutations.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.salutations, s)}
@@ -755,7 +755,7 @@ export default function EvPage({
             <div className="form-row">
               <div className="field">
                 <label htmlFor="email">{t.form.email}</label>
-                <input id="email" name="email" type="email" disabled={submitting} />
+                <input id="email" name="email" type="email" required disabled={submitting} />
               </div>
               <div className="field">
                 <label htmlFor="state">{t.form.state}</label>
@@ -802,8 +802,8 @@ export default function EvPage({
             <div className="form-row">
               <div className="field">
                 <label htmlFor="electric_supply">{t.form.supply}</label>
-                <select id="electric_supply" name="electric_supply" defaultValue="" disabled={submitting}>
-                  <option value="">{t.form.supplyPlaceholder}</option>
+                <select id="electric_supply" name="electric_supply" required defaultValue="" disabled={submitting}>
+                  <option value="" disabled>{t.form.supplyPlaceholder}</option>
                   {electricSupply.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.supply, s)}
@@ -827,8 +827,8 @@ export default function EvPage({
                 {customFields.map((f) => (
                   <div className="field" key={f.key}>
                     <label htmlFor={f.key}>{f.label}</label>
-                    <select id={f.key} name={f.key} defaultValue="" disabled={submitting}>
-                      <option value="">—</option>
+                    <select id={f.key} name={f.key} required defaultValue="" disabled={submitting}>
+                      <option value="" disabled>—</option>
                       {f.values.map((v) => (
                         <option key={v} value={v}>
                           {v}

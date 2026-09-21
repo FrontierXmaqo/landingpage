@@ -133,10 +133,22 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const charge_time = clean(formData.get("charge_time"), 80);
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
 
-  if (!full_name || !PHONE_PATTERN.test(phoneRaw)) {
+  // Every field on the form is mandatory — mirrors the `required` attributes
+  // client-side, but the server is the one that actually enforces it.
+  if (
+    !salutation ||
+    !full_name ||
+    !PHONE_PATTERN.test(phoneRaw) ||
+    !EMAIL_PATTERN.test(email) ||
+    !state ||
+    !monthly_bill_range
+  ) {
     return { status: "error", message: t.invalid };
   }
   if (formPage === "ci" && !company_name) {
+    return { status: "error", message: t.invalid };
+  }
+  if (formPage !== "ci" && (!property_type || !electric_supply || !preferred_language)) {
     return { status: "error", message: t.invalid };
   }
   const phone = toWhatsAppNumber(phoneRaw);
@@ -144,11 +156,14 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   // Custom fields marketing added in the CMS (e.g. C&I's "Industry / sector"):
   // only ones currently published are trusted, and each value is pinned to
   // that field's own published option list — same allowlist discipline as the
-  // core fields above.
+  // core fields above. All of them are required, same as the built-in fields.
   const extraFields: Record<string, string> = {};
   for (const field of customFields) {
     const value = oneOf(clean(formData.get(field.key), 120), field.values);
     if (value) extraFields[field.key] = value;
+  }
+  if (customFields.some((f) => !extraFields[f.key])) {
+    return { status: "error", message: t.invalid };
   }
   if (formPage === "ci" && !extraFields["industry"]) {
     return { status: "error", message: t.invalid };
@@ -156,8 +171,6 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const extraFieldsSummary = customFields
     .filter((f) => extraFields[f.key])
     .map((f) => `${f.label}: ${extraFields[f.key]}`);
-
-  const emailLooksValid = !email || EMAIL_PATTERN.test(email);
 
   const turnstileOk = await verifyTurnstileToken(turnstileToken, clientIp);
   if (!turnstileOk) {
@@ -176,15 +189,13 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
       formPage === "ci"
         ? await supabase.from("ci_leads").insert({
             full_name, company_name, industry: extraFields["industry"] || null,
-            phone, email: emailLooksValid && email ? email : null, state: state || null,
-            monthly_bill_range: monthly_bill_range || null,
+            phone, email, state, monthly_bill_range,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
             extra_fields: ciExtraFields,
           })
         : await supabase.from("atap_leads").insert({
-            full_name, phone, email: emailLooksValid && email ? email : null, state: state || null,
-            monthly_bill_range: monthly_bill_range || null, property_type: property_type || null,
-            electric_supply: electric_supply || null, preferred_language: preferred_language || null,
+            full_name, phone, email, state,
+            monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
             extra_fields: extraFields,
           });
@@ -202,7 +213,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     fullName: full_name,
     companyName: company_name,
     phone,
-    email: emailLooksValid ? email : "",
+    email,
     state,
     monthlyBillRange: monthly_bill_range,
     propertyType: property_type,

@@ -129,8 +129,11 @@ export default function CiLeadForm({
         </div>
 
         <label className={labelClass} htmlFor="ci-salutation">
-          {t.salutation}
-          <select id="ci-salutation" name="salutation" defaultValue="" className={fieldClass}>
+          <span>
+            {t.salutation}
+            <RequiredMark />
+          </span>
+          <select id="ci-salutation" name="salutation" required defaultValue="" className={fieldClass}>
             <option value="" disabled>
               {t.select}
             </option>
@@ -207,13 +210,19 @@ export default function CiLeadForm({
         </label>
 
         <label className={labelClass} htmlFor="ci-email">
-          {t.email}
-          <input id="ci-email" name="email" type="email" autoComplete="email" placeholder="you@company.com" className={fieldClass} />
+          <span>
+            {t.email}
+            <RequiredMark />
+          </span>
+          <input id="ci-email" name="email" type="email" required autoComplete="email" placeholder="you@company.com" className={fieldClass} />
         </label>
 
         <label className={labelClass} htmlFor="ci-state">
-          {t.state}
-          <select id="ci-state" name="state" defaultValue="" className={fieldClass}>
+          <span>
+            {t.state}
+            <RequiredMark />
+          </span>
+          <select id="ci-state" name="state" required defaultValue="" className={fieldClass}>
             <option value="" disabled>
               {t.statePlaceholder}
             </option>
@@ -226,8 +235,11 @@ export default function CiLeadForm({
         </label>
 
         <label className={labelClass} htmlFor="ci-bill">
-          {t.bill}
-          <select id="ci-bill" name="monthly_bill_range" defaultValue="" className={fieldClass}>
+          <span>
+            {t.bill}
+            <RequiredMark />
+          </span>
+          <select id="ci-bill" name="monthly_bill_range" required defaultValue="" className={fieldClass}>
             <option value="" disabled>
               {t.billPlaceholder}
             </option>
@@ -241,9 +253,12 @@ export default function CiLeadForm({
 
         {otherCustomFields.map((f) => (
           <label key={f.key} className={labelClass}>
-            {f.label}
-            <select name={f.key} defaultValue="" className={fieldClass}>
-              <option value="">-</option>
+            <span>
+              {f.label}
+              <RequiredMark />
+            </span>
+            <select name={f.key} required defaultValue="" className={fieldClass}>
+              <option value="" disabled>-</option>
               {f.values.map((v) => (
                 <option key={v} value={v}>
                   {v}

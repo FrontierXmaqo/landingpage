@@ -174,6 +174,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["Preferred Communication Language 2"] = input.preferredLanguage;
   payload["contact_source"] = input.sourcePage;
   payload["gclid"] = input.gclid;
+  payload["Campaign ID"] = input.campaignId;
   if (input.remarks) payload["Remarks"] = input.remarks;
 
   payload.customData["Name"] = input.fullName;

@@ -148,6 +148,7 @@ export default function LeadForm({
         <TextField
           label={t.email}
           name="email"
+          required
           placeholder="you@email.com"
           type="email"
           inputMode="email"
@@ -192,7 +193,6 @@ export default function LeadForm({
             label={f.label}
             name={f.key}
             placeholder="—"
-            clearable
             options={f.values.map((value) => ({ value, label: value }))}
           />
         ))}
