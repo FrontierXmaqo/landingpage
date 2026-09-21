@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { LOCALES, DEFAULT_LOCALE, HTML_LANG, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
+import PageviewBeacon from "./components/PageviewBeacon";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -121,6 +122,7 @@ if(w.scrollY>0)fire()})(document,window);`}
           }
         </noscript>
         {children}
+        <PageviewBeacon />
       </body>
     </html>
   );

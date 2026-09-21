@@ -770,6 +770,21 @@ export default function EvPage({
                   ))}
                 </select>
               </div>
+              {/* Optional — gives the sales team a district to route on
+                  without adding a required field to a mobile form. */}
+              <div className="field">
+                <label htmlFor="postcode">{t.form.postcode}</label>
+                <input
+                  id="postcode"
+                  name="postcode"
+                  inputMode="numeric"
+                  autoComplete="postal-code"
+                  maxLength={5}
+                  pattern="[0-9]{5}"
+                  placeholder={t.form.postcodePlaceholder}
+                  disabled={submitting}
+                />
+              </div>
             </div>
             <div className="form-row">
               <div className="field">

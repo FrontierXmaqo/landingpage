@@ -160,6 +160,18 @@ export default function LeadForm({
           placeholder={t.statePlaceholder}
           options={options(states, labels.states)}
         />
+        {/* Optional on purpose: the postcode gives the sales team a district
+            to route on, but making it required would cost leads on mobile,
+            where most of this traffic is. */}
+        <TextField
+          label={t.postcode}
+          name="postcode"
+          placeholder={t.postcodePlaceholder}
+          inputMode="numeric"
+          autoComplete="postal-code"
+          maxLength={5}
+          pattern="[0-9]{5}"
+        />
         <SelectField
           label={t.bill}
           name="monthly_bill_range"

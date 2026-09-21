@@ -76,6 +76,8 @@ export type CiCopy = {
     email: string;
     state: string;
     statePlaceholder: string;
+    postcode: string;
+    postcodePlaceholder: string;
     bill: string;
     billPlaceholder: string;
     submit: string;
@@ -238,6 +240,8 @@ const en: CiCopy = {
     email: "Work email",
     state: "Site location",
     statePlaceholder: "Select a state",
+    postcode: "Postcode",
+    postcodePlaceholder: "e.g. 47100",
     bill: "Average monthly TNB bill",
     billPlaceholder: "Select a range",
     submit: "Get Free Solar Assessment & ROI Quote",
@@ -396,6 +400,8 @@ const cn: CiCopy = {
     email: "公司电邮",
     state: "场地地点",
     statePlaceholder: "请选择州属",
+    postcode: "邮编",
+    postcodePlaceholder: "例如 47100",
     bill: "每月平均 TNB 电费",
     billPlaceholder: "请选择范围",
     submit: "获取免费太阳能评估与投资回报报价",
@@ -558,6 +564,8 @@ const ms: CiCopy = {
     email: "E-mel kerja",
     state: "Lokasi tapak",
     statePlaceholder: "Pilih negeri",
+    postcode: "Poskod",
+    postcodePlaceholder: "cth. 47100",
     bill: "Purata bil TNB bulanan",
     billPlaceholder: "Pilih julat",
     submit: "Dapatkan Penilaian Solar & Sebut Harga ROI Percuma",

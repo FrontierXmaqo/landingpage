@@ -10,6 +10,8 @@ export type LeadWebhookInput = {
   phone: string;
   email: string;
   state: string;
+  /** Five digits, or blank when the visitor skipped the optional field. */
+  postcode: string;
   monthlyBillRange: string;
   propertyType: string;
   electricSupply: string;
@@ -167,6 +169,9 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
 
   payload["phone"] = input.phone;
   payload["Location"] = input.state;
+  // Existing key in the receiving system's schema, so the postcode lands
+  // somewhere the sales team already reads instead of a new field.
+  payload["Billing Address - Zip Code"] = input.postcode;
   payload["Property Type (Condo/Apartment not suitable)"] = input.propertyType;
   payload["Electric Supply"] = input.electricSupply;
   payload["Name of Company"] = input.companyName;

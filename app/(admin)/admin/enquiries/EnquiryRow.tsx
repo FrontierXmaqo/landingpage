@@ -4,6 +4,7 @@ import { useState } from "react";
 import { updateEnquiryStatus, updateEnquiryNotes } from "./actions";
 import { STATUSES, type EnquiryStatus } from "./statuses";
 import { formatMYDate } from "@/lib/datetime";
+import { lookupPostcode } from "@/lib/postcode";
 
 const STATUS_STYLE: Record<string, string> = {
   new: "bg-status-info/10 text-status-info",
@@ -15,6 +16,7 @@ const STATUS_STYLE: Record<string, string> = {
 export default function EnquiryRow({ lead }: { lead: Record<string, unknown> }) {
   const [notes, setNotes] = useState(String(lead.notes ?? ""));
   const [status, setStatus] = useState(String(lead.status ?? "new"));
+  const area = lookupPostcode(lead.postcode as string | null | undefined);
 
   return (
     <tr className="border-b border-base-line align-top last:border-0">
@@ -23,6 +25,18 @@ export default function EnquiryRow({ lead }: { lead: Record<string, unknown> }) 
         <p className="text-xs text-base-slate">{String(lead.phone ?? "")}{lead.email ? ` · ${lead.email}` : ""}</p>
       </td>
       <td className="px-3 py-2.5 text-base-ink">{String(lead.state ?? "—")}</td>
+      {/* Postcode, plus the town it maps to — "Selangor" alone spans a
+          two-hour drive, and the town is what a site visit is planned on. */}
+      <td className="px-3 py-2.5 text-base-ink">
+        {lead.postcode ? (
+          <>
+            <span className="tabular-nums">{String(lead.postcode)}</span>
+            {area?.town && <span className="block text-xs text-base-slate">{area.town}</span>}
+          </>
+        ) : (
+          "\u2014"
+        )}
+      </td>
       <td className="px-3 py-2.5 text-base-ink">{String(lead.lead_source ?? "—")}</td>
       <td className="px-3 py-2.5">
         <select

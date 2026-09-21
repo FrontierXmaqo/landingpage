@@ -39,14 +39,19 @@ export function TextField({
   type = "text",
   inputMode,
   autoComplete,
+  maxLength,
+  pattern,
 }: {
   label: string;
   name: string;
   required?: boolean;
   placeholder?: string;
   type?: "text" | "email" | "tel";
-  inputMode?: "text" | "email" | "tel";
+  inputMode?: "text" | "email" | "tel" | "numeric";
   autoComplete?: string;
+  maxLength?: number;
+  /** Native validation only — the server re-checks every value regardless. */
+  pattern?: string;
 }) {
   return (
     <label className="flex flex-col gap-1.5">
@@ -58,6 +63,8 @@ export function TextField({
         placeholder={placeholder}
         inputMode={inputMode}
         autoComplete={autoComplete}
+        maxLength={maxLength}
+        pattern={pattern}
         onChange={type === "tel" ? (e) => { e.target.value = formatMyPhone(e.target.value); } : undefined}
         className={FIELD}
       />
