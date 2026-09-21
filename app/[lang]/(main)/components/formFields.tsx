@@ -58,10 +58,22 @@ export function TextField({
         placeholder={placeholder}
         inputMode={inputMode}
         autoComplete={autoComplete}
+        onChange={type === "tel" ? (e) => { e.target.value = formatMyPhone(e.target.value); } : undefined}
         className={FIELD}
       />
     </label>
   );
+}
+
+/** Formats digits as they're typed into Malaysian mobile shape: 012-345 6789
+ *  (or 011-1234 5678 for the one prefix with an 8-digit subscriber number). */
+export function formatMyPhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 11);
+  const [g1, g2] = digits.startsWith("011") ? [3, 4] : [3, 3];
+  const p1 = digits.slice(0, g1);
+  const p2 = digits.slice(g1, g1 + g2);
+  const p3 = digits.slice(g1 + g2);
+  return p2 ? (p3 ? `${p1}-${p2} ${p3}` : `${p1}-${p2}`) : p1;
 }
 
 export type Option = { value: string; label: string };

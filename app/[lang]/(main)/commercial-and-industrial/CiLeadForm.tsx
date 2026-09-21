@@ -6,6 +6,7 @@ import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import type { LeadFormOptionLists } from "../components/LeadForm";
+import { formatMyPhone } from "../components/formFields";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import { SALUTATIONS, MALAYSIAN_STATES } from "@/lib/leadFormOptions";
 import { localePath, type Locale } from "@/lib/i18n";
@@ -200,6 +201,7 @@ export default function CiLeadForm({
             required
             autoComplete="tel"
             placeholder="012-345 6789"
+            onChange={(e) => { e.target.value = formatMyPhone(e.target.value); }}
             className={fieldClass}
           />
         </label>
