@@ -55,12 +55,10 @@ async function getClientIp() {
 }
 
 async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload>[0]) {
-  const isPreview = process.env.VERCEL_ENV === "preview";
-  const webhookUrl = isPreview ? process.env.TESTING_WEBHOOK_URL : process.env.LEAD_WEBHOOK_URL;
-  const webhookVarName = isPreview ? "TESTING_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
+  const webhookUrl = process.env.LEAD_WEBHOOK_URL;
   if (!webhookUrl) return;
   if (!webhookUrl.startsWith("https://")) {
-    console.error(`${webhookVarName} is not an https:// URL; refusing to send.`);
+    console.error("LEAD_WEBHOOK_URL is not an https:// URL; refusing to send.");
     return;
   }
 
