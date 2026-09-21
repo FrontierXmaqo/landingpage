@@ -90,14 +90,8 @@ export default function CredentialBadges({
               </span>
             )}
           </div>
-          <p className={`text-center ${inline ? "mt-2" : "mt-3"}`}>
-            <span
-              className={`rounded bg-status-info-tint px-1.5 py-0.5 text-base-ink box-decoration-clone ${
-                inline ? "text-sm leading-snug" : "text-base sm:text-lg"
-              }`}
-            >
-              {badge.caption}
-            </span>
+          <p className={`text-center text-base-ink ${inline ? "mt-2 text-sm leading-snug" : "mt-3 text-base sm:text-lg"}`}>
+            {badge.caption}
           </p>
         </li>
       ))}
