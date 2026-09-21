@@ -36,7 +36,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 }
 
 /** One option's value inside the edit modal — click to edit in place, or delete. */
-function OptionRow({ option }: { option: Option }) {
+function OptionRow({ page, option }: { page: LeadFormPage; option: Option }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(option.value);
   const [busy, setBusy] = useState(false);
@@ -65,7 +65,7 @@ function OptionRow({ option }: { option: Option }) {
             }
             setBusy(true);
             try {
-              await updateOption(option.id, trimmed);
+              await updateOption(page, option.id, trimmed);
             } catch {
               setValue(option.value);
             } finally {
@@ -87,7 +87,7 @@ function OptionRow({ option }: { option: Option }) {
           onClick={async () => {
             setBusy(true);
             try {
-              await removeOption(option.id);
+              await removeOption(page, option.id);
             } catch {
               setBusy(false);
             }
@@ -170,7 +170,7 @@ function FieldModal({ page, field, options, onClose }: { page: LeadFormPage; fie
                   setLabel(field.label);
                   return;
                 }
-                await updateFieldLabel(field.id, trimmed);
+                await updateFieldLabel(page, field.id, trimmed);
               }}
               className="mt-1 w-full rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green"
             />
@@ -179,7 +179,7 @@ function FieldModal({ page, field, options, onClose }: { page: LeadFormPage; fie
           <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-base-slate">Current selections</p>
           <ul className="mt-2 flex max-h-64 flex-col gap-1.5 overflow-y-auto">
             {options.map((o) => (
-              <OptionRow key={o.id} option={o} />
+              <OptionRow key={o.id} page={page} option={o} />
             ))}
             {!options.length && <li className="text-sm text-base-slate">No options yet — add one below.</li>}
           </ul>
@@ -258,7 +258,7 @@ function FieldTableRow({ page, field, options, index, total, onEdit }: { page: L
             <button
               type="button"
               onClick={() => {
-                if (window.confirm(`Delete the "${field.label}" field and all its options?`)) removeField(field.id);
+                if (window.confirm(`Delete the "${field.label}" field and all its options?`)) removeField(page, field.id);
               }}
               className={`${buttonBase} border border-status-critical/30 bg-status-critical/10 text-status-critical hover:bg-status-critical/15`}
             >

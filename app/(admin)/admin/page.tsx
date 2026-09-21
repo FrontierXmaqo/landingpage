@@ -7,9 +7,13 @@ export default async function AdminHome() {
   const items = NAV.filter((item) => item.href !== "/admin" && profile && item.roles.includes(profile.role));
 
   let leadCount: number | null = null;
-  if (profile && ["admin", "sales"].includes(profile.role)) {
+  if (profile?.role === "admin" || profile?.role === "sales_resi") {
     const supabase = await getSupabaseUserClient();
     const { count } = await supabase.from("atap_leads").select("*", { count: "exact", head: true });
+    leadCount = count ?? 0;
+  } else if (profile?.role === "sales_ci") {
+    const supabase = await getSupabaseUserClient();
+    const { count } = await supabase.from("ci_leads").select("*", { count: "exact", head: true });
     leadCount = count ?? 0;
   }
 

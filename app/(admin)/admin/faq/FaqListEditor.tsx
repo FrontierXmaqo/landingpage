@@ -165,7 +165,7 @@ export default function FaqListEditor({ page, items }: { page: FaqPage; items: F
                   type="button"
                   onClick={() => {
                     if (!window.confirm("Remove this question?")) return;
-                    startTransition(() => removeFaqItem(item.id));
+                    startTransition(() => removeFaqItem(page, item.id));
                   }}
                   className="text-xs font-semibold text-base-slate hover:text-status-critical"
                 >
@@ -174,8 +174,8 @@ export default function FaqListEditor({ page, items }: { page: FaqPage; items: F
               </span>
             </div>
             <div className="mt-3 grid gap-3">
-              <Field label="Question" defaultValue={item.question} onSave={(v) => updateFaqItem(item.id, "question", v)} />
-              <Field label="Answer" defaultValue={item.answer} textarea onSave={(v) => updateFaqItem(item.id, "answer", v)} />
+              <Field label="Question" defaultValue={item.question} onSave={(v) => updateFaqItem(page, item.id, "question", v)} />
+              <Field label="Answer" defaultValue={item.answer} textarea onSave={(v) => updateFaqItem(page, item.id, "answer", v)} />
             </div>
           </div>
         ))}

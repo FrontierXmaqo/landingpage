@@ -8,7 +8,7 @@ import { formatMYDateTime } from "@/lib/datetime";
 
 export default async function CommercialIndustrialPage() {
   const profile = await getCurrentProfile();
-  if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin");
+  if (!profile || !["admin", "marketing", "sales_ci"].includes(profile.role)) redirect("/admin");
 
   await ensureCiDraftSeeded();
 

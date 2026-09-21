@@ -37,11 +37,21 @@ async function loadSection(page: FaqPage) {
   };
 }
 
+/** Sales roles are scoped to their own category's page(s) — same split as the
+ *  EV calculator, C&I editor and lead form. Admin/marketing see every page. */
+function visiblePages(role: string): FaqPage[] | null {
+  if (role === "sales_resi") return ["residential", "ev"];
+  if (role === "sales_ci") return ["ci"];
+  return null;
+}
+
 export default async function FaqAdminPage() {
   const profile = await getCurrentProfile();
-  if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin");
+  if (!profile || !["admin", "marketing", "sales_resi", "sales_ci"].includes(profile.role)) redirect("/admin");
+  const allowed = visiblePages(profile.role);
+  const sectionDefs = allowed ? SECTIONS.filter((s) => allowed.includes(s.page)) : SECTIONS;
 
-  const sections = await Promise.all(SECTIONS.map((s) => loadSection(s.page)));
+  const sections = await Promise.all(sectionDefs.map((s) => loadSection(s.page)));
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -58,7 +68,7 @@ export default async function FaqAdminPage() {
         aria-label="Jump to a page's FAQ"
         className="sticky top-0 z-10 mt-6 flex w-fit gap-1 rounded-full border border-base-line bg-base-panel/95 p-1 shadow-sm backdrop-blur"
       >
-        {SECTIONS.map((section) => (
+        {sectionDefs.map((section) => (
           <a
             key={section.page}
             href={`#${section.page}`}
@@ -71,7 +81,7 @@ export default async function FaqAdminPage() {
       </nav>
 
       <div className="mt-8 space-y-12">
-        {SECTIONS.map((section, i) => {
+        {sectionDefs.map((section, i) => {
           const { items, lastPublished, publishStatus } = sections[i];
           return (
             <section key={section.page} id={section.page} className="scroll-mt-20">

@@ -7,7 +7,7 @@ import { formatMYDateTime } from "@/lib/datetime";
 
 export default async function EvCalculatorSettingsPage() {
   const profile = await getCurrentProfile();
-  if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin");
+  if (!profile || !["admin", "marketing", "sales_resi"].includes(profile.role)) redirect("/admin");
 
   await ensureEvDraftSeeded();
 

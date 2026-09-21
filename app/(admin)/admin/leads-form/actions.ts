@@ -6,10 +6,14 @@ import { requireRole } from "../guard";
 import type { PublishState } from "../publishState";
 import { oneOf, text, uuid } from "@/lib/validate";
 
-const LEAD_FORM_ROLES = ["admin", "marketing"] as const;
-
 export type LeadFormPage = "main" | "ev" | "ci";
 const PAGES = ["main", "ev", "ci"] as const;
+
+/** Same category split as the FAQ editor: main/EV go to the resi/EV sales
+ *  team, C&I to its own. Admin and marketing keep every page. */
+function rolesForPage(page: LeadFormPage) {
+  return page === "ci" ? (["admin", "marketing", "sales_ci"] as const) : (["admin", "marketing", "sales_resi"] as const);
+}
 
 /** Slug for a custom field's key: lowercase, digits, underscores — mirrors the
  * shape of the existing core field names (e.g. "bill_range"). */
@@ -27,8 +31,8 @@ const FIELD_KEY = /^[a-z][a-z0-9_]{1,39}$/;
 // commits and then finds the draft already there — same pattern as the FAQ
 // editor's `ensure_faq_draft_seeded`, one page's seeding can't race another's.
 export async function ensureLeadFormDraftSeeded(page: LeadFormPage) {
-  await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   const { error } = await supabase.rpc("ensure_lead_form_options_draft_seeded", { p_page: p });
   if (error) {
@@ -39,8 +43,8 @@ export async function ensureLeadFormDraftSeeded(page: LeadFormPage) {
 /** Same seeding pattern as ensureLeadFormDraftSeeded, for the field *definitions*
  * themselves rather than their option values. */
 export async function ensureLeadFormFieldsDraftSeeded(page: LeadFormPage) {
-  await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   const { error } = await supabase.rpc("ensure_lead_form_fields_draft_seeded", { p_page: p });
   if (error) throw new Error(`Could not prepare the ${p} lead form draft (${error.message}).`);
@@ -55,8 +59,8 @@ async function assertKnownDraftField(page: LeadFormPage, fieldName: string) {
 }
 
 export async function addOption(page: LeadFormPage, field: string, value: string) {
-  const profile = await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  const profile = await requireRole([...rolesForPage(p)]);
   const fieldName = text(field, { max: 40, required: true, field: "field" });
   await assertKnownDraftField(p, fieldName);
   const trimmed = text(value, { max: 120 });
@@ -67,26 +71,28 @@ export async function addOption(page: LeadFormPage, field: string, value: string
   revalidatePath("/admin/leads-form");
 }
 
-export async function updateOption(id: string, value: string) {
-  const profile = await requireRole([...LEAD_FORM_ROLES]);
+export async function updateOption(page: LeadFormPage, id: string, value: string) {
+  const p = oneOf(page, PAGES, "page");
+  const profile = await requireRole([...rolesForPage(p)]);
   const trimmed = text(value, { max: 120, required: true, field: "value" });
   const supabase = await getSupabaseUserClient();
-  await supabase.from("lead_form_options").update({ value: trimmed, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("status", "draft");
+  await supabase.from("lead_form_options").update({ value: trimmed, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("page", p).eq("status", "draft");
   revalidatePath("/admin/leads-form");
 }
 
-export async function removeOption(id: string) {
-  await requireRole([...LEAD_FORM_ROLES]);
+export async function removeOption(page: LeadFormPage, id: string) {
+  const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
-  await supabase.from("lead_form_options").delete().eq("id", uuid(id)).eq("status", "draft");
+  await supabase.from("lead_form_options").delete().eq("id", uuid(id)).eq("page", p).eq("status", "draft");
   revalidatePath("/admin/leads-form");
 }
 
 /** Adds a brand-new custom dropdown field for one page (always is_core=false —
  * the 6 core fields are seeded once by migration and never created through this action). */
 export async function addField(page: LeadFormPage, key: string, label: string) {
-  const profile = await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  const profile = await requireRole([...rolesForPage(p)]);
   const fieldKey = text(key, { max: 40, required: true, field: "key" }).toLowerCase();
   if (!FIELD_KEY.test(fieldKey)) throw new Error("Field key must be lowercase letters, numbers, or underscores, starting with a letter.");
   const fieldLabel = text(label, { max: 80, required: true, field: "label" });
@@ -102,21 +108,23 @@ export async function addField(page: LeadFormPage, key: string, label: string) {
   revalidatePath("/admin/leads-form");
 }
 
-export async function updateFieldLabel(id: string, label: string) {
-  const profile = await requireRole([...LEAD_FORM_ROLES]);
+export async function updateFieldLabel(page: LeadFormPage, id: string, label: string) {
+  const p = oneOf(page, PAGES, "page");
+  const profile = await requireRole([...rolesForPage(p)]);
   const fieldLabel = text(label, { max: 80, required: true, field: "label" });
   const supabase = await getSupabaseUserClient();
-  await supabase.from("lead_form_fields").update({ label: fieldLabel, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("status", "draft");
+  await supabase.from("lead_form_fields").update({ label: fieldLabel, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("page", p).eq("status", "draft");
   revalidatePath("/admin/leads-form");
 }
 
 /** Deletes a custom field and its draft options. No-ops on core fields — those
  * are protected because the public form and submitLead.ts hardcode their keys. */
-export async function removeField(id: string) {
-  await requireRole([...LEAD_FORM_ROLES]);
+export async function removeField(page: LeadFormPage, id: string) {
+  const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const rowId = uuid(id);
   const supabase = await getSupabaseUserClient();
-  const { data: field } = await supabase.from("lead_form_fields").select("page, field_key, is_core").eq("id", rowId).eq("status", "draft").maybeSingle();
+  const { data: field } = await supabase.from("lead_form_fields").select("page, field_key, is_core").eq("id", rowId).eq("page", p).eq("status", "draft").maybeSingle();
   if (!field || field.is_core) return;
 
   await supabase.from("lead_form_options").delete().eq("status", "draft").eq("page", field.page).eq("field_name", field.field_key);
@@ -125,8 +133,8 @@ export async function removeField(id: string) {
 }
 
 export async function moveField(page: LeadFormPage, id: string, direction: "up" | "down") {
-  await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const rowId = uuid(id);
   const supabase = await getSupabaseUserClient();
   const { data: rows } = await supabase.from("lead_form_fields").select("id, sort_order").eq("status", "draft").eq("page", p).order("sort_order");
@@ -143,8 +151,8 @@ export async function moveField(page: LeadFormPage, id: string, direction: "up" 
  * page, so the page can disable Publish/Unpublish up front instead of only
  * reporting "nothing to do" after the click. */
 export async function getLeadFormPublishStatus(page: LeadFormPage) {
-  await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   const [{ count: draftFields }, { count: draftOptions }, { count: archivedFields }, { count: archivedOptions }] = await Promise.all([
     supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft").eq("page", p),
@@ -168,8 +176,8 @@ export async function getLeadFormPublishStatus(page: LeadFormPage) {
 // silently wiping every option. Learned the hard way: this happened for real
 // and left every field showing "No options yet".
 export async function publishLeadFormOptions(page: LeadFormPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
-  const profile = await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  const profile = await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   const now = new Date().toISOString();
   let published = false;
@@ -197,8 +205,8 @@ export async function publishLeadFormOptions(page: LeadFormPage, _prevState: Pub
 }
 
 export async function unpublishLeadFormOptions(page: LeadFormPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
-  await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   let reverted = false;
 
@@ -229,8 +237,8 @@ export async function unpublishLeadFormOptions(page: LeadFormPage, _prevState: P
 /** Discards in-progress draft edits (fields + options) for one page, resetting
  * that page's draft back to match what it currently has published. */
 export async function discardLeadFormDraft(page: LeadFormPage) {
-  await requireRole([...LEAD_FORM_ROLES]);
   const p = oneOf(page, PAGES, "page");
+  await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   await supabase.from("lead_form_options").delete().eq("status", "draft").eq("page", p);
   await supabase.from("lead_form_fields").delete().eq("status", "draft").eq("page", p);

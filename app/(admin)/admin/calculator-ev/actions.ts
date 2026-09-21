@@ -5,7 +5,7 @@ import { getSupabaseUserClient } from "@/lib/supabase/server";
 import { requireRole } from "../guard";
 import { num } from "@/lib/validate";
 
-const EV_CALC_ROLES = ["admin", "marketing"] as const;
+const EV_CALC_ROLES = ["admin", "marketing", "sales_resi"] as const;
 
 const CONFIG_FIELDS = [
   "rate_per_kwh",

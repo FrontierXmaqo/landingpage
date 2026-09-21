@@ -5,7 +5,7 @@ import { getSupabaseServiceClient, getSupabaseUserClient, type Role } from "@/li
 import { requireRole } from "../guard";
 import { oneOf, text, uuid } from "@/lib/validate";
 
-const ROLES = ["admin", "marketing", "sales"] as const;
+const ROLES = ["admin", "marketing", "sales_resi", "sales_ci"] as const;
 
 export type { Role };
 

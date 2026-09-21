@@ -6,10 +6,11 @@ import { requireRole } from "../guard";
 import { oneOf, text, uuid, MAX_TEXT } from "@/lib/validate";
 import { STATUSES } from "./statuses";
 
-const ENQUIRY_ROLES = ["admin", "sales"] as const;
+const RESI_ENQUIRY_ROLES = ["admin", "sales_resi"] as const;
+const CI_ENQUIRY_ROLES = ["admin", "sales_ci"] as const;
 
 export async function updateEnquiryStatus(id: string, status: string) {
-  await requireRole([...ENQUIRY_ROLES]);
+  await requireRole([...RESI_ENQUIRY_ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase
     .from("atap_leads")
@@ -19,7 +20,7 @@ export async function updateEnquiryStatus(id: string, status: string) {
 }
 
 export async function updateEnquiryNotes(id: string, notes: string) {
-  await requireRole([...ENQUIRY_ROLES]);
+  await requireRole([...RESI_ENQUIRY_ROLES]);
   const supabase = await getSupabaseUserClient();
   // Capped so a pasted document can't become an unbounded request/row.
   await supabase
@@ -31,7 +32,7 @@ export async function updateEnquiryNotes(id: string, notes: string) {
 
 /** Same as updateEnquiryStatus/updateEnquiryNotes, for C&I's own ci_leads table. */
 export async function updateCiEnquiryStatus(id: string, status: string) {
-  await requireRole([...ENQUIRY_ROLES]);
+  await requireRole([...CI_ENQUIRY_ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase
     .from("ci_leads")
@@ -41,7 +42,7 @@ export async function updateCiEnquiryStatus(id: string, status: string) {
 }
 
 export async function updateCiEnquiryNotes(id: string, notes: string) {
-  await requireRole([...ENQUIRY_ROLES]);
+  await requireRole([...CI_ENQUIRY_ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase
     .from("ci_leads")

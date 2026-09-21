@@ -59,7 +59,7 @@ export async function isFirstRunSetup() {
   return (count ?? 0) === 0;
 }
 
-export type Role = "admin" | "marketing" | "sales";
+export type Role = "admin" | "marketing" | "sales_resi" | "sales_ci";
 
 /** Current signed-in user's profile (id, full_name, role), or null if signed out. */
 export async function getCurrentProfile() {

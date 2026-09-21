@@ -7,7 +7,7 @@ import { requireRole } from "../guard";
 import type { PublishState } from "../publishState";
 import { text, uuid, oneOf, ValidationError } from "@/lib/validate";
 
-const CI_ROLES = ["admin", "marketing"] as const;
+const CI_ROLES = ["admin", "marketing", "sales_ci"] as const;
 
 /** The three tables this section publishes together. */
 const TABLES = ["ci_projects", "ci_clients", "ci_trust_stats"] as const;

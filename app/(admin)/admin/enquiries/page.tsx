@@ -14,12 +14,18 @@ const SECTIONS = [
 
 export default async function EnquiriesPage() {
   const profile = await getCurrentProfile();
-  if (!profile || !["admin", "sales"].includes(profile.role)) redirect("/admin");
+  if (!profile || !["admin", "sales_resi", "sales_ci"].includes(profile.role)) redirect("/admin");
+  const showResi = profile.role !== "sales_ci";
+  const showCi = profile.role !== "sales_resi";
 
   const supabase = await getSupabaseUserClient();
   const [{ data: leads }, { data: ciLeads }] = await Promise.all([
-    supabase.from("atap_leads").select("*").order("created_at", { ascending: false }).limit(200),
-    supabase.from("ci_leads").select("*").order("created_at", { ascending: false }).limit(200),
+    showResi
+      ? supabase.from("atap_leads").select("*").order("created_at", { ascending: false }).limit(200)
+      : Promise.resolve({ data: null }),
+    showCi
+      ? supabase.from("ci_leads").select("*").order("created_at", { ascending: false }).limit(200)
+      : Promise.resolve({ data: null }),
   ]);
 
   return (
@@ -31,7 +37,7 @@ export default async function EnquiriesPage() {
         aria-label="Jump to a lead list"
         className="sticky top-0 z-10 mt-6 flex w-fit gap-1 rounded-full border border-base-line bg-base-panel/95 p-1 shadow-sm backdrop-blur"
       >
-        {SECTIONS.map((s) => (
+        {SECTIONS.filter((s) => (s.id === "ci" ? showCi : showResi)).map((s) => (
           <a
             key={s.id}
             href={`#${s.id}`}
@@ -43,7 +49,7 @@ export default async function EnquiriesPage() {
         ))}
       </nav>
 
-      <section id="residential-ev" className="mt-8 scroll-mt-20">
+      {showResi && <section id="residential-ev" className="mt-8 scroll-mt-20">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-base-ink">
           <span aria-hidden className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#F97000" }} />
           Residential &amp; EV
@@ -76,9 +82,9 @@ export default async function EnquiriesPage() {
             </tbody>
           </table>
         </div>
-      </section>
+      </section>}
 
-      <section id="ci" className="mt-12 scroll-mt-20">
+      {showCi && <section id="ci" className="mt-12 scroll-mt-20">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-base-ink">
           <span aria-hidden className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#15304F" }} />
           C&amp;I
@@ -112,7 +118,7 @@ export default async function EnquiriesPage() {
             </tbody>
           </table>
         </div>
-      </section>
+      </section>}
     </div>
   );
 }
