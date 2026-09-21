@@ -79,7 +79,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               alt={t.heroVisual.title}
               width={600}
               height={480}
-              className="mx-auto w-full max-w-[420px] rounded-2xl border border-base-line shadow-xl"
+              className="mx-auto w-full max-w-[600px] rounded-2xl border border-base-line shadow-xl"
             />
           </div>
         </section>
