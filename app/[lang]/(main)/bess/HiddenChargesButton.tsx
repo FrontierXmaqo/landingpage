@@ -48,7 +48,7 @@ export default function HiddenChargesButton() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="relative flex h-full max-h-[96vh] w-full max-w-[1600px] items-center justify-center"
+            className="relative flex h-full w-full items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -61,14 +61,15 @@ export default function HiddenChargesButton() {
                 <path d="M6 6l12 12M18 6 6 18" />
               </svg>
             </button>
-            <div className="relative aspect-[1200/675] max-h-full w-full overflow-hidden rounded-2xl bg-base-panel shadow-2xl">
+            <div className="relative h-[92vh] w-[98vw] overflow-hidden rounded-2xl bg-base-panel shadow-2xl sm:h-[94vh] sm:w-[96vw]">
               <Image
                 src="/bess/hidden-charges-bill-breakdown.webp"
                 alt="Detailed calculation of a TNB bill, showing how Maximum Demand charges (Capacity Charge plus Network Charge, multiplied by Maximum Demand) and Energy Charges (total energy used multiplied by the energy rate) map onto the itemised bill"
                 fill
                 priority
                 className="object-contain"
-                sizes="96vw"
+                sizes="98vw"
+                quality={100}
               />
             </div>
           </div>
