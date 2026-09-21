@@ -363,6 +363,16 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
     transparent 100%
   );
 }
+/* Lightens the rooftop photo just enough that it reads as backdrop, not
+   foreground, now that the copy sits on its own panel rather than on the
+   photo directly. */
+.ci-hero-photo-wash {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-base-bg) 8%, transparent) 0%,
+    color-mix(in srgb, var(--color-base-bg) 28%, transparent) 100%
+  );
+}
 .ci-hero-rules {
   background-image:
     linear-gradient(color-mix(in srgb, var(--color-brand-green-deep) 8%, transparent) 1px, transparent 1px),
@@ -371,21 +381,10 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   -webkit-mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
           mask-image: radial-gradient(120% 90% at 18% 0%, black, transparent 70%);
 }
-/* Hero headline accent: bright sky blue on a solid band, painted across the
-   lower half of the figure the way the EV hero does it. Bright rather than
-   the navy-on-tint pairing, so the stat still pops now the hero sits on the
-   dark rooftop photo instead of the page's paper background. */
+/* Hero headline accent: plain navy, no highlight band. The copy panel is
+   solid now, so the stat doesn't need a band of its own to stay legible. */
 .ci-hero-hl {
-  color: var(--color-ci-sky-soft);
-  text-shadow: 0 0 24px color-mix(in srgb, var(--color-ci-sky-soft) 70%, transparent);
-  background-image: linear-gradient(
-    180deg,
-    transparent 34%,
-    color-mix(in srgb, var(--color-ci-sky) 55%, transparent) 34%,
-    color-mix(in srgb, var(--color-ci-sky) 55%, transparent) 84%,
-    transparent 84%
-  );
-  padding: 0 0.05em;
+  color: var(--color-brand-orange-deep);
 }
 .ci-hero-blob,
 .ci-hero-blob-deep {
