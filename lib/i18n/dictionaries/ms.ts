@@ -326,7 +326,7 @@ const ms: Dictionary = {
   leadMessages: {
     success: "Terima kasih! Pasukan ATAP kami akan menghubungi anda dalam 1 hari bekerja.",
     rateLimited: "Terlalu banyak permintaan. Sila cuba lagi dalam seminit.",
-    invalid: "Sila isi nama anda dan nombor telefon yang sah.",
+    invalid: "Sila isi dan pilih semua ruangan sebelum menghantar.",
     captcha: "Kami tidak dapat mengesahkan bahawa anda manusia. Sila cuba lagi.",
     generic: "Berlaku masalah semasa menghantar penilaian anda. Sila hubungi kami di 603-8069 1706.",
   },

@@ -325,7 +325,7 @@ const cn: Dictionary = {
   leadMessages: {
     success: "谢谢！我们的 ATAP 团队会在 1 个工作日内致电给您。",
     rateLimited: "请求过于频繁，请一分钟后再试。",
-    invalid: "请填写您的姓名及有效的电话号码。",
+    invalid: "请填写并选择所有栏位后再提交。",
     captcha: "无法验证您是真人，请再试一次。",
     generic: "提交评估时出现问题。请直接致电 603-8069 1706 联系我们。",
   },

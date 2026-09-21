@@ -334,7 +334,7 @@ const en = {
   leadMessages: {
     success: "Thanks! Our ATAP team will call you within 1 business day.",
     rateLimited: "Too many requests. Please try again in a minute.",
-    invalid: "Please fill in your name and a valid phone number.",
+    invalid: "Please fill in and select every field before submitting.",
     captcha: "We couldn't verify you're human. Please try again.",
     generic: "Something went wrong submitting your assessment. Please call us at 603-8069 1706 instead.",
   },
