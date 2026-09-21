@@ -14,7 +14,7 @@ const SECTIONS = [
 
 export default async function EnquiriesPage() {
   const profile = await getCurrentProfile();
-  if (!profile || !["admin", "sales_resi", "sales_ci"].includes(profile.role)) redirect("/admin");
+  if (!profile || !["admin", "marketing", "sales_resi", "sales_ci"].includes(profile.role)) redirect("/admin");
   const showResi = profile.role !== "sales_ci";
   const showCi = profile.role !== "sales_resi";
 

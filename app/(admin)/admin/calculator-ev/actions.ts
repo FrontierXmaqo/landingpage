@@ -5,7 +5,7 @@ import { getSupabaseUserClient } from "@/lib/supabase/server";
 import { requireRole } from "../guard";
 import { num } from "@/lib/validate";
 
-const EV_CALC_ROLES = ["admin", "marketing", "sales_resi"] as const;
+const EV_CALC_ROLES = ["admin", "marketing"] as const;
 
 const CONFIG_FIELDS = [
   "rate_per_kwh",
@@ -43,7 +43,7 @@ export async function saveEvConfigDraft(formData: FormData) {
   for (const field of CONFIG_FIELDS) patch[field] = num(formData.get(field), { field });
 
   await supabase.from("ev_calculator_config").update(patch).eq("id", draft.id);
-  revalidatePath("/admin/calculator-ev");
+  revalidatePath("/admin/residential");
 }
 
 /** Discards in-progress draft edits, resetting the draft back to match the
@@ -53,7 +53,7 @@ export async function discardEvConfigDraft() {
   const supabase = await getSupabaseUserClient();
   await supabase.from("ev_calculator_config").delete().eq("status", "draft");
   await ensureEvDraftSeeded();
-  revalidatePath("/admin/calculator-ev");
+  revalidatePath("/admin/residential");
 }
 
 // Guarded the same way as the lead form's publish action: only archive the
@@ -70,7 +70,7 @@ export async function publishEvCalculator() {
     await supabase.from("ev_calculator_config").update({ status: "published", published_at: now, published_by: profile.id }).eq("status", "draft");
   }
 
-  revalidatePath("/admin/calculator-ev");
+  revalidatePath("/admin/residential");
   revalidatePath("/");
 }
 
@@ -86,6 +86,6 @@ export async function unpublishEvCalculator() {
   await supabase.from("ev_calculator_config").update({ status: "archived" }).eq("status", "published");
   await supabase.from("ev_calculator_config").update({ status: "published" }).eq("id", lastArchived.id);
 
-  revalidatePath("/admin/calculator-ev");
+  revalidatePath("/admin/residential");
   revalidatePath("/");
 }

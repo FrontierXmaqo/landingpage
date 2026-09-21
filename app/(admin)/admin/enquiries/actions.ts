@@ -6,8 +6,8 @@ import { requireRole } from "../guard";
 import { oneOf, text, uuid, MAX_TEXT } from "@/lib/validate";
 import { STATUSES } from "./statuses";
 
-const RESI_ENQUIRY_ROLES = ["admin", "sales_resi"] as const;
-const CI_ENQUIRY_ROLES = ["admin", "sales_ci"] as const;
+const RESI_ENQUIRY_ROLES = ["admin", "marketing", "sales_resi"] as const;
+const CI_ENQUIRY_ROLES = ["admin", "marketing", "sales_ci"] as const;
 
 export async function updateEnquiryStatus(id: string, status: string) {
   await requireRole([...RESI_ENQUIRY_ROLES]);

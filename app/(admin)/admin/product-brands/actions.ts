@@ -37,7 +37,7 @@ export async function addBrand(name: string) {
   const supabase = await getSupabaseUserClient();
   const { count } = await supabase.from("brand_logos").select("*", { count: "exact", head: true }).eq("status", "draft");
   await supabase.from("brand_logos").insert({ status: "draft", sort_order: count ?? 0, name: clean, updated_by: profile.id });
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }
 
 export async function updateBrand(id: string, name: string) {
@@ -49,14 +49,14 @@ export async function updateBrand(id: string, name: string) {
     .update({ name: clean, updated_by: profile.id, updated_at: new Date().toISOString() })
     .eq("id", uuid(id))
     .eq("status", "draft");
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }
 
 export async function removeBrand(id: string) {
   await requireRole([...ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase.from("brand_logos").delete().eq("id", uuid(id)).eq("status", "draft");
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }
 
 /** Uploads a brand's logo, re-encoded to WebP the same way the C&I client
@@ -101,7 +101,7 @@ export async function uploadBrandLogo(id: string, formData: FormData) {
     .eq("id", rowId)
     .eq("status", "draft");
 
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }
 
 /** Clears the logo, putting the tile back to the brand's name in text. */
@@ -113,7 +113,7 @@ export async function removeBrandLogo(id: string) {
     .update({ logo_url: null, updated_by: profile.id, updated_at: new Date().toISOString() })
     .eq("id", uuid(id))
     .eq("status", "draft");
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }
 
 export async function moveBrand(id: string, direction: "up" | "down") {
@@ -129,7 +129,7 @@ export async function moveBrand(id: string, direction: "up" | "down") {
 
   await supabase.from("brand_logos").update({ sort_order: rows[swapWith].sort_order }).eq("id", rows[idx].id);
   await supabase.from("brand_logos").update({ sort_order: rows[idx].sort_order }).eq("id", rows[swapWith].id);
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }
 
 /* --------------------------- publish workflow --------------------------- */
@@ -168,7 +168,7 @@ export async function publishBrandLogos(_prevState: PublishState, _formData: For
     return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed — reload and try again.` };
   }
 
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
   revalidatePath("/", "layout");
   return { status: "success", message: "Published — the public page now shows this draft." };
 }
@@ -196,7 +196,7 @@ export async function unpublishBrandLogos(_prevState: PublishState, _formData: F
     .eq("published_at", lastArchived.published_at)
     .eq("status", "archived");
 
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
   revalidatePath("/", "layout");
   return { status: "success", message: "Reverted to the previous published version." };
 }
@@ -206,5 +206,5 @@ export async function discardBrandLogosDraft() {
   const supabase = await getSupabaseUserClient();
   await supabase.from("brand_logos").delete().eq("status", "draft");
   await ensureBrandLogosDraftSeeded();
-  revalidatePath("/admin/product-brands");
+  revalidatePath("/admin/residential");
 }

@@ -31,7 +31,7 @@ export async function addAchievement() {
     label: "New achievement",
     updated_by: profile.id,
   });
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
 }
 
 export async function updateAchievement(id: string, field: string, value: string) {
@@ -44,14 +44,14 @@ export async function updateAchievement(id: string, field: string, value: string
     .update({ [column]: clean, updated_by: profile.id, updated_at: new Date().toISOString() })
     .eq("id", uuid(id))
     .eq("status", "draft");
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
 }
 
 export async function removeAchievement(id: string) {
   await requireRole([...ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase.from("home_achievements").delete().eq("id", uuid(id)).eq("status", "draft");
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
 }
 
 export async function moveAchievement(id: string, direction: "up" | "down") {
@@ -67,7 +67,7 @@ export async function moveAchievement(id: string, direction: "up" | "down") {
 
   await supabase.from("home_achievements").update({ sort_order: rows[swapWith].sort_order }).eq("id", rows[idx].id);
   await supabase.from("home_achievements").update({ sort_order: rows[idx].sort_order }).eq("id", rows[swapWith].id);
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
 }
 
 /* --------------------------- publish workflow --------------------------- */
@@ -106,7 +106,7 @@ export async function publishAchievements(_prevState: PublishState, _formData: F
     return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed — reload and try again.` };
   }
 
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
   revalidatePath("/", "layout");
   return { status: "success", message: "Published — the public page now shows this draft." };
 }
@@ -134,7 +134,7 @@ export async function unpublishAchievements(_prevState: PublishState, _formData:
     .eq("published_at", lastArchived.published_at)
     .eq("status", "archived");
 
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
   revalidatePath("/", "layout");
   return { status: "success", message: "Reverted to the previous published version." };
 }
@@ -144,5 +144,5 @@ export async function discardAchievementsDraft() {
   const supabase = await getSupabaseUserClient();
   await supabase.from("home_achievements").delete().eq("status", "draft");
   await ensureAchievementsDraftSeeded();
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/residential");
 }
