@@ -67,7 +67,7 @@ export default function Charts({
         </div>
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <StatTile label="Enquiry conversion (enquiries ÷ visitors)" value={`${enquiryConversion.toFixed(2)}%`} />
-          <StatTile label="Calculator completion (enquiries ÷ calculator users)" value={`${calculatorCompletion.toFixed(1)}%`} />
+          <StatTile label="Calculator completion (completions ÷ calculator users)" value={`${calculatorCompletion.toFixed(1)}%`} />
         </div>
         <p className="mt-2 text-xs text-base-slate">
           Tracked from first-party pageview and calculator-use events recorded on the public site.

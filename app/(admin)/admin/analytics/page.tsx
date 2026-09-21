@@ -18,10 +18,11 @@ export default async function AnalyticsPage() {
   const distinctSessions = (type: string) => new Set((events ?? []).filter((e) => e.event_type === type).map((e) => e.session_id)).size;
   const visitors = distinctSessions("pageview");
   const calculatorUsers = distinctSessions("calculator_start");
+  const calculatorCompletions = distinctSessions("calculator_complete");
   const enquiries = leads?.length ?? 0;
 
   const enquiryConversion = visitors ? (enquiries / visitors) * 100 : 0;
-  const calculatorCompletion = calculatorUsers ? (enquiries / calculatorUsers) * 100 : 0;
+  const calculatorCompletion = calculatorUsers ? (calculatorCompletions / calculatorUsers) * 100 : 0;
 
   const byStatus = ["new", "contacted", "qualified", "converted"].map((status) => ({
     label: status[0].toUpperCase() + status.slice(1),
