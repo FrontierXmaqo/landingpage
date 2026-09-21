@@ -234,22 +234,6 @@ export default function CiLeadForm({
           </select>
         </label>
 
-        {/* Optional — a postcode gives the sales team a district to route a
-            site visit on; "Selangor" alone spans a two-hour drive. */}
-        <label className={labelClass} htmlFor="ci-postcode">
-          <span>{t.postcode}</span>
-          <input
-            id="ci-postcode"
-            name="postcode"
-            inputMode="numeric"
-            autoComplete="postal-code"
-            maxLength={5}
-            pattern="[0-9]{5}"
-            placeholder={t.postcodePlaceholder}
-            className={fieldClass}
-          />
-        </label>
-
         <label className={labelClass} htmlFor="ci-bill">
           <span>
             {t.bill}

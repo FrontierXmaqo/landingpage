@@ -55,12 +55,10 @@ async function getClientIp() {
 }
 
 async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload>[0]) {
-  const isPreview = process.env.VERCEL_ENV === "preview";
-  const webhookUrl = isPreview ? process.env.TESTING_WEBHOOK_URL : process.env.LEAD_WEBHOOK_URL;
-  const webhookVarName = isPreview ? "TESTING_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
+  const webhookUrl = process.env.LEAD_WEBHOOK_URL;
   if (!webhookUrl) return;
   if (!webhookUrl.startsWith("https://")) {
-    console.error(`${webhookVarName} is not an https:// URL; refusing to send.`);
+    console.error("LEAD_WEBHOOK_URL is not an https:// URL; refusing to send.");
     return;
   }
 
@@ -123,11 +121,6 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const phoneRaw = clean(formData.get("phone"), 30);
   const email = clean(formData.get("email"));
   const state = oneOf(clean(formData.get("state"), 50), stateOptions);
-  // Optional, and silently dropped if malformed — a mistyped postcode must
-  // never cost a lead. lib/postcode.ts turns it into district and town at
-  // read time, so nothing derived is frozen into the row.
-  const postcodeRaw = clean(formData.get("postcode"), 10).replace(/\D/g, "");
-  const postcode = /^[0-9]{5}$/.test(postcodeRaw) ? postcodeRaw : "";
   const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), billRangeOptions);
   const property_type = oneOf(clean(formData.get("property_type"), 80), propertyTypeOptions);
   const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
@@ -196,16 +189,12 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
       formPage === "ci"
         ? await supabase.from("ci_leads").insert({
             full_name, company_name, industry: extraFields["industry"] || null,
-            phone, email, state, postcode: postcode || null, monthly_bill_range,
+            phone, email, state, monthly_bill_range,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
             extra_fields: ciExtraFields,
           })
         : await supabase.from("atap_leads").insert({
-            // atap_leads holds both Residential and EV, and this form is the
-            // only place that knows which. Rows written before the column
-            // existed stay 'unknown' — no signal survived to recover them.
-            segment: formPage === "ev" ? "ev" : "residential",
-            full_name, phone, email, state, postcode: postcode || null,
+            full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
             extra_fields: extraFields,
@@ -226,7 +215,6 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     phone,
     email,
     state,
-    postcode,
     monthlyBillRange: monthly_bill_range,
     propertyType: property_type,
     electricSupply: electric_supply,

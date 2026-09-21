@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { SEGMENT_DOT } from "@/lib/segments";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
 import {
   ensureLeadFormDraftSeeded,
@@ -19,11 +18,9 @@ import { formatMYDateTime } from "@/lib/datetime";
  *  EV's green, C&I's navy) as the FAQ editor's nav — so this nav visually maps
  *  to the pages it edits instead of reading as three interchangeable tabs. */
 const SECTIONS: { page: LeadFormPage; title: string; navLabel: string; hint: string; dot: string }[] = [
-  // The stored page key stays "main" — renaming it would mean migrating live
-  // published form config for a label change. Only what staff read changes.
-  { page: "main", title: "Residential Lead Form", navLabel: "Residential", dot: SEGMENT_DOT.residential, hint: "The assessment form on the homepage." },
-  { page: "ci", title: "C&I Lead Form", navLabel: "C&I", dot: SEGMENT_DOT.ci, hint: "The enquiry form on /commercial-and-industrial." },
-  { page: "ev", title: "EV Lead Form", navLabel: "EV", dot: SEGMENT_DOT.ev, hint: "The assessment form on /ev." },
+  { page: "main", title: "Main Site Lead Form", navLabel: "Main", dot: "#F97000", hint: "The assessment form on the homepage." },
+  { page: "ev", title: "EV Lead Form", navLabel: "EV", dot: "#1E9E52", hint: "The assessment form on /ev." },
+  { page: "ci", title: "C&I Lead Form", navLabel: "C&I", dot: "#15304F", hint: "Ready to configure ahead of the /commercial-and-industrial enquiry form being wired to the CMS." },
 ];
 
 async function loadSection(page: LeadFormPage) {

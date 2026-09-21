@@ -7,7 +7,6 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
-import BessHeroVisual from "./BessHeroVisual";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
@@ -75,7 +74,13 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            <BessHeroVisual t={t.heroVisual} />
+            <img
+              src="/images/bess-flow.gif"
+              alt={t.heroVisual.title}
+              width={600}
+              height={480}
+              className="mx-auto w-full max-w-[420px] rounded-2xl border border-base-line shadow-xl"
+            />
           </div>
         </section>
 
