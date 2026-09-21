@@ -764,17 +764,29 @@ const en = {
       "Turn-Key Solution",
     ],
     heroVisual: {
-      title: "Three systems, one cheaper bill",
-      liveFlow: "Live flow",
-      tiles: [
-        { label: "Solar Panel", caption: "Generates power by day" },
-        { label: "BESS", caption: "Stores & discharges" },
-        { label: "TNB Grid", caption: "Backup & export credit" },
+      title: "How a battery cuts your electricity bill",
+      subtitle: "Same building, same machines, same hours — just a smaller charge from TNB.",
+      legend: ["Solar power", "Battery power", "TNB grid power"],
+      nodes: {
+        solar: { label: "SOLAR PANELS", caption: "Free power while the sun is up" },
+        facility: { label: "YOUR BUILDING", caption: "Machines, chillers, lights, aircon" },
+        grid: { label: "TNB GRID", caption: "Standby supply from the utility" },
+        battery: { label: "BATTERY", caption: "Saves power now, uses it later" },
+      },
+      arrowLabels: [
+        "Runs your building — free",
+        "Leftover sunshine fills the battery",
+        "Battery covers your busiest moments",
+        "TNB tops you up if needed",
+        "Spare solar sold back to TNB",
+        "Refills overnight, when power is cheap",
       ],
-      lanes: ["Charges by day", "Discharges at peak", "Backup only"],
-      facilityTitle: "Your Facility",
-      facilitySubtitle: "Maximum Demand, flattened",
-      footer: "Solar and BESS do the work of shaving your peak — the grid only steps in as backup.",
+      footerPrefix: "TNB charges you on your ",
+      footerBold: "single busiest half-hour of the month",
+      footerSuffix:
+        ". The battery quietly covers that spike — so that charge, and your bill, come down.",
+      zoomLabel: "Tap to zoom in",
+      zoomCloseLabel: "Close",
     },
 
     problemTag: "The Problem",
@@ -785,6 +797,8 @@ const en = {
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "After restructuring",
     problemAfterAmt: "RM 200k",
+    problemDoubledBadge: "Doubled",
+    problemDeltaLabel: "RM 100k more",
     problemCompareCaption: "Typical monthly MD charge for the same facility",
     problemFacts: [
       { stat: "2pm – 10pm", body: "Weekday peak window where a single spike sets your MD charge" },

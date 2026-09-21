@@ -7,6 +7,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
+import BessFlowDiagram from "./BessFlowDiagram";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
@@ -74,13 +75,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            <img
-              src="/images/bess-flow.gif"
-              alt={t.heroVisual.title}
-              width={600}
-              height={480}
-              className="mx-auto w-full max-w-[420px] rounded-2xl border border-base-line shadow-xl"
-            />
+            <BessFlowDiagram t={t.heroVisual} />
           </div>
         </section>
 
@@ -95,21 +90,54 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-base-slate">{t.problemBody}</p>
             </ScrollReveal>
 
-            <ScrollReveal delayMs={80} className="mx-auto mt-10 max-w-xl">
-              <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-                <div className="rounded-2xl border border-[#e3b7ad] bg-base-bg p-5 text-center sm:p-6">
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-[#a45140]">{t.problemBeforeLabel}</p>
-                  <p className="mt-2 text-2xl font-extrabold text-base-ink sm:text-3xl">{t.problemBeforeAmt}</p>
+            <ScrollReveal delayMs={80} className="mx-auto mt-12 max-w-2xl">
+              <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6">
+                <div className="rounded-[22px] border border-[#e3b7ad] bg-base-bg p-6 text-center sm:p-8">
+                  <p className="text-xs font-bold uppercase tracking-wide text-[#a45140]">{t.problemBeforeLabel}</p>
+                  <p className="mt-3 text-3xl font-extrabold text-base-ink sm:text-4xl">{t.problemBeforeAmt}</p>
                 </div>
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-base-slate">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
+
+                <svg
+                  viewBox="0 0 60 84"
+                  width="34"
+                  height="48"
+                  fill="none"
+                  className="shrink-0 sm:h-16 sm:w-11"
+                  aria-hidden
+                >
+                  <defs>
+                    <linearGradient id="problem-arrow-grad" x1="6" y1="78" x2="54" y2="10" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stopColor="var(--color-brand-orange)" stopOpacity="0.4" />
+                      <stop offset="1" stopColor="var(--color-brand-orange-ink)" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M8 78 L8 60 L24 60 L24 42 L40 42 L40 20"
+                    stroke="url(#problem-arrow-grad)"
+                    strokeWidth="9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <polygon points="40,8 54,16 46,28 40,20" fill="var(--color-brand-orange-ink)" />
                 </svg>
-                <div className="rounded-2xl border border-brand-green/40 bg-brand-green-tint p-5 text-center sm:p-6">
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-brand-green-ink">{t.problemAfterLabel}</p>
-                  <p className="mt-2 text-2xl font-extrabold text-brand-green-ink sm:text-3xl">{t.problemAfterAmt}</p>
+
+                <div className="relative rounded-[22px] border-2 border-[var(--color-brand-orange-ink)] bg-brand-orange-tint p-6 text-center shadow-[0_0_60px_-10px_var(--color-brand-orange)] sm:p-8">
+                  <span className="absolute -right-3 -top-6 inline-flex -rotate-6 items-center gap-1.5 rounded-full bg-[var(--color-brand-orange-ink)] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide text-white shadow-lg sm:-right-5 sm:-top-7">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden>
+                      <path d="M12 2 1 21h22L12 2Zm0 6.5 6.5 11h-13L12 8.5Z" />
+                      <rect x="11" y="11" width="2" height="5" fill="currentColor" />
+                      <rect x="11" y="17.5" width="2" height="2" fill="currentColor" />
+                    </svg>
+                    {t.problemDoubledBadge}
+                  </span>
+                  <p className="text-xs font-bold uppercase tracking-wide text-[var(--color-brand-orange-ink)]">{t.problemAfterLabel}</p>
+                  <p className="mt-3 text-3xl font-extrabold text-[var(--color-brand-orange-ink)] sm:text-4xl">{t.problemAfterAmt}</p>
+                  <p className="mx-auto mt-3 inline-block rounded-full bg-base-bg px-4 py-1.5 text-[11px] font-bold uppercase tracking-wide text-[var(--color-brand-orange-ink)]">
+                    {t.problemDeltaLabel}
+                  </p>
                 </div>
               </div>
-              <p className="mt-3 text-xs text-base-slate">{t.problemCompareCaption}</p>
+              <p className="mt-4 text-xs text-base-slate">{t.problemCompareCaption}</p>
               <div className="mt-6 flex justify-center">
                 <HiddenChargesButton />
               </div>

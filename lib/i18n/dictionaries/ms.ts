@@ -756,17 +756,29 @@ const ms: Dictionary = {
       "Penyelesaian Sehenti",
     ],
     heroVisual: {
-      title: "Tiga sistem, satu bil yang lebih murah",
-      liveFlow: "Aliran tenaga langsung",
-      tiles: [
-        { label: "Panel Solar", caption: "Menjana kuasa pada waktu siang" },
-        { label: "BESS", caption: "Menyimpan & menyahcas" },
-        { label: "Grid TNB", caption: "Sandaran & kredit eksport" },
+      title: "Bagaimana bateri mengurangkan bil elektrik anda",
+      subtitle: "Bangunan sama, mesin sama, waktu sama — cuma caj TNB yang lebih kecil.",
+      legend: ["Kuasa solar", "Kuasa bateri", "Kuasa grid TNB"],
+      nodes: {
+        solar: { label: "PANEL SOLAR", caption: "Kuasa percuma semasa matahari terbit" },
+        facility: { label: "BANGUNAN ANDA", caption: "Mesin, pendingin, lampu, penghawa dingin" },
+        grid: { label: "GRID TNB", caption: "Bekalan sandaran daripada utiliti" },
+        battery: { label: "BATERI", caption: "Menyimpan kuasa sekarang, guna kemudian" },
+      },
+      arrowLabels: [
+        "Menjalankan bangunan anda — percuma",
+        "Baki solar mengisi bateri",
+        "Bateri menampung waktu puncak anda",
+        "TNB menambah bekalan jika diperlukan",
+        "Lebihan solar dijual semula kepada TNB",
+        "Mengisi semula pada waktu malam, semasa kuasa murah",
       ],
-      lanes: ["Mengecas pada waktu siang", "Menyahcas semasa puncak", "Sandaran sahaja"],
-      facilityTitle: "Fasiliti Anda",
-      facilitySubtitle: "Permintaan Maksimum diturunkan",
-      footer: "Solar dan BESS melakukan kerja mengurangkan puncak anda — grid hanya bertindak sebagai sandaran.",
+      footerPrefix: "TNB mengenakan caj berdasarkan ",
+      footerBold: "setengah jam tersibuk anda dalam sebulan",
+      footerSuffix:
+        ". Bateri diam-diam menampung lonjakan itu — jadi caj itu, dan bil anda, berkurangan.",
+      zoomLabel: "Ketik untuk zum",
+      zoomCloseLabel: "Tutup",
     },
 
     problemTag: "Masalahnya",
@@ -777,6 +789,8 @@ const ms: Dictionary = {
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "Selepas penstrukturan semula",
     problemAfterAmt: "RM 200k",
+    problemDoubledBadge: "Berganda",
+    problemDeltaLabel: "RM 100k lagi",
     problemCompareCaption: "Caj MD bulanan biasa untuk kemudahan yang sama",
     problemFacts: [
       { stat: "2 tgh – 10 mlm", body: "Waktu puncak hari bekerja yang menentukan caj MD anda dengan satu lonjakan sahaja" },
