@@ -11,6 +11,12 @@ const PAGE_LABELS: Record<string, string> = {
   "thank-you": "Thank you",
 };
 
+/**
+ * Every page the dashboard reports on, so a page with no visits yet still gets
+ * a card ("Not enough visits yet") instead of vanishing from the breakdown.
+ */
+export const ALL_PAGE_NAMES: string[] = Object.values(PAGE_LABELS);
+
 /** Pages that embed a lead form under #assessment — the ones form drop-off applies to. */
 export const PAGES_WITH_FORM = new Set(["ATAP", "BESS", "Commercial & Industrial", "EV"]);
 
