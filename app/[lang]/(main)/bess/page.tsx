@@ -37,9 +37,9 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
   const dict = getDictionary(lang);
   const t = dict.bess;
   // BESS has no lead form of its own (the hero shows the battery visual
-  // instead), so every CTA here routes to the home page's #assessment form —
-  // the same pattern About and ATAP already use.
-  const home = (hash: string) => localePath(lang, `/${hash}`);
+  // instead), so every CTA here routes to the C&I page's #assessment form,
+  // since BESS is a C&I offering.
+  const home = (hash: string) => localePath(lang, `/commercial-and-industrial${hash}`);
 
   return (
     <div data-theme="bess" className="contents">
@@ -117,14 +117,19 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                 </svg>
 
                 <div className="relative rounded-[22px] border-2 border-[var(--color-brand-orange-ink)] bg-brand-orange-tint p-6 text-center shadow-[0_0_60px_-10px_var(--color-brand-orange)] sm:p-8">
-                  <span className="absolute -right-3 -top-6 inline-flex -rotate-6 items-center gap-1.5 rounded-full bg-[var(--color-brand-orange-ink)] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide text-white shadow-lg sm:-right-5 sm:-top-7">
+                  <Link
+                    href={home("#assessment")}
+                    aria-label={`${t.problemDoubledBadge} — ${t.heroCtaPrimary}`}
+                    title={t.heroCtaPrimary}
+                    className="bess-loud-badge absolute -right-3 -top-6 inline-flex -rotate-6 items-center gap-1.5 rounded-full bg-[var(--color-brand-orange-ink)] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide text-white shadow-lg sm:-right-5 sm:-top-7"
+                  >
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden>
                       <path d="M12 2 1 21h22L12 2Zm0 6.5 6.5 11h-13L12 8.5Z" />
                       <rect x="11" y="11" width="2" height="5" fill="currentColor" />
                       <rect x="11" y="17.5" width="2" height="2" fill="currentColor" />
                     </svg>
                     {t.problemDoubledBadge}
-                  </span>
+                  </Link>
                   <p className="text-xs font-bold uppercase tracking-wide text-[var(--color-brand-orange-ink)]">{t.problemAfterLabel}</p>
                   <p className="mt-3 text-3xl font-extrabold text-[var(--color-brand-orange-ink)] sm:text-4xl">{t.problemAfterAmt}</p>
                   <p className="mx-auto mt-3 inline-block rounded-full bg-base-bg px-4 py-1.5 text-[11px] font-bold uppercase tracking-wide text-[var(--color-brand-orange-ink)]">
