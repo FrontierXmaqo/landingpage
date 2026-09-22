@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { addField, updateFieldLabel, removeField, moveField, addOption, updateOption, removeOption, type LeadFormPage } from "./actions";
+import { addOption, updateOption, removeOption, type LeadFormPage } from "./actions";
 
 type Field = { id: string; field_key: string; label: string; is_core: boolean };
 type Option = { id: string; field_name: string; value: string };
@@ -101,138 +101,64 @@ function OptionRow({ page, option }: { page: LeadFormPage; option: Option }) {
   );
 }
 
-/** Add/Edit modal for one field: label, its full list of current selections
- * (each independently editable/removable), and a form to add a new one. */
-function FieldModal({ page, field, options, onClose }: { page: LeadFormPage; field: Field | null; options: Option[]; onClose: () => void }) {
-  const isCreate = field === null;
-  const [key, setKey] = useState("");
-  const [label, setLabel] = useState(field?.label ?? "");
+/** Edit modal for one field's dropdown options: the field itself (key, label,
+ * order) is hardcoded in the public form and submitLead.ts, so this only
+ * offers what's actually live-editable — its list of selections. */
+function FieldModal({ page, field, options, onClose }: { page: LeadFormPage; field: Field; options: Option[]; onClose: () => void }) {
   const [newOption, setNewOption] = useState("");
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   return (
-    <Modal title={isCreate ? "Add field" : `Edit "${field.label}"`} onClose={onClose}>
-      {isCreate ? (
-        <form
-          className="flex flex-col gap-3"
-          action={async () => {
-            setError(null);
-            setPending(true);
-            try {
-              await addField(page, key, label);
-              onClose();
-            } catch (err) {
-              setError(err instanceof Error ? err.message : "Couldn't add that field.");
-            } finally {
-              setPending(false);
-            }
-          }}
-        >
-          <label className="text-xs font-medium text-base-slate">
-            Field key
-            <input
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-              placeholder="e.g. roof_type"
-              className="mt-1 w-full rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green"
-            />
-          </label>
-          <label className="text-xs font-medium text-base-slate">
-            Label shown to visitors
-            <input
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
-              placeholder="e.g. Roof type"
-              className="mt-1 w-full rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green"
-            />
-          </label>
-          {error && <p className="text-xs text-status-critical">{error}</p>}
-          <div className="mt-1 flex justify-end gap-2">
-            <button type="button" onClick={onClose} className={`${buttonBase} border border-base-line text-base-ink hover:border-base-slate`}>
-              Cancel
-            </button>
-            <button disabled={pending || !key.trim() || !label.trim()} className={`${buttonBase} bg-brand-green text-white disabled:opacity-50`}>
-              Add field
-            </button>
-          </div>
-        </form>
-      ) : (
-        <>
-          <label className="text-xs font-medium text-base-slate">
-            Label shown to visitors
-            <input
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
-              onBlur={async () => {
-                const trimmed = label.trim();
-                if (!trimmed || trimmed === field.label) {
-                  setLabel(field.label);
-                  return;
-                }
-                await updateFieldLabel(page, field.id, trimmed);
-              }}
-              className="mt-1 w-full rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green"
-            />
-          </label>
+    <Modal title={`Edit "${field.label}"`} onClose={onClose}>
+      <p className="text-xs font-semibold uppercase tracking-wide text-base-slate">Current selections</p>
+      <ul className="mt-2 flex max-h-64 flex-col gap-1.5 overflow-y-auto">
+        {options.map((o) => (
+          <OptionRow key={o.id} page={page} option={o} />
+        ))}
+        {!options.length && <li className="text-sm text-base-slate">No options yet — add one below.</li>}
+      </ul>
 
-          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-base-slate">Current selections</p>
-          <ul className="mt-2 flex max-h-64 flex-col gap-1.5 overflow-y-auto">
-            {options.map((o) => (
-              <OptionRow key={o.id} page={page} option={o} />
-            ))}
-            {!options.length && <li className="text-sm text-base-slate">No options yet — add one below.</li>}
-          </ul>
+      <form
+        className="mt-3 flex gap-2"
+        action={async () => {
+          if (!newOption.trim()) return;
+          setPending(true);
+          try {
+            await addOption(page, field.field_key, newOption);
+            setNewOption("");
+          } finally {
+            setPending(false);
+          }
+        }}
+      >
+        <input
+          value={newOption}
+          onChange={(e) => setNewOption(e.target.value)}
+          placeholder="Add a selection…"
+          className="flex-1 rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green"
+        />
+        <button disabled={pending || !newOption.trim()} className={`${buttonBase} bg-brand-green text-white disabled:opacity-50`}>
+          Add
+        </button>
+      </form>
 
-          <form
-            className="mt-3 flex gap-2"
-            action={async () => {
-              if (!newOption.trim()) return;
-              setPending(true);
-              try {
-                await addOption(page, field.field_key, newOption);
-                setNewOption("");
-              } finally {
-                setPending(false);
-              }
-            }}
-          >
-            <input
-              value={newOption}
-              onChange={(e) => setNewOption(e.target.value)}
-              placeholder="Add a selection…"
-              className="flex-1 rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green"
-            />
-            <button disabled={pending || !newOption.trim()} className={`${buttonBase} bg-brand-green text-white disabled:opacity-50`}>
-              Add
-            </button>
-          </form>
-
-          <div className="mt-5 flex justify-end">
-            <button type="button" onClick={onClose} className={`${buttonBase} border border-base-line text-base-ink hover:border-base-slate`}>
-              Done
-            </button>
-          </div>
-        </>
-      )}
+      <div className="mt-5 flex justify-end">
+        <button type="button" onClick={onClose} className={`${buttonBase} border border-base-line text-base-ink hover:border-base-slate`}>
+          Done
+        </button>
+      </div>
     </Modal>
   );
 }
 
-function FieldTableRow({ page, field, options, index, total, onEdit }: { page: LeadFormPage; field: Field; options: Option[]; index: number; total: number; onEdit: () => void }) {
+function FieldTableRow({ field, options, onEdit }: { field: Field; options: Option[]; onEdit: () => void }) {
   const preview = options.map((o) => o.value);
   const shown = preview.slice(0, 4).join(", ");
   const extra = preview.length - 4;
 
   return (
     <tr>
-      <td className="w-14 py-4 pl-6 pr-2">
-        <div className="flex flex-col items-center gap-0.5">
-          <button type="button" disabled={index === 0} onClick={() => moveField(page, field.id, "up")} className="text-base-slate hover:text-brand-green-ink disabled:opacity-25">▲</button>
-          <button type="button" disabled={index === total - 1} onClick={() => moveField(page, field.id, "down")} className="text-base-slate hover:text-brand-green-ink disabled:opacity-25">▼</button>
-        </div>
-      </td>
-      <td className="w-56 py-4 pr-4">
+      <td className="w-56 py-4 pl-6 pr-4">
         <div className="flex items-center gap-1.5">
           <span className="text-sm font-medium text-base-ink">{field.label}</span>
           {field.is_core && <span className="rounded-full bg-base-line px-1.5 py-0.5 text-[10px] font-medium text-base-slate">Core</span>}
@@ -250,76 +176,55 @@ function FieldTableRow({ page, field, options, index, total, onEdit }: { page: L
         )}
       </td>
       <td className="w-40 py-4 pr-6 text-right">
-        <div className="inline-flex items-center gap-2">
-          <button type="button" onClick={onEdit} className={`${buttonBase} border border-base-line bg-base-bg text-base-ink hover:border-base-slate`}>
-            Edit
-          </button>
-          {!field.is_core && (
-            <button
-              type="button"
-              onClick={() => {
-                if (window.confirm(`Delete the "${field.label}" field and all its options?`)) removeField(page, field.id);
-              }}
-              className={`${buttonBase} border border-status-critical/30 bg-status-critical/10 text-status-critical hover:bg-status-critical/15`}
-            >
-              Delete
-            </button>
-          )}
-        </div>
+        <button type="button" onClick={onEdit} className={`${buttonBase} border border-base-line bg-base-bg text-base-ink hover:border-base-slate`}>
+          Edit options
+        </button>
       </td>
     </tr>
   );
 }
 
 export default function LeadFormTable({ page, fields, options }: { page: LeadFormPage; fields: Field[]; options: Option[] }) {
-  const [modal, setModal] = useState<"create" | { fieldId: string } | null>(null);
-  const editingField = modal && modal !== "create" ? fields.find((f) => f.id === modal.fieldId) ?? null : null;
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const editingField = fields.find((f) => f.id === editingId) ?? null;
 
   return (
     <div className="admin-card overflow-hidden">
-      <div className="flex items-center justify-between border-b border-base-line px-6 py-4">
-        <div>
-          <h2 className="text-sm font-semibold text-base-ink">All fields</h2>
-          <p className="mt-1 text-xs text-base-slate">Every field and its current dropdown selections on the public form.</p>
-        </div>
-        <button type="button" onClick={() => setModal("create")} className={`${buttonBase} bg-brand-green text-white`}>
-          + Add field
-        </button>
+      <div className="border-b border-base-line px-6 py-4">
+        <h2 className="text-sm font-semibold text-base-ink">All fields</h2>
+        <p className="mt-1 text-xs text-base-slate">
+          Fields and their order are fixed by the public form. Only their dropdown selections can be edited here.
+        </p>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="border-b border-base-line bg-base-bg text-[11px] font-medium uppercase tracking-wide text-base-slate">
             <tr>
-              <th className="py-3 pl-6 pr-2 font-medium">Order</th>
-              <th className="py-3 pr-4 font-medium">Field</th>
+              <th className="py-3 pl-6 pr-4 font-medium">Field</th>
               <th className="py-3 pr-4 font-medium">Current selections</th>
               <th className="py-3 pr-6 font-medium"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-base-line">
-            {fields.map((f, i) => (
+            {fields.map((f) => (
               <FieldTableRow
                 key={f.id}
-                page={page}
                 field={f}
-                index={i}
-                total={fields.length}
                 options={options.filter((o) => o.field_name === f.field_key)}
-                onEdit={() => setModal({ fieldId: f.id })}
+                onEdit={() => setEditingId(f.id)}
               />
             ))}
           </tbody>
         </table>
       </div>
 
-      {modal === "create" && <FieldModal page={page} field={null} options={[]} onClose={() => setModal(null)} />}
       {editingField && (
         <FieldModal
           page={page}
           field={editingField}
           options={options.filter((o) => o.field_name === editingField.field_key)}
-          onClose={() => setModal(null)}
+          onClose={() => setEditingId(null)}
         />
       )}
     </div>

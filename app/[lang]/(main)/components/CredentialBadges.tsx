@@ -12,27 +12,35 @@ import type { Dictionary } from "@/lib/i18n";
  * enough to distract from the enquiry form above it.
  */
 /** An issued mark. The artwork is never restyled — only the plinth carries depth. */
-type Badge = { src: string; alt: string; caption: string };
+type Badge = { src: string; alt: string; caption: string; width: number; height: number };
 
 const CIDB: Badge = {
   src: "/logos/credentials/cidb-g7.png",
   alt: "CIDB Malaysia Grade G7 certification",
   caption: "CIDB G7",
+  width: 300,
+  height: 300,
 };
 const ISO: Badge = {
   src: "/logos/credentials/cpg-iso-9001.png",
   alt: "Certification Partner Global ISO 9001:2015 certified company",
   caption: "ISO 9001:2015 certified",
+  width: 342,
+  height: 252,
 };
 const SEDA: Badge = {
   src: "/logos/credentials/seda-pvms.png",
   alt: "SEDA registered PV monitoring system",
   caption: "SEDA registered installer",
+  width: 447,
+  height: 447,
 };
 const ST_CLASS_A: Badge = {
   src: "/logos/credentials/suruhanjaya-tenaga.png",
   alt: "Suruhanjaya Tenaga Class A electrical contractor licence",
   caption: "EC Class A",
+  width: 320,
+  height: 320,
 };
 
 /** The C&I audience buys on the electrical licence, so that page leads with it. */
@@ -69,8 +77,8 @@ export default function CredentialBadges({
             <Image
               src={badge.src}
               alt={badge.alt}
-              width={220}
-              height={220}
+              width={badge.width}
+              height={badge.height}
               className={`${markSize} w-auto max-w-full object-contain`}
             />
           </div>

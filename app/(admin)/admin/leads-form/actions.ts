@@ -15,10 +15,6 @@ function rolesForPage(page: LeadFormPage) {
   return page === "ci" ? (["admin", "marketing", "sales_ci"] as const) : (["admin", "marketing", "sales_resi"] as const);
 }
 
-/** Slug for a custom field's key: lowercase, digits, underscores — mirrors the
- * shape of the existing core field names (e.g. "bill_range"). */
-const FIELD_KEY = /^[a-z][a-z0-9_]{1,39}$/;
-
 // The check-then-insert this used to do here (one query for "is there a
 // draft?", then a separate insert copying the published rows) raced: this
 // runs on every load of /admin/leads-form, including Next.js's Link
@@ -85,65 +81,6 @@ export async function removeOption(page: LeadFormPage, id: string) {
   await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
   await supabase.from("lead_form_options").delete().eq("id", uuid(id)).eq("page", p).eq("status", "draft");
-  revalidatePath("/admin/leads-form");
-}
-
-/** Adds a brand-new custom dropdown field for one page (always is_core=false —
- * the 6 core fields are seeded once by migration and never created through this action). */
-export async function addField(page: LeadFormPage, key: string, label: string) {
-  const p = oneOf(page, PAGES, "page");
-  const profile = await requireRole([...rolesForPage(p)]);
-  const fieldKey = text(key, { max: 40, required: true, field: "key" }).toLowerCase();
-  if (!FIELD_KEY.test(fieldKey)) throw new Error("Field key must be lowercase letters, numbers, or underscores, starting with a letter.");
-  const fieldLabel = text(label, { max: 80, required: true, field: "label" });
-
-  const supabase = await getSupabaseUserClient();
-  const { data: existing } = await supabase.from("lead_form_fields").select("id").eq("status", "draft").eq("page", p).eq("field_key", fieldKey).maybeSingle();
-  if (existing) throw new Error("A field with that key already exists on this page.");
-
-  const { count } = await supabase.from("lead_form_fields").select("*", { count: "exact", head: true }).eq("status", "draft").eq("page", p);
-  await supabase.from("lead_form_fields").insert({
-    page: p, field_key: fieldKey, label: fieldLabel, is_core: false, sort_order: count ?? 0, status: "draft", updated_by: profile.id,
-  });
-  revalidatePath("/admin/leads-form");
-}
-
-export async function updateFieldLabel(page: LeadFormPage, id: string, label: string) {
-  const p = oneOf(page, PAGES, "page");
-  const profile = await requireRole([...rolesForPage(p)]);
-  const fieldLabel = text(label, { max: 80, required: true, field: "label" });
-  const supabase = await getSupabaseUserClient();
-  await supabase.from("lead_form_fields").update({ label: fieldLabel, updated_by: profile.id, updated_at: new Date().toISOString() }).eq("id", uuid(id)).eq("page", p).eq("status", "draft");
-  revalidatePath("/admin/leads-form");
-}
-
-/** Deletes a custom field and its draft options. No-ops on core fields — those
- * are protected because the public form and submitLead.ts hardcode their keys. */
-export async function removeField(page: LeadFormPage, id: string) {
-  const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
-  const rowId = uuid(id);
-  const supabase = await getSupabaseUserClient();
-  const { data: field } = await supabase.from("lead_form_fields").select("page, field_key, is_core").eq("id", rowId).eq("page", p).eq("status", "draft").maybeSingle();
-  if (!field || field.is_core) return;
-
-  await supabase.from("lead_form_options").delete().eq("status", "draft").eq("page", field.page).eq("field_name", field.field_key);
-  await supabase.from("lead_form_fields").delete().eq("id", rowId);
-  revalidatePath("/admin/leads-form");
-}
-
-export async function moveField(page: LeadFormPage, id: string, direction: "up" | "down") {
-  const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
-  const rowId = uuid(id);
-  const supabase = await getSupabaseUserClient();
-  const { data: rows } = await supabase.from("lead_form_fields").select("id, sort_order").eq("status", "draft").eq("page", p).order("sort_order");
-  if (!rows) return;
-  const idx = rows.findIndex((r) => r.id === rowId);
-  const swapWith = oneOf(direction, ["up", "down"] as const, "direction") === "up" ? idx - 1 : idx + 1;
-  if (idx < 0 || swapWith < 0 || swapWith >= rows.length) return;
-  await supabase.from("lead_form_fields").update({ sort_order: rows[swapWith].sort_order }).eq("id", rows[idx].id);
-  await supabase.from("lead_form_fields").update({ sort_order: rows[idx].sort_order }).eq("id", rows[swapWith].id);
   revalidatePath("/admin/leads-form");
 }
 
