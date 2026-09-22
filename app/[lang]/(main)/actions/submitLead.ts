@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { getSupabaseServerClient } from "@/lib/supabase";
-import { buildLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
+import { buildLeadWebhookPayload, buildCiLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import {
@@ -66,7 +66,7 @@ async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof
     return;
   }
 
-  const payload = buildLeadWebhookPayload(input);
+  const payload = formPage === "ci" ? buildCiLeadWebhookPayload(input) : buildLeadWebhookPayload(input);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
 

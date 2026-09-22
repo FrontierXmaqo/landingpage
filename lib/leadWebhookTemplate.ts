@@ -171,9 +171,6 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["Location"] = input.state;
   payload["Property Type (Condo/Apartment not suitable)"] = input.propertyType;
   payload["Electric Supply"] = input.electricSupply;
-  payload["Name of Company"] = input.companyName;
-  payload["Industry"] = input.industry;
-  payload["What is your role in this  organization?"] = input.roleInOrganization;
   payload["Preferred Communication Language 2"] = input.preferredLanguage;
   payload["contact_source"] = input.sourcePage;
   payload["gclid"] = input.gclid;
@@ -190,4 +187,22 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload.customData["Fbclid"] = input.fbclid;
 
   return payload;
+}
+
+/** C&I has its own downstream workflow with its own (much smaller) expected
+ * shape — not the multi-purpose CRM template above. */
+export function buildCiLeadWebhookPayload(input: LeadWebhookInput) {
+  return {
+    phone: input.phone,
+    customData: {
+      "Name": input.fullName,
+      "Company Name": input.companyName,
+      "Industry": input.industry,
+      "Email": input.email,
+      "Role In Organization": input.roleInOrganization,
+      "Monthly Electric Bill": input.monthlyBillRange,
+      "Location": input.state,
+      "Salutation": input.salutation,
+    },
+  };
 }
