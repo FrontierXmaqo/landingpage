@@ -1,6 +1,6 @@
 import { startOfMonthMYISO } from "@/lib/datetime";
 import { isSegment, type Segment } from "@/lib/segments";
-import { ALL_PAGE_NAMES } from "@/lib/pageNames";
+import { ALL_PAGE_NAMES, pathsForPageName } from "@/lib/pageNames";
 
 /**
  * Filter state for the analytics page, carried in the URL rather than in
@@ -33,6 +33,8 @@ export type Filters = {
   device: DeviceId;
   /** A page category from lib/pageNames.ts (e.g. "BESS"), not a raw path — one pill covers every language. */
   page: string | null;
+  /** One specific locale variant of `page` (e.g. "/en/bess"), narrowing it further to one language. */
+  path: string | null;
 };
 
 export type RawSearchParams = Record<string, string | string[] | undefined>;
@@ -49,12 +51,16 @@ export function parseFilters(params: RawSearchParams, allowed: Segment[]): Filte
   const range = first(params.range);
   const device = first(params.device);
   const page = first(params.page);
+  const path = first(params.path);
+  const parsedPage = page && ALL_PAGE_NAMES.includes(page) ? page : null;
 
   return {
     segment: isSegment(segment) && allowed.includes(segment) ? segment : "all",
     range: RANGES.some((r) => r.id === range) ? (range as RangeId) : "30d",
     device: DEVICES.some((d) => d.id === device) ? (device as DeviceId) : "all",
-    page: page && ALL_PAGE_NAMES.includes(page) ? page : null,
+    page: parsedPage,
+    // Only valid if it's actually one of the selected page's own locale variants.
+    path: parsedPage && path && pathsForPageName(parsedPage).includes(path) ? path : null,
   };
 }
 
@@ -73,6 +79,7 @@ export function withFilter(current: Filters, patch: Partial<Filters>) {
   if (next.range !== "30d") q.set("range", next.range);
   if (next.device !== "all") q.set("device", next.device);
   if (next.page) q.set("page", next.page);
+  if (next.path) q.set("path", next.path);
   const s = q.toString();
   return s ? `/admin/analytics?${s}` : "/admin/analytics";
 }
