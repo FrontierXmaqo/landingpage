@@ -197,7 +197,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   <h3 className="mt-4 text-lg font-bold text-base-ink">{t.chargeTitle}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-base-slate">{t.chargeBody}</p>
                   <div className="mt-4 h-2 overflow-hidden rounded-full bg-base-line">
-                    <div className="h-full w-[82%] rounded-full bg-gradient-to-r from-[#4ade80] to-[#16a34a]" />
+                    <div className="bess-bar-charge h-full w-[82%] rounded-full" />
                   </div>
                 </ScrollReveal>
                 <ScrollReveal delayMs={140} className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-sm">
@@ -207,7 +207,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   <h3 className="mt-4 text-lg font-bold text-base-ink">{t.dischargeTitle}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-base-slate">{t.dischargeBody}</p>
                   <div className="mt-4 h-2 overflow-hidden rounded-full bg-base-line">
-                    <div className="h-full w-[35%] rounded-full bg-gradient-to-r from-[#fde047] to-[#d97706]" />
+                    <div className="bess-bar-discharge h-full rounded-full" />
                   </div>
                 </ScrollReveal>
               </div>
