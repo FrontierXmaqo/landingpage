@@ -272,6 +272,9 @@ export default function ProjectsCarousel({
               const distance = Math.abs(offset);
               const isActive = offset === 0;
               const hidden = distance > VISIBLE_RANGE;
+              // Every side card renders like the immediate neighbour did before -
+              // only its position changes further out, not its size or tilt.
+              const tilt = Math.min(distance, 1);
 
               return (
                 <div
@@ -282,9 +285,9 @@ export default function ProjectsCarousel({
                   aria-hidden={hidden || undefined}
                   className="absolute left-1/2 top-0 w-[74vw] max-w-[330px] sm:w-[330px]"
                   style={{
-                    transform: `translateX(-50%) translateX(${offset * 64}%) rotateY(${offset * 26}deg) scale(${
-                      1 - distance * 0.12
-                    })`,
+                    transform: `translateX(-50%) translateX(${offset * 64}%) rotateY(${
+                      Math.sign(offset) * tilt * 26
+                    }deg) scale(${1 - tilt * 0.12})`,
                     zIndex: total - distance,
                     opacity: hidden ? 0 : 1,
                     pointerEvents: hidden ? "none" : undefined,
