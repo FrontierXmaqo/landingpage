@@ -1,6 +1,6 @@
 "use server";
 
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 import { getSupabaseServerClient } from "@/lib/supabase";
 import { buildLeadWebhookPayload, buildCiLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
 import { checkRateLimit } from "@/lib/rateLimit";
@@ -57,8 +57,11 @@ async function getClientIp() {
 
 async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof buildLeadWebhookPayload>[0]) {
   // C&I leads go to a different downstream workflow than residential/EV, so
-  // each gets its own webhook URL rather than sharing one.
-  const envVar = formPage === "ci" ? "CI_LEAD_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
+  // each gets its own webhook URL rather than sharing one. A "test_webhook"
+  // cookie (set from the browser console for QA) redirects C&I submissions
+  // to TESTING_WEBHOOK_URL instead, without touching the real CRM webhook.
+  const testMode = formPage === "ci" && (await cookies()).get("test_webhook")?.value === "1";
+  const envVar = testMode ? "TESTING_WEBHOOK_URL" : formPage === "ci" ? "CI_LEAD_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
   const webhookUrl = process.env[envVar];
   if (!webhookUrl) return;
   if (!webhookUrl.startsWith("https://")) {
