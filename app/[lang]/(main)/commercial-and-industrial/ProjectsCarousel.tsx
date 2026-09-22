@@ -272,8 +272,8 @@ export default function ProjectsCarousel({
               const distance = Math.abs(offset);
               const isActive = offset === 0;
               const hidden = distance > VISIBLE_RANGE;
-              // Every side card renders like the immediate neighbour did before -
-              // only its position changes further out, not its size or tilt.
+              // Tilt caps at the immediate-neighbour amount so farther cards
+              // aren't rotated further, but they do keep shrinking with distance.
               const tilt = Math.min(distance, 1);
 
               return (
@@ -287,7 +287,7 @@ export default function ProjectsCarousel({
                   style={{
                     transform: `translateX(-50%) translateX(${offset * 64}%) rotateY(${
                       Math.sign(offset) * tilt * 26
-                    }deg) scale(${1 - tilt * 0.12})`,
+                    }deg) scale(${1 - distance * 0.12})`,
                     zIndex: total - distance,
                     opacity: hidden ? 0 : 1,
                     pointerEvents: hidden ? "none" : undefined,
