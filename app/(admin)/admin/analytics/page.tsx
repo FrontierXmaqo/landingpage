@@ -162,7 +162,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
       p_since: since,
       p_segments: segments,
       p_device: filters.device === "all" ? null : filters.device,
-      p_paths: filters.page ? pathsForPageName(filters.page) : null,
+      p_paths: filters.path ? [filters.path] : filters.page ? pathsForPageName(filters.page) : null,
     }),
     supabase.rpc("lead_overview", { p_since: since, p_segments: segments }),
     supabase.from("analytics_events").select("event_type, session_id").gte("created_at", since),
@@ -193,7 +193,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
   const enquiries = leadData.total;
 
   const segmentName = filters.segment === "all" ? (allowed.length === 1 ? SEGMENT_LABEL[allowed[0]] : "All segments") : SEGMENT_LABEL[filters.segment];
-  const scope = [segmentName, rangeLabel(filters.range).toLowerCase(), filters.device === "all" ? null : filters.device, filters.page]
+  const scope = [segmentName, rangeLabel(filters.range).toLowerCase(), filters.device === "all" ? null : filters.device, filters.path ?? filters.page]
     .filter(Boolean)
     .join(" · ");
 
