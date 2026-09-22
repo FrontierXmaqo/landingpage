@@ -404,6 +404,40 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   }
 }
 
+/* ---- What Is BESS: charge/discharge bar fill ----------------------------
+   Charge fills empty -> its stat width (82%), left-to-right — a battery
+   topping up. Discharge instead starts at a full 100%-wide bar and drains
+   down to its stat width (35%), its right edge receding leftward as it
+   goes — a battery running down from full to its current level. Because
+   the gradient is defined relative to each bar's own (shrinking) box, the
+   leading edge stays deep orange and the trailing edge light orange
+   throughout, however much of the bar remains. Both play once, slowly,
+   then hold. */
+@keyframes bess-bar-charge-fill {
+  0%   { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+@keyframes bess-bar-discharge-drain {
+  0%   { width: 100%; }
+  100% { width: 35%; }
+}
+.bess-bar-charge {
+  transform-origin: left;
+  background-image: linear-gradient(90deg, #4ade80, #16a34a);
+  animation: bess-bar-charge-fill 2.6s ease-out both;
+}
+.bess-bar-discharge {
+  width: 35%;
+  background-image: linear-gradient(90deg, #f97316, #c2410c);
+  animation: bess-bar-discharge-drain 2.6s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bess-bar-charge,
+  .bess-bar-discharge {
+    animation: none;
+  }
+}
+
 /* ---- C&I hero backdrop -------------------------------------------------
    Blue counterpart to the EV hero: a vertical wash, a 64px rule grid masked
    to the top-left so it dissolves before it reaches the enquiry form, and two
