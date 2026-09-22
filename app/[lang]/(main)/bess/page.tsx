@@ -8,6 +8,7 @@ import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
 import BessFlowDiagram from "./BessFlowDiagram";
+import CredentialBadges from "../components/CredentialBadges";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
@@ -63,15 +64,8 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   {t.heroCtaSecondary}
                 </a>
               </div>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {t.heroTrust.map((badge) => (
-                  <span
-                    key={badge}
-                    className="rounded-full border border-base-line bg-base-panel px-3 py-1 text-xs font-semibold text-base-slate"
-                  >
-                    {badge}
-                  </span>
-                ))}
+              <div className="mt-8 border-t border-base-line pt-6">
+                <CredentialBadges t={dict.credentialBadges} set="commercial" inline />
               </div>
             </div>
 
