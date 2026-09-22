@@ -189,20 +189,34 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   return payload;
 }
 
-/** C&I has its own downstream workflow with its own (much smaller) expected
- * shape — not the multi-purpose CRM template above. */
+/** C&I reads a different subset of the same multi-purpose CRM template than
+ * residential/EV — some as single-element arrays, matching an actual C&I
+ * contact record from the destination CRM (see project notes). */
 export function buildCiLeadWebhookPayload(input: LeadWebhookInput) {
-  return {
-    phone: input.phone,
-    customData: {
-      "Name": input.fullName,
-      "Company Name": input.companyName,
-      "Industry": input.industry,
-      "Email": input.email,
-      "Role In Organization": input.roleInOrganization,
-      "Monthly Electric Bill": input.monthlyBillRange,
-      "Location": input.state,
-      "Salutation": input.salutation,
-    },
-  };
+  const payload: Record<string, unknown> = blankTemplate();
+
+  payload["phone"] = input.phone;
+  payload["email"] = input.email;
+  payload["full_name"] = input.fullName;
+  payload["Salutation"] = input.salutation;
+  payload["Location"] = input.state;
+  payload["Name of Company"] = input.companyName;
+  payload["Industry"] = [input.industry];
+  payload["Electric Bill (RM)"] = [input.monthlyBillRange];
+  payload["What is your role in this  organization?"] = [input.roleInOrganization];
+  payload["contact_source"] = input.sourcePage;
+  payload["gclid"] = input.gclid;
+  payload["Campaign ID"] = input.campaignId;
+
+  const customData = payload.customData as Record<string, string>;
+  customData["Name"] = `${input.salutation} ${input.fullName}`.trim();
+  customData["Company Name"] = input.companyName;
+  customData["Industry"] = input.industry;
+  customData["Phone"] = input.phone;
+  customData["Email"] = input.email;
+  customData["Role In Organization"] = input.roleInOrganization;
+  customData["Monthly Electric Bill"] = input.monthlyBillRange;
+  customData["Location"] = input.state;
+
+  return payload;
 }
