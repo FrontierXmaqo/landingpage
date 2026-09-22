@@ -350,6 +350,68 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   }
 }
 
+/* ---- "Doubled" badge: scroll-in alert + iMessage-style "loud" hover ----
+   Two separate triggers on the same element:
+   - Base state: a shake/pulse plays once as the card scrolls into view,
+     tied to the badge's own position in the viewport (view-timeline) so it
+     fires right as the user reaches the problem section, not on page load.
+     Browsers without view-timeline support fall back to a plain one-shot
+     play on mount.
+   - :hover (and near-hover, via the oversized ::before hit zone) replaces
+     it with a bigger overshoot-and-settle grow, then a plain transition
+     eases it back down on hover-out. */
+@keyframes bess-doubled-alert {
+  0%, 100% { transform: rotate(-6deg) scale(1); }
+  10%      { transform: rotate(-11deg) scale(1.32) translateX(-2px); }
+  20%      { transform: rotate(2deg) scale(1.05) translateX(2px); }
+  30%      { transform: rotate(-9deg) scale(1.28) translateX(-2px); }
+  40%      { transform: rotate(-2deg) scale(1.08) translateX(1px); }
+  55%      { transform: rotate(-8deg) scale(1.2); }
+  70%      { transform: rotate(-4deg) scale(1.05); }
+  85%      { transform: rotate(-6deg) scale(1.1); }
+}
+@keyframes bess-loud {
+  0%   { transform: rotate(-6deg) scale(1); }
+  30%  { transform: rotate(-6deg) scale(1.7); }
+  50%  { transform: rotate(-6deg) scale(1.32); }
+  70%  { transform: rotate(-6deg) scale(1.55); }
+  100% { transform: rotate(-6deg) scale(1.45); }
+}
+.bess-loud-badge {
+  position: absolute;
+  transform-origin: center;
+  transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+  animation: bess-doubled-alert 1.3s ease-in-out 0.4s both;
+}
+@supports (animation-timeline: view()) {
+  .bess-loud-badge {
+    animation-timeline: view();
+    animation-range: entry 15% entry 60%;
+  }
+}
+/* Invisible halo so hovering *near* the pill (not just exactly on it)
+   still counts — pointer events over a descendant box bubble up to this
+   element even where the halo renders outside its own border box. */
+.bess-loud-badge::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+}
+.bess-loud-badge:hover {
+  animation: bess-loud 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  box-shadow: 0 14px 32px -8px var(--color-brand-orange), 0 4px 14px rgb(0 0 0 / 0.25);
+  z-index: 30;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bess-loud-badge {
+    animation: none;
+  }
+  .bess-loud-badge:hover {
+    animation: none;
+    transform: rotate(-6deg) scale(1.3);
+  }
+}
+
 /* ---- C&I hero backdrop -------------------------------------------------
    Blue counterpart to the EV hero: a vertical wash, a 64px rule grid masked
    to the top-left so it dissolves before it reaches the enquiry form, and two
