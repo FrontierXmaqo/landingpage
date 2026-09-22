@@ -179,7 +179,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
     unknown_segment: 0,
   };
   const groups = leadData.rows ?? [];
-  const pageGroups = buildPageGroups(pageviewsRes.data ?? []);
+  const pageGroups = buildPageGroups(pageviewsRes.data ?? []).filter((g) => !filters.page || g.page === filters.page);
 
   /* Location comes from the state dropdown on the form. */
   const byState: Bucket[] = tally(groups, (g) => g.state).slice(0, 6);
