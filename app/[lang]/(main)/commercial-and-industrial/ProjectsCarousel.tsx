@@ -19,9 +19,9 @@ import { IconChevron, IconClose, IconPause, IconPlay, ProjectIcon } from "./icon
  */
 
 const AUTOPLAY_MS = 3000;
-/** Slides further out than this are not painted at all. One either side of
- *  the centre keeps the stage inside the container at every width. */
-const VISIBLE_RANGE = 1;
+/** Slides further out than this are not painted at all. Two either side of
+ *  the centre shows five cards at once. */
+const VISIBLE_RANGE = 2;
 
 export type Surface = "light" | "navy" | "green";
 
@@ -272,6 +272,9 @@ export default function ProjectsCarousel({
               const distance = Math.abs(offset);
               const isActive = offset === 0;
               const hidden = distance > VISIBLE_RANGE;
+              // Tilt caps at the immediate-neighbour amount so farther cards
+              // aren't rotated further, but they do keep shrinking with distance.
+              const tilt = Math.min(distance, 1);
 
               return (
                 <div
@@ -282,9 +285,9 @@ export default function ProjectsCarousel({
                   aria-hidden={hidden || undefined}
                   className="absolute left-1/2 top-0 w-[74vw] max-w-[330px] sm:w-[330px]"
                   style={{
-                    transform: `translateX(-50%) translateX(${offset * 76}%) rotateY(${offset * 26}deg) scale(${
-                      1 - distance * 0.12
-                    })`,
+                    transform: `translateX(-50%) translateX(${offset * 64}%) rotateY(${
+                      Math.sign(offset) * tilt * 26
+                    }deg) scale(${1 - distance * 0.12})`,
                     zIndex: total - distance,
                     opacity: hidden ? 0 : 1,
                     pointerEvents: hidden ? "none" : undefined,
