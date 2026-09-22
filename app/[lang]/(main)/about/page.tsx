@@ -137,7 +137,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
                 <div className="relative mx-auto w-full max-w-xs sm:mx-0">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-lg sm:-rotate-2">
                     <Image
-                      src={gallery[1]}
+                      src="/about-quality.jpg"
                       alt={t.qualityImageAlt}
                       fill
                       className="object-cover transition duration-500 hover:scale-105"
