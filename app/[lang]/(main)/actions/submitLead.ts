@@ -194,6 +194,10 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
             extra_fields: ciExtraFields,
           })
         : await supabase.from("atap_leads").insert({
+            // atap_leads holds both Residential and EV, and this form is the
+            // only place that knows which. Rows written before the column
+            // existed stay 'unknown' — no signal survived to recover them.
+            segment: formPage === "ev" ? "ev" : "residential",
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,

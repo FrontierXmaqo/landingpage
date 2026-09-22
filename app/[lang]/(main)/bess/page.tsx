@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
@@ -149,34 +150,62 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         </section>
 
         {/* ---------- 3. What is BESS ---------- */}
-        <section id="what-is-bess" className="scroll-mt-20 py-20 sm:py-24">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <ScrollReveal>
-              <SectionTag>{t.whatTag}</SectionTag>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.whatTitle}</h2>
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-base-slate">{t.whatBody}</p>
-            </ScrollReveal>
-            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <ScrollReveal delayMs={80} className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-sm">
-                <span className="inline-flex items-center rounded-full bg-brand-green-tint px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-green-ink">
-                  {t.chargeBadge}
-                </span>
-                <h3 className="mt-4 text-lg font-bold text-base-ink">{t.chargeTitle}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-base-slate">{t.chargeBody}</p>
-                <div className="mt-4 h-2 overflow-hidden rounded-full bg-base-line">
-                  <div className="h-full w-[82%] rounded-full bg-gradient-to-r from-[#4ade80] to-[#16a34a]" />
-                </div>
+        <section id="what-is-bess" className="scroll-mt-20 relative overflow-hidden py-20 sm:py-24">
+          {/* Full-bleed photo of a MAQO BESS container, left side scrimmed for
+              the copy, fading out by the section's midpoint so the MAQO logo
+              and "BATTERY ENERGY STORAGE SYSTEM" text on the unit itself stay
+              fully legible on the right. Below `sm`, the section is too tall
+              and narrow for that crop to keep the logo in frame, so the photo
+              moves into its own card under the copy instead (see below). */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 hidden sm:block">
+            <Image
+              src="/bess-what-is-container.webp"
+              alt=""
+              fill
+              priority
+              className="object-cover"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-base-bg from-10% via-base-bg/90 via-30% to-transparent to-[48%]" />
+          </div>
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="max-w-md">
+              <ScrollReveal>
+                <SectionTag>{t.whatTag}</SectionTag>
+                <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.whatTitle}</h2>
+                <p className="mt-5 text-base leading-relaxed text-base-slate">{t.whatBody}</p>
               </ScrollReveal>
-              <ScrollReveal delayMs={140} className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-sm">
-                <span className="inline-flex items-center rounded-full bg-brand-orange-tint px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-orange-ink">
-                  {t.dischargeBadge}
-                </span>
-                <h3 className="mt-4 text-lg font-bold text-base-ink">{t.dischargeTitle}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-base-slate">{t.dischargeBody}</p>
-                <div className="mt-4 h-2 overflow-hidden rounded-full bg-base-line">
-                  <div className="h-full w-[35%] rounded-full bg-gradient-to-r from-[#fde047] to-[#d97706]" />
-                </div>
-              </ScrollReveal>
+              <div className="relative mt-6 overflow-hidden rounded-2xl sm:hidden">
+                <Image
+                  src="/bess-what-is-container.webp"
+                  alt="MAQO battery energy storage system container"
+                  width={1210}
+                  height={550}
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+              <div className="mt-10 grid grid-cols-1 gap-5">
+                <ScrollReveal delayMs={80} className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-sm">
+                  <span className="inline-flex items-center rounded-full bg-brand-green-tint px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-green-ink">
+                    {t.chargeBadge}
+                  </span>
+                  <h3 className="mt-4 text-lg font-bold text-base-ink">{t.chargeTitle}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-base-slate">{t.chargeBody}</p>
+                  <div className="mt-4 h-2 overflow-hidden rounded-full bg-base-line">
+                    <div className="h-full w-[82%] rounded-full bg-gradient-to-r from-[#4ade80] to-[#16a34a]" />
+                  </div>
+                </ScrollReveal>
+                <ScrollReveal delayMs={140} className="rounded-2xl border border-base-line bg-base-panel p-6 shadow-sm">
+                  <span className="inline-flex items-center rounded-full bg-brand-orange-tint px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-orange-ink">
+                    {t.dischargeBadge}
+                  </span>
+                  <h3 className="mt-4 text-lg font-bold text-base-ink">{t.dischargeTitle}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-base-slate">{t.dischargeBody}</p>
+                  <div className="mt-4 h-2 overflow-hidden rounded-full bg-base-line">
+                    <div className="h-full w-[35%] rounded-full bg-gradient-to-r from-[#fde047] to-[#d97706]" />
+                  </div>
+                </ScrollReveal>
+              </div>
             </div>
           </div>
         </section>
