@@ -1,5 +1,13 @@
 const MILESTONES = [25, 50, 75, 100] as const;
 
+export type LocaleGroup = {
+  locale: string;
+  /** The language's own name, as the public site's switcher writes it. */
+  label: string;
+  views: number;
+  pages: PageStats[];
+};
+
 export type PageStats = {
   page: string;
   views: number;
@@ -32,16 +40,30 @@ function ScrollFunnel({ milestoneReach }: { milestoneReach: PageStats["milestone
   );
 }
 
+/**
+ * An un-visited page keeps its place in the grid but recedes: dashed border,
+ * no panel fill, so the eye skips it and lands on the pages with real traffic
+ * without the layout shifting between visits.
+ */
 function PageCard({ stats }: { stats: PageStats }) {
+  const empty = stats.views === 0;
   return (
-    <div className="rounded-xl border border-base-line bg-base-panel p-5">
+    <div
+      className={
+        empty
+          ? "rounded-xl border border-dashed border-base-line p-5"
+          : "rounded-xl border border-base-line bg-base-panel p-5"
+      }
+    >
       <div className="flex items-baseline justify-between gap-2">
-        <p className="text-sm font-semibold text-base-ink">{stats.page}</p>
-        <p className="text-xs text-base-slate">{stats.views.toLocaleString("en-US")} views</p>
+        <p className={`text-sm font-semibold ${empty ? "text-base-slate" : "text-base-ink"}`}>{stats.page}</p>
+        <p className="shrink-0 text-xs tabular-nums text-base-slate">
+          {stats.views.toLocaleString("en-MY")} views
+        </p>
       </div>
 
-      {stats.views === 0 ? (
-        <p className="mt-3 text-xs text-base-slate">Not enough visits yet this month.</p>
+      {empty ? (
+        <p className="mt-3 text-xs text-base-slate">No visits yet.</p>
       ) : (
         <div className="mt-4 space-y-4">
           <div>
@@ -95,14 +117,43 @@ function formatSeconds(s: number) {
   return `${Math.floor(s / 60)}m ${Math.round(s % 60)}s`;
 }
 
-export default function PagePerformance({ pages }: { pages: PageStats[] }) {
+/**
+ * One language, with its pages in fixed site order. The heading carries the
+ * language's total so the three groups can be compared at a glance without
+ * adding up cards.
+ */
+function LocaleSection({ group }: { group: LocaleGroup }) {
+  return (
+    <section>
+      <div className="flex items-baseline gap-2 border-b border-base-line pb-2">
+        <h3 className="text-sm font-semibold text-base-ink">{group.label}</h3>
+        <code className="rounded bg-base-bg px-1.5 py-0.5 text-[11px] font-medium text-base-slate">
+          /{group.locale}
+        </code>
+        <span className="ml-auto shrink-0 text-xs tabular-nums text-base-slate">
+          {group.views.toLocaleString("en-MY")} views
+        </span>
+      </div>
+      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {group.pages.map((p) => (
+          <PageCard key={p.page} stats={p} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function PagePerformance({ groups }: { groups: LocaleGroup[] }) {
   return (
     <div>
-      <p className="text-sm font-semibold text-base-ink">Page performance — this month</p>
-      <p className="mt-1 text-xs text-base-slate">Scroll depth, attention and form drop-off, broken out per page.</p>
-      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {pages.map((p) => (
-          <PageCard key={p.page} stats={p} />
+      <p className="text-sm font-semibold text-base-ink">Page performance</p>
+      <p className="mt-1 text-xs text-base-slate">
+        Scroll depth, attention and form drop-off, per page and per language. Same order every time, so the
+        three languages line up for comparison.
+      </p>
+      <div className="mt-4 space-y-7">
+        {groups.map((g) => (
+          <LocaleSection key={g.locale} group={g} />
         ))}
       </div>
     </div>

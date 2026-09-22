@@ -4,9 +4,9 @@ import { SEGMENTS, SEGMENT_LABEL, type Segment } from "@/lib/segments";
 import Charts, { type Bucket, type Overview } from "./Charts";
 import FilterBar from "./FilterBar";
 import { parseFilters, rangeLabel, sinceISO } from "./filters";
-import PagePerformance, { type PageStats } from "./PagePerformance";
-import { startOfMonthMYISO } from "@/lib/datetime";
-import { pageNameFromPath, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
+import PagePerformance, { type LocaleGroup, type PageStats } from "./PagePerformance";
+import { pageNameFromPath, localeFromPath, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
+import { LOCALES, LOCALE_LABELS } from "@/lib/i18n";
 
 const MILESTONES = [25, 50, 75, 100] as const;
 
@@ -19,62 +19,86 @@ type PageviewRow = {
   form_last_field: string | null;
 };
 
-function buildPageStats(rows: PageviewRow[]): PageStats[] {
-  // Seed every page first: an un-visited page should read "no visits yet",
-  // not disappear from the breakdown.
-  const byPage = new Map<string, PageviewRow[]>(ALL_PAGE_NAMES.map((page) => [page, []]));
+/** One page's numbers, from the rows recorded against that page in one language. */
+function statsFor(page: string, views: PageviewRow[]): PageStats {
+  const n = views.length;
+  const avg = (values: number[]) => (values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0);
+
+  const milestoneReach = Object.fromEntries(
+    MILESTONES.map((m) => [m, n ? (views.filter((v) => (v.scroll_depth ?? 0) >= m).length / n) * 100 : 0])
+  ) as PageStats["milestoneReach"];
+
+  const sectionTotals = new Map<string, { sumMs: number; count: number }>();
+  for (const v of views) {
+    for (const [id, ms] of Object.entries(v.section_dwell ?? {})) {
+      const entry = sectionTotals.get(id) ?? { sumMs: 0, count: 0 };
+      entry.sumMs += ms;
+      entry.count += 1;
+      sectionTotals.set(id, entry);
+    }
+  }
+  const topSections = [...sectionTotals.entries()]
+    .map(([id, { sumMs, count }]) => ({ id, avgSeconds: sumMs / count / 1000 }))
+    .sort((a, b) => b.avgSeconds - a.avgSeconds)
+    .slice(0, 3);
+
+  const dropoffCounts = new Map<string, number>();
+  if (PAGES_WITH_FORM.has(page)) {
+    for (const v of views) {
+      if (!v.form_started || !v.form_last_field) continue;
+      dropoffCounts.set(v.form_last_field, (dropoffCounts.get(v.form_last_field) ?? 0) + 1);
+    }
+  }
+  const formDropoff = [...dropoffCounts.entries()]
+    .map(([field, count]) => ({ field, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
+  return {
+    page,
+    views: n,
+    avgScrollDepth: avg(views.map((v) => v.scroll_depth ?? 0)),
+    milestoneReach,
+    avgActiveSeconds: avg(views.map((v) => v.active_ms ?? 0)) / 1000,
+    topSections,
+    formDropoff,
+  };
+}
+
+/**
+ * The breakdown, grouped by language and then by page — both in fixed order
+ * (/en, /cn, /ms; site order within each) rather than by traffic, so a card
+ * stays in the same place between visits and the three languages line up
+ * column-for-column for comparison.
+ *
+ * Every language/page pair is seeded, so a version nobody has visited yet
+ * reads as empty in its usual spot instead of shifting the grid.
+ */
+function buildLocaleGroups(rows: PageviewRow[]): LocaleGroup[] {
+  const buckets = new Map<string, PageviewRow[]>();
+  const key = (locale: string, page: string) => `${locale}\u0000${page}`;
+  for (const locale of LOCALES) {
+    for (const page of ALL_PAGE_NAMES) buckets.set(key(locale, page), []);
+  }
   for (const row of rows) {
-    const page = pageNameFromPath(row.path);
-    if (!byPage.has(page)) byPage.set(page, []);
-    byPage.get(page)!.push(row);
+    const k = key(localeFromPath(row.path), pageNameFromPath(row.path));
+    // An unrecognised page (a route added since, or a stray path) still gets
+    // counted rather than silently dropped from the totals.
+    if (!buckets.has(k)) buckets.set(k, []);
+    buckets.get(k)!.push(row);
   }
 
-  return [...byPage.entries()]
-    .map(([page, views]) => {
-      const n = views.length;
-      const avg = (values: number[]) => (values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0);
-
-      const milestoneReach = Object.fromEntries(
-        MILESTONES.map((m) => [m, n ? (views.filter((v) => (v.scroll_depth ?? 0) >= m).length / n) * 100 : 0])
-      ) as PageStats["milestoneReach"];
-
-      const sectionTotals = new Map<string, { sumMs: number; count: number }>();
-      for (const v of views) {
-        for (const [id, ms] of Object.entries(v.section_dwell ?? {})) {
-          const entry = sectionTotals.get(id) ?? { sumMs: 0, count: 0 };
-          entry.sumMs += ms;
-          entry.count += 1;
-          sectionTotals.set(id, entry);
-        }
-      }
-      const topSections = [...sectionTotals.entries()]
-        .map(([id, { sumMs, count }]) => ({ id, avgSeconds: sumMs / count / 1000 }))
-        .sort((a, b) => b.avgSeconds - a.avgSeconds)
-        .slice(0, 3);
-
-      const dropoffCounts = new Map<string, number>();
-      if (PAGES_WITH_FORM.has(page)) {
-        for (const v of views) {
-          if (!v.form_started || !v.form_last_field) continue;
-          dropoffCounts.set(v.form_last_field, (dropoffCounts.get(v.form_last_field) ?? 0) + 1);
-        }
-      }
-      const formDropoff = [...dropoffCounts.entries()]
-        .map(([field, count]) => ({ field, count }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
-
-      return {
-        page,
-        views: n,
-        avgScrollDepth: avg(views.map((v) => v.scroll_depth ?? 0)),
-        milestoneReach,
-        avgActiveSeconds: avg(views.map((v) => v.active_ms ?? 0)) / 1000,
-        topSections,
-        formDropoff,
-      };
-    })
-    .sort((a, b) => b.views - a.views);
+  return LOCALES.map((locale) => {
+    const pages = [...buckets.entries()]
+      .filter(([k]) => k.startsWith(`${locale}\u0000`))
+      .map(([k, views]) => statsFor(k.split("\u0000")[1], views));
+    return {
+      locale,
+      label: LOCALE_LABELS[locale].full,
+      views: pages.reduce((sum, p) => sum + p.views, 0),
+      pages,
+    };
+  });
 }
 
 /** Grouped tallies from lead_overview — counts only, never a lead's details. */
@@ -159,7 +183,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
     unknown_segment: 0,
   };
   const groups = leadData.rows ?? [];
-  const pageStats = buildPageStats(pageviewsRes.data ?? []);
+  const localeGroups = buildLocaleGroups(pageviewsRes.data ?? []);
 
   /* Location comes from the state dropdown on the form. */
   const byState: Bucket[] = tally(groups, (g) => g.state).slice(0, 6);
@@ -213,7 +237,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
       />
 
       <div className="mt-6">
-        <PagePerformance pages={pageStats} />
+        <PagePerformance groups={localeGroups} />
       </div>
     </div>
   );
