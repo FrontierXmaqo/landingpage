@@ -52,7 +52,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         {/* Hero: full-bleed real installation photo, bottom-anchored gradient + copy, stat inline next to the CTA */}
         <section className="relative isolate flex min-h-[min(88vh,720px)] w-full items-end overflow-hidden">
           <Image
-            src={OLD_SITE_IMAGES.heroHouse}
+            src="/about-hero.png"
             alt={t.heroAlt}
             fill
             priority
