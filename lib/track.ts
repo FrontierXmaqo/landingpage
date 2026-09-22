@@ -1,6 +1,7 @@
 "use client";
 
-function getSessionId() {
+/** Shared by every session-scoped tracker on the site (pageview events, page performance). */
+export function getSessionId() {
   try {
     let id = sessionStorage.getItem("maqo_session_id");
     if (!id) {
@@ -13,20 +14,25 @@ function getSessionId() {
   }
 }
 
-/** Fire-and-forget first-party analytics event for the Performance Analytics dashboard. Never blocks or throws. */
-export function trackEvent(eventType: "pageview" | "calculator_start" | "calculator_complete") {
+/** Fire-and-forget POST that survives page unload. Never blocks or throws. */
+export function sendBeacon(url: string, payload: unknown) {
   try {
-    const payload = JSON.stringify({
-      event_type: eventType,
-      session_id: getSessionId(),
-      path: window.location.pathname,
-      utm_source: new URLSearchParams(window.location.search).get("utm_source"),
-    });
-    const sent = navigator.sendBeacon?.("/api/track", new Blob([payload], { type: "application/json" }));
-    if (!sent) fetch("/api/track", { method: "POST", body: payload, headers: { "Content-Type": "application/json" }, keepalive: true });
+    const body = JSON.stringify(payload);
+    const sent = navigator.sendBeacon?.(url, new Blob([body], { type: "application/json" }));
+    if (!sent) fetch(url, { method: "POST", body, headers: { "Content-Type": "application/json" }, keepalive: true });
   } catch {
     // best-effort only
   }
+}
+
+/** Fire-and-forget first-party analytics event for the Performance Analytics dashboard. Never blocks or throws. */
+export function trackEvent(eventType: "pageview" | "calculator_start" | "calculator_complete") {
+  sendBeacon("/api/track", {
+    event_type: eventType,
+    session_id: getSessionId(),
+    path: window.location.pathname,
+    utm_source: new URLSearchParams(window.location.search).get("utm_source"),
+  });
 }
 
 /** Fires an event once per session (sessionStorage-deduped) — for pageview / calculator_start. */

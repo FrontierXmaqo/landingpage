@@ -6,6 +6,7 @@ import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
+import PagePerfTracker from "@/lib/pagePerf";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -97,6 +98,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         </noscript>
         {/* End Google Tag Manager (noscript) */}
 
+        <PagePerfTracker />
         {children}
       </body>
     </html>
