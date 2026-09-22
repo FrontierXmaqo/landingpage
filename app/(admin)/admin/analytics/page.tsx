@@ -6,7 +6,7 @@ import FilterBar from "./FilterBar";
 import { parseFilters, rangeLabel, sinceISO } from "./filters";
 import PagePerformance, { type PageStats } from "./PagePerformance";
 import { startOfMonthMYISO } from "@/lib/datetime";
-import { pageNameFromPath, PAGES_WITH_FORM } from "@/lib/pageNames";
+import { pageNameFromPath, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
 
 const MILESTONES = [25, 50, 75, 100] as const;
 
@@ -20,7 +20,9 @@ type PageviewRow = {
 };
 
 function buildPageStats(rows: PageviewRow[]): PageStats[] {
-  const byPage = new Map<string, PageviewRow[]>();
+  // Seed every page first: an un-visited page should read "no visits yet",
+  // not disappear from the breakdown.
+  const byPage = new Map<string, PageviewRow[]>(ALL_PAGE_NAMES.map((page) => [page, []]));
   for (const row of rows) {
     const page = pageNameFromPath(row.path);
     if (!byPage.has(page)) byPage.set(page, []);
