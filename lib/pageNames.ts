@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, LOCALES, hasLocale, type Locale } from "@/lib/i18n";
+import { DEFAULT_LOCALE, LOCALES, hasLocale, localePath, type Locale } from "@/lib/i18n";
 
 /**
  * Path segment -> the label shown on the Performance Analytics dashboard.
@@ -35,6 +35,21 @@ export function pageNameFromPath(path: string): string {
   const withoutLocale = (LOCALES as readonly string[]).includes(segments[0]) ? segments.slice(1) : segments;
   const key = withoutLocale[0] ?? "";
   return PAGE_LABELS[key] ?? key;
+}
+
+const ROUTE_FOR_PAGE_NAME: Record<string, string> = Object.fromEntries(
+  Object.entries(PAGE_LABELS).map(([route, label]) => [label, route])
+);
+
+/**
+ * The reverse of pageNameFromPath: "BESS" -> every locale's path for it
+ * ("/en/bess", "/cn/bess", "/ms/bess"). Lets a filter target one page
+ * category across every language at once instead of one raw path at a time.
+ */
+export function pathsForPageName(page: string): string[] {
+  const route = ROUTE_FOR_PAGE_NAME[page];
+  if (route === undefined) return [];
+  return LOCALES.map((locale) => localePath(locale, route ? `/${route}` : "/"));
 }
 
 /**

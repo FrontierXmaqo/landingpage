@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SEGMENTS } from "@/lib/segments";
+import { ALL_PAGE_NAMES } from "@/lib/pageNames";
 import { DEVICES, RANGES, withFilter, type Filters } from "./filters";
 
 /**
@@ -29,11 +30,9 @@ function Group({ label, children }: { label: string; children: React.ReactNode }
 
 export default function FilterBar({
   filters,
-  paths,
   segments,
 }: {
   filters: Filters;
-  paths: string[];
   /** Only the segments this role may see. One segment means no choice to offer. */
   segments: typeof SEGMENTS;
 }) {
@@ -42,7 +41,7 @@ export default function FilterBar({
       {segments.length > 1 && (
       <Group label="Segment">
         <Link
-          href={withFilter(filters, { segment: "all", path: null })}
+          href={withFilter(filters, { segment: "all", page: null })}
           aria-current={filters.segment === "all" ? "true" : undefined}
           className={`${PILL} ${filters.segment === "all" ? PILL_ON : PILL_OFF}`}
         >
@@ -51,9 +50,9 @@ export default function FilterBar({
         {segments.map((s) => (
           <Link
             key={s.id}
-            // Clearing the path matters: a page from the old segment would
+            // Clearing the page matters: a page from the old segment would
             // otherwise filter the new one down to nothing.
-            href={withFilter(filters, { segment: s.id, path: null })}
+            href={withFilter(filters, { segment: s.id, page: null })}
             aria-current={filters.segment === s.id ? "true" : undefined}
             className={`${PILL} ${filters.segment === s.id ? PILL_ON : PILL_OFF}`}
           >
@@ -91,27 +90,25 @@ export default function FilterBar({
           ))}
         </Group>
 
-        {paths.length > 0 && (
-          <Group label="Page">
+        <Group label="Page">
+          <Link
+            href={withFilter(filters, { page: null })}
+            aria-current={!filters.page ? "true" : undefined}
+            className={`${PILL} ${!filters.page ? PILL_ON : PILL_OFF}`}
+          >
+            All pages
+          </Link>
+          {ALL_PAGE_NAMES.map((name) => (
             <Link
-              href={withFilter(filters, { path: null })}
-              aria-current={!filters.path ? "true" : undefined}
-              className={`${PILL} ${!filters.path ? PILL_ON : PILL_OFF}`}
+              key={name}
+              href={withFilter(filters, { page: name })}
+              aria-current={filters.page === name ? "true" : undefined}
+              className={`${PILL} ${filters.page === name ? PILL_ON : PILL_OFF}`}
             >
-              All pages
+              {name}
             </Link>
-            {paths.map((p) => (
-              <Link
-                key={p}
-                href={withFilter(filters, { path: p })}
-                aria-current={filters.path === p ? "true" : undefined}
-                className={`${PILL} ${filters.path === p ? PILL_ON : PILL_OFF}`}
-              >
-                {p}
-              </Link>
-            ))}
-          </Group>
-        )}
+          ))}
+        </Group>
       </div>
     </div>
   );

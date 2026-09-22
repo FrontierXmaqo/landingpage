@@ -5,7 +5,7 @@ import Charts, { type Bucket, type Overview } from "./Charts";
 import FilterBar from "./FilterBar";
 import { parseFilters, rangeLabel, sinceISO } from "./filters";
 import PagePerformance, { type LocaleGroup, type PageStats } from "./PagePerformance";
-import { pageNameFromPath, localeFromPath, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
+import { pageNameFromPath, localeFromPath, pathsForPageName, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
 import { LOCALES, LOCALE_LABELS } from "@/lib/i18n";
 
 const MILESTONES = [25, 50, 75, 100] as const;
@@ -166,7 +166,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
       p_since: since,
       p_segments: segments,
       p_device: filters.device === "all" ? null : filters.device,
-      p_path: filters.path,
+      p_paths: filters.page ? pathsForPageName(filters.page) : null,
     }),
     supabase.rpc("lead_overview", { p_since: since, p_segments: segments }),
     supabase.from("analytics_events").select("event_type, session_id").gte("created_at", since),
@@ -197,12 +197,9 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
   const enquiries = leadData.total;
 
   const segmentName = filters.segment === "all" ? (allowed.length === 1 ? SEGMENT_LABEL[allowed[0]] : "All segments") : SEGMENT_LABEL[filters.segment];
-  const scope = [segmentName, rangeLabel(filters.range).toLowerCase(), filters.device === "all" ? null : filters.device, filters.path]
+  const scope = [segmentName, rangeLabel(filters.range).toLowerCase(), filters.device === "all" ? null : filters.device, filters.page]
     .filter(Boolean)
     .join(" · ");
-
-  // Only pages that actually have traffic, so the filter has no dead options.
-  const paths = overview.pages.map((p) => p.path).slice(0, 8);
 
   return (
     <div>
@@ -211,7 +208,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
         Visitor behaviour and lead performance, tracked first-party from the public site.
       </p>
 
-      <FilterBar filters={filters} paths={paths} segments={SEGMENTS.filter((s) => allowed.includes(s.id))} />
+      <FilterBar filters={filters} segments={SEGMENTS.filter((s) => allowed.includes(s.id))} />
 
       <p className="mt-3 text-xs tabular-nums text-base-slate">
         {overview.sessions.toLocaleString("en-MY")} sessions · {scope}

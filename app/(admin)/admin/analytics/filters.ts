@@ -1,5 +1,6 @@
 import { startOfMonthMYISO } from "@/lib/datetime";
 import { isSegment, type Segment } from "@/lib/segments";
+import { ALL_PAGE_NAMES } from "@/lib/pageNames";
 
 /**
  * Filter state for the analytics page, carried in the URL rather than in
@@ -30,7 +31,8 @@ export type Filters = {
   segment: Segment | "all";
   range: RangeId;
   device: DeviceId;
-  path: string | null;
+  /** A page category from lib/pageNames.ts (e.g. "BESS"), not a raw path — one pill covers every language. */
+  page: string | null;
 };
 
 export type RawSearchParams = Record<string, string | string[] | undefined>;
@@ -46,15 +48,13 @@ export function parseFilters(params: RawSearchParams, allowed: Segment[]): Filte
   const segment = first(params.segment);
   const range = first(params.range);
   const device = first(params.device);
-  const path = first(params.path);
+  const page = first(params.page);
 
   return {
     segment: isSegment(segment) && allowed.includes(segment) ? segment : "all",
     range: RANGES.some((r) => r.id === range) ? (range as RangeId) : "30d",
     device: DEVICES.some((d) => d.id === device) ? (device as DeviceId) : "all",
-    // Paths come from the page's own list of published routes, but this is a
-    // URL parameter, so bound it before it reaches a query.
-    path: path && path.startsWith("/") && path.length <= 300 ? path : null,
+    page: page && ALL_PAGE_NAMES.includes(page) ? page : null,
   };
 }
 
@@ -72,7 +72,7 @@ export function withFilter(current: Filters, patch: Partial<Filters>) {
   if (next.segment !== "all") q.set("segment", next.segment);
   if (next.range !== "30d") q.set("range", next.range);
   if (next.device !== "all") q.set("device", next.device);
-  if (next.path) q.set("path", next.path);
+  if (next.page) q.set("page", next.page);
   const s = q.toString();
   return s ? `/admin/analytics?${s}` : "/admin/analytics";
 }
