@@ -282,7 +282,7 @@ export default function ProjectsCarousel({
                   aria-hidden={hidden || undefined}
                   className="absolute left-1/2 top-0 w-[74vw] max-w-[330px] sm:w-[330px]"
                   style={{
-                    transform: `translateX(-50%) translateX(${offset * 76}%) rotateY(${offset * 26}deg) scale(${
+                    transform: `translateX(-50%) translateX(${offset * 64}%) rotateY(${offset * 26}deg) scale(${
                       1 - distance * 0.12
                     })`,
                     zIndex: total - distance,
