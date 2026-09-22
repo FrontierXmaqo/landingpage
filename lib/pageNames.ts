@@ -16,7 +16,6 @@ const PAGE_LABELS: Record<string, string> = {
   "commercial-and-industrial": "Commercial & Industrial",
   ev: "EV",
   about: "About",
-  "thank-you": "Thank you",
 };
 
 /**

@@ -4,7 +4,7 @@ import { SEGMENTS, SEGMENT_LABEL, type Segment } from "@/lib/segments";
 import Charts, { type Bucket, type Overview } from "./Charts";
 import FilterBar from "./FilterBar";
 import { parseFilters, rangeLabel, sinceISO } from "./filters";
-import PagePerformance, { type LocaleGroup, type PageStats } from "./PagePerformance";
+import PagePerformance, { type PageGroup, type PageStats } from "./PagePerformance";
 import { pageNameFromPath, localeFromPath, pathsForPageName, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
 import { LOCALES, LOCALE_LABELS } from "@/lib/i18n";
 
@@ -66,39 +66,35 @@ function statsFor(page: string, views: PageviewRow[]): PageStats {
 }
 
 /**
- * The breakdown, grouped by language and then by page — both in fixed order
- * (/en, /cn, /ms; site order within each) rather than by traffic, so a card
- * stays in the same place between visits and the three languages line up
- * column-for-column for comparison.
+ * The breakdown, grouped by page first, each with one bucket per language —
+ * in fixed site order, so a card stays in the same spot between visits.
+ * Every page/language pair is seeded, so a language nobody has visited yet
+ * still gets its own (empty) tab instead of disappearing.
  *
- * Every language/page pair is seeded, so a version nobody has visited yet
- * reads as empty in its usual spot instead of shifting the grid.
+ * Thank-you pages aren't a page anyone needs to read performance for — every
+ * visitor lands there right after submitting, so pageNameFromPath's fallback
+ * key ("thank-you", not in ALL_PAGE_NAMES) drops those rows here.
  */
-function buildLocaleGroups(rows: PageviewRow[]): LocaleGroup[] {
+function buildPageGroups(rows: PageviewRow[]): PageGroup[] {
   const buckets = new Map<string, PageviewRow[]>();
-  const key = (locale: string, page: string) => `${locale}\u0000${page}`;
-  for (const locale of LOCALES) {
-    for (const page of ALL_PAGE_NAMES) buckets.set(key(locale, page), []);
+  const key = (page: string, locale: string) => `${page}\u0000${locale}`;
+  for (const page of ALL_PAGE_NAMES) {
+    for (const locale of LOCALES) buckets.set(key(page, locale), []);
   }
   for (const row of rows) {
-    const k = key(localeFromPath(row.path), pageNameFromPath(row.path));
-    // An unrecognised page (a route added since, or a stray path) still gets
-    // counted rather than silently dropped from the totals.
-    if (!buckets.has(k)) buckets.set(k, []);
-    buckets.get(k)!.push(row);
+    const page = pageNameFromPath(row.path);
+    if (!ALL_PAGE_NAMES.includes(page)) continue;
+    buckets.get(key(page, localeFromPath(row.path)))!.push(row);
   }
 
-  return LOCALES.map((locale) => {
-    const pages = [...buckets.entries()]
-      .filter(([k]) => k.startsWith(`${locale}\u0000`))
-      .map(([k, views]) => statsFor(k.split("\u0000")[1], views));
-    return {
+  return ALL_PAGE_NAMES.map((page) => ({
+    page,
+    locales: LOCALES.map((locale) => ({
       locale,
-      label: LOCALE_LABELS[locale].full,
-      views: pages.reduce((sum, p) => sum + p.views, 0),
-      pages,
-    };
-  });
+      label: LOCALE_LABELS[locale].short,
+      stats: statsFor(page, buckets.get(key(page, locale))!),
+    })),
+  }));
 }
 
 /** Grouped tallies from lead_overview — counts only, never a lead's details. */
@@ -183,7 +179,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
     unknown_segment: 0,
   };
   const groups = leadData.rows ?? [];
-  const localeGroups = buildLocaleGroups(pageviewsRes.data ?? []);
+  const pageGroups = buildPageGroups(pageviewsRes.data ?? []);
 
   /* Location comes from the state dropdown on the form. */
   const byState: Bucket[] = tally(groups, (g) => g.state).slice(0, 6);
@@ -234,7 +230,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/
       />
 
       <div className="mt-6">
-        <PagePerformance groups={localeGroups} />
+        <PagePerformance groups={pageGroups} />
       </div>
     </div>
   );
