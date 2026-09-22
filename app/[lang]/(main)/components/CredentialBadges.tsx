@@ -53,7 +53,7 @@ export default function CredentialBadges({
   inline?: boolean;
 }) {
   const badges = SETS[set];
-  const markSize = inline ? "h-11 sm:h-12" : "h-16 sm:h-20";
+  const markSize = "h-16 sm:h-20";
 
   const list = (
     <ul
