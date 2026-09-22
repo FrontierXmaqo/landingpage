@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
-import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
-import Charts from "./Charts";
+import { getSupabaseUserClient, getCurrentProfile, type Role } from "@/lib/supabase/server";
+import { SEGMENTS, SEGMENT_LABEL, type Segment } from "@/lib/segments";
+import Charts, { type Bucket, type Overview } from "./Charts";
+import FilterBar from "./FilterBar";
+import { parseFilters, rangeLabel, sinceISO } from "./filters";
 import PagePerformance, { type PageStats } from "./PagePerformance";
 import { startOfMonthMYISO } from "@/lib/datetime";
 import { pageNameFromPath, PAGES_WITH_FORM } from "@/lib/pageNames";
@@ -72,61 +75,139 @@ function buildPageStats(rows: PageviewRow[]): PageStats[] {
     .sort((a, b) => b.views - a.views);
 }
 
-export default async function AnalyticsPage() {
+/** Grouped tallies from lead_overview — counts only, never a lead's details. */
+type LeadGroup = {
+  segment: string;
+  status: string | null;
+  source: string | null;
+  state: string | null;
+  n: number;
+};
+
+const EMPTY_OVERVIEW: Overview = {
+  sessions: 0, pageviews: 0, new_sessions: 0, pages_per_session: 0,
+  avg_scroll: 0, avg_active_ms: 0, avg_total_ms: 0,
+  scroll: [], pages: [],
+};
+
+const STATUS_ORDER = ["new", "contacted", "qualified", "converted"];
+const SOURCE_ORDER = ["google", "social", "direct"];
+const title = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/**
+ * What this role is allowed to see. Mirrors the Enquiries page: sales_resi
+ * covers Residential and EV, sales_ci covers C&I, admin and marketing see
+ * everything. The database enforces it too — lead_overview derives its own
+ * scope from the caller's role rather than trusting anything sent here.
+ */
+function allowedSegments(role: Role): Segment[] {
+  if (role === "sales_resi") return ["residential", "ev"];
+  if (role === "sales_ci") return ["ci"];
+  return ["residential", "ci", "ev"];
+}
+
+/** Sums grouped rows into ranked buckets. */
+function tally(rows: LeadGroup[], pick: (r: LeadGroup) => string | null, order?: string[]): Bucket[] {
+  const counts = new Map<string, number>();
+  for (const row of rows) {
+    const key = pick(row);
+    if (key) counts.set(key, (counts.get(key) ?? 0) + row.n);
+  }
+  if (order) {
+    return order.filter((k) => counts.has(k)).map((k) => ({ label: title(k), value: counts.get(k)! }));
+  }
+  return [...counts.entries()]
+    .map(([label, value]) => ({ label, value }))
+    .sort((a, b) => b.value - a.value);
+}
+
+export default async function AnalyticsPage({ searchParams }: PageProps<"/admin/analytics">) {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/admin/login");
+  if (!["admin", "marketing", "sales_resi", "sales_ci"].includes(profile.role)) redirect("/admin");
 
-  const since = startOfMonthMYISO();
+  const allowed = allowedSegments(profile.role);
+  const filters = parseFilters(await searchParams, allowed);
+  const since = sinceISO(filters.range);
+
+  // "All" means everything this role may see, never everything there is.
+  const segments = filters.segment === "all" ? allowed : [filters.segment];
   const supabase = await getSupabaseUserClient();
 
-  const [{ data: events }, { data: leads }, { data: pageviews }] = await Promise.all([
+  const [overviewRes, leadsRes, eventsRes, pageviewsRes] = await Promise.all([
+    // Both aggregate in Postgres: the page receives summaries, never rows.
+    supabase.rpc("analytics_overview", {
+      p_since: since,
+      p_segments: segments,
+      p_device: filters.device === "all" ? null : filters.device,
+      p_path: filters.path,
+    }),
+    supabase.rpc("lead_overview", { p_since: since, p_segments: segments }),
     supabase.from("analytics_events").select("event_type, session_id").gte("created_at", since),
-    supabase.from("atap_leads").select("status, lead_source, state").gte("created_at", since),
     supabase
       .from("analytics_pageviews")
       .select("path, scroll_depth, active_ms, section_dwell, form_started, form_last_field")
       .gte("created_at", since),
   ]);
 
-  const pageStats = buildPageStats(pageviews ?? []);
+  const overview: Overview = { ...EMPTY_OVERVIEW, ...((overviewRes.data as Overview | null) ?? {}) };
+  const leadData = (leadsRes.data as { total: number; rows: LeadGroup[]; unknown_segment: number } | null) ?? {
+    total: 0,
+    rows: [],
+    unknown_segment: 0,
+  };
+  const groups = leadData.rows ?? [];
+  const pageStats = buildPageStats(pageviewsRes.data ?? []);
 
-  const distinctSessions = (type: string) => new Set((events ?? []).filter((e) => e.event_type === type).map((e) => e.session_id)).size;
-  const visitors = distinctSessions("pageview");
-  const calculatorUsers = distinctSessions("calculator_start");
-  const calculatorCompletions = distinctSessions("calculator_complete");
-  const enquiries = leads?.length ?? 0;
+  /* Location comes from the state dropdown on the form. */
+  const byState: Bucket[] = tally(groups, (g) => g.state).slice(0, 6);
 
-  const enquiryConversion = visitors ? (enquiries / visitors) * 100 : 0;
-  const calculatorCompletion = calculatorUsers ? (calculatorCompletions / calculatorUsers) * 100 : 0;
+  /* The original calculator funnel, still from analytics_events. */
+  const events = eventsRes.data ?? [];
+  const distinct = (type: string) => new Set(events.filter((e) => e.event_type === type).map((e) => e.session_id)).size;
+  const visitors = distinct("pageview");
+  const calculatorUsers = distinct("calculator_start");
+  const calculatorCompletions = distinct("calculator_complete");
+  const enquiries = leadData.total;
 
-  const byStatus = ["new", "contacted", "qualified", "converted"].map((status) => ({
-    label: status[0].toUpperCase() + status.slice(1),
-    value: (leads ?? []).filter((l) => l.status === status).length,
-  }));
+  const segmentName = filters.segment === "all" ? (allowed.length === 1 ? SEGMENT_LABEL[allowed[0]] : "All segments") : SEGMENT_LABEL[filters.segment];
+  const scope = [segmentName, rangeLabel(filters.range).toLowerCase(), filters.device === "all" ? null : filters.device, filters.path]
+    .filter(Boolean)
+    .join(" · ");
 
-  const stateCounts = new Map<string, number>();
-  (leads ?? []).forEach((l) => { const s = l.state || "Unknown"; stateCounts.set(s, (stateCounts.get(s) ?? 0) + 1); });
-  const byLocation = [...stateCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([label, value]) => ({ label, value }));
-
-  const bySource = ["google", "social", "direct"].map((source) => ({
-    label: source[0].toUpperCase() + source.slice(1),
-    value: (leads ?? []).filter((l) => (l.lead_source || "direct") === source).length,
-  }));
+  // Only pages that actually have traffic, so the filter has no dead options.
+  const paths = overview.pages.map((p) => p.path).slice(0, 8);
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-base-ink">Performance Analytics</h1>
-      <p className="mt-1 text-sm text-base-slate">This month, tracked directly from the public site.</p>
+      <p className="mt-1 text-sm text-base-slate">
+        Visitor behaviour and lead performance, tracked first-party from the public site.
+      </p>
+
+      <FilterBar filters={filters} paths={paths} segments={SEGMENTS.filter((s) => allowed.includes(s.id))} />
+
+      <p className="mt-3 text-xs tabular-nums text-base-slate">
+        {overview.sessions.toLocaleString("en-MY")} sessions · {scope}
+      </p>
 
       <Charts
-        visitors={visitors}
-        calculatorUsers={calculatorUsers}
-        enquiries={enquiries}
-        enquiryConversion={enquiryConversion}
-        calculatorCompletion={calculatorCompletion}
-        byStatus={byStatus}
-        byLocation={byLocation}
-        bySource={bySource}
+        overview={overview}
+        funnel={{
+          visitors,
+          calculatorUsers,
+          enquiries,
+          enquiryConversion: visitors ? (enquiries / visitors) * 100 : 0,
+          calculatorCompletion: calculatorUsers ? (calculatorCompletions / calculatorUsers) * 100 : 0,
+        }}
+        leads={{
+          total: leadData.total,
+          byStatus: tally(groups, (g) => g.status?.toLowerCase() ?? null, STATUS_ORDER),
+          bySource: tally(groups, (g) => (g.source || "direct").toLowerCase(), SOURCE_ORDER),
+          byState,
+          unknownSegment: leadData.unknown_segment ?? 0,
+        }}
+        leadsCaption={scope}
       />
 
       <div className="mt-6">

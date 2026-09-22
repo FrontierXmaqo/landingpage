@@ -8,7 +8,6 @@ import {
   getPublishedAchievements,
   getPublishedFaq,
 } from "@/lib/publishedContent";
-import PageviewBeacon from "./components/PageviewBeacon";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import BrandStrip from "./components/BrandStrip";
@@ -44,7 +43,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
   return (
     <>
-      <PageviewBeacon />
       <Header locale={lang} t={t} />
       <main className="flex-1">
         <Hero locale={lang} t={t} leadFormOptions={leadFormOptions} customFields={customFields} />

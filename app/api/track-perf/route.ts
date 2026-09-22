@@ -42,6 +42,9 @@ export async function POST(request: NextRequest) {
     if (ms > 0) sectionDwell[String(key).slice(0, 60)] = ms;
   }
 
+  // Country comes from the edge, which reads the IP we never store ourselves.
+  const country = request.headers.get("x-vercel-ip-country");
+
   await getSupabaseServiceClient()
     .from("analytics_pageviews")
     .upsert(
@@ -52,6 +55,7 @@ export async function POST(request: NextRequest) {
         segment: body.segment,
         device: body.device,
         referrer_kind: body.referrer_kind,
+        country: country ? country.slice(0, 2) : null,
         utm_source: body.utm_source ? String(body.utm_source).slice(0, 100) : null,
         is_new_session: Boolean(body.is_new_session),
         scroll_depth: scrollDepth,
