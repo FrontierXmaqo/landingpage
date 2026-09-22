@@ -15,6 +15,8 @@ export type LeadWebhookInput = {
   electricSupply: string;
   /** C&I only — blank on residential/EV submissions. */
   industry: string;
+  /** C&I only — blank on residential/EV submissions. */
+  roleInOrganization: string;
   preferredLanguage: string;
   sourceOfLeads: string;
   campaignId: string;
@@ -171,6 +173,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["Electric Supply"] = input.electricSupply;
   payload["Name of Company"] = input.companyName;
   payload["Industry"] = input.industry;
+  payload["What is your role in this  organization?"] = input.roleInOrganization;
   payload["Preferred Communication Language 2"] = input.preferredLanguage;
   payload["contact_source"] = input.sourcePage;
   payload["gclid"] = input.gclid;

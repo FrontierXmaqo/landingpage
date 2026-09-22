@@ -70,6 +70,8 @@ export type CiCopy = {
     fullNamePlaceholder: string;
     company: string;
     companyPlaceholder: string;
+    role: string;
+    rolePlaceholder: string;
     industry: string;
     industryPlaceholder: string;
     phone: string;
@@ -232,6 +234,8 @@ const en: CiCopy = {
     fullNamePlaceholder: "Your name",
     company: "Company name",
     companyPlaceholder: "Registered company name",
+    role: "Role in Organization",
+    rolePlaceholder: "Select a role",
     industry: "Industry / sector",
     industryPlaceholder: "Select your industry",
     phone: "Mobile number",
@@ -390,6 +394,8 @@ const cn: CiCopy = {
     fullNamePlaceholder: "您的姓名",
     company: "公司名称",
     companyPlaceholder: "注册公司名称",
+    role: "在机构中的职位",
+    rolePlaceholder: "请选择职位",
     industry: "行业／领域",
     industryPlaceholder: "请选择您的行业",
     phone: "手机号码",
@@ -552,6 +558,8 @@ const ms: CiCopy = {
     fullNamePlaceholder: "Nama anda",
     company: "Nama syarikat",
     companyPlaceholder: "Nama syarikat berdaftar",
+    role: "Peranan dalam Organisasi",
+    rolePlaceholder: "Pilih peranan",
     industry: "Industri / sektor",
     industryPlaceholder: "Pilih industri anda",
     phone: "Nombor telefon bimbit",

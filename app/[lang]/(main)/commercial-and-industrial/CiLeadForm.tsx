@@ -8,7 +8,7 @@ import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import type { LeadFormOptionLists } from "../components/LeadForm";
 import { formatMyPhone } from "../components/formFields";
 import type { PublishedCustomField } from "@/lib/publishedContent";
-import { SALUTATIONS, MALAYSIAN_STATES } from "@/lib/leadFormOptions";
+import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/lib/leadFormOptions";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
 
@@ -173,6 +173,23 @@ export default function CiLeadForm({
             placeholder={t.companyPlaceholder}
             className={fieldClass}
           />
+        </label>
+
+        <label className={labelClass} htmlFor="ci-role">
+          <span>
+            {t.role}
+            <RequiredMark />
+          </span>
+          <select id="ci-role" name="role_in_organization" required defaultValue="" className={fieldClass}>
+            <option value="" disabled>
+              {t.rolePlaceholder}
+            </option>
+            {ROLE_IN_ORGANIZATION_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label className={labelClass} htmlFor="ci-industry">

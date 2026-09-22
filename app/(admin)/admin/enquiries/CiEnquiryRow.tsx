@@ -25,6 +25,7 @@ export default function CiEnquiryRow({ lead }: { lead: Record<string, unknown> }
       <td className="px-3 py-2.5">
         <p className="text-base-ink">{String(lead.company_name ?? "—")}</p>
         <p className="text-xs text-base-slate">{String(lead.industry ?? "—")}</p>
+        <p className="text-xs text-base-slate">{String(lead.role_in_organization ?? "—")}</p>
       </td>
       <td className="px-3 py-2.5 text-base-ink">{String(lead.state ?? "—")}</td>
       <td className="px-3 py-2.5 text-base-ink">{String(lead.monthly_bill_range ?? "—")}</td>

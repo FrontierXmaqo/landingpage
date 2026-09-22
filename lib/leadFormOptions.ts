@@ -17,3 +17,17 @@ export const PROPERTY_TYPES = [
 export const ELECTRIC_SUPPLY_OPTIONS = ["Single phase", "Triple phase", "Unsure"];
 
 export const COMMUNICATION_LANGUAGES = ["English", "Chinese", "Malay"];
+
+// C&I only.
+export const ROLE_IN_ORGANIZATION_OPTIONS = [
+  "Business Owner / CEO",
+  "Personal Assistant of CEO",
+  "Facility Manager",
+  "Finance Manager",
+  "Procurement Manager",
+  "Sustainability / ESG Manager",
+  "Project Manager / Engineer",
+  "Consultant / Advisor",
+  "Contractor / Subcontractor",
+  "Others",
+];
