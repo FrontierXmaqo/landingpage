@@ -350,25 +350,23 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   }
 }
 
-/* ---- "Doubled" badge: scroll-in alert + iMessage-style "loud" hover ----
+/* ---- "Doubled" badge: repeating alert + iMessage-style "loud" hover ----
    Two separate triggers on the same element:
-   - Base state: a shake/pulse plays once as the card scrolls into view,
-     tied to the badge's own position in the viewport (view-timeline) so it
-     fires right as the user reaches the problem section, not on page load.
-     Browsers without view-timeline support fall back to a plain one-shot
-     play on mount.
+   - Base state: a brief shake/pulse plays, then the badge rests, on a loop
+     — a periodic nudge to notice it's clickable, rather than a one-shot
+     entrance effect a user could easily scroll past without seeing.
    - :hover (and near-hover, via the oversized ::before hit zone) replaces
      it with a bigger overshoot-and-settle grow, then a plain transition
      eases it back down on hover-out. */
 @keyframes bess-doubled-alert {
-  0%, 100% { transform: rotate(-6deg) scale(1); }
-  10%      { transform: rotate(-11deg) scale(1.32) translateX(-2px); }
-  20%      { transform: rotate(2deg) scale(1.05) translateX(2px); }
-  30%      { transform: rotate(-9deg) scale(1.28) translateX(-2px); }
-  40%      { transform: rotate(-2deg) scale(1.08) translateX(1px); }
-  55%      { transform: rotate(-8deg) scale(1.2); }
-  70%      { transform: rotate(-4deg) scale(1.05); }
-  85%      { transform: rotate(-6deg) scale(1.1); }
+  0%, 20%, 100% { transform: rotate(-6deg) scale(1); }
+  2%            { transform: rotate(-11deg) scale(1.32) translateX(-2px); }
+  4%            { transform: rotate(2deg) scale(1.05) translateX(2px); }
+  6%            { transform: rotate(-9deg) scale(1.28) translateX(-2px); }
+  8%            { transform: rotate(-2deg) scale(1.08) translateX(1px); }
+  11%           { transform: rotate(-8deg) scale(1.2); }
+  14%           { transform: rotate(-4deg) scale(1.05); }
+  17%           { transform: rotate(-6deg) scale(1.1); }
 }
 @keyframes bess-loud {
   0%   { transform: rotate(-6deg) scale(1); }
@@ -381,13 +379,7 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   position: absolute;
   transform-origin: center;
   transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
-  animation: bess-doubled-alert 1.3s ease-in-out 0.4s both;
-}
-@supports (animation-timeline: view()) {
-  .bess-loud-badge {
-    animation-timeline: view();
-    animation-range: entry 15% entry 60%;
-  }
+  animation: bess-doubled-alert 4s ease-in-out infinite;
 }
 /* Invisible halo so hovering *near* the pill (not just exactly on it)
    still counts — pointer events over a descendant box bubble up to this
