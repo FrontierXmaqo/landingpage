@@ -11,11 +11,8 @@ import type { Dictionary } from "@/lib/i18n";
  * on hover is a few pixels and a degree of tilt — enough to feel solid, not
  * enough to distract from the enquiry form above it.
  */
-type Badge =
-  /** An issued mark. The artwork is never restyled — only the plinth carries depth. */
-  | { src: string; alt: string; caption: string }
-  /** A credential with no supplied artwork, set as type on the same plinth. */
-  | { mark: string; issuer: string; caption: string };
+/** An issued mark. The artwork is never restyled — only the plinth carries depth. */
+type Badge = { src: string; alt: string; caption: string };
 
 const CIDB: Badge = {
   src: "/logos/credentials/cidb-g7.png",
@@ -33,8 +30,8 @@ const SEDA: Badge = {
   caption: "SEDA registered installer",
 };
 const ST_CLASS_A: Badge = {
-  mark: "Class A",
-  issuer: "Suruhanjaya Tenaga",
+  src: "/logos/credentials/suruhanjaya-tenaga.png",
+  alt: "Suruhanjaya Tenaga Class A electrical contractor licence",
   caption: "EC Class A",
 };
 
@@ -67,28 +64,15 @@ export default function CredentialBadges({
       }`}
     >
       {badges.map((badge) => (
-        <li key={"src" in badge ? badge.src : badge.mark} className="credential-plinth group">
+        <li key={badge.src} className="credential-plinth group">
           <div className={`credential-plinth-face ${inline ? "px-3 py-3" : ""}`}>
-            {"src" in badge ? (
-              <Image
-                src={badge.src}
-                alt={badge.alt}
-                width={220}
-                height={220}
-                className={`${markSize} w-auto max-w-full object-contain`}
-              />
-            ) : (
-              <span className={`flex ${markSize} flex-col items-center justify-center text-center`}>
-                <span
-                  className={`font-bold leading-none text-brand-green-ink ${inline ? "text-lg" : "text-2xl"}`}
-                >
-                  {badge.mark}
-                </span>
-                <span className="mt-1 text-[10px] uppercase tracking-wider text-base-slate">
-                  {badge.issuer}
-                </span>
-              </span>
-            )}
+            <Image
+              src={badge.src}
+              alt={badge.alt}
+              width={220}
+              height={220}
+              className={`${markSize} w-auto max-w-full object-contain`}
+            />
           </div>
           <p className={`text-center text-base-ink ${inline ? "mt-2 text-sm leading-snug" : "mt-3 text-base sm:text-lg"}`}>
             {badge.caption}

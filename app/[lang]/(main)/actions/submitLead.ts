@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { getSupabaseServerClient } from "@/lib/supabase";
-import { buildLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
+import { buildLeadWebhookPayload, buildCiLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import {
@@ -12,6 +12,7 @@ import {
   PROPERTY_TYPES,
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
+  ROLE_IN_ORGANIZATION_OPTIONS,
 } from "@/lib/leadFormOptions";
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
@@ -54,15 +55,18 @@ async function getClientIp() {
   return h.get("x-real-ip") || "unknown";
 }
 
-async function forwardToWebhook(input: Parameters<typeof buildLeadWebhookPayload>[0]) {
-  const webhookUrl = process.env.LEAD_WEBHOOK_URL;
+async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof buildLeadWebhookPayload>[0]) {
+  // C&I leads go to a different downstream workflow than residential/EV, so
+  // each gets its own webhook URL rather than sharing one.
+  const envVar = formPage === "ci" ? "CI_LEAD_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
+  const webhookUrl = process.env[envVar];
   if (!webhookUrl) return;
   if (!webhookUrl.startsWith("https://")) {
-    console.error("LEAD_WEBHOOK_URL is not an https:// URL; refusing to send.");
+    console.error(`${envVar} is not an https:// URL; refusing to send.`);
     return;
   }
 
-  const payload = buildLeadWebhookPayload(input);
+  const payload = formPage === "ci" ? buildCiLeadWebhookPayload(input) : buildLeadWebhookPayload(input);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
 
@@ -123,6 +127,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const state = oneOf(clean(formData.get("state"), 50), stateOptions);
   const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), billRangeOptions);
   const property_type = oneOf(clean(formData.get("property_type"), 80), propertyTypeOptions);
+  const role_in_organization = oneOf(clean(formData.get("role_in_organization"), 60), ROLE_IN_ORGANIZATION_OPTIONS);
   const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
   const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), languageOptions);
   const campaign_id = clean(formData.get("campaign_id"), 100);
@@ -145,7 +150,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   ) {
     return { status: "error", message: t.invalid };
   }
-  if (formPage === "ci" && !company_name) {
+  if (formPage === "ci" && (!company_name || !role_in_organization)) {
     return { status: "error", message: t.invalid };
   }
   if (formPage !== "ci" && (!property_type || !electric_supply || !preferred_language)) {
@@ -189,6 +194,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
       formPage === "ci"
         ? await supabase.from("ci_leads").insert({
             full_name, company_name, industry: extraFields["industry"] || null,
+            role_in_organization: role_in_organization || null,
             phone, email, state, monthly_bill_range,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
             extra_fields: ciExtraFields,
@@ -212,7 +218,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     supabaseOk = false;
   }
 
-  await forwardToWebhook({
+  await forwardToWebhook(formPage, {
     salutation,
     fullName: full_name,
     companyName: company_name,
@@ -223,6 +229,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     propertyType: property_type,
     electricSupply: electric_supply,
     industry: extraFields["industry"] ?? "",
+    roleInOrganization: role_in_organization,
     preferredLanguage: preferred_language,
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,
