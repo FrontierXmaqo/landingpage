@@ -10,6 +10,8 @@
  * a vertical axis mangles and a plain bar reads perfectly.
  */
 
+import { useRef, useState, type PointerEvent } from "react";
+
 export type Bucket = { label: string; value: number; sub?: string };
 
 export type Overview = {
@@ -78,7 +80,167 @@ function Bars({ title, rows, colour, action, empty }: { title: string; rows: Buc
 
 /* ---------------- sections ---------------- */
 
+type ScrollRow = { depth: number; reached: number; pct: number; drop: number };
+
+/** Drop-off reads off the previous row rather than a running variable, so
+ *  the render stays pure. Shared by the chart and the table so they never
+ *  disagree. */
+function computeScrollRows(scroll: Overview["scroll"], sessions: number): ScrollRow[] {
+  const pcts = scroll.map((s) => (s.reached / sessions) * 100);
+  return scroll.map(({ depth, reached }, i) => {
+    const previous = i === 0 ? null : pcts[i - 1];
+    return {
+      depth,
+      reached,
+      pct: pcts[i],
+      drop: previous === null || previous === 0 ? 0 : ((previous - pcts[i]) / previous) * 100,
+    };
+  });
+}
+
+const SCROLL_CHART_W = 640;
+const SCROLL_CHART_H = 220;
+const SCROLL_PAD = { l: 30, r: 8, t: 26, b: 22 };
+
+/** Bar chart of the same rows the table lists — one bar per 5%-depth bucket,
+ *  height is % of sessions that reached it. Bars that fell 15%+ from the
+ *  previous bucket (the table's own threshold for colouring a row) get the
+ *  critical colour and a paired label, never colour alone. */
+function ScrollDepthChart({ rows }: { rows: ScrollRow[] }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [hover, setHover] = useState<{ i: number; xPct: number; yPct: number } | null>(null);
+
+  const plotW = SCROLL_CHART_W - SCROLL_PAD.l - SCROLL_PAD.r;
+  const plotH = SCROLL_CHART_H - SCROLL_PAD.t - SCROLL_PAD.b;
+  const baseline = SCROLL_PAD.t + plotH;
+  const slot = plotW / rows.length;
+  const barW = Math.min(20, slot - 6);
+  const yFor = (pct: number) => SCROLL_PAD.t + plotH * (1 - pct / 100);
+
+  const worstIdx = rows.reduce((best, r, i) => (r.drop > rows[best].drop ? i : best), 0);
+  const hovered = hover ? rows[hover.i] : null;
+  const previous = hover && hover.i > 0 ? rows[hover.i - 1] : null;
+
+  function showFromPointer(e: PointerEvent<SVGRectElement>, i: number) {
+    const rect = wrapRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setHover({ i, xPct: ((e.clientX - rect.left) / rect.width) * 100, yPct: ((e.clientY - rect.top) / rect.height) * 100 });
+  }
+  function showFromFocus(i: number, cx: number, y: number) {
+    setHover({ i, xPct: (cx / SCROLL_CHART_W) * 100, yPct: (y / SCROLL_CHART_H) * 100 });
+  }
+
+  return (
+    <div>
+      <div ref={wrapRef} className="relative">
+        <svg
+          viewBox={`0 0 ${SCROLL_CHART_W} ${SCROLL_CHART_H}`}
+          className="block h-auto w-full overflow-visible"
+          role="img"
+          aria-label="Percent of sessions reaching each scroll depth, 5 to 100 percent"
+        >
+          {[0, 25, 50, 75, 100].map((t) => {
+            const y = yFor(t);
+            return (
+              <g key={t}>
+                <line x1={SCROLL_PAD.l} x2={SCROLL_CHART_W - SCROLL_PAD.r} y1={y} y2={y} stroke="var(--color-base-line)" strokeWidth={1} />
+                <text x={SCROLL_PAD.l - 6} y={y + 3} textAnchor="end" fontSize={9.5} fill="var(--color-base-slate)" className="tabular-nums">
+                  {t}%
+                </text>
+              </g>
+            );
+          })}
+          {rows.map((r, i) => {
+            const cx = SCROLL_PAD.l + slot * i + slot / 2;
+            const y = yFor(r.pct);
+            const flagged = r.drop >= 15;
+            const color = flagged ? "var(--color-status-critical)" : "var(--color-chart-1)";
+            const barH = Math.max(0, baseline - y);
+            const isEndpoint = i === 0 || i === rows.length - 1;
+            return (
+              <g key={r.depth}>
+                <rect x={cx - barW / 2} y={y} width={barW} height={barH} rx={4} fill={color} />
+                {barH > 4 && <rect x={cx - barW / 2} y={baseline - 4} width={barW} height={4} fill={color} />}
+                {isEndpoint && (
+                  <text x={cx} y={y - 8} textAnchor="middle" fontSize={11} fontWeight={600} fill="var(--color-base-ink)" className="tabular-nums">
+                    {r.pct.toFixed(1)}%
+                  </text>
+                )}
+                {flagged && !isEndpoint && (
+                  <text x={cx} y={y - 8} textAnchor="middle" fontSize={9} fontWeight={700} fill="var(--color-status-critical)">
+                    ▼{r.drop.toFixed(0)}%
+                  </text>
+                )}
+                {(r.depth % 20 === 0 || i === 0) && (
+                  <text x={cx} y={baseline + 14} textAnchor="middle" fontSize={9.5} fill="var(--color-base-slate)" className="tabular-nums">
+                    {r.depth}%
+                  </text>
+                )}
+                <rect
+                  x={SCROLL_PAD.l + slot * i}
+                  y={SCROLL_PAD.t}
+                  width={slot}
+                  height={plotH}
+                  fill="transparent"
+                  tabIndex={0}
+                  role="img"
+                  aria-label={`${r.depth}% scrolled: ${n0(r.reached)} visitors, ${r.pct.toFixed(1)}% of sessions${i === 0 ? "" : `, ${r.drop.toFixed(1)}% drop from the previous step`}`}
+                  className="cursor-pointer outline-none"
+                  onPointerEnter={(e) => showFromPointer(e, i)}
+                  onPointerMove={(e) => showFromPointer(e, i)}
+                  onPointerLeave={() => setHover(null)}
+                  onFocus={() => showFromFocus(i, cx, y)}
+                  onBlur={() => setHover(null)}
+                />
+              </g>
+            );
+          })}
+        </svg>
+
+        {hovered && hover && (
+          <div
+            className="pointer-events-none absolute z-10 whitespace-nowrap rounded-lg bg-base-ink px-2.5 py-2 text-xs leading-snug text-white shadow-lg"
+            style={{ left: `${hover.xPct}%`, top: `${hover.yPct}%`, transform: "translate(-50%, calc(-100% - 10px))" }}
+          >
+            <div className="font-semibold tabular-nums">{n0(hovered.reached)} visitors</div>
+            <div className="text-white/60">
+              reached {hovered.depth}% scroll · {hovered.pct.toFixed(1)}%
+            </div>
+            {previous && (
+              <div className={hovered.drop >= 15 ? "text-red-300" : "text-white/60"}>
+                {hovered.drop >= 15 ? "▼ " : ""}
+                {hovered.drop.toFixed(1)}% drop vs {previous.depth}%
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-base-slate">
+        <span aria-hidden className="h-2 w-2 rounded-sm" style={{ backgroundColor: "var(--color-status-critical)" }} />
+        Bar dropped 15%+ from the previous step
+      </div>
+
+      {rows[worstIdx].drop > 0 && (
+        <div className="mt-3 flex items-start gap-2 rounded-lg border border-status-critical/40 bg-status-critical/5 px-3 py-2 text-xs text-base-ink">
+          <span className="text-status-critical">▼</span>
+          <span>
+            Steepest drop:{" "}
+            <b className="tabular-nums">
+              {rows[worstIdx - 1].depth}% → {rows[worstIdx].depth}% scroll
+            </b>
+            , <b className="tabular-nums text-status-critical">-{rows[worstIdx].drop.toFixed(1)}%</b> of visitors (
+            {n0(rows[worstIdx - 1].reached)} → {n0(rows[worstIdx].reached)})
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ScrollDepth({ scroll, sessions }: { scroll: Overview["scroll"]; sessions: number }) {
+  const [view, setView] = useState<"chart" | "table">("chart");
+
   if (!sessions) {
     return (
       <div className="admin-card p-5">
@@ -88,51 +250,64 @@ function ScrollDepth({ scroll, sessions }: { scroll: Overview["scroll"]; session
     );
   }
 
-  // Drop-off reads off the previous row rather than a running variable, so
-  // the render stays pure.
-  const pcts = scroll.map((s) => (s.reached / sessions) * 100);
-  const rows = scroll.map(({ depth, reached }, i) => {
-    const previous = i === 0 ? null : pcts[i - 1];
-    return {
-      depth,
-      reached,
-      pct: pcts[i],
-      drop: previous === null || previous === 0 ? 0 : ((previous - pcts[i]) / previous) * 100,
-    };
-  });
+  const rows = computeScrollRows(scroll, sessions);
 
   return (
     <div className="admin-card overflow-hidden">
       <div className="flex items-center justify-between gap-2 border-b border-base-line px-5 py-3.5">
-        <h3 className="text-sm font-semibold text-base-ink">Scroll depth</h3>
-        <span className="text-xs text-base-slate">Where visitors stop</span>
+        <div className="flex flex-col gap-0.5">
+          <h3 className="text-sm font-semibold text-base-ink">Scroll depth</h3>
+          <span className="text-xs text-base-slate">Where visitors stop</span>
+        </div>
+        <div className="flex w-fit gap-1 rounded-full border border-base-line bg-base-bg p-1">
+          {(["chart", "table"] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setView(v)}
+              aria-pressed={view === v}
+              className={`rounded-full px-3 py-1 text-xs font-semibold capitalize transition ${
+                view === v ? "bg-base-panel text-base-ink shadow-sm" : "text-base-slate hover:text-base-ink"
+              }`}
+            >
+              {v}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="max-h-[26rem] overflow-y-auto">
-        <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-base-panel">
-            <tr className="border-b border-base-line text-[11px] uppercase tracking-wide text-base-slate">
-              <th scope="col" className="px-5 py-2 text-left font-semibold">% scrolled</th>
-              <th scope="col" className="px-5 py-2 text-right font-semibold"># visitors</th>
-              <th scope="col" className="px-5 py-2 text-right font-semibold">% drop off</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.depth} className="border-b border-base-line last:border-0">
-                <td className="px-5 py-2 tabular-nums">{r.depth}%</td>
-                <td className="px-5 py-2 text-right tabular-nums">
-                  {n0(r.reached)} <span className="text-base-slate">({r.pct.toFixed(1)}%)</span>
-                </td>
-                {/* Only a steep fall is worth colouring; marking every row
-                    would make the colour mean nothing. */}
-                <td className={`px-5 py-2 text-right tabular-nums ${r.drop >= 15 ? "font-semibold text-status-critical" : "text-base-slate"}`}>
-                  {r.drop.toFixed(1)}%
-                </td>
+
+      {view === "chart" ? (
+        <div className="p-5">
+          <ScrollDepthChart rows={rows} />
+        </div>
+      ) : (
+        <div className="max-h-[26rem] overflow-y-auto">
+          <table className="w-full text-sm">
+            <thead className="sticky top-0 bg-base-panel">
+              <tr className="border-b border-base-line text-[11px] uppercase tracking-wide text-base-slate">
+                <th scope="col" className="px-5 py-2 text-left font-semibold">% scrolled</th>
+                <th scope="col" className="px-5 py-2 text-right font-semibold"># visitors</th>
+                <th scope="col" className="px-5 py-2 text-right font-semibold">% drop off</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.depth} className="border-b border-base-line last:border-0">
+                  <td className="px-5 py-2 tabular-nums">{r.depth}%</td>
+                  <td className="px-5 py-2 text-right tabular-nums">
+                    {n0(r.reached)} <span className="text-base-slate">({r.pct.toFixed(1)}%)</span>
+                  </td>
+                  {/* Only a steep fall is worth colouring; marking every row
+                      would make the colour mean nothing. */}
+                  <td className={`px-5 py-2 text-right tabular-nums ${r.drop >= 15 ? "font-semibold text-status-critical" : "text-base-slate"}`}>
+                    {r.drop.toFixed(1)}%
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
