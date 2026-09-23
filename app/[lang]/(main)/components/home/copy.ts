@@ -13,18 +13,6 @@
 
 import type { Locale } from "@/lib/i18n";
 
-export type HomeProject = {
-  /** Category chip on the photo. */
-  chip: string;
-  /** Left half of the meta line. */
-  location: string;
-  /** Right half of the meta line, in the accent colour. */
-  metric: string;
-  title: string;
-  body: string;
-  imageAlt: string;
-};
-
 export type HomeCopy = {
   meta: { title: string; description: string };
 
@@ -48,7 +36,7 @@ export type HomeCopy = {
     ci: { who: string; title: string; desc: string; cta: string };
   };
 
-  md: { quote: string; name: string; role: string; portraitAlt: string };
+  md: { quote: string; name: string; role: string; portraitAlt: string; aboutCta: string };
 
   numbers: {
     eyebrow: string;
@@ -68,12 +56,13 @@ export type HomeCopy = {
     viewProject: string;
     seeAllRes: string;
     seeAllCi: string;
+    /** Alt text for the residential photo mosaic; `{n}` is the photo number. */
+    resImageAlt: string;
     /** Fills a C&I card whose CMS row has no summary, from its module count. */
     ciFallbackBody: string;
     ciFallbackBodyNoPanels: string;
   };
 
-  residentialProjects: HomeProject[];
 
   process: {
     eyebrow: string;
@@ -134,6 +123,7 @@ const en: HomeCopy = {
     name: "Kong Kok King",
     role: "Managing Director · M.Eng, University of Tokyo",
     portraitAlt: "Kong Kok King, Managing Director of MAQO Engineering Sdn Bhd",
+    aboutCta: "More about MAQO",
   },
 
   numbers: {
@@ -151,42 +141,16 @@ const en: HomeCopy = {
     title: "From a single terrace roof in Subang Jaya to 2,380 panels over a bottling plant.",
     lede: "Same licence, same crew, same commissioning standard. Only the scale changes.",
     resHeading: "Residential",
-    resCount: "03 of 1,000+ homes",
+    resCount: "05 of 1,000+ homes",
     ciHeading: "Commercial & Industrial",
     ciCount: "03 of 500+ clients",
     viewProject: "View project",
     seeAllRes: "See all residential work",
     seeAllCi: "See all C&I work",
+    resImageAlt: "MAQO Solar residential rooftop installation, photo {n}",
     ciFallbackBody: "{panels}, designed, installed and commissioned by MAQO under a single ST Class A licence.",
     ciFallbackBodyNoPanels: "Designed, installed and commissioned by MAQO under a single ST Class A licence.",
   },
-
-  residentialProjects: [
-    {
-      chip: "Terrace home",
-      location: "Subang Jaya, Selangor",
-      metric: "RM680 to RM90 / month",
-      title: "Bill cut to under RM90 a month",
-      body: "A hybrid system with battery storage on a double-storey terrace. MAQO handled the TNB application, the inspection and the meter changeover.",
-      imageAlt: "MAQO crew installing solar panels on the pitched roof of a Malaysian home",
-    },
-    {
-      chip: "Bungalow",
-      location: "Shah Alam, Selangor",
-      metric: "RM350 / month saved",
-      title: "Crane-lifted install, zero tile damage",
-      body: "Panels hoisted by crane to protect the clay tiles, from SEDA approval through to the TNB meter.",
-      imageAlt: "A completed MAQO Solar rooftop installation on a Malaysian home",
-    },
-    {
-      chip: "Community",
-      location: "Shah Alam, Selangor",
-      metric: "6.96 kWp",
-      title: "Surau At-Taqwa",
-      body: "Twelve panels, commissioned in a day and a half from first fix to the main distribution board.",
-      imageAlt: "Solar panels across the roof of a MAQO Solar installation in Malaysia",
-    },
-  ],
 
   process: {
     eyebrow: "How it works",
@@ -289,6 +253,7 @@ const cn: HomeCopy = {
     name: "江国庆",
     role: "董事总经理 · 东京大学工程硕士",
     portraitAlt: "MAQO Engineering Sdn Bhd 董事总经理江国庆",
+    aboutCta: "了解 MAQO",
   },
 
   numbers: {
@@ -306,42 +271,16 @@ const cn: HomeCopy = {
     title: "从梳邦再也的一间排屋，到瓶装厂屋顶上的 2,380 片组件。",
     lede: "同一张执照、同一支团队、同一套验收标准，改变的只是规模。",
     resHeading: "住宅",
-    resCount: "1,000+ 户中的 3 例",
+    resCount: "1,000+ 户中的 5 例",
     ciHeading: "工商业",
     ciCount: "500+ 客户中的 3 例",
     viewProject: "查看项目",
     seeAllRes: "查看全部住宅项目",
     seeAllCi: "查看全部工商业项目",
+    resImageAlt: "MAQO 住宅屋顶太阳能安装，第 {n} 张",
     ciFallbackBody: "{panels}，由 MAQO 以单一 ST A 级执照完成设计、安装与调试。",
     ciFallbackBodyNoPanels: "由 MAQO 以单一 ST A 级执照完成设计、安装与调试。",
   },
-
-  residentialProjects: [
-    {
-      chip: "排屋",
-      location: "梳邦再也，雪兰莪",
-      metric: "每月 RM680 降至 RM90",
-      title: "每月电费降到 RM90 以下",
-      body: "双层排屋的混合式系统加储能电池。TNB 申请、验收与电表更换全程由 MAQO 处理。",
-      imageAlt: "MAQO 团队在马来西亚住宅斜屋顶上安装太阳能板",
-    },
-    {
-      chip: "独立式洋房",
-      location: "莎阿南，雪兰莪",
-      metric: "每月省下 RM350",
-      title: "吊车吊装，瓦片零损伤",
-      body: "以吊车吊运组件保护瓦片，从 SEDA 批准到 TNB 换表全程跟进。",
-      imageAlt: "马来西亚住宅屋顶上已完工的 MAQO 太阳能系统",
-    },
-    {
-      chip: "社区",
-      location: "莎阿南，雪兰莪",
-      metric: "6.96 kWp",
-      title: "At-Taqwa 祈祷室",
-      body: "12 片组件，从首次施工到接入总配电箱仅用一天半即完成调试。",
-      imageAlt: "MAQO 在马来西亚完成的屋顶太阳能安装",
-    },
-  ],
 
   process: {
     eyebrow: "服务流程",
@@ -424,6 +363,7 @@ const ms: HomeCopy = {
     name: "Kong Kok King",
     role: "Pengarah Urusan · M.Eng, Universiti Tokyo",
     portraitAlt: "Kong Kok King, Pengarah Urusan MAQO Engineering Sdn Bhd",
+    aboutCta: "Kenali MAQO",
   },
 
   numbers: {
@@ -441,42 +381,16 @@ const ms: HomeCopy = {
     title: "Dari satu bumbung teres di Subang Jaya ke 2,380 panel di atas kilang pembotolan.",
     lede: "Lesen yang sama, pasukan yang sama, piawai pentauliahan yang sama. Hanya skalanya berubah.",
     resHeading: "Kediaman",
-    resCount: "03 daripada 1,000+ rumah",
+    resCount: "05 daripada 1,000+ rumah",
     ciHeading: "Komersial & Industri",
     ciCount: "03 daripada 500+ pelanggan",
     viewProject: "Lihat projek",
     seeAllRes: "Lihat semua projek kediaman",
     seeAllCi: "Lihat semua projek C&I",
+    resImageAlt: "Pemasangan solar bumbung kediaman MAQO Solar, foto {n}",
     ciFallbackBody: "{panels}, direka, dipasang dan ditauliahkan oleh MAQO di bawah satu lesen ST Kelas A.",
     ciFallbackBodyNoPanels: "Direka, dipasang dan ditauliahkan oleh MAQO di bawah satu lesen ST Kelas A.",
   },
-
-  residentialProjects: [
-    {
-      chip: "Rumah teres",
-      location: "Subang Jaya, Selangor",
-      metric: "RM680 ke RM90 / bulan",
-      title: "Bil turun ke bawah RM90 sebulan",
-      body: "Sistem hibrid dengan storan bateri di rumah teres dua tingkat. MAQO menguruskan permohonan TNB, pemeriksaan dan pertukaran meter.",
-      imageAlt: "Pasukan MAQO memasang panel solar di bumbung sebuah rumah di Malaysia",
-    },
-    {
-      chip: "Banglo",
-      location: "Shah Alam, Selangor",
-      metric: "RM350 / bulan dijimatkan",
-      title: "Pemasangan guna kren, genting tanpa kerosakan",
-      body: "Panel diangkat dengan kren bagi melindungi genting tanah liat, dari kelulusan SEDA hingga meter TNB.",
-      imageAlt: "Pemasangan solar bumbung MAQO Solar yang siap di sebuah rumah di Malaysia",
-    },
-    {
-      chip: "Komuniti",
-      location: "Shah Alam, Selangor",
-      metric: "6.96 kWp",
-      title: "Surau At-Taqwa",
-      body: "Dua belas panel, ditauliahkan dalam sehari setengah dari kerja pertama hingga papan agihan utama.",
-      imageAlt: "Panel solar di bumbung sebuah pemasangan MAQO Solar di Malaysia",
-    },
-  ],
 
   process: {
     eyebrow: "Cara ia berfungsi",

@@ -99,7 +99,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <section id="why" className="scroll-mt-20 bg-base-bg pb-14 pt-[clamp(3.5rem,6vw,5rem)] sm:pb-16">
           <CredentialBadges t={dict.credentialBadges} set="commercial" />
           <div className="px-4 sm:px-6">
-            <ManagingDirector t={t.md} />
+            <ManagingDirector locale={lang} t={t.md} />
           </div>
         </section>
 

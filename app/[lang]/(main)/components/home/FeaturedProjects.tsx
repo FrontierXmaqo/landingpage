@@ -5,11 +5,20 @@ import SectionTag from "../SectionTag";
 import { fill, localePath, type Locale } from "@/lib/i18n";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCiProject } from "@/lib/publishedContent";
-import type { HomeCopy, HomeProject } from "./copy";
+import type { HomeCopy } from "./copy";
 
 /** The same photographs the residential page shows under "Our work", so the
  *  homepage leads with real MAQO installations rather than a separate set. */
-const RESIDENTIAL_IMAGES = OLD_SITE_IMAGES.gallery.slice(0, 3);
+const RESIDENTIAL_IMAGES = OLD_SITE_IMAGES.gallery.slice(0, 5);
+
+/** One lead photo beside a 2x2 block on desktop; lead full width on mobile. */
+const MOSAIC_CELLS = [
+  "col-span-2 aspect-[16/10] lg:col-span-6 lg:row-span-2 lg:aspect-auto",
+  "aspect-[4/3] lg:col-span-3 lg:aspect-auto",
+  "aspect-[4/3] lg:col-span-3 lg:aspect-auto",
+  "aspect-[4/3] lg:col-span-3 lg:aspect-auto",
+  "aspect-[4/3] lg:col-span-3 lg:aspect-auto",
+];
 
 /** Branded stand-in for a CMS project row whose photo has not been set yet. */
 function CardFallback({ capacity }: { capacity: string }) {
@@ -101,8 +110,8 @@ function Card({
  * between them. A flat six-up grid reads as a catalogue; this reads as a
  * portfolio, and the mirroring reinforces that the page serves two audiences.
  *
- * Residential cards are editorial copy (copy.ts) over photos from the
- * residential page's gallery. C&I cards come from the same CMS rows the C&I
+ * Residential is a photo-only mosaic drawn from the residential page's
+ * gallery; every tile opens that gallery. C&I cards come from the same CMS rows the C&I
  * page uses, so a project edited there updates here too.
  * Those rows carry no location field, so the C&I meta line is category and
  * capacity, which is real data rather than an invented address.
@@ -116,18 +125,14 @@ export default function FeaturedProjects({
   t: HomeCopy;
   ciProjects: PublishedCiProject[];
 }) {
-  const resHref = localePath(locale, "/residential");
   const ciHref = localePath(locale, "/commercial-and-industrial");
   // "See all" lands on each page's own work section, not its top.
   const resWorkHref = localePath(locale, "/residential#our-work");
   const ciWorkHref = localePath(locale, "/commercial-and-industrial#projects");
-  const resAccent = { text: "text-brand-green-ink", border: "hover:border-brand-green" };
   const ciAccent = { text: "text-brand-orange-ink", border: "hover:border-brand-orange" };
 
   const ghost =
     "inline-flex items-center gap-2 rounded-full border border-base-line bg-base-panel px-6 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate";
-
-  const residential: HomeProject[] = t.residentialProjects;
 
   return (
     <section id="work" className="scroll-mt-20 bg-base-bg py-16 sm:py-20">
@@ -148,24 +153,25 @@ export default function FeaturedProjects({
             <p className="font-mono text-xs uppercase tracking-[0.1em] text-base-slate">{t.work.resCount}</p>
           </div>
 
-          <div className="mt-6 grid gap-4 lg:grid-cols-12 lg:gap-5">
-            {residential.map((p, i) => (
-              <div key={p.title} className={i === 0 ? "lg:col-span-7 lg:row-span-2" : "lg:col-span-5"}>
-                <Card
-                  href={resHref}
-                  accent={resAccent}
-                  image={RESIDENTIAL_IMAGES[i]}
-                  imageAlt={p.imageAlt}
-                  chip={p.chip}
-                  left={p.location}
-                  right={p.metric}
-                  title={p.title}
-                  body={p.body}
-                  cta={t.work.viewProject}
-                  capacity={p.metric}
-                  lead={i === 0}
+          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-12 lg:auto-rows-[13.5rem] lg:gap-4">
+            {RESIDENTIAL_IMAGES.map((src, i) => (
+              <Link
+                key={src}
+                href={resWorkHref}
+                className={`group relative overflow-hidden rounded-2xl border border-base-line bg-base-panel outline-offset-4 transition duration-300 hover:border-brand-green hover:shadow-[0_30px_56px_-34px_rgba(8,26,15,0.55)] ${MOSAIC_CELLS[i]}`}
+              >
+                <Image
+                  src={src}
+                  alt={fill(t.work.resImageAlt, { n: i + 1 })}
+                  fill
+                  sizes={i === 0 ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+                  className="object-cover transition duration-700 ease-out group-hover:scale-[1.04]"
                 />
-              </div>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-forest/25 to-transparent opacity-0 transition duration-300 group-hover:opacity-100"
+                />
+              </Link>
             ))}
           </div>
 
