@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { LOCALES, DEFAULT_LOCALE, HTML_LANG, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import PagePerfTracker from "@/lib/pagePerf";
+import ScrollToTopOnNavigate from "./components/ScrollToTopOnNavigate";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -122,6 +123,7 @@ if(w.scrollY>0)fire()})(document,window);`}
           }
         </noscript>
         <PagePerfTracker />
+        <ScrollToTopOnNavigate />
         {children}
       </body>
     </html>

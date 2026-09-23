@@ -7,6 +7,7 @@ import "./globals.css";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import PagePerfTracker from "@/lib/pagePerf";
+import ScrollToTopOnNavigate from "@/app/[lang]/(main)/components/ScrollToTopOnNavigate";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -99,6 +100,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         {/* End Google Tag Manager (noscript) */}
 
         <PagePerfTracker />
+        <ScrollToTopOnNavigate />
         {children}
       </body>
     </html>
