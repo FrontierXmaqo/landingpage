@@ -8,7 +8,7 @@ import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
-import { getExternalReferrer } from "@/lib/getExternalReferrer";
+import { resolveLeadAttribution } from "@/lib/attribution";
 import { EV_CALC_DEFAULTS, OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import {
@@ -312,6 +312,11 @@ export default function EvPage({
   const fbclidRef = useRef<HTMLInputElement>(null);
   const referrerRef = useRef<HTMLInputElement>(null);
   const landingPageSourceRef = useRef<HTMLInputElement>(null);
+  const utmSourceRef = useRef<HTMLInputElement>(null);
+  const utmMediumRef = useRef<HTMLInputElement>(null);
+  const utmCampaignRef = useRef<HTMLInputElement>(null);
+  const utmTermRef = useRef<HTMLInputElement>(null);
+  const utmContentRef = useRef<HTMLInputElement>(null);
 
   const evCalc = evCalcConfig ?? EV_CALC_DEFAULTS;
   const faqList = faqItems?.length ? faqItems : t.faq.items;
@@ -331,12 +336,20 @@ export default function EvPage({
   ];
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const campaignId = params.get("campaign_id") || params.get("utm_campaign") || params.get("gclid") || "";
-    if (campaignIdRef.current) campaignIdRef.current.value = campaignId;
-    if (gclidRef.current) gclidRef.current.value = params.get("gclid") || "";
-    if (fbclidRef.current) fbclidRef.current.value = params.get("fbclid") || "";
-    if (referrerRef.current) referrerRef.current.value = getExternalReferrer();
+    // Reads the visit's first-touch attribution (persisted by lib/attribution
+    // since whichever page the visitor actually landed on) rather than this
+    // page's own URL, so campaign data survives even when the visitor
+    // browsed elsewhere before reaching this form.
+    const a = resolveLeadAttribution();
+    if (campaignIdRef.current) campaignIdRef.current.value = a.campaignId;
+    if (gclidRef.current) gclidRef.current.value = a.gclid;
+    if (fbclidRef.current) fbclidRef.current.value = a.fbclid;
+    if (referrerRef.current) referrerRef.current.value = a.referrer;
+    if (utmSourceRef.current) utmSourceRef.current.value = a.utmSource;
+    if (utmMediumRef.current) utmMediumRef.current.value = a.utmMedium;
+    if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
+    if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
+    if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
     // Hardcoded, not derived from location.pathname: this page is reachable both
     // at /ev directly and at /?site=ev (rewritten by proxy.ts), but it's always
     // the EV landing page — never derive this from the visible URL/query string.
@@ -720,6 +733,11 @@ export default function EvPage({
             <input type="hidden" name="fbclid" ref={fbclidRef} />
             <input type="hidden" name="landing_referrer" ref={referrerRef} />
             <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
+            <input type="hidden" name="utm_source" ref={utmSourceRef} />
+            <input type="hidden" name="utm_medium" ref={utmMediumRef} />
+            <input type="hidden" name="utm_campaign" ref={utmCampaignRef} />
+            <input type="hidden" name="utm_term" ref={utmTermRef} />
+            <input type="hidden" name="utm_content" ref={utmContentRef} />
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
               <label htmlFor="company_website">{t.form.honeypot}</label>

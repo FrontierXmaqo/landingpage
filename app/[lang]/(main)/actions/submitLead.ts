@@ -140,6 +140,11 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const gclid = clean(formData.get("gclid"), 100);
   const fbclid = clean(formData.get("fbclid"), 200);
   const landing_referrer = clean(formData.get("landing_referrer"), 500);
+  const utm_source = clean(formData.get("utm_source"), 100);
+  const utm_medium = clean(formData.get("utm_medium"), 100);
+  const utm_campaign = clean(formData.get("utm_campaign"), 100);
+  const utm_term = clean(formData.get("utm_term"), 150);
+  const utm_content = clean(formData.get("utm_content"), 150);
   const landing_page_source = clean(formData.get("landing_page_source"), 300);
   const charge_time = clean(formData.get("charge_time"), 80);
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
@@ -241,6 +246,11 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     campaignId: campaign_id,
     gclid,
     fbclid,
+    utmSource: utm_source,
+    utmMedium: utm_medium,
+    utmCampaign: utm_campaign,
+    utmTerm: utm_term,
+    utmContent: utm_content,
     sourcePage,
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,

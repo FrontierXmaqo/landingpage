@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LOCALES } from "@/lib/i18n";
 import { getSessionId, sendBeacon } from "@/lib/track";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
+import { captureAttribution } from "@/lib/attribution";
 
 /**
  * Which page a path belongs to, for the "each page's performance" breakdown —
@@ -49,6 +50,12 @@ export default function PagePerfTracker() {
   const startedNewSession = useRef<boolean | null>(null);
 
   useEffect(() => {
+    // Runs on every page of the site (this tracker is mounted once per root
+    // layout, re-fires on each navigation) — captures ad-campaign attribution
+    // on whichever page the visitor actually lands on, not just pages that
+    // happen to have a lead form.
+    captureAttribution();
+
     if (startedNewSession.current === null) {
       startedNewSession.current = !sessionStorage.getItem("maqo_session_id");
     }

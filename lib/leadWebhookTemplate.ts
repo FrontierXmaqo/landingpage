@@ -22,6 +22,12 @@ export type LeadWebhookInput = {
   campaignId: string;
   gclid: string;
   fbclid: string;
+  /** Full UTM breakdown behind campaignId — persisted first-touch attribution (see lib/attribution.ts). */
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmTerm: string;
+  utmContent: string;
   /** Which of our own landing pages this lead was submitted from (e.g. "MAQO Main Site", "MAQO EV Landing Page"). */
   sourcePage: string;
   remarks: string;
@@ -158,6 +164,11 @@ function blankTemplate() {
       "Campaign ID": "",
       "Landing Page Source": "",
       "Fbclid": "",
+      "UTM Source": "",
+      "UTM Medium": "",
+      "UTM Campaign": "",
+      "UTM Term": "",
+      "UTM Content": "",
     },
   };
 }
@@ -185,6 +196,11 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload.customData["Campaign ID"] = input.campaignId;
   payload.customData["Landing Page Source"] = input.landingPageSource;
   payload.customData["Fbclid"] = input.fbclid;
+  payload.customData["UTM Source"] = input.utmSource;
+  payload.customData["UTM Medium"] = input.utmMedium;
+  payload.customData["UTM Campaign"] = input.utmCampaign;
+  payload.customData["UTM Term"] = input.utmTerm;
+  payload.customData["UTM Content"] = input.utmContent;
 
   return payload;
 }
@@ -217,6 +233,11 @@ export function buildCiLeadWebhookPayload(input: LeadWebhookInput) {
   customData["Role In Organization"] = input.roleInOrganization;
   customData["Monthly Electric Bill"] = input.monthlyBillRange;
   customData["Location"] = input.state;
+  customData["UTM Source"] = input.utmSource;
+  customData["UTM Medium"] = input.utmMedium;
+  customData["UTM Campaign"] = input.utmCampaign;
+  customData["UTM Term"] = input.utmTerm;
+  customData["UTM Content"] = input.utmContent;
 
   return payload;
 }
