@@ -227,7 +227,7 @@ const en: HomeCopy = {
     items: [
       { title: "Residential Solar", body: "Packages, pricing and what ATAP actually pays back." },
       { title: "Commercial & Industrial", body: "EPCC, PPA and zero-CAPEX models for factories and warehouses." },
-      { title: "Solar Calculator", body: "Enter your monthly bill, see system size, savings and payback." },
+      { title: "ATAP Programme", body: "What Malaysia's rooftop solar programme is, and how the bill credit works." },
       { title: "Battery Storage", body: "BESS for maximum demand management and backup power." },
     ],
   },
@@ -362,7 +362,7 @@ const cn: HomeCopy = {
     items: [
       { title: "住宅太阳能", body: "配套、价格，以及 ATAP 实际能回本多少。" },
       { title: "工商业太阳能", body: "为工厂与仓库而设的 EPCC、PPA 与零资本投入方案。" },
-      { title: "太阳能计算器", body: "输入月电费，即时估算系统规模、节省与回本年期。" },
+      { title: "ATAP 计划", body: "什么是马来西亚屋顶太阳能计划，电费抵扣又是如何运作的。" },
       { title: "储能电池", body: "用于最高需求管理与备用电力的 BESS 系统。" },
     ],
   },
@@ -497,7 +497,7 @@ const ms: HomeCopy = {
     items: [
       { title: "Solar Kediaman", body: "Pakej, harga, dan berapa sebenarnya ATAP membayar balik." },
       { title: "Komersial & Industri", body: "Model EPCC, PPA dan tanpa modal untuk kilang dan gudang." },
-      { title: "Kalkulator Solar", body: "Masukkan bil bulanan anda, lihat saiz sistem, penjimatan dan bayar balik." },
+      { title: "Program ATAP", body: "Apa itu program solar bumbung Malaysia, dan bagaimana kredit bil berfungsi." },
       { title: "Storan Bateri", body: "BESS untuk pengurusan permintaan maksimum dan kuasa sandaran." },
     ],
   },

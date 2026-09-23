@@ -11,11 +11,8 @@ const ICONS = [
   <path key="home" d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5M9.5 21v-6h5v6" />,
   // a factory
   <path key="factory" d="M3 21h18M4 21V8l6-3v16M10 21V11l10-3v13M14 13h2M14 17h2" />,
-  // a calculator
-  <path
-    key="calc"
-    d="M5 3.5h14a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19V5A1.5 1.5 0 0 1 5 3.5ZM7.5 7h9M8 11h.01M12 11h.01M16 11h.01M8 14.5h.01M12 14.5h.01M16 14.5h.01M8 18h.01M12 18h4"
-  />,
+  // a sun over a roof
+  <path key="atap" d="M12 5.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6M12 2v1.2M17.6 8.2h1.4M5 8.2h1.4M16 4.2l.9-.9M8 4.2l-.9-.9M2.8 20.6 12 14.6l9.2 6" />,
   // a battery
   <path key="bess" d="M3 8.5h13a1.5 1.5 0 0 1 1.5 1.5v4a1.5 1.5 0 0 1-1.5 1.5H3a1.5 1.5 0 0 1-1.5-1.5v-4A1.5 1.5 0 0 1 3 8.5ZM20 11v2M6 10v4M9.5 10v4M13 10v4" />,
 ];
@@ -41,7 +38,7 @@ export default function RouteTiles({ locale, t }: { locale: Locale; t: HomeCopy[
       iconBg: "bg-brand-orange-tint",
     },
     {
-      href: localePath(locale, "/residential#packages"),
+      href: localePath(locale, "/atap"),
       accent: "text-brand-green-deep",
       hover: "hover:border-brand-green",
       iconBg: "bg-brand-green-tint",
