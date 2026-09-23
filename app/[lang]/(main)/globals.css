@@ -293,6 +293,25 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .credential-plinth:hover .credential-plinth-face { transform: none; }
 }
 
+/* ---- Funding option cards -----------------------------------------------
+   Same lift-and-tilt as the credential badges above, applied directly to
+   the card since it has no separate plinth layer to hover. */
+.funding-card {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+}
+.funding-card:hover {
+  transform: translateY(-4px) perspective(700px) rotateX(3deg);
+  box-shadow:
+    0 2px 4px rgb(15 23 42 / 0.07),
+    0 22px 42px -14px rgb(15 23 42 / 0.26),
+    inset 0 1px 0 rgb(255 255 255 / 0.95);
+}
+@media (prefers-reduced-motion: reduce) {
+  .funding-card { transition: none; }
+  .funding-card:hover { transform: none; }
+}
+
 /* ---- BESS page wash ----------------------------------------------------
    A single gradient behind the whole page rather than per-section colour:
    warm rose at the top where the hero sits, paper through the middle, and a
