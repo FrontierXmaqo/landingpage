@@ -33,6 +33,14 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
     { href: localePath(locale, "/about"), label: t.nav.about },
   ];
 
+  // The topbar abbreviates for space; the footer column has room for the
+  // segment's real name, so it renders the same list with that one swapped.
+  const footerNav = nav.map((item) =>
+    item.href === localePath(locale, "/commercial-and-industrial")
+      ? { ...item, label: t.footer.commercial }
+      : item
+  );
+
   return (
     <>
       <ThankYouTracking id="ev" />
@@ -115,7 +123,7 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
             </div>
             <div className="foot-col">
               <h5>{t.footer.company}</h5>
-              {nav.map((item) => (
+              {footerNav.map((item) => (
                 <a key={item.href} href={item.href}>
                   {item.label}
                 </a>

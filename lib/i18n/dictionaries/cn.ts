@@ -238,6 +238,7 @@ const cn: Dictionary = {
   footer: {
     tagline: "为更洁净的未来供能。一次一片太阳能板、一颗电池。",
     solutions: "解决方案",
+    commercial: "工商业",
     about: "关于我们",
     contactUs: "联系我们",
     contact: "联络方式",
@@ -599,6 +600,7 @@ const cn: Dictionary = {
     footer: {
       tagline: "住宅与工商业太阳能EPCC工程,持有ST A级与CIDB G7认证,自2013年起。",
       company: "公司",
+      commercial: "工商业",
       explore: "浏览",
       calculator: "节省计算器",
       contact: "联络方式",

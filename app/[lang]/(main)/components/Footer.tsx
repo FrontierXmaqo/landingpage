@@ -20,7 +20,7 @@ export default function Footer({
 }) {
   const links = [
     { label: nav.residential, href: localePath(locale, "/residential") },
-    { label: nav.commercial, href: localePath(locale, "/commercial-and-industrial") },
+    { label: t.commercial, href: localePath(locale, "/commercial-and-industrial") },
     { label: nav.bess, href: localePath(locale, "/bess") },
     { label: nav.ev, href: localePath(locale, "/ev") },
     { label: nav.atap, href: localePath(locale, "/atap") },

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { OLD_SITE_IMAGES } from "@/lib/content";
-import type { Dictionary, Locale } from "@/lib/i18n";
+import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header({
@@ -20,7 +20,14 @@ export default function Header({
   return (
     <header className="sticky top-0 z-40 w-full border-b border-base-line bg-base-panel/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <div className="relative h-9 w-28 shrink-0 sm:h-10 sm:w-36">
+        {/* The wordmark is the way back to the homepage from anywhere on the
+            site, which is what visitors reach for first. The alt text names
+            the company and the link is what carries the destination, so a
+            screen reader hears "MAQO Solar, link" rather than a bare image. */}
+        <Link
+          href={localePath(locale, "/")}
+          className="relative h-9 w-28 shrink-0 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green-ink sm:h-10 sm:w-36"
+        >
           <Image
             src={OLD_SITE_IMAGES.logo}
             alt={t.header.logoAlt}
@@ -29,7 +36,7 @@ export default function Header({
             sizes="160px"
             priority
           />
-        </div>
+        </Link>
         <div className="flex items-center gap-2 sm:gap-4">
           <LanguageSwitcher
             locale={locale}

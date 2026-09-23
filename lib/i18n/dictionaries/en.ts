@@ -244,6 +244,7 @@ const en = {
   footer: {
     tagline: "Energizing A Cleaner Future. One solar panel & one battery at a time.",
     solutions: "Solutions",
+    commercial: "Commercial & Industrial",
     about: "About",
     contactUs: "Contact us",
     contact: "Contact",
@@ -608,6 +609,7 @@ const en = {
     footer: {
       tagline: "Residential & C&I solar EPCC, ST Class A & CIDB G7-certified, since 2013.",
       company: "Company",
+      commercial: "Commercial & Industrial",
       explore: "Explore",
       calculator: "Savings calculator",
       contact: "Contact",

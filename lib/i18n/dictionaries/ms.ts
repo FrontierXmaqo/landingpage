@@ -239,6 +239,7 @@ const ms: Dictionary = {
   footer: {
     tagline: "Menjana Masa Depan Yang Lebih Bersih. Satu panel solar & satu bateri pada satu masa.",
     solutions: "Penyelesaian",
+    commercial: "Komersial & Industri",
     about: "Tentang kami",
     contactUs: "Hubungi kami",
     contact: "Hubungi",
@@ -600,6 +601,7 @@ const ms: Dictionary = {
     footer: {
       tagline: "EPCC solar kediaman & C&I, bertauliah ST Kelas A & CIDB G7, sejak 2013.",
       company: "Syarikat",
+      commercial: "Komersial & Industri",
       explore: "Terokai",
       calculator: "Kalkulator penjimatan",
       contact: "Hubungi",
