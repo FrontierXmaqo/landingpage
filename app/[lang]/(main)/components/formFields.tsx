@@ -16,7 +16,11 @@
  *   nothing tells the reader which one is the question.
  */
 
-const LABEL = "text-[13px] font-semibold uppercase tracking-wide text-base-slate";
+import { useId } from "react";
+import type { Locale } from "@/lib/i18n";
+import PhoneField from "./PhoneField";
+
+const LABEL ="text-[13px] font-semibold uppercase tracking-wide text-base-slate";
 
 export const FIELD =
   "min-h-12 w-full rounded-xl border-2 border-base-field bg-base-panel px-4 text-base text-base-ink outline-none transition placeholder:text-base-slate focus:border-brand-green focus:ring-4 focus:ring-brand-green/25";
@@ -58,22 +62,25 @@ export function TextField({
         placeholder={placeholder}
         inputMode={inputMode}
         autoComplete={autoComplete}
-        onChange={type === "tel" ? (e) => { e.target.value = formatMyPhone(e.target.value); } : undefined}
         className={FIELD}
       />
     </label>
   );
 }
 
-/** Formats digits as they're typed into Malaysian mobile shape: 012-345 6789
- *  (or 011-1234 5678 for the one prefix with an 8-digit subscriber number). */
-export function formatMyPhone(raw: string): string {
-  const digits = raw.replace(/\D/g, "").slice(0, 11);
-  const [g1, g2] = digits.startsWith("011") ? [3, 4] : [3, 3];
-  const p1 = digits.slice(0, g1);
-  const p2 = digits.slice(g1, g1 + g2);
-  const p3 = digits.slice(g1 + g2);
-  return p2 ? (p3 ? `${p1}-${p2} ${p3}` : `${p1}-${p2}`) : p1;
+/** A labelled mobile number with its country-code picker. Not wrapped in a
+ *  <label> like TextField: that would also label the picker's button, and a
+ *  click on the label text would open the country list. */
+export function PhoneTextField({ label, locale }: { label: string; locale: Locale }) {
+  const id = useId();
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor={id} className={LABEL}>
+        {label}
+      </label>
+      <PhoneField id={id} locale={locale} required className={FIELD} />
+    </div>
+  );
 }
 
 export type Option = { value: string; label: string };

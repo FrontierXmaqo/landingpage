@@ -16,7 +16,7 @@ import {
 } from "@/lib/leadFormOptions";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
-import { SelectField, TextField, type Option } from "./formFields";
+import { PhoneTextField, SelectField, TextField, type Option } from "./formFields";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -156,15 +156,7 @@ export default function LeadForm({
           placeholder={t.fullNamePlaceholder}
           autoComplete="name"
         />
-        <TextField
-          label={t.mobile}
-          name="phone"
-          required
-          placeholder="012-345 6789"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-        />
+        <PhoneTextField label={t.mobile} locale={locale} />
         <TextField
           label={t.email}
           name="email"
