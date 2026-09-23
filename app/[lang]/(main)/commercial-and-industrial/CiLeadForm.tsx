@@ -9,6 +9,7 @@ import type { LeadFormOptionLists } from "../components/LeadForm";
 import { formatMyPhone } from "../components/formFields";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/lib/leadFormOptions";
+import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
 
@@ -302,7 +303,7 @@ export default function CiLeadForm({
         </button>
 
         <p className="text-xs text-base-slate">
-          {t.consent}
+          {t.consent} <a href={localePath(locale, "/privacy")} target="_blank" className="font-semibold underline hover:text-base-ink">{PRIVACY_POLICY[locale].formLink}</a>
         </p>
       </form>
     </div>

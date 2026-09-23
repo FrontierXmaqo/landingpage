@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import ThankYouTracking from "@/app/[lang]/(main)/components/ThankYouTracking";
 import { OLD_SITE_IMAGES } from "@/lib/content";
+import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/ev/thank-you">): Promise<Metadata> {
@@ -136,7 +137,8 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
             </div>
           </div>
           <div className="foot-bottom">
-            <span>{t.footer.rights}</span>
+            <span>{t.footer.rights}</span>{" "}
+            <a href={localePath(locale, "/privacy")}>{PRIVACY_POLICY[locale].footerLink}</a>
           </div>
         </div>
       </footer>

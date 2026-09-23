@@ -1,4 +1,5 @@
 import { CONTACT, CREDENTIALS } from "@/lib/content";
+import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
 export default function Footer({
@@ -95,8 +96,11 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="mt-10 border-t border-base-line pt-6 text-xs text-base-slate">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-base-line pt-6 text-xs text-base-slate">
           <span>{t.rights}</span>
+          <a href={localePath(locale, "/privacy")} className="hover:text-base-ink">
+            {PRIVACY_POLICY[locale].footerLink}
+          </a>
         </div>
       </div>
     </footer>

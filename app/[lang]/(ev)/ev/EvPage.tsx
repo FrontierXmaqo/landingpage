@@ -20,6 +20,7 @@ import {
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
@@ -853,7 +854,7 @@ export default function EvPage({
               {submitting ? t.form.submitting : t.form.submit}
               {!submitting && <ArrowIcon />}
             </button>
-            <p className="form-legal">{t.form.legal}</p>
+            <p className="form-legal">{t.form.legal} <a href={localePath(locale, "/privacy")} target="_blank" className="underline">{PRIVACY_POLICY[locale].formLink}</a></p>
           </form>
           )}
         </div>
@@ -899,7 +900,8 @@ export default function EvPage({
             </div>
           </div>
           <div className="foot-bottom">
-            <span>{t.footer.rights}</span>
+            <span>{t.footer.rights}</span>{" "}
+            <a href={localePath(locale, "/privacy")}>{PRIVACY_POLICY[locale].footerLink}</a>
           </div>
         </div>
       </footer>
