@@ -17,11 +17,11 @@ import {
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 import { signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
+import { toLeadPhone, toPhoneCountry } from "@/lib/phone";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
 const MAX_FIELD_LENGTH = 200;
-const PHONE_PATTERN = /^\+?[0-9 -]{7,20}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function clean(value: FormDataEntryValue | null, maxLength = MAX_FIELD_LENGTH) {
@@ -40,14 +40,6 @@ function classifyLeadSource(referrer: string): "google" | "social" | "direct" {
   return "direct";
 }
 
-/** Normalizes a Malaysian mobile number to WhatsApp's plain digit format (e.g. "601297726574") — no "+", no spaces/dashes. */
-function toWhatsAppNumber(raw: string): string {
-  const digits = raw.replace(/\D/g, "");
-  if (!digits) return "";
-  if (digits.startsWith("60")) return digits;
-  if (digits.startsWith("0")) return "60" + digits.slice(1);
-  return "60" + digits;
-}
 
 async function getClientIp() {
   const h = await headers();
@@ -128,7 +120,14 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const salutation = oneOf(clean(formData.get("salutation"), 10), salutationOptions);
   const full_name = clean(formData.get("full_name")).replace(/[\p{Cc}\p{Cf}]/gu, "");
   const company_name = clean(formData.get("company_name"), 150);
-  const phoneRaw = clean(formData.get("phone"), 30);
+  // Checked against the picked country's real number lengths, in WhatsApp's
+  // digit format ("60123456789"). The browser caps this too, but only here
+  // is it enforced: a direct POST, or typing before the page hydrates, skips
+  // the browser's cap. Forms from before the picker post no country: Malaysia.
+  const phone = toLeadPhone(
+    clean(formData.get("phone"), 30),
+    toPhoneCountry(clean(formData.get("phone_country"), 2)),
+  );
   const email = clean(formData.get("email"));
   const state = oneOf(clean(formData.get("state"), 50), stateOptions);
   const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), billRangeOptions);
@@ -154,7 +153,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   if (
     !salutation ||
     !full_name ||
-    !PHONE_PATTERN.test(phoneRaw) ||
+    !phone ||
     !EMAIL_PATTERN.test(email) ||
     !state ||
     !monthly_bill_range
@@ -167,7 +166,6 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   if (formPage !== "ci" && (!property_type || !electric_supply || !preferred_language)) {
     return { status: "error", message: t.invalid };
   }
-  const phone = toWhatsAppNumber(phoneRaw);
 
   // Custom fields marketing added in the CMS (e.g. C&I's "Industry / sector"):
   // only ones currently published are trusted, and each value is pinned to

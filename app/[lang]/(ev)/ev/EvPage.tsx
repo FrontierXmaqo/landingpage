@@ -7,6 +7,7 @@ import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
+import PhoneField from "@/app/[lang]/(main)/components/PhoneField";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import { resolveLeadAttribution } from "@/lib/attribution";
 import { EV_CALC_DEFAULTS, OLD_SITE_IMAGES } from "@/lib/content";
@@ -776,7 +777,7 @@ export default function EvPage({
               </div>
               <div className="field">
                 <label htmlFor="phone">{t.form.mobile}</label>
-                <input id="phone" name="phone" required disabled={submitting} placeholder="012-345 6789" />
+                <PhoneField id="phone" locale={locale} required disabled={submitting} />
               </div>
             </div>
             <div className="form-row">

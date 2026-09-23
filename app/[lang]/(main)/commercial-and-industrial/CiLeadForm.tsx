@@ -6,7 +6,7 @@ import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { resolveLeadAttribution } from "@/lib/attribution";
 import type { LeadFormOptionLists } from "../components/LeadForm";
-import { formatMyPhone } from "../components/formFields";
+import PhoneField from "../components/PhoneField";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/lib/leadFormOptions";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
@@ -229,22 +229,14 @@ export default function CiLeadForm({
           </select>
         </label>
 
-        <label className={labelClass} htmlFor="ci-phone">
-          <span>
+        {/* A <div>, not a wrapping <label>: the picker's button would share the label. */}
+        <div className={labelClass}>
+          <label htmlFor="ci-phone">
             {t.phone}
             <RequiredMark />
-          </span>
-          <input
-            id="ci-phone"
-            name="phone"
-            type="tel"
-            required
-            autoComplete="tel"
-            placeholder="012-345 6789"
-            onChange={(e) => { e.target.value = formatMyPhone(e.target.value); }}
-            className={fieldClass}
-          />
-        </label>
+          </label>
+          <PhoneField id="ci-phone" locale={locale} required className={`w-full ${fieldClass}`} />
+        </div>
 
         <label className={labelClass} htmlFor="ci-email">
           <span>

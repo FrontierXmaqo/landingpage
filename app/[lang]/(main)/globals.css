@@ -324,6 +324,18 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
     0 26px 48px -14px rgb(15 23 42 / 0.22),
     inset 0 1px 0 rgb(255 255 255 / 1);
 }
+/* The dark/brand card needs a lighter fill and a coloured glow to read as
+   raised, since a plain dark shadow disappears against its own fill. */
+.funding-card-dark {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.35s ease, background-color 0.35s ease;
+}
+.funding-card-dark:hover {
+  background-color: color-mix(in srgb, white 8%, var(--color-brand-green-deep));
+  box-shadow:
+    0 2px 4px rgb(15 23 42 / 0.12),
+    0 26px 48px -14px color-mix(in srgb, var(--color-brand-green-deep) 65%, black),
+    inset 0 1px 0 rgb(255 255 255 / 0.18);
+}
 
 /* ---- BESS page wash ----------------------------------------------------
    A single gradient behind the whole page rather than per-section colour:
