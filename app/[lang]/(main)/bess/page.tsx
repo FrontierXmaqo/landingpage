@@ -310,7 +310,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   ))}
                 </ul>
               </ScrollReveal>
-              <ScrollReveal delayMs={140} className="funding-card rounded-2xl border border-base-line bg-base-panel p-7">
+              <ScrollReveal delayMs={140} className="funding-card funding-card-light rounded-2xl border border-base-line bg-base-panel p-7">
                 <p className="text-xs font-bold uppercase tracking-wide text-base-slate">{t.modelZeroKicker}</p>
                 <h3 className="mt-2 text-lg font-extrabold text-base-ink">{t.modelZeroTitle}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-base-slate">{t.modelZeroBody}</p>

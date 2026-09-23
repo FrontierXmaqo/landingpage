@@ -311,6 +311,19 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
   .funding-card { transition: none; }
   .funding-card:hover { transform: none; }
 }
+/* The white card sits on a near-white page wash, so the plain lift above is
+   barely legible against it — give it a visible edge and a heavier shadow
+   so it reads as raised, not just the green card's shadow moving. */
+.funding-card-light {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.funding-card-light:hover {
+  border-color: color-mix(in srgb, var(--color-base-ink) 18%, var(--color-base-line));
+  box-shadow:
+    0 2px 4px rgb(15 23 42 / 0.08),
+    0 26px 48px -14px rgb(15 23 42 / 0.22),
+    inset 0 1px 0 rgb(255 255 255 / 1);
+}
 
 /* ---- BESS page wash ----------------------------------------------------
    A single gradient behind the whole page rather than per-section colour:
