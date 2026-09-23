@@ -176,7 +176,7 @@ const en: HomeCopy = {
       metric: "RM350 / month saved",
       title: "Crane-lifted install, zero tile damage",
       body: "Panels hoisted by crane to protect the clay tiles, from SEDA approval through to the TNB meter.",
-      imageAlt: "Rooftop solar array on a Malaysian home at sunset",
+      imageAlt: "A completed MAQO Solar rooftop installation on a Malaysian home",
     },
     {
       chip: "Community",
@@ -184,7 +184,7 @@ const en: HomeCopy = {
       metric: "6.96 kWp",
       title: "Surau At-Taqwa",
       body: "Twelve panels, commissioned in a day and a half from first fix to the main distribution board.",
-      imageAlt: "Solar panels on the pitched roof of Surau At-Taqwa",
+      imageAlt: "Solar panels across the roof of a MAQO Solar installation in Malaysia",
     },
   ],
 
@@ -331,7 +331,7 @@ const cn: HomeCopy = {
       metric: "每月省下 RM350",
       title: "吊车吊装，瓦片零损伤",
       body: "以吊车吊运组件保护瓦片，从 SEDA 批准到 TNB 换表全程跟进。",
-      imageAlt: "黄昏时分马来西亚住宅屋顶上的太阳能阵列",
+      imageAlt: "马来西亚住宅屋顶上已完工的 MAQO 太阳能系统",
     },
     {
       chip: "社区",
@@ -339,7 +339,7 @@ const cn: HomeCopy = {
       metric: "6.96 kWp",
       title: "At-Taqwa 祈祷室",
       body: "12 片组件，从首次施工到接入总配电箱仅用一天半即完成调试。",
-      imageAlt: "At-Taqwa 祈祷室斜屋顶上的太阳能板",
+      imageAlt: "MAQO 在马来西亚完成的屋顶太阳能安装",
     },
   ],
 
@@ -466,7 +466,7 @@ const ms: HomeCopy = {
       metric: "RM350 / bulan dijimatkan",
       title: "Pemasangan guna kren, genting tanpa kerosakan",
       body: "Panel diangkat dengan kren bagi melindungi genting tanah liat, dari kelulusan SEDA hingga meter TNB.",
-      imageAlt: "Susunan panel solar di bumbung rumah di Malaysia ketika senja",
+      imageAlt: "Pemasangan solar bumbung MAQO Solar yang siap di sebuah rumah di Malaysia",
     },
     {
       chip: "Komuniti",
@@ -474,7 +474,7 @@ const ms: HomeCopy = {
       metric: "6.96 kWp",
       title: "Surau At-Taqwa",
       body: "Dua belas panel, ditauliahkan dalam sehari setengah dari kerja pertama hingga papan agihan utama.",
-      imageAlt: "Panel solar di bumbung Surau At-Taqwa",
+      imageAlt: "Panel solar di bumbung sebuah pemasangan MAQO Solar di Malaysia",
     },
   ],
 

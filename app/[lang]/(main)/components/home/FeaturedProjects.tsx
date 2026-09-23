@@ -3,14 +3,13 @@ import Link from "next/link";
 import ScrollReveal from "../ScrollReveal";
 import SectionTag from "../SectionTag";
 import { fill, localePath, type Locale } from "@/lib/i18n";
+import { OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCiProject } from "@/lib/publishedContent";
 import type { HomeCopy, HomeProject } from "./copy";
 
-const RESIDENTIAL_IMAGES = [
-  "/gallery-residential-install.jpg",
-  "/hero-rooftop.webp",
-  "/projects/surau-at-taqwa.webp",
-];
+/** The same photographs the residential page shows under "Our work", so the
+ *  homepage leads with real MAQO installations rather than a separate set. */
+const RESIDENTIAL_IMAGES = OLD_SITE_IMAGES.gallery.slice(0, 3);
 
 /** Branded stand-in for a CMS project row whose photo has not been set yet. */
 function CardFallback({ capacity }: { capacity: string }) {
@@ -118,6 +117,9 @@ export default function FeaturedProjects({
 }) {
   const resHref = localePath(locale, "/residential");
   const ciHref = localePath(locale, "/commercial-and-industrial");
+  // "See all" lands on each page's own work section, not its top.
+  const resWorkHref = localePath(locale, "/residential#our-work");
+  const ciWorkHref = localePath(locale, "/commercial-and-industrial#projects");
   const resAccent = { text: "text-brand-green-ink", border: "hover:border-brand-green" };
   const ciAccent = { text: "text-brand-orange-ink", border: "hover:border-brand-orange" };
 
@@ -167,7 +169,7 @@ export default function FeaturedProjects({
           </div>
 
           <p className="mt-6 flex">
-            <Link href={resHref} className={ghost}>
+            <Link href={resWorkHref} className={ghost}>
               {t.work.seeAllRes}
               <span aria-hidden>&rarr;</span>
             </Link>
@@ -216,7 +218,7 @@ export default function FeaturedProjects({
           </div>
 
           <p className="mt-6 flex">
-            <Link href={ciHref} className={ghost}>
+            <Link href={ciWorkHref} className={ghost}>
               {t.work.seeAllCi}
               <span aria-hidden>&rarr;</span>
             </Link>
