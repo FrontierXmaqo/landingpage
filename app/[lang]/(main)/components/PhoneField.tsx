@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   AsYouType,
   getCountries,
@@ -80,6 +80,8 @@ export default function PhoneField({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const typeahead = useRef({ text: "", timer: 0 });
+  const caret = useRef<number | null>(null);
+  const [caretRender, setCaretRender] = useState(0);
 
   const names = useMemo(() => new Intl.DisplayNames([HTML_LANG[locale]], { type: "region" }), [locale]);
   const nameOf = (c: CountryCode) => names.of(c) ?? c;
@@ -110,12 +112,28 @@ export default function PhoneField({
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
 
+  // Runs before paint, after React has written the reformatted value (which moves the caret to the end).
+  useLayoutEffect(() => {
+    if (caret.current === null) return;
+    inputRef.current?.setSelectionRange(caret.current, caret.current);
+    caret.current = null;
+  }, [caretRender]);
+
   useEffect(() => {
     if (!open) return;
     listRef.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
   }, [open, active]);
 
-  function handleInput(raw: string) {
+  /** Puts the caret back after the `n`th digit of `text` once React has rendered it. */
+  function placeCaret(text: string, n: number) {
+    let pos = 0;
+    for (let seen = 0; pos < text.length && seen < n; pos++) if (/\d/.test(text[pos])) seen++;
+    caret.current = pos;
+    // Forces a render even when the value is unchanged (a refused digit), so the layout effect runs.
+    setCaretRender((r) => r + 1);
+  }
+
+  function handleInput(raw: string, inputType: string, caretPos: number) {
     // A number typed or autofilled with its own "+" code picks the country for the visitor.
     if (raw.trim().startsWith("+")) {
       // 15 digits is the longest any number can be (E.164).
@@ -130,16 +148,38 @@ export default function PhoneField({
       return;
     }
 
-    const digits = raw.replace(/\D/g, "");
+    let digits = raw.replace(/\D/g, "");
+    // Where the caret sits, counted in digits, so reformatting doesn't throw it to the end.
+    let before = raw.slice(0, caretPos).replace(/\D/g, "").length;
+
+    // Deleting a "-" or space the formatter added removes no digit, and the
+    // formatter would put it straight back. Delete the digit beside it instead.
+    if (digits === value.replace(/\D/g, "") && raw.length < value.length) {
+      if (inputType === "deleteContentBackward" && before > 0) {
+        digits = digits.slice(0, before - 1) + digits.slice(before);
+        before -= 1;
+      } else if (inputType === "deleteContentForward") {
+        digits = digits.slice(0, before) + digits.slice(before + 1);
+      }
+    }
+
     if (validatePhoneNumberLength(digits, country) === "TOO_LONG") {
       // A pasted "60123456789" is this country's code without the "+", not an overlong number.
       const withCode = digits.startsWith(getCountryCallingCode(country))
         ? parsePhoneNumberFromString(`+${digits}`)
         : undefined;
-      if (withCode?.country === country) setValue(withCode.formatNational());
+      if (withCode?.country === country) {
+        setValue(withCode.formatNational());
+      } else {
+        // Refused: React restores the old value, so keep the caret where the digit would have gone.
+        placeCaret(value, Math.max(0, before - 1));
+      }
       return;
     }
-    setValue(format(digits, country));
+
+    const next = format(digits, country);
+    setValue(next);
+    placeCaret(next, before);
   }
 
   function openList() {
@@ -224,7 +264,13 @@ export default function PhoneField({
         disabled={disabled}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => handleInput(e.target.value)}
+        onChange={(e) =>
+          handleInput(
+            e.target.value,
+            (e.nativeEvent as InputEvent).inputType ?? "",
+            e.target.selectionStart ?? e.target.value.length,
+          )
+        }
         className={className}
         style={{ paddingLeft: "4.25rem" }}
       />
