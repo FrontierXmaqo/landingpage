@@ -295,7 +295,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.modelTitle}</h2>
             </ScrollReveal>
             <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <ScrollReveal delayMs={80} className="funding-card rounded-2xl bg-brand-green-deep p-7 text-white">
+              <ScrollReveal delayMs={80} className="funding-card funding-card-dark rounded-2xl bg-brand-green-deep p-7 text-white">
                 <p className="text-xs font-bold uppercase tracking-wide text-white/75">{t.modelBuyKicker}</p>
                 <h3 className="mt-2 text-lg font-extrabold">{t.modelBuyTitle}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-white/90">{t.modelBuyBody}</p>
