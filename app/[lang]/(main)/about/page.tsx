@@ -49,8 +49,8 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
     <div data-theme="about" className="contents">
       <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
       <main className="flex-1 overflow-x-clip bg-base-panel">
-        {/* Hero: full-bleed real installation photo, bottom-anchored gradient + copy, stat inline next to the CTA */}
-        <section className="relative isolate flex min-h-[min(88vh,720px)] w-full items-end overflow-hidden">
+        {/* Hero: full-bleed real installation photo, bottom-anchored gradient, copy pinned under the header, stat inline next to the CTA */}
+        <section className="relative isolate flex min-h-[min(88vh,720px)] w-full items-start overflow-hidden">
           <Image
             src="/about-hero.png"
             alt={t.heroAlt}
@@ -65,7 +65,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
               site's density without a dot-grid competing with the image. */}
           <div aria-hidden className="atap-hero-glow pointer-events-none absolute inset-0 opacity-70 mix-blend-overlay" />
 
-          <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-28 sm:px-6 sm:pb-20">
+          <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-6 sm:px-6 sm:pb-14">
             <span className="section-eyebrow inline-flex w-fit items-center rounded-full bg-base-panel/10 px-3 py-1 text-xs font-semibold uppercase text-white ring-1 ring-white/20 backdrop-blur-sm">
               {t.heroEyebrow}
             </span>
