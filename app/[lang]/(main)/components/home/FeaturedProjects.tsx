@@ -2,25 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "../ScrollReveal";
 import SectionTag from "../SectionTag";
-import { OLD_SITE_IMAGES } from "@/lib/content";
 import { fill, localePath, type Locale } from "@/lib/i18n";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCiProject } from "@/lib/publishedContent";
 import type { HomeCopy, HomeProject } from "./copy";
 
-<<<<<<< HEAD
 /** The same photographs the residential page shows under "Our work", so the
  *  homepage leads with real MAQO installations rather than a separate set. */
 const RESIDENTIAL_IMAGES = OLD_SITE_IMAGES.gallery.slice(0, 3);
-=======
-/** Picked from the residential page's "Our work" gallery, so both pages show the same installs. */
-const RESIDENTIAL_IMAGES = [
-  OLD_SITE_IMAGES.gallery[0],
-  OLD_SITE_IMAGES.gallery[3],
-  // TODO: swap for a gallery home once that home's real location and figures are in copy.ts.
-  "/projects/surau-at-taqwa.webp",
-];
->>>>>>> 550e6147057eb51ef5856c3652955c57331adb8f
 
 /** Branded stand-in for a CMS project row whose photo has not been set yet. */
 function CardFallback({ capacity }: { capacity: string }) {
@@ -127,17 +116,11 @@ export default function FeaturedProjects({
   t: HomeCopy;
   ciProjects: PublishedCiProject[];
 }) {
-<<<<<<< HEAD
   const resHref = localePath(locale, "/residential");
   const ciHref = localePath(locale, "/commercial-and-industrial");
   // "See all" lands on each page's own work section, not its top.
   const resWorkHref = localePath(locale, "/residential#our-work");
   const ciWorkHref = localePath(locale, "/commercial-and-industrial#projects");
-=======
-  // Land on each page's "Our work" section, not its hero.
-  const resHref = `${localePath(locale, "/residential")}#our-work`;
-  const ciHref = `${localePath(locale, "/commercial-and-industrial")}#projects`;
->>>>>>> 550e6147057eb51ef5856c3652955c57331adb8f
   const resAccent = { text: "text-brand-green-ink", border: "hover:border-brand-green" };
   const ciAccent = { text: "text-brand-orange-ink", border: "hover:border-brand-orange" };
 
