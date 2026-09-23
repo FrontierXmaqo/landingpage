@@ -243,7 +243,7 @@ const en = {
 
   footer: {
     tagline: "Energizing A Cleaner Future. One solar panel & one battery at a time.",
-    company: "Company",
+    solutions: "Solutions",
     about: "About",
     contactUs: "Contact us",
     contact: "Contact",

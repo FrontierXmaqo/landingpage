@@ -1,4 +1,5 @@
 import { CONTACT, CREDENTIALS } from "@/lib/content";
+import SocialLinks from "./SocialLinks";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 
@@ -24,7 +25,7 @@ export default function Footer({
     { label: nav.ev, href: localePath(locale, "/ev") },
     { label: nav.atap, href: localePath(locale, "/atap") },
     { label: nav.about, href: localePath(locale, "/about") },
-    { label: t.contactUs, href: localePath(locale, "/#assessment") },
+    { label: t.contactUs, href: localePath(locale, "/#consultation") },
   ];
 
   return (
@@ -37,10 +38,11 @@ export default function Footer({
             <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-base-slate">
               {CREDENTIALS.join(" · ")}
             </p>
+            <SocialLinks className="mt-5" />
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-base-ink">{t.company}</p>
+            <p className="text-sm font-semibold text-base-ink">{t.solutions}</p>
             <ul className="mt-3 space-y-2 text-sm text-base-slate">
               {links.map((l) => (
                 <li key={l.label}>

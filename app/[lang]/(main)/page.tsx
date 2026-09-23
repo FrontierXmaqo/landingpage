@@ -4,12 +4,7 @@ import { notFound } from "next/navigation";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { CONTACT, CREDENTIALS } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";
-import {
-  getPublishedCiContent,
-  getPublishedFaq,
-  getPublishedLeadFormFields,
-  getPublishedLeadFormOptions,
-} from "@/lib/publishedContent";
+import { getPublishedCiContent, getPublishedFaq } from "@/lib/publishedContent";
 import { CLIENTS, PROJECTS, TRUST_STATS } from "./commercial-and-industrial/content";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -22,7 +17,7 @@ import FeaturedProjects from "./components/home/FeaturedProjects";
 import ProcessTimeline from "./components/home/ProcessTimeline";
 import RouteTiles from "./components/home/RouteTiles";
 import HomeFaq from "./components/home/HomeFaq";
-import HomeLeadSection from "./components/home/HomeLeadSection";
+import HomeFinalCta from "./components/home/HomeFinalCta";
 
 /**
  * The technical face used for eyebrows, capacities and step numbers. Declared
@@ -63,11 +58,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   // The C&I project cards and the FAQ are the same CMS rows the C&I and
   // residential pages read, so an edit there lands here too. Both fall back to
   // the committed content if Supabase is empty or unreachable.
-  const [ci, faqItems, leadFormOptions, customFields] = await Promise.all([
+  const [ci, faqItems] = await Promise.all([
     getPublishedCiContent({ projects: PROJECTS, clients: CLIENTS, trustStats: TRUST_STATS }),
     getPublishedFaq("residential", dict.faq.items),
-    getPublishedLeadFormOptions("main"),
-    getPublishedLeadFormFields("main"),
   ]);
 
   // The organisation is described once, here, because this is the page Google
@@ -97,7 +90,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
   return (
     <div className={`${plexMono.variable} contents`}>
-      <Header locale={lang} t={dict} />
+      <Header locale={lang} t={dict} ctaHref="#consultation" />
       <main className="flex-1 overflow-x-clip">
         <HomeHero locale={lang} t={t} />
 
@@ -115,13 +108,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <ProcessTimeline t={t.process} />
         <RouteTiles locale={lang} t={t.routes} />
         <HomeFaq t={t.faq} items={faqItems} />
-        <HomeLeadSection
-          locale={lang}
-          dict={dict}
-          t={t}
-          leadFormOptions={leadFormOptions}
-          customFields={customFields}
-        />
+        <HomeFinalCta locale={lang} t={t.finalCta} shared={dict.finalCta} space={dict.space} />
       </main>
 
       <Footer

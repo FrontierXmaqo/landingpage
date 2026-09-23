@@ -237,7 +237,7 @@ const cn: Dictionary = {
 
   footer: {
     tagline: "为更洁净的未来供能。一次一片太阳能板、一颗电池。",
-    company: "公司",
+    solutions: "解决方案",
     about: "关于我们",
     contactUs: "联系我们",
     contact: "联络方式",

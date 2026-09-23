@@ -90,9 +90,7 @@ export type HomeCopy = {
 
   faq: { eyebrow: string; title: string; body: string; cta: string };
 
-  finalCta: { body: string; primary: string; secondary: string; foot: string };
-
-  form: { eyebrow: string; title: string; body: string };
+  finalCta: { body: string; primary: string; secondary: string; foot: string; emailLabel: string };
 };
 
 const en: HomeCopy = {
@@ -246,12 +244,7 @@ const en: HomeCopy = {
     primary: "Book my free consultation",
     secondary: "Call 03-8069 1706",
     foot: "Residential and C&I · Peninsular Malaysia",
-  },
-
-  form: {
-    eyebrow: "Free consultation",
-    title: "Tell us about your roof.",
-    body: "Sixty seconds. Our team calls you back within one business day, whether you are a homeowner or running a site.",
+    emailLabel: "Email",
   },
 };
 
@@ -386,12 +379,7 @@ const cn: HomeCopy = {
     primary: "预约免费咨询",
     secondary: "致电 03-8069 1706",
     foot: "住宅与工商业 · 服务马来西亚半岛",
-  },
-
-  form: {
-    eyebrow: "免费咨询",
-    title: "告诉我们您的屋顶情况。",
-    body: "只需六十秒。无论您是屋主还是企业负责人，我们都会在一个工作日内回电。",
+    emailLabel: "电邮",
   },
 };
 
@@ -526,12 +514,7 @@ const ms: HomeCopy = {
     primary: "Tempah konsultasi percuma saya",
     secondary: "Hubungi 03-8069 1706",
     foot: "Kediaman dan C&I · Semenanjung Malaysia",
-  },
-
-  form: {
-    eyebrow: "Konsultasi percuma",
-    title: "Ceritakan tentang bumbung anda.",
-    body: "Enam puluh saat. Pasukan kami menghubungi anda dalam satu hari bekerja, sama ada anda pemilik rumah atau menguruskan sebuah tapak.",
+    emailLabel: "E-mel",
   },
 };
 

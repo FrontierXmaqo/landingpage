@@ -319,6 +319,21 @@ export const TESTIMONIALS = [
   { quote: "Team is very knowledgeable, efficient, and shared info on Solar PV. A crane was provided to hoist up the panels and avoid roof tile damage. My monthly TNB bill has reduced by RM350 on average - a true turnkey process from SEDA approval to NEM meter with TNB.", name: "Alwana", location: "Shah Alam" },
 ];
 
+/**
+ * MAQO's own social profiles. One list so the site footer and the EV page's
+ * separate footer cannot drift apart.
+ *
+ * The Instagram URL is stored without the `?hl=en` the marketing team sent:
+ * that param pins the page to English for a visitor whose Instagram is set to
+ * Malay or Chinese, which is the opposite of what a three-language site wants.
+ */
+export const SOCIALS: { name: "Facebook" | "Instagram" | "LinkedIn" | "TikTok"; href: string }[] = [
+  { name: "Facebook", href: "https://www.facebook.com/MaqoSolarMalaysia/" },
+  { name: "Instagram", href: "https://www.instagram.com/maqosolarmalaysia/" },
+  { name: "LinkedIn", href: "https://my.linkedin.com/company/maqosolar" },
+  { name: "TikTok", href: "https://www.tiktok.com/@maqosolar" },
+];
+
 const OFFICE_ADDRESS =
   "27, Jalan TPP 1/1, Taman Perindustrian Puchong, 47100 Puchong, Selangor";
 

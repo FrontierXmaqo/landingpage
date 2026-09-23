@@ -32,7 +32,7 @@ export default function HomeFaq({ t, items }: { t: HomeCopy["faq"]; items: Publi
           <h2 className="text-2xl font-bold leading-tight text-base-ink sm:text-3xl">{t.title}</h2>
           <p className="text-[15px] leading-relaxed text-base-slate">{t.body}</p>
           <a
-            href="#assessment"
+            href="#consultation"
             className="inline-flex w-fit items-center gap-2 rounded-full border border-base-line bg-base-panel px-6 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate"
           >
             {t.cta}

@@ -238,7 +238,7 @@ const ms: Dictionary = {
 
   footer: {
     tagline: "Menjana Masa Depan Yang Lebih Bersih. Satu panel solar & satu bateri pada satu masa.",
-    company: "Syarikat",
+    solutions: "Penyelesaian",
     about: "Tentang kami",
     contactUs: "Hubungi kami",
     contact: "Hubungi",

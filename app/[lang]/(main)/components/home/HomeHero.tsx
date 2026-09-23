@@ -81,7 +81,7 @@ export default function HomeHero({ locale, t }: { locale: Locale; t: HomeCopy })
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <a
-              href="#assessment"
+              href="#consultation"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-orange-deep px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-orange-deep/30 transition hover:brightness-95"
             >
               {t.hero.primaryCta}
