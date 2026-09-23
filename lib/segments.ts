@@ -53,6 +53,7 @@ export function segmentForPath(pathname: string): PageSegment {
   const route = parts[0] ?? "";
 
   switch (route) {
+    case "residential":
     case "atap":
       return "residential";
     case "commercial-and-industrial":

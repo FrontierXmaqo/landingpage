@@ -18,7 +18,7 @@ export default function Footer({
   explore?: { label: string; href: string }[];
 }) {
   const links = [
-    { label: nav.residential, href: localePath(locale, "/") },
+    { label: nav.residential, href: localePath(locale, "/residential") },
     { label: nav.commercial, href: localePath(locale, "/commercial-and-industrial") },
     { label: nav.bess, href: localePath(locale, "/bess") },
     { label: nav.ev, href: localePath(locale, "/ev") },

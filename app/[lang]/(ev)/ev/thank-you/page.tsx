@@ -25,7 +25,7 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
   const evHome = localePath(locale, "/ev");
 
   const nav = [
-    { href: localePath(locale, "/"), label: t.nav.residential },
+    { href: localePath(locale, "/residential"), label: t.nav.residential },
     { href: localePath(locale, "/commercial-and-industrial"), label: t.nav.commercial },
     { href: evHome, label: t.nav.ev },
     { href: localePath(locale, "/atap"), label: t.nav.atap },

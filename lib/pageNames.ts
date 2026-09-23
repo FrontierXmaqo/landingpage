@@ -10,7 +10,8 @@ import { DEFAULT_LOCALE, LOCALES, hasLocale, localePath, type Locale } from "@/l
  * the site's own hierarchy.
  */
 const PAGE_LABELS: Record<string, string> = {
-  "": "Resi",
+  "": "Home",
+  residential: "Resi",
   atap: "ATAP",
   bess: "BESS",
   "commercial-and-industrial": "Commercial & Industrial",
@@ -26,7 +27,7 @@ const PAGE_LABELS: Record<string, string> = {
 export const ALL_PAGE_NAMES: string[] = Object.values(PAGE_LABELS);
 
 /** Pages that embed a lead form under #assessment — the ones form drop-off applies to. */
-export const PAGES_WITH_FORM = new Set(["Resi", "ATAP", "BESS", "Commercial & Industrial", "EV"]);
+export const PAGES_WITH_FORM = new Set(["Home", "Resi", "ATAP", "BESS", "Commercial & Industrial", "EV"]);
 
 /** "/en/atap" and "/ms/atap" both resolve to "ATAP", so language is reported separately from page. */
 export function pageNameFromPath(path: string): string {

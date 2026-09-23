@@ -382,7 +382,7 @@ export default function EvPage({
   }, [bill, selected, evCalc]);
 
   const nav = [
-    { href: localePath(locale, "/"), label: t.nav.residential },
+    { href: localePath(locale, "/residential"), label: t.nav.residential },
     { href: localePath(locale, "/commercial-and-industrial"), label: t.nav.commercial },
     { href: localePath(locale, "/ev"), label: t.nav.ev, current: true },
     { href: localePath(locale, "/atap"), label: t.nav.atap },
