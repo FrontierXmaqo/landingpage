@@ -32,6 +32,7 @@ export type LeadFormOptionLists = {
   propertyTypes?: string[];
   electricSupply?: string[];
   languages?: string[];
+  roleInOrganization?: string[];
 };
 
 /**
@@ -192,7 +193,7 @@ export default function LeadForm({
             key={f.key}
             label={f.label}
             name={f.key}
-            placeholder="—"
+            placeholder="-"
             options={f.values.map((value) => ({ value, label: value }))}
           />
         ))}

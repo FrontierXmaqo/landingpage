@@ -89,6 +89,7 @@ export async function getPublishedLeadFormOptions(page: LeadFormPage): Promise<L
       propertyTypes: byField("property_type"),
       electricSupply: byField("electric_supply"),
       languages: byField("language"),
+      roleInOrganization: byField("role_in_organization"),
     };
   } catch {
     return {};

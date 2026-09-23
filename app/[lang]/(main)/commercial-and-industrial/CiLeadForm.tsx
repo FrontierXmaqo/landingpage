@@ -63,6 +63,7 @@ export default function CiLeadForm({
   const salutations = options?.salutations?.length ? options.salutations : SALUTATIONS;
   const states = options?.states?.length ? options.states : MALAYSIAN_STATES;
   const billRanges = options?.billRanges?.length ? options.billRanges : CI_BILL_RANGES;
+  const roles = options?.roleInOrganization?.length ? options.roleInOrganization : ROLE_IN_ORGANIZATION_OPTIONS;
   // "Industry" is a CMS custom field like any other, but always rendered in
   // this fixed spot rather than appended at the end, it's core to what a C&I
   // enquiry needs, not an incidental extra.
@@ -184,7 +185,7 @@ export default function CiLeadForm({
             <option value="" disabled>
               {t.rolePlaceholder}
             </option>
-            {ROLE_IN_ORGANIZATION_OPTIONS.map((s) => (
+            {roles.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
