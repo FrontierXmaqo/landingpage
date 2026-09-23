@@ -16,6 +16,7 @@ import {
 } from "@/lib/leadFormOptions";
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
+import { signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
@@ -92,7 +93,8 @@ async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof
 
 export async function submitLead(sourcePage: string, formPage: LeadFormPage, _prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
   const localeRaw = clean(formData.get("locale"), 5);
-  const t = getDictionary(hasLocale(localeRaw) ? localeRaw : DEFAULT_LOCALE).leadMessages;
+  const locale = hasLocale(localeRaw) ? localeRaw : DEFAULT_LOCALE;
+  const t = getDictionary(locale).leadMessages;
   const clientIp = await getClientIp();
 
   const rateLimit = checkRateLimit(clientIp);
@@ -121,6 +123,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const propertyTypeOptions = pageOptions.propertyTypes?.length ? pageOptions.propertyTypes : PROPERTY_TYPES;
   const electricSupplyOptions = pageOptions.electricSupply?.length ? pageOptions.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
   const languageOptions = pageOptions.languages?.length ? pageOptions.languages : COMMUNICATION_LANGUAGES;
+  const roleOptions = pageOptions.roleInOrganization?.length ? pageOptions.roleInOrganization : ROLE_IN_ORGANIZATION_OPTIONS;
 
   const salutation = oneOf(clean(formData.get("salutation"), 10), salutationOptions);
   const full_name = clean(formData.get("full_name")).replace(/[\p{Cc}\p{Cf}]/gu, "");
@@ -130,7 +133,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const state = oneOf(clean(formData.get("state"), 50), stateOptions);
   const monthly_bill_range = oneOf(clean(formData.get("monthly_bill_range"), 50), billRangeOptions);
   const property_type = oneOf(clean(formData.get("property_type"), 80), propertyTypeOptions);
-  const role_in_organization = oneOf(clean(formData.get("role_in_organization"), 60), ROLE_IN_ORGANIZATION_OPTIONS);
+  const role_in_organization = oneOf(clean(formData.get("role_in_organization"), 60), roleOptions);
   const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
   const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), languageOptions);
   const campaign_id = clean(formData.get("campaign_id"), 100);
@@ -246,6 +249,17 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   if (!supabaseOk) {
     return { status: "error", message: t.generic };
   }
+
+  // Proof, for the thank-you page's proxy check, that this browser was just
+  // handed a real success — not a bookmark, a shared link, or a bot. Scoped
+  // to the exact route this submission is about to redirect to.
+  (await cookies()).set("lead_ok", await signLeadToken(), {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: `/${locale}${THANK_YOU_FUNNELS[formPage].thankYouPath}`,
+    maxAge: 600,
+  });
 
   return { status: "success", message: t.success };
 }

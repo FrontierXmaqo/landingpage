@@ -26,7 +26,13 @@ export default function ThankYouTracking({ id }: { id: string }) {
     }
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "generate_lead" });
-    window.fbq?.("track", "Lead");
+    // New, stricter event: only ever fires from a proxy-verified thank-you
+    // load. Kept alongside generate_lead so existing GTM triggers keep
+    // working until they're switched over to this one.
+    window.dataLayer.push({ event: "lead_confirmed" });
+    // event_id lets a future Conversions API call dedupe against this
+    // browser-side pixel fire for the same lead.
+    window.fbq?.("track", "Lead", {}, { eventID: crypto.randomUUID() });
   }, [id]);
 
   return null;
