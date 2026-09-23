@@ -14,6 +14,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
+import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { SelectField, TextField, type Option } from "./formFields";
 
@@ -213,7 +214,7 @@ export default function LeadForm({
         </button>
 
         <p className="text-xs leading-relaxed text-base-slate">
-          {t.consent}
+          {t.consent} <a href={localePath(locale, "/privacy")} target="_blank" className="font-semibold underline hover:text-base-ink">{PRIVACY_POLICY[locale].formLink}</a>
         </p>
       </form>
     </div>
