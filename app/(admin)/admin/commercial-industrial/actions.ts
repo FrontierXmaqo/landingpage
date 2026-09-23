@@ -49,7 +49,7 @@ export async function ensureCiDraftSeeded() {
     // section ended up one keystroke from replacing six projects with one.
     if (error) {
       throw new Error(
-        `Could not prepare the ${table} draft from what is published (${error.message}). Nothing was changed — reload and try again.`
+        `Could not prepare the ${table} draft from what is published (${error.message}). Nothing was changed - reload and try again.`
       );
     }
   }
@@ -118,7 +118,7 @@ export async function uploadProjectPhoto(id: string, formData: FormData) {
   if (!(file instanceof File) || file.size === 0) throw new ValidationError("Choose an image file to upload.");
   if (file.size > MAX_UPLOAD_BYTES) {
     throw new ValidationError(
-      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB — exporting at about 1600px wide is plenty.`
+      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB - exporting at about 1600px wide is plenty.`
     );
   }
 
@@ -191,7 +191,7 @@ export async function uploadClientLogo(id: string, formData: FormData) {
   if (!(file instanceof File) || file.size === 0) throw new ValidationError("Choose an image file to upload.");
   if (file.size > MAX_UPLOAD_BYTES) {
     throw new ValidationError(
-      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB — a logo about 600px wide is plenty.`
+      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB - a logo about 600px wide is plenty.`
     );
   }
 
@@ -355,16 +355,16 @@ export async function publishCiContent(_prevState: PublishState, _formData: Form
   const supabase = await getSupabaseUserClient();
 
   const { canPublish } = await getCiPublishStatus();
-  if (!canPublish) return { status: "empty", message: "Nothing to publish — the draft matches what is already live." };
+  if (!canPublish) return { status: "empty", message: "Nothing to publish - the draft matches what is already live." };
 
   const { error } = await supabase.rpc("ci_publish", { p_user: profile.id });
   if (error) {
-    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed — reload and try again.` };
+    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed - reload and try again.` };
   }
 
   revalidatePath("/admin/commercial-industrial");
   revalidatePath("/", "layout");
-  return { status: "success", message: "Published — the public page now shows this draft." };
+  return { status: "success", message: "Published - the public page now shows this draft." };
 }
 
 /** Reverts to the snapshot taken by the previous publish. */
@@ -397,7 +397,7 @@ export async function unpublishCiContent(_prevState: PublishState, _formData: Fo
 
   return reverted
     ? { status: "success", message: "Reverted to the previous published version." }
-    : { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
+    : { status: "empty", message: "Nothing to revert to - no earlier published version was found." };
 }
 
 /** Throws away in-progress edits, reseeding the draft from what is published. */

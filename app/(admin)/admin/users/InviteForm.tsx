@@ -24,8 +24,8 @@ export default function InviteForm() {
         <select name="role" defaultValue="marketing" className={fieldClass}>
           <option value="admin">Admin</option>
           <option value="marketing">Marketing</option>
-          <option value="sales_resi">Sales — Residential/EV</option>
-          <option value="sales_ci">Sales — C&amp;I</option>
+          <option value="sales_resi">Sales - Residential/EV</option>
+          <option value="sales_ci">Sales - C&amp;I</option>
         </select>
       </label>
       <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]">

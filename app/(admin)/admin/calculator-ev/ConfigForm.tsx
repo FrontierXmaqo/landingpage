@@ -43,15 +43,15 @@ export default function ConfigForm({ config }: { config: Record<string, unknown>
         <input name="min_monthly_bill" type="number" step="any" defaultValue={String(config.min_monthly_bill)} className={fieldClass} />
       </label>
       <label className="text-sm font-medium text-base-ink">
-        Offset — mostly daytime charging (%)
+        Offset - mostly daytime charging (%)
         <input name="offset_day_percent" type="number" step="any" defaultValue={String(config.offset_day_percent)} className={fieldClass} />
       </label>
       <label className="text-sm font-medium text-base-ink">
-        Offset — mostly nighttime charging (%)
+        Offset - mostly nighttime charging (%)
         <input name="offset_night_percent" type="number" step="any" defaultValue={String(config.offset_night_percent)} className={fieldClass} />
       </label>
       <label className="text-sm font-medium text-base-ink">
-        Offset — mixed charging (%)
+        Offset - mixed charging (%)
         <input name="offset_mixed_percent" type="number" step="any" defaultValue={String(config.offset_mixed_percent)} className={fieldClass} />
       </label>
 

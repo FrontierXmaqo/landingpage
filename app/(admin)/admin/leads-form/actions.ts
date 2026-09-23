@@ -32,7 +32,7 @@ export async function ensureLeadFormDraftSeeded(page: LeadFormPage) {
   const supabase = await getSupabaseUserClient();
   const { error } = await supabase.rpc("ensure_lead_form_options_draft_seeded", { p_page: p });
   if (error) {
-    throw new Error(`Could not prepare the ${p} lead form options draft (${error.message}). Nothing was changed — reload and try again.`);
+    throw new Error(`Could not prepare the ${p} lead form options draft (${error.message}). Nothing was changed - reload and try again.`);
   }
 }
 
@@ -137,8 +137,8 @@ export async function publishLeadFormOptions(page: LeadFormPage, _prevState: Pub
   revalidatePath("/");
 
   return published
-    ? { status: "success", message: "Published — the public form now shows this draft." }
-    : { status: "empty", message: "Nothing to publish — the draft has no changes." };
+    ? { status: "success", message: "Published - the public form now shows this draft." }
+    : { status: "empty", message: "Nothing to publish - the draft has no changes." };
 }
 
 export async function unpublishLeadFormOptions(page: LeadFormPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
@@ -168,7 +168,7 @@ export async function unpublishLeadFormOptions(page: LeadFormPage, _prevState: P
 
   return reverted
     ? { status: "success", message: "Reverted to the previous published version." }
-    : { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
+    : { status: "empty", message: "Nothing to revert to - no earlier published version was found." };
 }
 
 /** Discards in-progress draft edits (fields + options) for one page, resetting

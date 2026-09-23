@@ -101,7 +101,7 @@ export default async function FaqAdminPage() {
                 <PublishButton
                   action={publishFaq.bind(null, section.page)}
                   canRun={publishStatus.canPublish}
-                  idleHint="Nothing to publish — the draft matches what's already live."
+                  idleHint="Nothing to publish - the draft matches what's already live."
                   pendingLabel="Publishing…"
                 >
                   Publish
@@ -109,7 +109,7 @@ export default async function FaqAdminPage() {
                 <PublishButton
                   action={unpublishFaq.bind(null, section.page)}
                   canRun={publishStatus.canUnpublish}
-                  idleHint="Nothing to revert to — no earlier published version yet."
+                  idleHint="Nothing to revert to - no earlier published version yet."
                   pendingLabel="Reverting…"
                   variant="outline"
                 >

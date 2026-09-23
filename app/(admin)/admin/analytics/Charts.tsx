@@ -203,7 +203,7 @@ export default function Charts({
           <Tile label="Sessions" value={n0(o.sessions)} sub={`${n0(o.pageviews)} page views`} />
           <Tile
             label="New visitors"
-            value={o.sessions ? `${((o.new_sessions / o.sessions) * 100).toFixed(1)}%` : "—"}
+            value={o.sessions ? `${((o.new_sessions / o.sessions) * 100).toFixed(1)}%` : "-"}
             sub={`${n0(o.new_sessions)} new · ${n0(returning)} returning`}
           >
             <div className="mt-2.5 flex h-1.5 gap-0.5 overflow-hidden rounded-full bg-base-line">

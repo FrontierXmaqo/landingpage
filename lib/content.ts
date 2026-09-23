@@ -118,20 +118,20 @@ export const SOLAR_PACKAGES_HYBRID: SolarPackage[] = [
 ];
 
 export const SOLAR_PACKAGES_NEO: SolarPackage[] = [
-  { kwp: 6.5, panels: 10, inverterModel: "Sigen Neo — SigenStor NEO EC 5.0 SP", kWac: 5.0, dcAcRatio: 1.3, monthlyGenerationKwh: 672.21, standardSellingPrice: 19000, monthlySavingsBelowThreshold: 193, monthlySavingsAboveThreshold: 213, paybackYearsBelowThreshold: 8.2, paybackYearsAboveThreshold: 7.44 },
-  { kwp: 7.8, panels: 12, inverterModel: "Sigen Neo — SigenStor NEO EC 6.0 TP", kWac: 6.0, dcAcRatio: 1.3, monthlyGenerationKwh: 806.65, standardSellingPrice: 22300, monthlySavingsBelowThreshold: 232, monthlySavingsAboveThreshold: 256, paybackYearsBelowThreshold: 8.01, paybackYearsAboveThreshold: 7.26 },
-  { kwp: 9.1, panels: 14, inverterModel: "Sigen Neo — SigenStor NEO EC 8.0 TP", kWac: 8.0, dcAcRatio: 1.14, monthlyGenerationKwh: 941.09, standardSellingPrice: 24300, monthlySavingsBelowThreshold: 270, monthlySavingsAboveThreshold: 298, paybackYearsBelowThreshold: 7.5, paybackYearsAboveThreshold: 6.8 },
-  { kwp: 9.8, panels: 15, inverterModel: "Sigen Neo — SigenStor NEO EC 8.0 TP", kWac: 8.0, dcAcRatio: 1.22, monthlyGenerationKwh: 1008.31, standardSellingPrice: 25500, monthlySavingsBelowThreshold: 294, monthlySavingsAboveThreshold: 324, paybackYearsBelowThreshold: 7.24, paybackYearsAboveThreshold: 6.56 },
-  { kwp: 10.4, panels: 16, inverterModel: "Sigen Neo — SigenStor NEO EC 8.0 TP", kWac: 8.0, dcAcRatio: 1.3, monthlyGenerationKwh: 1075.53, standardSellingPrice: 26000, monthlySavingsBelowThreshold: 313, monthlySavingsAboveThreshold: 346, paybackYearsBelowThreshold: 6.93, paybackYearsAboveThreshold: 6.26 },
-  { kwp: 11.7, panels: 18, inverterModel: "Sigen Neo — SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.17, monthlyGenerationKwh: 1209.98, standardSellingPrice: 27300, monthlySavingsBelowThreshold: 351, monthlySavingsAboveThreshold: 387, paybackYearsBelowThreshold: 6.49, paybackYearsAboveThreshold: 5.88 },
-  { kwp: 12.4, panels: 19, inverterModel: "Sigen Neo — SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.23, monthlyGenerationKwh: 1277.2, standardSellingPrice: 28300, monthlySavingsBelowThreshold: 368, monthlySavingsAboveThreshold: 407, paybackYearsBelowThreshold: 6.4, paybackYearsAboveThreshold: 5.79 },
-  { kwp: 13.0, panels: 20, inverterModel: "Sigen Neo — SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.3, monthlyGenerationKwh: 1344.42, standardSellingPrice: 29500, monthlySavingsBelowThreshold: 387, monthlySavingsAboveThreshold: 427, paybackYearsBelowThreshold: 6.35, paybackYearsAboveThreshold: 5.76 },
-  { kwp: 14.3, panels: 22, inverterModel: "Sigen Neo — SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.43, monthlyGenerationKwh: 1478.86, standardSellingPrice: 31500, monthlySavingsBelowThreshold: 423, monthlySavingsAboveThreshold: 469, paybackYearsBelowThreshold: 6.2, paybackYearsAboveThreshold: 5.6 },
-  { kwp: 15.6, panels: 24, inverterModel: "Sigen Neo — SigenStor NEO EC 12.0 TP", kWac: 12.0, dcAcRatio: 1.3, monthlyGenerationKwh: 1613.3, standardSellingPrice: 32800, monthlySavingsBelowThreshold: 461, monthlySavingsAboveThreshold: 509, paybackYearsBelowThreshold: 5.93, paybackYearsAboveThreshold: 5.37 },
-  { kwp: 16.9, panels: 26, inverterModel: "Sigen Neo — SigenStor NEO EC 12.0 TP", kWac: 12.0, dcAcRatio: 1.41, monthlyGenerationKwh: 1747.74, standardSellingPrice: 34800, monthlySavingsBelowThreshold: 498, monthlySavingsAboveThreshold: 550, paybackYearsBelowThreshold: 5.82, paybackYearsAboveThreshold: 5.27 },
-  { kwp: 18.2, panels: 28, inverterModel: "Sigen Neo — SigenStor NEO EC 15.0 TP", kWac: 15.0, dcAcRatio: 1.21, monthlyGenerationKwh: 1882.18, standardSellingPrice: 36500, monthlySavingsBelowThreshold: 534, monthlySavingsAboveThreshold: 590, paybackYearsBelowThreshold: 5.7, paybackYearsAboveThreshold: 5.16 },
-  { kwp: 19.5, panels: 30, inverterModel: "Sigen Neo — SigenStor NEO EC 15.0 TP", kWac: 15.0, dcAcRatio: 1.3, monthlyGenerationKwh: 2016.63, standardSellingPrice: 38200, monthlySavingsBelowThreshold: 571, monthlySavingsAboveThreshold: 630, paybackYearsBelowThreshold: 5.57, paybackYearsAboveThreshold: 5.05 },
-  { kwp: 20.8, panels: 32, inverterModel: "Sigen Neo — SigenStor NEO EC 15.0 TP", kWac: 15.0, dcAcRatio: 1.39, monthlyGenerationKwh: 2151.07, standardSellingPrice: 40000, monthlySavingsBelowThreshold: 607, monthlySavingsAboveThreshold: 671, paybackYearsBelowThreshold: 5.49, paybackYearsAboveThreshold: 4.97 },
+  { kwp: 6.5, panels: 10, inverterModel: "Sigen Neo - SigenStor NEO EC 5.0 SP", kWac: 5.0, dcAcRatio: 1.3, monthlyGenerationKwh: 672.21, standardSellingPrice: 19000, monthlySavingsBelowThreshold: 193, monthlySavingsAboveThreshold: 213, paybackYearsBelowThreshold: 8.2, paybackYearsAboveThreshold: 7.44 },
+  { kwp: 7.8, panels: 12, inverterModel: "Sigen Neo - SigenStor NEO EC 6.0 TP", kWac: 6.0, dcAcRatio: 1.3, monthlyGenerationKwh: 806.65, standardSellingPrice: 22300, monthlySavingsBelowThreshold: 232, monthlySavingsAboveThreshold: 256, paybackYearsBelowThreshold: 8.01, paybackYearsAboveThreshold: 7.26 },
+  { kwp: 9.1, panels: 14, inverterModel: "Sigen Neo - SigenStor NEO EC 8.0 TP", kWac: 8.0, dcAcRatio: 1.14, monthlyGenerationKwh: 941.09, standardSellingPrice: 24300, monthlySavingsBelowThreshold: 270, monthlySavingsAboveThreshold: 298, paybackYearsBelowThreshold: 7.5, paybackYearsAboveThreshold: 6.8 },
+  { kwp: 9.8, panels: 15, inverterModel: "Sigen Neo - SigenStor NEO EC 8.0 TP", kWac: 8.0, dcAcRatio: 1.22, monthlyGenerationKwh: 1008.31, standardSellingPrice: 25500, monthlySavingsBelowThreshold: 294, monthlySavingsAboveThreshold: 324, paybackYearsBelowThreshold: 7.24, paybackYearsAboveThreshold: 6.56 },
+  { kwp: 10.4, panels: 16, inverterModel: "Sigen Neo - SigenStor NEO EC 8.0 TP", kWac: 8.0, dcAcRatio: 1.3, monthlyGenerationKwh: 1075.53, standardSellingPrice: 26000, monthlySavingsBelowThreshold: 313, monthlySavingsAboveThreshold: 346, paybackYearsBelowThreshold: 6.93, paybackYearsAboveThreshold: 6.26 },
+  { kwp: 11.7, panels: 18, inverterModel: "Sigen Neo - SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.17, monthlyGenerationKwh: 1209.98, standardSellingPrice: 27300, monthlySavingsBelowThreshold: 351, monthlySavingsAboveThreshold: 387, paybackYearsBelowThreshold: 6.49, paybackYearsAboveThreshold: 5.88 },
+  { kwp: 12.4, panels: 19, inverterModel: "Sigen Neo - SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.23, monthlyGenerationKwh: 1277.2, standardSellingPrice: 28300, monthlySavingsBelowThreshold: 368, monthlySavingsAboveThreshold: 407, paybackYearsBelowThreshold: 6.4, paybackYearsAboveThreshold: 5.79 },
+  { kwp: 13.0, panels: 20, inverterModel: "Sigen Neo - SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.3, monthlyGenerationKwh: 1344.42, standardSellingPrice: 29500, monthlySavingsBelowThreshold: 387, monthlySavingsAboveThreshold: 427, paybackYearsBelowThreshold: 6.35, paybackYearsAboveThreshold: 5.76 },
+  { kwp: 14.3, panels: 22, inverterModel: "Sigen Neo - SigenStor NEO EC 10.0 TP", kWac: 10.0, dcAcRatio: 1.43, monthlyGenerationKwh: 1478.86, standardSellingPrice: 31500, monthlySavingsBelowThreshold: 423, monthlySavingsAboveThreshold: 469, paybackYearsBelowThreshold: 6.2, paybackYearsAboveThreshold: 5.6 },
+  { kwp: 15.6, panels: 24, inverterModel: "Sigen Neo - SigenStor NEO EC 12.0 TP", kWac: 12.0, dcAcRatio: 1.3, monthlyGenerationKwh: 1613.3, standardSellingPrice: 32800, monthlySavingsBelowThreshold: 461, monthlySavingsAboveThreshold: 509, paybackYearsBelowThreshold: 5.93, paybackYearsAboveThreshold: 5.37 },
+  { kwp: 16.9, panels: 26, inverterModel: "Sigen Neo - SigenStor NEO EC 12.0 TP", kWac: 12.0, dcAcRatio: 1.41, monthlyGenerationKwh: 1747.74, standardSellingPrice: 34800, monthlySavingsBelowThreshold: 498, monthlySavingsAboveThreshold: 550, paybackYearsBelowThreshold: 5.82, paybackYearsAboveThreshold: 5.27 },
+  { kwp: 18.2, panels: 28, inverterModel: "Sigen Neo - SigenStor NEO EC 15.0 TP", kWac: 15.0, dcAcRatio: 1.21, monthlyGenerationKwh: 1882.18, standardSellingPrice: 36500, monthlySavingsBelowThreshold: 534, monthlySavingsAboveThreshold: 590, paybackYearsBelowThreshold: 5.7, paybackYearsAboveThreshold: 5.16 },
+  { kwp: 19.5, panels: 30, inverterModel: "Sigen Neo - SigenStor NEO EC 15.0 TP", kWac: 15.0, dcAcRatio: 1.3, monthlyGenerationKwh: 2016.63, standardSellingPrice: 38200, monthlySavingsBelowThreshold: 571, monthlySavingsAboveThreshold: 630, paybackYearsBelowThreshold: 5.57, paybackYearsAboveThreshold: 5.05 },
+  { kwp: 20.8, panels: 32, inverterModel: "Sigen Neo - SigenStor NEO EC 15.0 TP", kWac: 15.0, dcAcRatio: 1.39, monthlyGenerationKwh: 2151.07, standardSellingPrice: 40000, monthlySavingsBelowThreshold: 607, monthlySavingsAboveThreshold: 671, paybackYearsBelowThreshold: 5.49, paybackYearsAboveThreshold: 4.97 },
 ];
 
 export type Product = {
@@ -167,7 +167,7 @@ export const PRODUCTS: Product[] = [
     shortDescription: "World's highest-rated panel efficiency, in a sleek all-black finish that still performs in the shade.",
     overview: "AIKO's ABC back-contact cells deliver the world's highest-rated panel efficiency in a clean, all-black finish that keeps performing even in shade.",
     features: [
-      "655W n-type ABC module, 24.2% efficiency — world's highest-rated (TaiyangNews, Jan 2025)",
+      "655W n-type ABC module, 24.2% efficiency - world's highest-rated (TaiyangNews, Jan 2025)",
       "Runs cooler for less degradation: 101.3°C vs 146.9°C on a comparable TOPCon module",
       "Red Dot Design Award 2023 for its clean all-black finish",
     ],
@@ -195,22 +195,22 @@ export const PRODUCTS: Product[] = [
     tagline: "Slim. Silent. Strong.",
     images: ["/products/sigenHybridInverter.png"],
     shortDescription: "A slim, silent inverter that pairs with solar now and a battery whenever you're ready.",
-    overview: "Built on Silicon Carbide power electronics, the Sigen Hybrid Inverter runs at 99% efficiency in a slim, silent, weatherproof body — install solar-only now and add a battery later.",
+    overview: "Built on Silicon Carbide power electronics, the Sigen Hybrid Inverter runs at 99% efficiency in a slim, silent, weatherproof body - install solar-only now and add a battery later.",
     features: [
       "99.0% efficiency via Silicon Carbide (SiC) electronics",
       "Fanless, just 25dB, IP66 weatherproof (-30°C to 60°C)",
-      "Add a Sigen Battery anytime — no equipment swap needed",
+      "Add a Sigen Battery anytime - no equipment swap needed",
     ],
     benefits: [
       "More of your solar energy actually reaches your home",
-      "Silent, compact — fits discreetly against any wall",
+      "Silent, compact - fits discreetly against any wall",
       "Built for Malaysia's heat, humidity and monsoon rain",
     ],
     specs: [
       ["Efficiency", "99.0% (Silicon Carbide / SiC)"],
       ["Noise level", "25 dB (fanless)"],
       ["Enclosure", "99mm sleek die-cast metal body"],
-      ["Ingress protection", "IP66 — dust and jet-water sealed"],
+      ["Ingress protection", "IP66 - dust and jet-water sealed"],
       ["Operating temperature", "-30°C to 60°C"],
       ["Expansion", "Add a Sigen Battery at any time"],
       ["Compatibility", "EV chargers, generators, select third-party inverters"],
@@ -240,7 +240,7 @@ export const PRODUCTS: Product[] = [
       ["Variants", "AC and Hybrid, multiple battery sizing options"],
       ["Max charge efficiency (PV → battery)", "98.5%"],
       ["Max discharge efficiency (battery → AC)", "97%"],
-      ["Ingress protection", "IP65 — suitable for outdoor installation"],
+      ["Ingress protection", "IP65 - suitable for outdoor installation"],
       ["Parallel operation", "On-grid: 2–10 units · Off-grid: 2–7 units"],
       ["Battery expansion", "Up to 18 batteries in series"],
       ["Monitoring", "FoxCloud 2.0 app (iOS & Android)"],
@@ -255,11 +255,11 @@ export const PRODUCTS: Product[] = [
     model: "AI-powered all-in-one energy storage",
     tagline: "Five systems, one cabinet",
     images: ["/products/sigenStorNeo.png"],
-    shortDescription: "One sleek cabinet for storage, backup power and AI-driven savings — no scattered boxes.",
+    shortDescription: "One sleek cabinet for storage, backup power and AI-driven savings - no scattered boxes.",
     overview: "SigenStor Neo packs energy management, inverter, battery and backup into one sleek cabinet, using AI to learn your home's habits and optimise savings automatically.",
     features: [
       "5-in-1 cabinet: EMS, inverter, battery PCS, battery pack, backup",
-      "Modular and stackable — add capacity anytime",
+      "Modular and stackable - add capacity anytime",
       "0ms load-side disruption when backup power switches in",
     ],
     benefits: [
@@ -272,7 +272,7 @@ export const PRODUCTS: Product[] = [
       ["Expansion", "Modular, stackable battery packs (mixed old/new packs supported)"],
       ["Backup switching", "0 ms load-side disruption"],
       ["Safety", "Continuous cell monitoring with fire prevention"],
-      ["App", "mySIGEN App — AI Mode, AI Assistant, Energy Sankey diagram, 10-second interval monitoring"],
+      ["App", "mySIGEN App - AI Mode, AI Assistant, Energy Sankey diagram, 10-second interval monitoring"],
       ["Product warranty", "10 years"],
       ["Global installed base", "60+ countries"],
     ],
@@ -286,7 +286,7 @@ export const PRODUCTS: Product[] = [
     tagline: "Scalable battery storage that grows with your home",
     images: ["/products/foxessEP6Battery.png", "/products/foxessEP12Battery.png"],
     shortDescription: "Modular battery storage that starts small and grows with your home's needs.",
-    overview: "The FoxESS EP6 and EP12 are modular batteries that pair with the FoxESS Hybrid Inverter — start small and add units in parallel as your needs grow.",
+    overview: "The FoxESS EP6 and EP12 are modular batteries that pair with the FoxESS Hybrid Inverter - start small and add units in parallel as your needs grow.",
     features: [
       "EP6 scales to 23.04kWh, EP12 to 46.08kWh",
       "90% depth of discharge on both models",
@@ -313,10 +313,10 @@ export const PRODUCTS: Product[] = [
 export const TESTIMONIALS = [
   { quote: "Our TNB bill dropped from RM680 to under RM90 a month. The MAQO team handled the whole TNB application for us.", name: "Mr. Tan", location: "Subang Jaya" },
   { quote: "Installation took two days, very tidy work. The monitoring app makes it easy to see how much we are saving.", name: "Puan Aina", location: "Shah Alam" },
-  { quote: "Compared three companies — MAQO gave the clearest quote and answered every question about warranty upfront.", name: "Mr. Lim", location: "Kajang" },
-  { quote: "I recently had a solar system installed by MAQO Solar Malaysia. The team was punctual, professional, and thorough — they explained everything clearly. Despite some issues with the inverters, the team quickly resolved them, even on a Sunday. Highly recommend MAQO Solar for anyone considering solar energy.", name: "LSY", location: "Homeowner" },
+  { quote: "Compared three companies - MAQO gave the clearest quote and answered every question about warranty upfront.", name: "Mr. Lim", location: "Kajang" },
+  { quote: "I recently had a solar system installed by MAQO Solar Malaysia. The team was punctual, professional, and thorough - they explained everything clearly. Despite some issues with the inverters, the team quickly resolved them, even on a Sunday. Highly recommend MAQO Solar for anyone considering solar energy.", name: "LSY", location: "Homeowner" },
   { quote: "Installation time is fast (1.5 days) from start to electrical hook-up to main DB. Work quality is good, no stain or hand mark on the wall. Happy with the MAQO team for their explanation, single line drawing, and prompt execution.", name: "Azita Azwan", location: "Surau At-Taqwa, 6.06kWp system" },
-  { quote: "Team is very knowledgeable, efficient, and shared info on Solar PV. A crane was provided to hoist up the panels and avoid roof tile damage. My monthly TNB bill has reduced by RM350 on average — a true turnkey process from SEDA approval to NEM meter with TNB.", name: "Alwana", location: "Shah Alam" },
+  { quote: "Team is very knowledgeable, efficient, and shared info on Solar PV. A crane was provided to hoist up the panels and avoid roof tile damage. My monthly TNB bill has reduced by RM350 on average - a true turnkey process from SEDA approval to NEM meter with TNB.", name: "Alwana", location: "Shah Alam" },
 ];
 
 const OFFICE_ADDRESS =

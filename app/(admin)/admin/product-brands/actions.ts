@@ -25,7 +25,7 @@ export async function ensureBrandLogosDraftSeeded() {
   const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: "brand_logos" });
   if (error) {
     throw new Error(
-      `Could not prepare the draft from what is published (${error.message}). Nothing was changed — reload and try again.`
+      `Could not prepare the draft from what is published (${error.message}). Nothing was changed - reload and try again.`
     );
   }
 }
@@ -71,7 +71,7 @@ export async function uploadBrandLogo(id: string, formData: FormData) {
   if (!(file instanceof File) || file.size === 0) throw new ValidationError("Choose an image file to upload.");
   if (file.size > MAX_UPLOAD_BYTES) {
     throw new ValidationError(
-      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB — a logo about 600px wide is plenty.`
+      `That image is ${(file.size / 1024 / 1024).toFixed(1)}MB. Please use one under 10MB - a logo about 600px wide is plenty.`
     );
   }
 
@@ -161,16 +161,16 @@ export async function publishBrandLogos(_prevState: PublishState, _formData: For
   const supabase = await getSupabaseUserClient();
 
   const { canPublish } = await getBrandLogosPublishStatus();
-  if (!canPublish) return { status: "empty", message: "Nothing to publish — the draft matches what is already live." };
+  if (!canPublish) return { status: "empty", message: "Nothing to publish - the draft matches what is already live." };
 
   const { error } = await supabase.rpc("brand_logos_publish", { p_user: profile.id });
   if (error) {
-    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed — reload and try again.` };
+    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed - reload and try again.` };
   }
 
   revalidatePath("/admin/residential");
   revalidatePath("/", "layout");
-  return { status: "success", message: "Published — the public page now shows this draft." };
+  return { status: "success", message: "Published - the public page now shows this draft." };
 }
 
 export async function unpublishBrandLogos(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
@@ -186,7 +186,7 @@ export async function unpublishBrandLogos(_prevState: PublishState, _formData: F
     .maybeSingle();
 
   if (!lastArchived?.published_at) {
-    return { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
+    return { status: "empty", message: "Nothing to revert to - no earlier published version was found." };
   }
 
   await supabase.from("brand_logos").update({ status: "archived" }).eq("status", "published");

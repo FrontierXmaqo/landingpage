@@ -22,8 +22,8 @@ export default function EnquiryRow({ lead }: { lead: Record<string, unknown> }) 
         <p className="font-medium text-base-ink">{String(lead.full_name ?? "")}</p>
         <p className="text-xs text-base-slate">{String(lead.phone ?? "")}{lead.email ? ` · ${lead.email}` : ""}</p>
       </td>
-      <td className="px-3 py-2.5 text-base-ink">{String(lead.state ?? "—")}</td>
-      <td className="px-3 py-2.5 text-base-ink">{String(lead.lead_source ?? "—")}</td>
+      <td className="px-3 py-2.5 text-base-ink">{String(lead.state ?? "-")}</td>
+      <td className="px-3 py-2.5 text-base-ink">{String(lead.lead_source ?? "-")}</td>
       <td className="px-3 py-2.5">
         <select
           value={status}
@@ -40,7 +40,7 @@ export default function EnquiryRow({ lead }: { lead: Record<string, unknown> }) 
         </select>
       </td>
       <td className="px-3 py-2.5 text-xs text-base-slate">
-        {lead.created_at ? formatMYDate(String(lead.created_at)) : "—"}
+        {lead.created_at ? formatMYDate(String(lead.created_at)) : "-"}
       </td>
       <td className="px-3 py-2.5">
         <textarea

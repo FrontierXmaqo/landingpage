@@ -115,7 +115,7 @@ function FieldModal({ page, field, options, onClose }: { page: LeadFormPage; fie
         {options.map((o) => (
           <OptionRow key={o.id} page={page} option={o} />
         ))}
-        {!options.length && <li className="text-sm text-base-slate">No options yet — add one below.</li>}
+        {!options.length && <li className="text-sm text-base-slate">No options yet - add one below.</li>}
       </ul>
 
       <form

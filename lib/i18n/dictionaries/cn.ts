@@ -17,7 +17,7 @@ const cn: Dictionary = {
       "在家为电动车充电正在推高您的 TNB 电费。在 NEM 计划下安装屋顶太阳能，让自家车道变成您的专属加油站，电费最高可减 90%。免费上门评估，ST Class A 与 CIDB G7 认证。",
     atapTitle: "Solar ATAP 详解 | MAQO Solar 马来西亚",
     atapDescription:
-      "什么是 Solar ATAP？它和 NEM 有什么不同？一份简明指南，介绍马来西亚现行的屋顶太阳能计划——申请资格、电费回扣如何计算，以及申请方式。",
+      "什么是 Solar ATAP？它和 NEM 有什么不同？一份简明指南，介绍马来西亚现行的屋顶太阳能计划，申请资格、电费回扣如何计算，以及申请方式。",
     bessTitle: "BESS | 电池储能系统 | MAQO Solar 马来西亚",
     bessDescription:
       "使用 MAQO 电池储能系统，降低高昂的最高需量（MD）收费。提供零资本支出（Zero-CAPEX）融资方案，由 ST Class A 与 CIDB G7 认证团队设计、安装与维护。",
@@ -634,9 +634,9 @@ const cn: Dictionary = {
     floatHomeowners: "已安装 MAQO 太阳能的用户",
 
     stats: [
-      { value: "5 kW", label: "单相住宅最大容量——无需技术评估" },
+      { value: "5 kW", label: "单相住宅最大容量，无需技术评估" },
       { value: "15 kW", label: "三相住宅最大容量，只需简单的接驳确认检查" },
-      { value: "1,000 kW", label: "企业最大容量——最高为最大需量的 100%" },
+      { value: "1,000 kW", label: "企业最大容量，最高为最大需量的 100%" },
       { value: "10 年", label: "每份 ATAP 输出回扣合约的期限" },
     ],
 
@@ -655,7 +655,7 @@ const cn: Dictionary = {
     mechBody: "只要系统运作，以下四件事每天都会依序发生。",
     mechSteps: [
       { title: "发电", body: "屋顶太阳能板在日照时段将阳光转化为电力。" },
-      { title: "优先自用", body: "您的住宅或企业会立即使用这些太阳能电力——永远优先于电网供电。" },
+      { title: "优先自用", body: "您的住宅或企业会立即使用这些太阳能电力，永远优先于电网供电。" },
       { title: "输出多余电力", body: "用不完的电力会自动输送到 TNB 电网，无需您采取任何行动。" },
       { title: "获得 ATAP 回扣", body: "您输出的电力会在每月 MAQ 上限内获得回扣，直接从下期 TNB 账单中扣除。" },
     ],
@@ -679,21 +679,21 @@ const cn: Dictionary = {
     compareColAtapPill: "现行",
     compareRows: [
       { label: "申请", nem: "已于 2025 年 6 月 30 日停止接受新申请", atap: "自 2026 年 1 月 1 日起开放申请" },
-      { label: "未用完的输出回扣", nem: "滚存至未来账单", atap: "每月受 MAQ 上限限制——未用完的回扣会被没收" },
+      { label: "未用完的输出回扣", nem: "滚存至未来账单", atap: "每月受 MAQ 上限限制，未用完的回扣会被没收" },
       { label: "合约期限", nem: "无固定期限", atap: "固定 10 年期限" },
       { label: "合约结束后", nem: "不适用", atap: "仅可自用，不再享有输出回扣" },
     ],
 
     eligTag: "申请资格",
     eligTitle: "谁可以申请？系统容量上限是多少？",
-    eligBody: "您的类别由 TNB 账户类型决定——以下限制直接来自 SEDA 与 TNB 的规定。",
+    eligBody: "您的类别由 TNB 账户类型决定，以下限制直接来自 SEDA 与 TNB 的规定。",
     eligBannerAlt: "马来西亚排屋屋顶 MAQO 太阳能安装项目空拍图",
     eligBannerCaption: "MAQO 在西马各地的真实安装项目",
     eligHomesTag: "住宅",
     eligHomesTitle: "住宅账户",
     eligHomesItems: [
-      { kw: "≤ 5 kW", body: "单相供电——完全无需技术评估。" },
-      { kw: "≤ 15 kW", body: "三相供电——需要一次简单的接驳确认检查。" },
+      { kw: "≤ 5 kW", body: "单相供电，完全无需技术评估。" },
+      { kw: "≤ 15 kW", body: "三相供电，需要一次简单的接驳确认检查。" },
     ],
     eligHomesFoot: "您必须是已注册的 TNB 账户持有人，且未曾参与 SelCo 或 NEM 计划。多租户账户不符合申请资格。",
     eligBizTag: "企业",
@@ -706,19 +706,19 @@ const cn: Dictionary = {
 
     startedTag: "开始申请",
     startedTitle: "ATAP 申请步骤",
-    startedBody: "您无需直接处理 SEDA 或 TNB 的文书作业——您的安装商会代为处理。",
+    startedBody: "您无需直接处理 SEDA 或 TNB 的文书作业，您的安装商会代为处理。",
     startedSteps: [
-      { title: "委任 RPVSP", body: "委托一家注册太阳能光伏服务供应商（RPVSP）——例如 Maqo——评估您的屋顶并设计系统。" },
+      { title: "委任 RPVSP", body: "委托一家注册太阳能光伏服务供应商（RPVSP），例如 Maqo，评估您的屋顶并设计系统。" },
       { title: "安装与调试", body: "您的 RPVSP 安装系统并完成调试，使其可以发电与输出电力。" },
       { title: "透过 eATAP 申请", body: "您的 RPVSP 会代您在 eATAP 线上平台（atap.seda.gov.my）提交申请。" },
-      { title: "技术审核", body: "TNB 会确认您的接驳——审核深度取决于系统容量，详见上方说明。" },
+      { title: "技术审核", body: "TNB 会确认您的接驳，审核深度取决于系统容量，详见上方说明。" },
     ],
 
     finTag: "付款方式",
     finTitle: "两种系统资金方式",
     finLeaseKicker: "零首期",
     finLeaseTitle: "太阳能租赁（PPA）",
-    finLeaseBody: "向注册太阳能光伏投资者（RPVI）租用系统，以低于 TNB 的电费率付费——无需资本支出，从第一天起就能省钱。",
+    finLeaseBody: "向注册太阳能光伏投资者（RPVI）租用系统，以低于 TNB 的电费率付费，无需资本支出，从第一天起就能省钱。",
     finBuyKicker: "全款拥有",
     finBuyTitle: "直接购买",
     finBuyBody: "以现金、银行贷款或信用卡购买系统，全额享有 ATAP 回扣与长期节省。",
@@ -728,8 +728,8 @@ const cn: Dictionary = {
     faq: [
       { q: "NEM 计划怎么了？", a: "NEM（Net Energy Metering）已于 2025 年 6 月 30 日停止接受新申请。ATAP 是马来西亚现行的屋顶太阳能计划，也是目前唯一开放新申请的计划。" },
       { q: "我已经有 NEM 合约，会受影响吗？", a: "不会。现有的 NEM 合约将按原有条款继续执行。ATAP 仅适用于 2026 年 1 月 1 日起的新申请。" },
-      { q: "MAQ 到底是什么？", a: "MAQ 即 Maximum Allowable Quantity（最高允许输出量）——指单一账单月份中，可获得账单回扣的最高输出电量。超出部分或未用完的回扣，会在月结时被没收，不会累积到下个月。" },
-      { q: "我的 10 年 ATAP 合约到期后会怎样？", a: "您的系统仍可继续运作，但仅限自用于您的住宅或企业。输出回扣将停止——系统不包含自动续约或延续输出安排。" },
+      { q: "MAQ 到底是什么？", a: "MAQ 即 Maximum Allowable Quantity（最高允许输出量），指单一账单月份中，可获得账单回扣的最高输出电量。超出部分或未用完的回扣，会在月结时被没收，不会累积到下个月。" },
+      { q: "我的 10 年 ATAP 合约到期后会怎样？", a: "您的系统仍可继续运作，但仅限自用于您的住宅或企业。输出回扣将停止，系统不包含自动续约或延续输出安排。" },
       { q: "申请前需要做技术评估吗？", a: "只有系统容量超过小型单相住宅时才需要。单相住宅（≤5kW）完全无需评估；三相住宅需要简单检查；较大型及企业系统则需要更深入的评估，425kW 以上甚至需要完整的电力系统研究。" },
     ],
 
@@ -743,7 +743,7 @@ const cn: Dictionary = {
     heroTitleLead: "还在为高额最高需量收费烦恼吗？",
     heroTitleAccent: "BESS 就是解方",
     heroBody:
-      "电池储能系统会在电力便宜时静静充电，在您用电高峰时立即启动——让您的最高需量（MD）收费不知不觉降下来，完全不必改变营运方式。",
+      "电池储能系统会在电力便宜时静静充电，在您用电高峰时立即启动，让您的最高需量（MD）收费不知不觉降下来，完全不必改变营运方式。",
     heroCtaPrimary: "索取 BESS 报价",
     heroCtaSecondary: "联络我们的 BESS 团队",
     heroTrust: [
@@ -756,7 +756,7 @@ const cn: Dictionary = {
     ],
     heroVisual: {
       title: "电池如何降低您的电费账单",
-      subtitle: "同一栋建筑、同样的设备、同样的时段——只是从 TNB 抽取的电量变小了。",
+      subtitle: "同一栋建筑、同样的设备、同样的时段，只是从 TNB 抽取的电量变小了。",
       legend: ["太阳能电力", "电池电力", "TNB 电网电力"],
       nodes: {
         solar: { label: "太阳能板", caption: "阳光下的免费电力" },
@@ -765,7 +765,7 @@ const cn: Dictionary = {
         battery: { label: "电池", caption: "现在储存电力，稍后使用" },
       },
       arrowLabels: [
-        "为您的建筑供电——免费",
+        "为您的建筑供电，免费",
         "多余的太阳能为电池充电",
         "电池覆盖您的用电高峰",
         "需要时 TNB 补足供电",
@@ -774,7 +774,7 @@ const cn: Dictionary = {
       ],
       footerPrefix: "TNB 按您 ",
       footerBold: "当月用电最高峰的那半小时",
-      footerSuffix: "收费。电池悄悄削平那个高峰——账单上的这笔费用也随之下降。",
+      footerSuffix: "收费。电池悄悄削平那个高峰，账单上的这笔费用也随之下降。",
       zoomLabel: "点击放大",
       zoomCloseLabel: "关闭",
     },
@@ -782,7 +782,7 @@ const cn: Dictionary = {
     problemTag: "问题所在",
     problemTitle: "最高需量收费正快速攀升",
     problemBody:
-      "TNB 于 2025 年调整电费结构后，最高需量（MD）收费大幅上升——收费依据是您单次最高的 30 分钟用电高峰，而非总用电量。",
+      "TNB 于 2025 年调整电费结构后，最高需量（MD）收费大幅上升，收费依据是您单次最高的 30 分钟用电高峰，而非总用电量。",
     problemBeforeLabel: "调整前",
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "调整后",
@@ -799,7 +799,7 @@ const cn: Dictionary = {
     whatTag: "什么是 BESS？",
     whatTitle: "大型电池，如同工业级电力银行",
     whatBody:
-      "电池储能系统在电力便宜或充裕时储存电力，并在您的场所最需要时精准释放——这个过程称为削峰（peak shaving）。现代锂电池系统的往返效率可达 80% 至 90%。",
+      "电池储能系统在电力便宜或充裕时储存电力，并在您的场所最需要时精准释放，这个过程称为削峰（peak shaving）。现代锂电池系统的往返效率可达 80% 至 90%。",
     chargeBadge: "离峰 · 充电中",
     chargeTitle: "在电力便宜时储存能源",
     chargeBody: "电池透过太阳能发电或低电价时段的电网电力充电，为接下来的时段储备电力。",
@@ -812,19 +812,19 @@ const cn: Dictionary = {
     flowSteps: [
       { title: "太阳能／电网", body: "在离峰时段，电力从屋顶太阳能与电网流入系统。" },
       { title: "电池储能", body: "BESS 会把这些电力就地储存起来，随时可用。" },
-      { title: "智能能源管理", body: "软件自动判断何时充电、保持或放电——无需人手切换。" },
+      { title: "智能能源管理", body: "软件自动判断何时充电、保持或放电，无需人手切换。" },
       { title: "企业用电负载", body: "储存的电力用于应付高峰用电，降低您的最高需量。" },
     ],
 
     benefitsTag: "主要优势",
     benefitsTitle: "企业选择 BESS 的六大理由",
     benefits: [
-      { title: "最高需量／削峰", body: "削平您最高的 30 分钟用电高峰——也就是决定 MD 收费的关键数字。" },
+      { title: "最高需量／削峰", body: "削平您最高的 30 分钟用电高峰，也就是决定 MD 收费的关键数字。" },
       { title: "降低能源成本", body: "自动将用电从电价最高的时段转移出去。" },
       { title: "能源管理", body: "一套系统读取您的用电模式，实时做出充放电决策。" },
       { title: "太阳能优化利用", body: "捕获多余的太阳能发电，而非将其输出或限制，让每一度电都在现场发挥作用。" },
       { title: "备用电力／能源韧性", body: "在短暂电网中断期间，维持关键负载持续运作。" },
-      { title: "全面整合系统", body: "太阳能、电池与电网协同运作——太阳能为场所供电并为 BESS 充电，BESS 放电以削减用电高峰，电网则仅作为备用与馈电积分。" },
+      { title: "全面整合系统", body: "太阳能、电池与电网协同运作，太阳能为场所供电并为 BESS 充电，BESS 放电以削减用电高峰，电网则仅作为备用与馈电积分。" },
     ],
 
     solutionTag: "MAQO BESS 解决方案",
@@ -850,7 +850,7 @@ const cn: Dictionary = {
     modelBuyPoints: ["从第一天起完全拥有", "长期节省金额最大化", "仍由 MAQO 全程安装与维护"],
 
     ctaTitle: "联络 MAQO，了解 BESS",
-    ctaBody: "免费场地评估——我们将具体说明电池系统能为您的最高需量收费节省多少金额。",
+    ctaBody: "免费场地评估，我们将具体说明电池系统能为您的最高需量收费节省多少金额。",
     ctaPrimary: "预约 BESS 评估",
     ctaSecondary: "联络我们的 BESS 团队",
   },

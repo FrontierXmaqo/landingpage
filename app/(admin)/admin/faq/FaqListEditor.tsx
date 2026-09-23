@@ -143,11 +143,11 @@ export default function FaqListEditor({ page, items }: { page: FaqPage; items: F
       </form>
       <ErrorNote message={addError} />
       <p role="status" aria-live="polite" className="mt-2 text-xs font-semibold text-brand-green-ink">
-        {added && "✓ Question added below — fill in the answer, then Publish."}
+        {added && "✓ Question added below - fill in the answer, then Publish."}
       </p>
 
       {items.length === 0 && (
-        <p className="mt-4 text-sm text-base-slate">No questions yet — add the first one above.</p>
+        <p className="mt-4 text-sm text-base-slate">No questions yet - add the first one above.</p>
       )}
 
       <div className="mt-4 space-y-4">

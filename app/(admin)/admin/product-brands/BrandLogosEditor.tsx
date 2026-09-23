@@ -129,7 +129,7 @@ export default function BrandLogosEditor({ brands }: { brands: BrandRow[] }) {
       <h2 className="text-lg font-semibold text-base-ink">Brand logos</h2>
       <p className="mt-0.5 text-sm text-base-slate">
         The strip under &ldquo;Installed with brands homeowners trust&rdquo; on the homepage. Add a logo and the tile shows the
-        logo instead of the name — the name is still used for screen readers.
+        logo instead of the name - the name is still used for screen readers.
       </p>
 
       <div className="admin-card mt-4 p-5">
@@ -173,7 +173,7 @@ export default function BrandLogosEditor({ brands }: { brands: BrandRow[] }) {
         </p>
 
         {brands.length === 0 && (
-          <p className="mt-4 text-sm text-base-slate">No brands yet — add one above, until then the strip falls back to what&rsquo;s built into the code.</p>
+          <p className="mt-4 text-sm text-base-slate">No brands yet - add one above, until then the strip falls back to what&rsquo;s built into the code.</p>
         )}
 
         <ul className="mt-4 space-y-2">

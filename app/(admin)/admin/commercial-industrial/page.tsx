@@ -28,7 +28,7 @@ export default async function CommercialIndustrialPage() {
           <h1 className="text-2xl font-bold text-base-ink">Commercial &amp; Industrial Page</h1>
           <p className="mt-1 text-sm text-base-slate">
             Projects, client roster and trust stats on the /commercial-and-industrial page. Edits save as a
-            draft — publish when you want the public page to show them.
+            draft - publish when you want the public page to show them.
           </p>
         </div>
         {published?.published_at && (
@@ -40,7 +40,7 @@ export default async function CommercialIndustrialPage() {
         <PublishButton
           action={publishCiContent}
           canRun={publishStatus.canPublish}
-          idleHint="Nothing to publish — the draft matches what's already live."
+          idleHint="Nothing to publish - the draft matches what's already live."
           pendingLabel="Publishing…"
         >
           Publish
@@ -48,7 +48,7 @@ export default async function CommercialIndustrialPage() {
         <PublishButton
           action={unpublishCiContent}
           canRun={publishStatus.canUnpublish}
-          idleHint="Nothing to revert to — no earlier published version yet."
+          idleHint="Nothing to revert to - no earlier published version yet."
           pendingLabel="Reverting…"
           variant="outline"
         >

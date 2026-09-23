@@ -107,7 +107,7 @@ export default function AchievementsEditor({ items }: { items: AchievementRow[] 
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-base-slate">
           {adding && "Adding…"}
-          {!adding && added && <span className="text-brand-green-ink">✓ Added below — fill it in, then Publish.</span>}
+          {!adding && added && <span className="text-brand-green-ink">✓ Added below - fill it in, then Publish.</span>}
         </p>
         <button
           type="button"
@@ -129,7 +129,7 @@ export default function AchievementsEditor({ items }: { items: AchievementRow[] 
       </div>
       <ErrorNote message={addError} />
 
-      {items.length === 0 && <p className="mt-4 text-sm text-base-slate">No figures yet — add one above.</p>}
+      {items.length === 0 && <p className="mt-4 text-sm text-base-slate">No figures yet - add one above.</p>}
 
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         {items.map((item, i) => (

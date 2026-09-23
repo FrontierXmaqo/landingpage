@@ -16,7 +16,7 @@ const ms: Dictionary = {
       "Mengecas EV di rumah menaikkan bil TNB anda. Solar bumbung di bawah NEM menjadikan laluan kereta anda stesen minyak sendiri, sehingga 90% lebih rendah bil anda. Penilaian rumah percuma, bertauliah ST Class A & CIDB G7.",
     atapTitle: "Solar ATAP Dijelaskan | MAQO Solar Malaysia",
     atapDescription:
-      "Apakah itu Solar ATAP dan apa bezanya dengan NEM? Panduan mudah tentang program solar bumbung semasa Malaysia — kelayakan, cara kredit bil berfungsi, dan cara memohon.",
+      "Apakah itu Solar ATAP dan apa bezanya dengan NEM? Panduan mudah tentang program solar bumbung semasa Malaysia - kelayakan, cara kredit bil berfungsi, dan cara memohon.",
     bessTitle: "BESS | Sistem Simpanan Tenaga Bateri | MAQO Solar Malaysia",
     bessDescription:
       "Kurangkan caj Permintaan Maksimum (MD) yang tinggi dengan Sistem Simpanan Tenaga Bateri MAQO. Pembiayaan Sifar-CAPEX tersedia, reka bentuk, pemasangan dan penyelenggaraan bertauliah ST Class A & CIDB G7.",
@@ -613,7 +613,7 @@ const ms: Dictionary = {
     heroTitleAccent: "dapat bayaran balik",
     heroTitleTail: "untuk solar bumbung",
     heroBody:
-      "Sejak 1 Januari 2026, ATAP — Solar Accelerated Transition Action Programme — telah menggantikan NEM sebagai program yang membolehkan rumah dan perniagaan mengeksport lebihan tenaga solar ke grid untuk kredit bil. Berikut cara ia berfungsi, dalam bahasa yang mudah.",
+      "Sejak 1 Januari 2026, ATAP - Solar Accelerated Transition Action Programme - telah menggantikan NEM sebagai program yang membolehkan rumah dan perniagaan mengeksport lebihan tenaga solar ke grid untuk kredit bil. Berikut cara ia berfungsi, dalam bahasa yang mudah.",
     heroCtaPrimary: "Lihat ATAP berbanding NEM lama",
     heroCtaSecondary: "Cara kredit berfungsi",
     heroSources: "Sumber: Tenaga Nasional Berhad (TNB) & Sustainable Energy Development Authority (SEDA Malaysia)",
@@ -635,9 +635,9 @@ const ms: Dictionary = {
     floatHomeowners: "Pemilik rumah menggunakan solar MAQO",
 
     stats: [
-      { value: "5 kW", label: "Saiz maksimum untuk rumah satu fasa — tiada kajian teknikal diperlukan" },
+      { value: "5 kW", label: "Saiz maksimum untuk rumah satu fasa - tiada kajian teknikal diperlukan" },
       { value: "15 kW", label: "Saiz maksimum untuk rumah tiga fasa, dengan semakan sambungan ringkas" },
-      { value: "1,000 kW", label: "Saiz maksimum untuk perniagaan — sehingga 100% permintaan maksimum anda" },
+      { value: "1,000 kW", label: "Saiz maksimum untuk perniagaan - sehingga 100% permintaan maksimum anda" },
       { value: "10 tahun", label: "Tempoh setiap kontrak kredit eksport ATAP" },
     ],
 
@@ -646,18 +646,18 @@ const ms: Dictionary = {
     startBody1:
       "ATAP bermaksud Solar Accelerated Transition Action Programme. Tanpa singkatan itu, konsepnya mudah: anda pasang panel solar di bumbung, guna kuasa itu untuk rumah atau perniagaan anda dahulu, dan apa yang tidak digunakan dihantar ke grid TNB. Sebagai balasan, TNB memberi anda kredit pada bil untuk tenaga yang dieksport.",
     startBody2:
-      "Ia adalah program solar bumbung semasa Malaysia, dikendalikan bersama oleh SEDA Malaysia dan TNB — menggantikan skim NEM (Net Energy Metering) yang lama, yang berhenti menerima permohonan baharu pada 30 Jun 2025.",
+      "Ia adalah program solar bumbung semasa Malaysia, dikendalikan bersama oleh SEDA Malaysia dan TNB - menggantikan skim NEM (Net Energy Metering) yang lama, yang berhenti menerima permohonan baharu pada 30 Jun 2025.",
     calloutTitle: "Satu perkara yang berbeza daripada NEM",
     calloutBody:
-      "Setiap akaun ATAP mempunyai had eksport bulanan dipanggil MAQ (Maximum Allowable Quantity). Kredit melebihi had itu — atau kredit yang tidak anda gunakan — akan hangus pada penghujung setiap bulan bil, bukannya dibawa ke bulan seterusnya seperti NEM dahulu. Menetapkan saiz sistem anda mengikut penggunaan sebenar menjadi lebih penting di bawah ATAP.",
+      "Setiap akaun ATAP mempunyai had eksport bulanan dipanggil MAQ (Maximum Allowable Quantity). Kredit melebihi had itu - atau kredit yang tidak anda gunakan - akan hangus pada penghujung setiap bulan bil, bukannya dibawa ke bulan seterusnya seperti NEM dahulu. Menetapkan saiz sistem anda mengikut penggunaan sebenar menjadi lebih penting di bawah ATAP.",
 
     mechTag: "Mekanisme",
     mechTitle: "Bagaimana kredit bil anda diperoleh",
     mechBody: "Empat perkara berlaku, mengikut susunan ini, setiap hari sistem anda beroperasi.",
     mechSteps: [
       { title: "Jana", body: "Panel bumbung anda menukar cahaya matahari kepada elektrik sepanjang waktu siang." },
-      { title: "Guna dahulu", body: "Rumah atau perniagaan anda menggunakan tenaga solar itu serta-merta — sentiasa digunakan sebelum apa-apa daripada grid." },
-      { title: "Eksport lebihan", body: "Apa yang tidak digunakan pada masa itu mengalir secara automatik ke grid TNB — tiada tindakan diperlukan daripada anda." },
+      { title: "Guna dahulu", body: "Rumah atau perniagaan anda menggunakan tenaga solar itu serta-merta - sentiasa digunakan sebelum apa-apa daripada grid." },
+      { title: "Eksport lebihan", body: "Apa yang tidak digunakan pada masa itu mengalir secara automatik ke grid TNB - tiada tindakan diperlukan daripada anda." },
       { title: "Peroleh kredit ATAP", body: "Anda dikreditkan untuk tenaga yang dieksport, sehingga had MAQ bulanan anda, dan ia ditolak daripada bil TNB seterusnya." },
     ],
     diagramAlt: "Rajah: cahaya matahari mengenai panel solar, tenaga digunakan di rumah dahulu, dan lebihan tenaga dieksport ke grid TNB untuk kredit ATAP",
@@ -680,21 +680,21 @@ const ms: Dictionary = {
     compareColAtapPill: "Semasa",
     compareRows: [
       { label: "Permohonan", nem: "Berhenti menerima pemohon baharu 30 Jun 2025", atap: "Dibuka sekarang, sejak 1 Januari 2026" },
-      { label: "Kredit eksport tidak digunakan", nem: "Dibawa ke bil akan datang", atap: "Dihadkan setiap bulan mengikut MAQ anda — kredit tidak digunakan akan hangus" },
+      { label: "Kredit eksport tidak digunakan", nem: "Dibawa ke bil akan datang", atap: "Dihadkan setiap bulan mengikut MAQ anda - kredit tidak digunakan akan hangus" },
       { label: "Tempoh kontrak", nem: "Tiada tarikh tamat tetap", atap: "Tempoh tetap 10 tahun" },
-      { label: "Selepas kontrak tamat", nem: "Tidak berkenaan", atap: "Hanya untuk kegunaan sendiri — tiada lagi kredit eksport" },
+      { label: "Selepas kontrak tamat", nem: "Tidak berkenaan", atap: "Hanya untuk kegunaan sendiri - tiada lagi kredit eksport" },
     ],
 
     eligTag: "Kelayakan",
     eligTitle: "Siapa boleh memohon, dan sebesar mana sistem anda boleh dibina?",
-    eligBody: "Kategori anda ditentukan oleh jenis akaun TNB anda — had di bawah diambil terus daripada SEDA dan TNB.",
+    eligBody: "Kategori anda ditentukan oleh jenis akaun TNB anda - had di bawah diambil terus daripada SEDA dan TNB.",
     eligBannerAlt: "Pandangan udara pemasangan solar bumbung MAQO di rumah teres Malaysia",
     eligBannerCaption: "Pemasangan sebenar MAQO di seluruh Semenanjung Malaysia",
     eligHomesTag: "Rumah Kediaman",
     eligHomesTitle: "Akaun kediaman",
     eligHomesItems: [
-      { kw: "≤ 5 kW", body: "Bekalan satu fasa — tiada kajian teknikal diperlukan sama sekali." },
-      { kw: "≤ 15 kW", body: "Bekalan tiga fasa — memerlukan Semakan Pengesahan Sambungan yang ringkas." },
+      { kw: "≤ 5 kW", body: "Bekalan satu fasa - tiada kajian teknikal diperlukan sama sekali." },
+      { kw: "≤ 15 kW", body: "Bekalan tiga fasa - memerlukan Semakan Pengesahan Sambungan yang ringkas." },
     ],
     eligHomesFoot: "Anda mesti pemegang akaun TNB berdaftar yang belum pernah menyertai SelCo atau NEM. Akaun berbilang penyewa tidak layak.",
     eligBizTag: "Perniagaan",
@@ -707,19 +707,19 @@ const ms: Dictionary = {
 
     startedTag: "Bermula",
     startedTitle: "Memohon ATAP, langkah demi langkah",
-    startedBody: "Anda tidak pernah berurusan terus dengan kerja kertas SEDA atau TNB — pemasang anda melakukannya untuk anda.",
+    startedBody: "Anda tidak pernah berurusan terus dengan kerja kertas SEDA atau TNB - pemasang anda melakukannya untuk anda.",
     startedSteps: [
-      { title: "Lantik RPVSP", body: "Lantik Pembekal Perkhidmatan Fotovoltaik Berdaftar (RPVSP) — seperti Maqo — untuk menilai bumbung anda dan mereka bentuk sistem anda." },
+      { title: "Lantik RPVSP", body: "Lantik Pembekal Perkhidmatan Fotovoltaik Berdaftar (RPVSP) - seperti Maqo - untuk menilai bumbung anda dan mereka bentuk sistem anda." },
       { title: "Pasang & tauliahkan", body: "RPVSP anda memasang sistem dan mentauliahkannya supaya sedia untuk menjana dan mengeksport tenaga." },
       { title: "Mohon melalui eATAP", body: "RPVSP anda menghantar permohonan anda di portal dalam talian eATAP (atap.seda.gov.my) bagi pihak anda." },
-      { title: "Semakan teknikal", body: "TNB mengesahkan sambungan anda — kedalaman semakan bergantung pada saiz sistem anda, seperti ditunjukkan di atas." },
+      { title: "Semakan teknikal", body: "TNB mengesahkan sambungan anda - kedalaman semakan bergantung pada saiz sistem anda, seperti ditunjukkan di atas." },
     ],
 
     finTag: "Membiayai sistem anda",
     finTitle: "Dua cara membiayai sistem anda",
     finLeaseKicker: "Tiada kos pendahuluan",
     finLeaseTitle: "Pajakan solar (PPA)",
-    finLeaseBody: "Pajak sistem anda daripada Pelabur PV Solar Berdaftar (RPVI) dan bayar untuk tenaga yang anda guna, pada kadar lebih rendah daripada TNB — tiada modal diperlukan, jimat dari hari pertama.",
+    finLeaseBody: "Pajak sistem anda daripada Pelabur PV Solar Berdaftar (RPVI) dan bayar untuk tenaga yang anda guna, pada kadar lebih rendah daripada TNB - tiada modal diperlukan, jimat dari hari pertama.",
     finBuyKicker: "Milik sepenuhnya",
     finBuyTitle: "Pembelian terus",
     finBuyBody: "Beli sistem anda secara tunai, pinjaman bank, atau kad kredit, dan simpan 100% kredit ATAP serta penjimatan jangka panjang anda.",
@@ -728,9 +728,9 @@ const ms: Dictionary = {
     faqTitle: "Soalan yang kerap ditanya",
     faq: [
       { q: "Apa yang berlaku kepada NEM?", a: "NEM (Net Energy Metering) berhenti menerima permohonan baharu pada 30 Jun 2025. ATAP ialah program solar bumbung semasa Malaysia, dan satu-satunya yang terbuka kepada pemohon baharu hari ini." },
-      { q: "Saya sudah ada kontrak NEM — adakah ini menjejaskan saya?", a: "Tidak. Kontrak NEM sedia ada terus berjalan mengikut terma asalnya. ATAP hanya terpakai untuk permohonan baharu mulai 1 Januari 2026." },
-      { q: "Apa sebenarnya MAQ?", a: "MAQ bermaksud Maximum Allowable Quantity — jumlah maksimum tenaga solar dieksport yang boleh memperoleh kredit bil dalam satu bulan bil. Apa-apa melebihi itu, atau kredit yang tidak anda guna, akan hangus pada akhir bulan dan tidak dibawa ke hadapan." },
-      { q: "Apa berlaku apabila kontrak ATAP 10 tahun saya tamat?", a: "Sistem anda boleh terus beroperasi, tetapi hanya untuk menjana kuasa untuk rumah atau perniagaan anda sendiri. Kredit eksport akan berhenti — tiada bawaan atau pembaharuan susunan eksport dibina dalamnya." },
+      { q: "Saya sudah ada kontrak NEM - adakah ini menjejaskan saya?", a: "Tidak. Kontrak NEM sedia ada terus berjalan mengikut terma asalnya. ATAP hanya terpakai untuk permohonan baharu mulai 1 Januari 2026." },
+      { q: "Apa sebenarnya MAQ?", a: "MAQ bermaksud Maximum Allowable Quantity - jumlah maksimum tenaga solar dieksport yang boleh memperoleh kredit bil dalam satu bulan bil. Apa-apa melebihi itu, atau kredit yang tidak anda guna, akan hangus pada akhir bulan dan tidak dibawa ke hadapan." },
+      { q: "Apa berlaku apabila kontrak ATAP 10 tahun saya tamat?", a: "Sistem anda boleh terus beroperasi, tetapi hanya untuk menjana kuasa untuk rumah atau perniagaan anda sendiri. Kredit eksport akan berhenti - tiada bawaan atau pembaharuan susunan eksport dibina dalamnya." },
       { q: "Perlukah saya kajian teknikal sebelum boleh memohon?", a: "Hanya jika sistem anda lebih besar daripada rumah satu fasa yang kecil. Rumah satu fasa (≤5kW) tidak memerlukan kajian sama sekali; rumah tiga fasa memerlukan semakan ringkas; sistem lebih besar dan perniagaan memerlukan penilaian lebih mendalam, sehingga Kajian Sistem Kuasa penuh melebihi 425kW." },
     ],
 
@@ -744,7 +744,7 @@ const ms: Dictionary = {
     heroTitleLead: "Bosan Dengan Caj Permintaan Maksimum Yang Tinggi?",
     heroTitleAccent: "BESS Penyelesaiannya",
     heroBody:
-      "Simpanan bateri yang mengecas semasa tenaga murah dan terus bertindak semasa waktu puncak anda — secara senyap mengurangkan caj Permintaan Maksimum tanpa mengubah cara perniagaan anda beroperasi.",
+      "Simpanan bateri yang mengecas semasa tenaga murah dan terus bertindak semasa waktu puncak anda - secara senyap mengurangkan caj Permintaan Maksimum tanpa mengubah cara perniagaan anda beroperasi.",
     heroCtaPrimary: "Dapatkan Sebut Harga BESS",
     heroCtaSecondary: "Hubungi Pasukan BESS Kami",
     heroTrust: [
@@ -757,7 +757,7 @@ const ms: Dictionary = {
     ],
     heroVisual: {
       title: "Bagaimana bateri mengurangkan bil elektrik anda",
-      subtitle: "Bangunan sama, mesin sama, waktu sama — cuma caj TNB yang lebih kecil.",
+      subtitle: "Bangunan sama, mesin sama, waktu sama - cuma caj TNB yang lebih kecil.",
       legend: ["Kuasa solar", "Kuasa bateri", "Kuasa grid TNB"],
       nodes: {
         solar: { label: "PANEL SOLAR", caption: "Kuasa percuma semasa matahari terbit" },
@@ -766,7 +766,7 @@ const ms: Dictionary = {
         battery: { label: "BATERI", caption: "Menyimpan kuasa sekarang, guna kemudian" },
       },
       arrowLabels: [
-        "Menjalankan bangunan anda — percuma",
+        "Menjalankan bangunan anda - percuma",
         "Baki solar mengisi bateri",
         "Bateri menampung waktu puncak anda",
         "TNB menambah bekalan jika diperlukan",
@@ -776,7 +776,7 @@ const ms: Dictionary = {
       footerPrefix: "TNB mengenakan caj berdasarkan ",
       footerBold: "setengah jam tersibuk anda dalam sebulan",
       footerSuffix:
-        ". Bateri diam-diam menampung lonjakan itu — jadi caj itu, dan bil anda, berkurangan.",
+        ". Bateri diam-diam menampung lonjakan itu - jadi caj itu, dan bil anda, berkurangan.",
       zoomLabel: "Ketik untuk zum",
       zoomCloseLabel: "Tutup",
     },
@@ -784,7 +784,7 @@ const ms: Dictionary = {
     problemTag: "Masalahnya",
     problemTitle: "Caj Permintaan Maksimum semakin meningkat",
     problemBody:
-      "Penstrukturan semula tarif TNB 2025 telah meningkatkan caj Permintaan Maksimum (MD) dengan ketara — dikenakan berdasarkan lonjakan penggunaan 30 minit tertinggi anda, bukan jumlah penggunaan keseluruhan.",
+      "Penstrukturan semula tarif TNB 2025 telah meningkatkan caj Permintaan Maksimum (MD) dengan ketara - dikenakan berdasarkan lonjakan penggunaan 30 minit tertinggi anda, bukan jumlah penggunaan keseluruhan.",
     problemBeforeLabel: "Sebelum",
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "Selepas penstrukturan semula",
@@ -801,7 +801,7 @@ const ms: Dictionary = {
     whatTag: "Apakah BESS?",
     whatTitle: "Bateri berskala besar, berfungsi seperti bank kuasa industri",
     whatBody:
-      "Sistem Simpanan Tenaga Bateri menyimpan elektrik semasa ia murah atau berlebihan, kemudian melepaskannya tepat pada waktu tapak anda memerlukannya — proses yang dipanggil peak shaving. Sistem litium-ion moden berfungsi pada kecekapan pusingan penuh 80–90%.",
+      "Sistem Simpanan Tenaga Bateri menyimpan elektrik semasa ia murah atau berlebihan, kemudian melepaskannya tepat pada waktu tapak anda memerlukannya - proses yang dipanggil peak shaving. Sistem litium-ion moden berfungsi pada kecekapan pusingan penuh 80–90%.",
     chargeBadge: "Luar Puncak · Mengecas",
     chargeTitle: "Simpan tenaga semasa ia murah",
     chargeBody: "Bateri mengecas daripada janaan solar atau kuasa grid bertarif rendah, membina rizab untuk waktu akan datang.",
@@ -814,7 +814,7 @@ const ms: Dictionary = {
     flowSteps: [
       { title: "Solar / Grid", body: "Tenaga mengalir masuk daripada solar bumbung anda dan grid semasa waktu luar puncak." },
       { title: "Simpanan Bateri", body: "BESS anda menyimpan tenaga itu di tapak, sedia digunakan bila-bila masa." },
-      { title: "Pengurusan Tenaga Pintar", body: "Perisian menentukan bila untuk mengecas, menahan, atau menyahcas — tanpa suis manual." },
+      { title: "Pengurusan Tenaga Pintar", body: "Perisian menentukan bila untuk mengecas, menahan, atau menyahcas - tanpa suis manual." },
       { title: "Beban Perniagaan", body: "Kuasa tersimpan menampung waktu puncak anda, menurunkan Permintaan Maksimum anda." },
     ],
 
@@ -826,7 +826,7 @@ const ms: Dictionary = {
       { title: "Pengurusan Tenaga", body: "Satu sistem yang membaca profil beban anda dan membuat keputusan cas/nyahcas secara masa nyata." },
       { title: "Pengoptimuman Tenaga Solar", body: "Tangkap lebihan janaan solar dan bukannya mengeksport atau mengehadkannya, dan gunakan setiap kWh di tapak." },
       { title: "Sandaran / Daya Tahan Tenaga", body: "Kekalkan beban kritikal berjalan semasa gangguan grid yang singkat." },
-      { title: "Sistem Bersepadu Sepenuhnya", body: "Solar, bateri dan grid berfungsi sebagai satu — solar memberi kuasa kepada tapak anda dan mengecas BESS, BESS menyahcas untuk mengurangkan puncak anda, dan grid kekal semata-mata sebagai sandaran dan kredit eksport." },
+      { title: "Sistem Bersepadu Sepenuhnya", body: "Solar, bateri dan grid berfungsi sebagai satu - solar memberi kuasa kepada tapak anda dan mengecas BESS, BESS menyahcas untuk mengurangkan puncak anda, dan grid kekal semata-mata sebagai sandaran dan kredit eksport." },
     ],
 
     solutionTag: "Penyelesaian BESS MAQO",
@@ -852,7 +852,7 @@ const ms: Dictionary = {
     modelBuyPoints: ["Pemilikan penuh dari hari pertama", "Penjimatan jangka panjang maksimum", "Tetap dipasang & diselenggara sepenuhnya oleh MAQO"],
 
     ctaTitle: "Hubungi MAQO Tentang BESS",
-    ctaBody: "Penilaian tapak percuma — kami akan tunjukkan dengan tepat berapa banyak sistem bateri boleh mengurangkan caj Permintaan Maksimum anda.",
+    ctaBody: "Penilaian tapak percuma - kami akan tunjukkan dengan tepat berapa banyak sistem bateri boleh mengurangkan caj Permintaan Maksimum anda.",
     ctaPrimary: "Dapatkan Penilaian BESS",
     ctaSecondary: "Hubungi Pasukan BESS Kami",
   },

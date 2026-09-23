@@ -16,12 +16,12 @@ const en = {
     aboutTitle: "About MAQO Solar | Malaysia's Trusted Solar EPC Since 2013",
     aboutDescription:
       "MAQO Solar is a leading solar power company in Malaysia, delivering ST Class A & CIDB G7-certified residential, commercial & industrial solar systems since 2013. Meet the team and values behind 1,000+ installations.",
-    evTitle: "MAQO | Charge Your EV On Sunlight — Energizing A Cleaner Future",
+    evTitle: "MAQO | Charge Your EV On Sunlight - Energizing A Cleaner Future",
     evDescription:
-      "Home EV charging is pushing your TNB bill up. Rooftop solar under NEM turns your driveway into your own fuel station — up to 90% off your bill. Free home assessment, ST Class A & CIDB G7 certified.",
+      "Home EV charging is pushing your TNB bill up. Rooftop solar under NEM turns your driveway into your own fuel station - up to 90% off your bill. Free home assessment, ST Class A & CIDB G7 certified.",
     atapTitle: "Solar ATAP Explained | MAQO Solar Malaysia",
     atapDescription:
-      "What is Solar ATAP and how is it different from NEM? A plain-language guide to Malaysia's current rooftop solar programme — eligibility, how the bill credit works, and how to apply.",
+      "What is Solar ATAP and how is it different from NEM? A plain-language guide to Malaysia's current rooftop solar programme - eligibility, how the bill credit works, and how to apply.",
     bessTitle: "BESS | Battery Energy Storage Systems | MAQO Solar Malaysia",
     bessDescription:
       "Reduce high Maximum Demand (MD) charges with a MAQO Battery Energy Storage System. Zero-CAPEX financing available, ST Class A & CIDB G7-certified design, install and maintenance.",
@@ -441,7 +441,7 @@ const en = {
   },
 
   ev: {
-    logoAlt: "MAQO — Energizing a cleaner future",
+    logoAlt: "MAQO - Energizing a cleaner future",
     homeLabel: "MAQO home",
     nav: {
       problem: "The problem",
@@ -465,7 +465,7 @@ const en = {
       titleLine2Lead: "Not On",
       titleLine2Strike: "TNB",
       titleLine2Tail: ".",
-      ledeLead: "Your car already runs on electricity — the only question is who sells it to you. Put solar on your roof under NEM and your driveway becomes your own fuel station, cutting up to",
+      ledeLead: "Your car already runs on electricity - the only question is who sells it to you. Put solar on your roof under NEM and your driveway becomes your own fuel station, cutting up to",
       ledeBold: "90% off your TNB bill",
       ledeTail: ".",
       primaryCta: "Get My Free Assessment",
@@ -484,7 +484,7 @@ const en = {
     problem: {
       eyebrow: "The EV tax on your bill",
       title: "Home charging is the biggest jump an EV owner ever sees on a TNB bill",
-      body: "A typical EV adds 150–300 kWh of home charging a month on top of normal household use — usually pushing families into TNB's highest tiered rate. Solar offsets exactly that extra load.",
+      body: "A typical EV adds 150–300 kWh of home charging a month on top of normal household use - usually pushing families into TNB's highest tiered rate. Solar offsets exactly that extra load.",
       link: "Estimate your own numbers",
       beforeTag: "Before solar",
       beforeNote: "Household use plus nightly EV charging, billed at TNB's tiered peak rate.",
@@ -502,7 +502,7 @@ const en = {
         day: {
           label: "Mostly during the day",
           phrase: "mostly during the day",
-          note: "Panels alone usually cover this — your charging lines up with solar generation.",
+          note: "Panels alone usually cover this - your charging lines up with solar generation.",
         },
         night: {
           label: "Mostly at night",
@@ -531,7 +531,7 @@ const en = {
       steps: [
         { title: "Free assessment, EV included", body: "We review your TNB bill, roof, and your charging habits to size a system that covers your car, not just your household." },
         { title: "Pick your package", body: "Outright purchase or instalments, with or without battery storage. We handle the TNB NEM/ATAP application on your behalf." },
-        { title: "Installation in 2 weeks", body: "Our CIDB G7-certified in-house team installs panels, inverter, and — if selected — battery, with minimal disruption to your driveway or charger." },
+        { title: "Installation in 2 weeks", body: "Our CIDB G7-certified in-house team installs panels, inverter, and - if selected - battery, with minimal disruption to your driveway or charger." },
         { title: "TNB inspection & smart meter", body: "TNB inspects the system and upgrades your meter so exported solar and offset EV charging are correctly recorded." },
         { title: "Charge, monitor, save", body: "Track generation and EV charging load side by side in the app, backed by ongoing MAQO after-sales support." },
       ],
@@ -544,16 +544,16 @@ const en = {
     covered: {
       eyebrow: "What's covered",
       title: "Everything an EV household needs",
-      body: "One scope, one in-house team, one point of contact — from the first roof measurement to the day your meter is swapped.",
+      body: "One scope, one in-house team, one point of contact - from the first roof measurement to the day your meter is swapped.",
       pillars: [
-        { title: "Solar panels", body: "Tier-1 panels from AIKO, Huawei and FoxESS — sized for your EV load, not just the house." },
+        { title: "Solar panels", body: "Tier-1 panels from AIKO, Huawei and FoxESS - sized for your EV load, not just the house." },
         { title: "Hybrid inverter", body: "Handles simultaneous household use and EV charging draw without tripping your supply." },
         { title: "Optional battery", body: "Store daytime solar so your car charges on your own power after dark." },
         { title: "Real-time monitoring", body: "See generation against charging consumption side by side, on your phone." },
         { title: "Dedicated support", body: "One in-house team from SEDA approval all the way to your NEM meter." },
       ],
       ctaTitle: "Not sure what you need?",
-      ctaBody: "Our ATAP team specs it around your roof, your bill and your charging pattern — at no cost.",
+      ctaBody: "Our ATAP team specs it around your roof, your bill and your charging pattern - at no cost.",
       ctaLink: "Book a free assessment",
     },
     faq: {
@@ -563,11 +563,11 @@ const en = {
       link: "Book a free assessment",
       items: [
         { q: "Can solar actually power my EV charger?", a: "Yes. Your solar system feeds the same home electrical panel your EV charger is connected to. During the day, charging draws from solar generation first; with NEM, any home charging at night is offset against solar you exported earlier." },
-        { q: "Do I need a bigger system because I own an EV?", a: "Usually, yes — we size the system around your household load plus your typical charging pattern, not just your current TNB bill, so the assessment asks when you usually charge." },
+        { q: "Do I need a bigger system because I own an EV?", a: "Usually, yes - we size the system around your household load plus your typical charging pattern, not just your current TNB bill, so the assessment asks when you usually charge." },
         { q: "Will this work with my home EV charger brand?", a: "Our hybrid inverters and wiring are compatible with standard AC home chargers used in Malaysia. We confirm your charger's spec during the site assessment." },
         { q: "Do I need a battery, or is panels-only enough?", a: "Panels-only works well if you charge mostly during the day. If you mainly charge overnight, a battery lets you store daytime solar and use it for charging after dark instead of relying on NEM offset alone." },
         { q: "How long does installation take?", a: "Most residential installations take 1–3 days, carried out by our in-house licensed team with minimal disruption to your driveway or charging routine." },
-        { q: "Is MAQO licensed to install solar in Malaysia?", a: "Yes — ST Class A and CIDB G7 certified, SEDA registered, and ISO 9001:2015 quality managed, with in-house licensed wiremen and chargemen." },
+        { q: "Is MAQO licensed to install solar in Malaysia?", a: "Yes - ST Class A and CIDB G7 certified, SEDA registered, and ISO 9001:2015 quality managed, with in-house licensed wiremen and chargemen." },
       ],
     },
     form: {
@@ -621,7 +621,7 @@ const en = {
     heroTitleAccent: "paid back",
     heroTitleTail: "for rooftop solar",
     heroBody:
-      "Since 1 January 2026, ATAP — the Solar Accelerated Transition Action Programme — has replaced NEM as the programme that lets homes and businesses export extra solar power to the grid for a bill credit. Here's exactly how it works, in plain words.",
+      "Since 1 January 2026, ATAP - the Solar Accelerated Transition Action Programme - has replaced NEM as the programme that lets homes and businesses export extra solar power to the grid for a bill credit. Here's exactly how it works, in plain words.",
     heroCtaPrimary: "See ATAP vs. old NEM",
     heroCtaSecondary: "How the credit works",
     heroSources: "Sources: Tenaga Nasional Berhad (TNB) & Sustainable Energy Development Authority (SEDA Malaysia)",
@@ -643,9 +643,9 @@ const en = {
     floatHomeowners: "Homeowners on MAQO solar",
 
     stats: [
-      { value: "5 kW", label: "Max size for a single-phase home — no technical study needed" },
+      { value: "5 kW", label: "Max size for a single-phase home - no technical study needed" },
       { value: "15 kW", label: "Max size for a three-phase home, with a quick connection check" },
-      { value: "1,000 kW", label: "Max size for a business — up to 100% of your maximum demand" },
+      { value: "1,000 kW", label: "Max size for a business - up to 100% of your maximum demand" },
       { value: "10 years", label: "How long every ATAP export-credit contract runs" },
     ],
 
@@ -654,18 +654,18 @@ const en = {
     startBody1:
       "ATAP stands for Solar Accelerated Transition Action Programme. Strip away the acronym and it's simple: you put solar panels on your roof, you use that power in your own home or business first, and whatever you don't use gets sent to the TNB grid. In return, TNB gives you a credit on your bill for the power you exported.",
     startBody2:
-      "It's Malaysia's current rooftop solar programme, run jointly by SEDA Malaysia and TNB — replacing the older NEM (Net Energy Metering) scheme, which stopped taking new applications on 30 June 2025.",
+      "It's Malaysia's current rooftop solar programme, run jointly by SEDA Malaysia and TNB - replacing the older NEM (Net Energy Metering) scheme, which stopped taking new applications on 30 June 2025.",
     calloutTitle: "The one thing that's different from NEM",
     calloutBody:
-      "Every ATAP account has a monthly export cap called the MAQ (Maximum Allowable Quantity). Credit above that cap — or credit you simply don't use — is forfeited at the end of each billing month, rather than rolling over like it used to under NEM. Sizing your system to match your own usage matters more under ATAP than it used to.",
+      "Every ATAP account has a monthly export cap called the MAQ (Maximum Allowable Quantity). Credit above that cap - or credit you simply don't use - is forfeited at the end of each billing month, rather than rolling over like it used to under NEM. Sizing your system to match your own usage matters more under ATAP than it used to.",
 
     mechTag: "The mechanism",
     mechTitle: "How your bill credit is earned",
     mechBody: "Four things happen, in this order, every single day your system is switched on.",
     mechSteps: [
       { title: "Generate", body: "Your rooftop panels turn sunlight into electricity throughout daylight hours." },
-      { title: "Use it first", body: "Your home or business draws on that solar power immediately — it's always used before anything from the grid." },
-      { title: "Export the extra", body: "Whatever you don't use in the moment flows automatically into the TNB grid — no action needed from you." },
+      { title: "Use it first", body: "Your home or business draws on that solar power immediately - it's always used before anything from the grid." },
+      { title: "Export the extra", body: "Whatever you don't use in the moment flows automatically into the TNB grid - no action needed from you." },
       { title: "Earn ATAP credit", body: "You're credited for the power you exported, up to your monthly MAQ limit, and it comes off your next TNB bill." },
     ],
     diagramAlt: "Diagram: sunlight hits solar panels, power is used at home first, and extra power exports to the TNB grid for an ATAP credit",
@@ -688,21 +688,21 @@ const en = {
     compareColAtapPill: "Current",
     compareRows: [
       { label: "Applications", nem: "Stopped taking new applicants 30 June 2025", atap: "Open now, since 1 January 2026" },
-      { label: "Unused export credit", nem: "Rolled over to future bills", atap: "Capped monthly by your MAQ — unused credit is forfeited" },
+      { label: "Unused export credit", nem: "Rolled over to future bills", atap: "Capped monthly by your MAQ - unused credit is forfeited" },
       { label: "Contract length", nem: "No fixed end date", atap: "Fixed 10-year term" },
-      { label: "After the contract ends", nem: "N/A", atap: "Self-consumption only — no further export credit" },
+      { label: "After the contract ends", nem: "N/A", atap: "Self-consumption only - no further export credit" },
     ],
 
     eligTag: "Eligibility",
     eligTitle: "Who can apply, and how big can your system be?",
-    eligBody: "Your category is decided by your TNB account type — the limits below come straight from SEDA and TNB.",
+    eligBody: "Your category is decided by your TNB account type - the limits below come straight from SEDA and TNB.",
     eligBannerAlt: "Aerial view of MAQO rooftop solar installations across Malaysian terrace houses",
     eligBannerCaption: "Real MAQO installations across Peninsular Malaysia",
     eligHomesTag: "Homes",
     eligHomesTitle: "Domestic accounts",
     eligHomesItems: [
-      { kw: "≤ 5 kW", body: "Single-phase supply — no technical study required at all." },
-      { kw: "≤ 15 kW", body: "Three-phase supply — needs a quick Connection Confirmation Check." },
+      { kw: "≤ 5 kW", body: "Single-phase supply - no technical study required at all." },
+      { kw: "≤ 15 kW", body: "Three-phase supply - needs a quick Connection Confirmation Check." },
     ],
     eligHomesFoot: "You must be a registered TNB account holder who hasn't previously joined SelCo or NEM. Multi-tenant accounts aren't eligible.",
     eligBizTag: "Businesses",
@@ -715,19 +715,19 @@ const en = {
 
     startedTag: "Getting started",
     startedTitle: "Applying for ATAP, step by step",
-    startedBody: "You never deal with SEDA or TNB's paperwork directly — your installer does it for you.",
+    startedBody: "You never deal with SEDA or TNB's paperwork directly - your installer does it for you.",
     startedSteps: [
-      { title: "Appoint an RPVSP", body: "Engage a Registered Photovoltaic Service Provider — like Maqo — to assess your roof and design your system." },
+      { title: "Appoint an RPVSP", body: "Engage a Registered Photovoltaic Service Provider - like Maqo - to assess your roof and design your system." },
       { title: "Install & commission", body: "Your RPVSP installs the system and commissions it so it's ready to generate and export power." },
       { title: "Apply through eATAP", body: "Your RPVSP submits your application on the eATAP online portal (atap.seda.gov.my) on your behalf." },
-      { title: "Technical review", body: "TNB confirms your connection — the depth of the check depends on your system size, as shown above." },
+      { title: "Technical review", body: "TNB confirms your connection - the depth of the check depends on your system size, as shown above." },
     ],
 
     finTag: "Paying for it",
     finTitle: "Two ways to fund your system",
     finLeaseKicker: "Zero upfront cost",
     finLeaseTitle: "Solar lease (PPA)",
-    finLeaseBody: "Lease your system from a Registered Solar PV Investor and pay for the power you use, at a lower rate than TNB — no capital outlay, savings from day one.",
+    finLeaseBody: "Lease your system from a Registered Solar PV Investor and pay for the power you use, at a lower rate than TNB - no capital outlay, savings from day one.",
     finBuyKicker: "Own it outright",
     finBuyTitle: "Direct purchase",
     finBuyBody: "Buy your system with cash, a bank loan, or a credit card, and keep 100% of your ATAP credits and long-term savings.",
@@ -736,9 +736,9 @@ const en = {
     faqTitle: "Frequently asked questions",
     faq: [
       { q: "What happened to NEM?", a: "NEM (Net Energy Metering) stopped accepting new applications on 30 June 2025. ATAP is Malaysia's current rooftop solar programme, and the only one open to new applicants today." },
-      { q: "I already have a NEM contract — does this affect me?", a: "No. Existing NEM contracts continue running under their original terms. ATAP only applies to new applications from 1 January 2026 onward." },
-      { q: "What exactly is the MAQ?", a: "MAQ stands for Maximum Allowable Quantity — the maximum amount of exported solar power that can earn you a bill credit in a single billing month. Anything above that, or any credit you don't use, is forfeited at month-end rather than carried forward." },
-      { q: "What happens when my 10-year ATAP contract ends?", a: "Your system can keep running, but only to power your own home or business. Export credits stop — there's no roll-over or renewal of the export arrangement built in." },
+      { q: "I already have a NEM contract - does this affect me?", a: "No. Existing NEM contracts continue running under their original terms. ATAP only applies to new applications from 1 January 2026 onward." },
+      { q: "What exactly is the MAQ?", a: "MAQ stands for Maximum Allowable Quantity - the maximum amount of exported solar power that can earn you a bill credit in a single billing month. Anything above that, or any credit you don't use, is forfeited at month-end rather than carried forward." },
+      { q: "What happens when my 10-year ATAP contract ends?", a: "Your system can keep running, but only to power your own home or business. Export credits stop - there's no roll-over or renewal of the export arrangement built in." },
       { q: "Do I need a technical study before I can apply?", a: "Only if your system is larger than a small single-phase home. A ≤5kW single-phase home needs no study at all; three-phase homes need a quick check; larger and business systems need a deeper assessment, up to a full Power System Study above 425kW." },
     ],
 
@@ -752,7 +752,7 @@ const en = {
     heroTitleLead: "Tired of High Maximum Demand Charges?",
     heroTitleAccent: "BESS Is Your Fix",
     heroBody:
-      "Battery storage that quietly charges up when power is cheap and kicks in right at your peak — so your Maximum Demand charges drop without changing a single thing about how your business runs.",
+      "Battery storage that quietly charges up when power is cheap and kicks in right at your peak - so your Maximum Demand charges drop without changing a single thing about how your business runs.",
     heroCtaPrimary: "Get a BESS Quote",
     heroCtaSecondary: "Talk to Our BESS Team",
     heroTrust: [
@@ -765,7 +765,7 @@ const en = {
     ],
     heroVisual: {
       title: "How a battery cuts your electricity bill",
-      subtitle: "Same building, same machines, same hours — just a smaller charge from TNB.",
+      subtitle: "Same building, same machines, same hours - just a smaller charge from TNB.",
       legend: ["Solar power", "Battery power", "TNB grid power"],
       nodes: {
         solar: { label: "SOLAR PANELS", caption: "Free power while the sun is up" },
@@ -774,7 +774,7 @@ const en = {
         battery: { label: "BATTERY", caption: "Saves power now, uses it later" },
       },
       arrowLabels: [
-        "Runs your building — free",
+        "Runs your building - free",
         "Leftover sunshine fills the battery",
         "Battery covers your busiest moments",
         "TNB tops you up if needed",
@@ -784,7 +784,7 @@ const en = {
       footerPrefix: "TNB charges you on your ",
       footerBold: "single busiest half-hour of the month",
       footerSuffix:
-        ". The battery quietly covers that spike — so that charge, and your bill, come down.",
+        ". The battery quietly covers that spike - so that charge, and your bill, come down.",
       zoomLabel: "Tap to zoom in",
       zoomCloseLabel: "Close",
     },
@@ -792,7 +792,7 @@ const en = {
     problemTag: "The Problem",
     problemTitle: "Maximum Demand charges are climbing fast",
     problemBody:
-      "TNB's 2025 tariff restructuring sharply increased Maximum Demand (MD) charges — billed on your single highest 30-minute usage spike, not your total consumption.",
+      "TNB's 2025 tariff restructuring sharply increased Maximum Demand (MD) charges - billed on your single highest 30-minute usage spike, not your total consumption.",
     problemBeforeLabel: "Before",
     problemBeforeAmt: "RM 100k",
     problemAfterLabel: "After restructuring",
@@ -809,7 +809,7 @@ const en = {
     whatTag: "What Is BESS?",
     whatTitle: "A large-scale battery, working like an industrial power bank",
     whatBody:
-      "A Battery Energy Storage System stores electricity when it's cheap or plentiful, then releases it exactly when your site needs it most — a process called peak shaving. Modern lithium-ion systems run at 80–90% round-trip efficiency.",
+      "A Battery Energy Storage System stores electricity when it's cheap or plentiful, then releases it exactly when your site needs it most - a process called peak shaving. Modern lithium-ion systems run at 80–90% round-trip efficiency.",
     chargeBadge: "Off-Peak · Charging",
     chargeTitle: "Store energy while it's cheap",
     chargeBody: "The battery charges from solar generation or low-tariff grid power, building up reserve for the hours ahead.",
@@ -822,7 +822,7 @@ const en = {
     flowSteps: [
       { title: "Solar / Grid", body: "Energy flows in from your rooftop solar and the grid during off-peak hours." },
       { title: "Battery Storage", body: "Your BESS stores that energy on-site, ready to use whenever you need it." },
-      { title: "Smart Energy Management", body: "Software decides when to charge, hold, or discharge — no manual switching." },
+      { title: "Smart Energy Management", body: "Software decides when to charge, hold, or discharge - no manual switching." },
       { title: "Business Load", body: "Stored power covers your peak, lowering your Maximum Demand." },
     ],
 
@@ -834,7 +834,7 @@ const en = {
       { title: "Energy Management", body: "One system that reads your load profile and makes the charge/discharge call in real time." },
       { title: "Solar Energy Optimisation", body: "Capture excess solar generation instead of exporting or curtailing it, and use every kWh on-site." },
       { title: "Backup / Energy Resilience", body: "Keep critical loads running through short grid interruptions." },
-      { title: "Fully Integrated System", body: "Solar, battery and grid work as one — solar powers your site and charges the BESS, the BESS discharges to cut your peak, and the grid stays purely as backup and export credit." },
+      { title: "Fully Integrated System", body: "Solar, battery and grid work as one - solar powers your site and charges the BESS, the BESS discharges to cut your peak, and the grid stays purely as backup and export credit." },
     ],
 
     solutionTag: "The MAQO BESS Solution",
@@ -860,7 +860,7 @@ const en = {
     modelBuyPoints: ["Full ownership from day one", "Maximum long-term savings", "Still fully MAQO-installed & maintained"],
 
     ctaTitle: "Talk to MAQO About BESS",
-    ctaBody: "Free site assessment — we'll show you exactly how much a battery system could cut from your Maximum Demand charges.",
+    ctaBody: "Free site assessment - we'll show you exactly how much a battery system could cut from your Maximum Demand charges.",
     ctaPrimary: "Get a BESS Assessment",
     ctaSecondary: "Talk to Our BESS Team",
   },

@@ -54,7 +54,7 @@ export default async function ResidentialPage() {
       <div>
         <h1 className="text-2xl font-bold text-base-ink">Residential Page</h1>
         <p className="mt-1 text-sm text-base-slate">
-          Brand logos, achievement stats and the /ev calculator&rsquo;s formula — everything the residential homepage
+          Brand logos, achievement stats and the /ev calculator&rsquo;s formula - everything the residential homepage
           pulls from the CMS. Each section below saves and publishes on its own.
         </p>
       </div>
@@ -76,7 +76,7 @@ export default async function ResidentialPage() {
             <PublishButton
               action={publishBrandLogos}
               canRun={brandsStatus.canPublish}
-              idleHint="Nothing to publish — the draft matches what's already live."
+              idleHint="Nothing to publish - the draft matches what's already live."
               pendingLabel="Publishing…"
             >
               Publish
@@ -84,7 +84,7 @@ export default async function ResidentialPage() {
             <PublishButton
               action={unpublishBrandLogos}
               canRun={brandsStatus.canUnpublish}
-              idleHint="Nothing to revert to — no earlier published version yet."
+              idleHint="Nothing to revert to - no earlier published version yet."
               pendingLabel="Reverting…"
               variant="outline"
             >
@@ -114,7 +114,7 @@ export default async function ResidentialPage() {
             <PublishButton
               action={publishAchievements}
               canRun={achievementsStatus.canPublish}
-              idleHint="Nothing to publish — the draft matches what's already live."
+              idleHint="Nothing to publish - the draft matches what's already live."
               pendingLabel="Publishing…"
             >
               Publish
@@ -122,7 +122,7 @@ export default async function ResidentialPage() {
             <PublishButton
               action={unpublishAchievements}
               canRun={achievementsStatus.canUnpublish}
-              idleHint="Nothing to revert to — no earlier published version yet."
+              idleHint="Nothing to revert to - no earlier published version yet."
               pendingLabel="Reverting…"
               variant="outline"
             >

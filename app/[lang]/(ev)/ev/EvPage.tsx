@@ -735,7 +735,7 @@ export default function EvPage({
               <div className="field">
                 <label htmlFor="salutation">{t.form.salutation}</label>
                 <select id="salutation" name="salutation" required defaultValue="" disabled={submitting}>
-                  <option value="" disabled>—</option>
+                  <option value="" disabled>-</option>
                   {salutations.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.salutations, s)}
@@ -828,7 +828,7 @@ export default function EvPage({
                   <div className="field" key={f.key}>
                     <label htmlFor={f.key}>{f.label}</label>
                     <select id={f.key} name={f.key} required defaultValue="" disabled={submitting}>
-                      <option value="" disabled>—</option>
+                      <option value="" disabled>-</option>
                       {f.values.map((v) => (
                         <option key={v} value={v}>
                           {v}

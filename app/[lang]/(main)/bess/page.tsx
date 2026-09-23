@@ -119,7 +119,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                 <div className="relative rounded-[22px] border-2 border-[var(--color-brand-orange-ink)] bg-brand-orange-tint p-6 text-center shadow-[0_0_60px_-10px_var(--color-brand-orange)] sm:p-8">
                   <Link
                     href={home("#assessment")}
-                    aria-label={`${t.problemDoubledBadge} — ${t.heroCtaPrimary}`}
+                    aria-label={`${t.problemDoubledBadge} - ${t.heroCtaPrimary}`}
                     title={t.heroCtaPrimary}
                     className="bess-loud-badge absolute -right-3 -top-6 inline-flex -rotate-6 items-center gap-1.5 rounded-full bg-[var(--color-brand-orange-ink)] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide text-white shadow-lg sm:-right-5 sm:-top-7"
                   >

@@ -301,7 +301,7 @@ export default function CiEditor({
             <span role="status" aria-live="polite" className="text-xs font-semibold text-base-slate">
               {adding && "Adding…"}
               {!adding && addedProject && (
-                <span className="text-brand-green-ink">✓ Project added below — fill it in, then Publish.</span>
+                <span className="text-brand-green-ink">✓ Project added below - fill it in, then Publish.</span>
               )}
             </span>
             <button
@@ -318,7 +318,7 @@ export default function CiEditor({
         <div className="mt-4 space-y-4">
           {projects.length === 0 && (
             <p className="admin-card p-5 text-sm text-base-slate">
-              No projects yet. Add one — until then the page falls back to the six built into the code.
+              No projects yet. Add one - until then the page falls back to the six built into the code.
             </p>
           )}
 
@@ -405,7 +405,7 @@ export default function CiEditor({
       <section>
         <h2 className="text-lg font-semibold text-base-ink">Client roster</h2>
         <p className="mt-0.5 text-sm text-base-slate">
-          The tiles under &ldquo;Trusted by leading commercial &amp; industrial brands&rdquo;. Add a logo and the tile shows the logo instead of the name — the name is still used for screen readers.
+          The tiles under &ldquo;Trusted by leading commercial &amp; industrial brands&rdquo;. Add a logo and the tile shows the logo instead of the name - the name is still used for screen readers.
         </p>
 
         <div className="admin-card mt-4 p-5">

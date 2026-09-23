@@ -14,7 +14,7 @@ export const NAV: { href: string; label: string; description: string; category: 
   { href: "/admin/commercial-industrial", label: "Commercial & Industrial Page", description: "Projects, clients and stats on the C&I landing page.", category: "Site Content", roles: ["admin", "marketing", "sales_ci"] },
   { href: "/admin/leads-form", label: "Lead Form", description: "Fields and dropdown options on the public assessment form.", category: "Forms & FAQ", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
   { href: "/admin/faq", label: "FAQ", description: "Questions and answers across Residential, EV and C&I.", category: "Forms & FAQ", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
-  { href: "/admin/enquiries", label: "Customer Enquiries", description: "Incoming leads — status and notes.", category: "Leads & Analytics", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
+  { href: "/admin/enquiries", label: "Customer Enquiries", description: "Incoming leads - status and notes.", category: "Leads & Analytics", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
   { href: "/admin/analytics", label: "Performance Analytics", description: "Visitors, enquiries, and conversion charts.", category: "Leads & Analytics", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
   { href: "/admin/users", label: "User Management", description: "Staff accounts and roles.", category: "Administration", roles: ["admin"] },
 ];

@@ -19,8 +19,8 @@ export default function UserRow({ id, email, fullName, role, isSelf }: { id: str
         >
           <option value="admin">Admin</option>
           <option value="marketing">Marketing</option>
-          <option value="sales_resi">Sales — Residential/EV</option>
-          <option value="sales_ci">Sales — C&amp;I</option>
+          <option value="sales_resi">Sales - Residential/EV</option>
+          <option value="sales_ci">Sales - C&amp;I</option>
         </select>
       </td>
       <td className="px-3 py-2.5">

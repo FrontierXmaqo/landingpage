@@ -14,7 +14,7 @@ export async function ensureAchievementsDraftSeeded() {
   const { error } = await supabase.rpc("ensure_draft_seeded", { p_table: "home_achievements" });
   if (error) {
     throw new Error(
-      `Could not prepare the draft from what is published (${error.message}). Nothing was changed — reload and try again.`
+      `Could not prepare the draft from what is published (${error.message}). Nothing was changed - reload and try again.`
     );
   }
 }
@@ -99,16 +99,16 @@ export async function publishAchievements(_prevState: PublishState, _formData: F
   const supabase = await getSupabaseUserClient();
 
   const { canPublish } = await getAchievementsPublishStatus();
-  if (!canPublish) return { status: "empty", message: "Nothing to publish — the draft matches what is already live." };
+  if (!canPublish) return { status: "empty", message: "Nothing to publish - the draft matches what is already live." };
 
   const { error } = await supabase.rpc("home_achievements_publish", { p_user: profile.id });
   if (error) {
-    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed — reload and try again.` };
+    return { status: "error", message: `Publishing failed: ${error.message}. Nothing was changed - reload and try again.` };
   }
 
   revalidatePath("/admin/residential");
   revalidatePath("/", "layout");
-  return { status: "success", message: "Published — the public page now shows this draft." };
+  return { status: "success", message: "Published - the public page now shows this draft." };
 }
 
 export async function unpublishAchievements(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
@@ -124,7 +124,7 @@ export async function unpublishAchievements(_prevState: PublishState, _formData:
     .maybeSingle();
 
   if (!lastArchived?.published_at) {
-    return { status: "empty", message: "Nothing to revert to — no earlier published version was found." };
+    return { status: "empty", message: "Nothing to revert to - no earlier published version was found." };
   }
 
   await supabase.from("home_achievements").update({ status: "archived" }).eq("status", "published");
