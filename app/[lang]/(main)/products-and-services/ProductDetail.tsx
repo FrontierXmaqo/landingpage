@@ -135,7 +135,7 @@ function DetailList({ title, items }: { title: string; items: string[] }) {
 function Gallery({ product }: { product: Product }) {
   const [active, setActive] = useState(0);
   return (
-    <div className="bg-[var(--cat-tint)]/50 p-6 sm:p-8">
+    <div className="bg-white p-6 sm:p-8">
       <div className="relative aspect-square">
         <Image
           key={product.images[active].src}
@@ -143,7 +143,7 @@ function Gallery({ product }: { product: Product }) {
           alt={product.images[active].alt}
           fill
           sizes="(min-width: 768px) 420px, 90vw"
-          className={`${s.enter} object-contain mix-blend-multiply`}
+          className={`${s.enter} object-contain`}
         />
       </div>
       {product.images.length > 1 && (

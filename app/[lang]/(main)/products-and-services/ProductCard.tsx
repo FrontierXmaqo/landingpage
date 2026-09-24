@@ -11,13 +11,13 @@ export default function ProductCard({ product, onOpen }: { product: Product; onO
     <article
       className={`${s.card} ${s[`cat-${product.category}`]} flex h-full flex-col overflow-hidden rounded-[22px] border border-base-line bg-base-panel`}
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-[var(--cat-tint)]/40">
+      <div className="relative aspect-[4/3] overflow-hidden border-b border-base-line bg-white">
         <Image
           src={cover.src}
           alt={cover.alt}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={`${s.shot} object-contain p-6 mix-blend-multiply`}
+          className={`${s.shot} object-contain p-6`}
         />
         <span className="absolute left-4 top-4 rounded-md bg-[var(--cat)] px-2.5 py-1 text-xs font-semibold text-white">
           {cat.label}

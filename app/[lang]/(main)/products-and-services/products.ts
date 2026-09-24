@@ -37,7 +37,7 @@ export const PRODUCTS: Product[] = [
     name: "AIKO Comet 2U 655W",
     tagline: "All-black back-contact panel that keeps producing when part of the roof is shaded.",
     highlights: ["655 W per panel", "24.2% module efficiency", "Holds output under partial shade", "30-year performance warranty"],
-    images: [{ src: "/products/aiko-comet-2u.jpg", alt: "AIKO Comet 2U all-black solar panel, front and back" }],
+    images: [{ src: "/products/aiko-comet-2u-crop.jpg", alt: "AIKO Comet 2U all-black solar panel, front and back" }],
     overview:
       "The Comet 2U uses AIKO's n-type ABC (all back contact) cells, so there are no silver lines across the front. More of each cell catches light, the panel looks clean on the roof, and it runs cooler in strong sun.",
     features: [

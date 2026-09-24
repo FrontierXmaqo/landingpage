@@ -29,9 +29,9 @@ const COPY: Record<Locale, { eyebrow: string; title: string; body: string; cta: 
 };
 
 const SHOTS = [
-  { src: "/products/aiko-comet-2u.jpg", tint: "bg-brand-green-tint" },
-  { src: "/products/sigen-hybrid-inverter.webp", tint: "bg-brand-orange-tint" },
-  { src: "/products/sigenstor-neo.png", tint: "bg-status-info-tint" },
+  { src: "/products/aiko-comet-2u-crop.jpg", accent: "border-b-brand-green" },
+  { src: "/products/sigen-hybrid-inverter.webp", accent: "border-b-brand-orange" },
+  { src: "/products/sigenstor-neo.png", accent: "border-b-status-info" },
 ];
 
 /** Short pointer from the homepage to /products-and-services. */
@@ -40,7 +40,7 @@ export default function ProductsTeaser({ locale }: { locale: Locale }) {
   const href = localePath(locale, "/products-and-services");
 
   return (
-    <section id="products" className="scroll-mt-20 bg-base-panel py-16 sm:py-20">
+    <section id="products" className="scroll-mt-20 bg-base-bg py-16 sm:py-20">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-[5fr_7fr]">
         <ScrollReveal>
           <SectionTag>{t.eyebrow}</SectionTag>
@@ -59,13 +59,13 @@ export default function ProductsTeaser({ locale }: { locale: Locale }) {
             {SHOTS.map((shot, i) => (
               <li key={shot.src}>
                 <Link href={href} className="group block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green-ink">
-                  <div className={`relative aspect-[3/4] overflow-hidden rounded-2xl ${shot.tint}`}>
+                  <div className={`relative aspect-[3/4] overflow-hidden rounded-2xl border border-base-line border-b-4 bg-white ${shot.accent}`}>
                     <Image
                       src={shot.src}
                       alt=""
                       fill
                       sizes="(min-width: 1024px) 220px, 30vw"
-                      className="object-contain p-3 mix-blend-multiply transition-transform duration-500 group-hover:scale-105 sm:p-5"
+                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105 sm:p-5"
                     />
                   </div>
                   <p className="mt-2 text-center text-xs font-semibold text-base-ink sm:text-sm">{t.items[i]}</p>
