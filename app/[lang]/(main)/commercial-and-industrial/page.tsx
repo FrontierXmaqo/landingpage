@@ -15,7 +15,7 @@ import { BESS_ICONS, CheckCircle, IconChevron, PILLAR_ICONS } from "./icons";
 import { CLIENTS, PROJECTS, PROJECT_VIDEO_URL, TRUST_STATS } from "./content";
 import { getCiCopy } from "./copy";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
-import { getPublishedCiContent, getPublishedFaq, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
+import { getPublishedCiContent, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
 
 const PATH = "/commercial-and-industrial";
 
@@ -48,15 +48,15 @@ export default async function CommercialAndIndustrialPage({
 
   // Projects, client roster and trust stats are CMS-managed; the constants in
   // content.ts are the fallback if Supabase is unreachable or a table is empty.
-  const [ci, faqItems, leadFormOptions, customFields] = await Promise.all([
-    getPublishedCiContent({
-      projects: PROJECTS,
-      clients: CLIENTS,
-      trustStats: TRUST_STATS,
-    }),
-    // No hardcoded fallback: this page has never had an FAQ section, so an
-    // empty CMS table just means the section doesn't render yet.
-    getPublishedFaq("ci", []),
+  const [ci, leadFormOptions, customFields] = await Promise.all([
+    getPublishedCiContent(
+      {
+        projects: PROJECTS,
+        clients: CLIENTS,
+        trustStats: TRUST_STATS[lang],
+      },
+      lang
+    ),
     getPublishedLeadFormOptions("ci"),
     getPublishedLeadFormFields("ci"),
   ]);
@@ -262,36 +262,7 @@ export default async function CommercialAndIndustrialPage({
           </div>
         </section>
 
-        {/* ---------- 6. FAQ ---------- */}
-        {/* Only renders once at least one question is published, this page
-            has never had an FAQ before, so an empty draft just means it
-            stays off the live page. */}
-        {faqItems.length > 0 && (
-          <section id="faq" className="scroll-mt-20 bg-base-bg py-16 sm:py-20">
-            <div className="mx-auto max-w-3xl px-4 sm:px-6">
-              <SectionTag>{c.faq.eyebrow}</SectionTag>
-              <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
-                {c.faq.title}
-              </h2>
-              <div className="mt-10 divide-y divide-base-line rounded-2xl border border-base-line bg-base-panel">
-                {faqItems.map((item, i) => (
-                  <details key={item.q} name="ci-faq" open={i === 0} className="group">
-                    <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-base-ink sm:px-6 [&::-webkit-details-marker]:hidden">
-                      {item.q}
-                      <span aria-hidden className="shrink-0 text-lg text-base-slate">
-                        <span className="group-open:hidden">+</span>
-                        <span className="hidden group-open:inline">−</span>
-                      </span>
-                    </summary>
-                    <div className="px-5 pb-5 text-sm leading-relaxed text-base-slate sm:px-6">{item.a}</div>
-                  </details>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* ---------- 7. Closing CTA ---------- */}
+        {/* ---------- 6. Closing CTA ---------- */}
         <section className="bg-brand-navy py-16 sm:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <h2 className="text-2xl font-bold leading-tight text-white sm:text-4xl">{c.finalCta.title}</h2>
@@ -315,14 +286,6 @@ export default async function CommercialAndIndustrialPage({
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}
-        explore={[
-          { label: c.explore.clients, href: "#clients" },
-          { label: c.explore.projects, href: "#projects" },
-          { label: c.explore.bess, href: "#bess" },
-          { label: c.explore.why, href: "#why" },
-          ...(faqItems.length > 0 ? [{ label: c.explore.faq, href: "#faq" }] : []),
-          { label: c.explore.assessment, href: "#assessment" },
-        ]}
       />
     </div>
   );

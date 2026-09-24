@@ -3,9 +3,11 @@
  * roster, trust stats, reference projects and credential tiles.
  *
  * These are the fallbacks the page renders when the CMS is empty or
- * unreachable, and they are not translated: the CMS itself stores one English
- * row per project. All translated copy lives in copy.ts.
+ * unreachable. Only the trust stats are translated: the CMS stores one English
+ * row per project. All other translated copy lives in copy.ts.
  */
+
+import type { Locale } from "@/lib/i18n";
 
 /**
  * Client roster supplied by marketing. Rendered as wordmarks, not images -
@@ -50,11 +52,25 @@ export const CLIENTS = [
   { name: "Water Engineering Technology" },
 ];
 
-export const TRUST_STATS = [
-  { value: "10+", label: "Years Experience" },
-  { value: "100+", label: "Commercial Installs" },
-  { value: "100%", label: "SEDA / TNB Approved" },
-];
+/** Fallback trust stats per language. The CMS copy is English only, so the
+ *  Chinese and Malay pages always use these. */
+export const TRUST_STATS: Record<Locale, { value: string; label: string }[]> = {
+  en: [
+    { value: "10+", label: "Years Experience" },
+    { value: "100+", label: "Commercial Installs" },
+    { value: "100%", label: "SEDA / TNB Approved" },
+  ],
+  cn: [
+    { value: "10+", label: "年经验" },
+    { value: "100+", label: "工商业安装项目" },
+    { value: "100%", label: "SEDA / TNB 认可" },
+  ],
+  ms: [
+    { value: "10+", label: "Tahun Pengalaman" },
+    { value: "100+", label: "Pemasangan Komersial" },
+    { value: "100%", label: "Diluluskan SEDA / TNB" },
+  ],
+};
 
 export type Project = {
   /** Free text, see projectIcon() in icons.ts for how an unknown one renders. */

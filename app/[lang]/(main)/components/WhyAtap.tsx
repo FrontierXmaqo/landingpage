@@ -40,7 +40,7 @@ export default function WhyAtap({ locale, t, space }: { locale: Locale; t: Dicti
         </p>
         <Link
           href={localePath(locale, "/atap")}
-          className="mt-6 inline-flex items-center justify-center rounded-full border border-base-line px-6 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+          className="mt-6 inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-6 py-3 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white"
         >
           {t.ctaButton}
         </Link>

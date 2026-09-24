@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): P
 const buttonPrimary =
   "inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95";
 const buttonGhost =
-  "inline-flex items-center justify-center rounded-full border border-base-line px-7 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate";
+  "inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-7 py-3 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white";
 
 export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
   const { lang } = await params;
@@ -356,13 +356,6 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}
-        explore={[
-          { label: "The Problem", href: "#problem" },
-          { label: "What Is BESS", href: "#what-is-bess" },
-          { label: "How It Works", href: "#how-it-works" },
-          { label: "Key Benefits", href: "#benefits" },
-          { label: "Business Model", href: "#model" },
-        ]}
       />
     </div>
   );

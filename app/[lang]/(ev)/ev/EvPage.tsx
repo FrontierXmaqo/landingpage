@@ -7,6 +7,7 @@ import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
+import Footer from "@/app/[lang]/(main)/components/Footer";
 import PhoneField from "@/app/[lang]/(main)/components/PhoneField";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import { resolveLeadAttribution } from "@/lib/attribution";
@@ -382,26 +383,7 @@ export default function EvPage({
     };
   }, [bill, selected, evCalc]);
 
-  const nav = [
-    { href: localePath(locale, "/residential"), label: t.nav.residential },
-    { href: localePath(locale, "/commercial-and-industrial"), label: t.nav.commercial },
-    { href: localePath(locale, "/ev"), label: t.nav.ev, current: true },
-    { href: localePath(locale, "/atap"), label: t.nav.atap },
-    { href: localePath(locale, "/bess"), label: t.nav.bess },
-    { href: localePath(locale, "/about"), label: t.nav.about },
-  ];
 
-  // The topbar abbreviates for space; the footer column has room for the
-  // segment's real name, so it renders the same list with that one swapped.
-  const footerNav = [
-    ...nav.map((item) =>
-      item.href === localePath(locale, "/commercial-and-industrial")
-        ? { ...item, label: t.footer.commercial }
-        : item
-    ),
-    { href: localePath(locale, "/products-and-services"), label: dict.header.nav.products },
-    { href: localePath(locale, "/contact"), label: dict.footer.contactUs },
-  ];
 
   return (
     <>
@@ -891,51 +873,7 @@ export default function EvPage({
         </div>
       </section>
 
-      <footer>
-        <div className="wrap">
-          <div className="foot-grid">
-            <div className="foot-brand">
-              <p className="foot-wordmark">MAQO Engineering Sdn Bhd</p>
-              <p>{t.footer.tagline}</p>
-              <p className="foot-cred-line">Suruhanjaya Tenaga · SEDA · CIDB G7</p>
-              <ul className="foot-certs">
-                {t.hero.trust.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="foot-col">
-              <h5>{t.footer.company}</h5>
-              {footerNav.map((item) => (
-                <a key={item.href} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
-            </div>
-            <div className="foot-col">
-              <h5>{t.footer.explore}</h5>
-              <a href="#the-problem">{t.nav.problem}</a>
-              <a href="#calculator">{t.footer.calculator}</a>
-              <a href="#how-it-works">{t.nav.howItWorks}</a>
-              <a href="#covered">{t.nav.covered}</a>
-              <a href="#faq">{t.nav.faq}</a>
-            </div>
-            <div className="foot-col">
-              <h5>{t.footer.contact}</h5>
-              <a href="mailto:admin@maqo.asia">admin@maqo.asia</a>
-              <a href="tel:60380691706">603-8069 1706</a>
-              <p>
-                27, Jalan TPP 1/1, Taman Perindustrian Puchong, 47100 Puchong,
-                Selangor
-              </p>
-            </div>
-          </div>
-          <div className="foot-bottom">
-            <span>{t.footer.rights}</span>{" "}
-            <a href={localePath(locale, "/privacy")}>{PRIVACY_POLICY[locale].footerLink}</a>
-          </div>
-        </div>
-      </footer>
+      <Footer locale={locale} t={dict.footer} nav={dict.header.nav} />
     </>
   );
 }

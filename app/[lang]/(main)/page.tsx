@@ -60,8 +60,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   // residential pages read, so an edit there lands here too. Both fall back to
   // the committed content if Supabase is empty or unreachable.
   const [ci, faqItems] = await Promise.all([
-    getPublishedCiContent({ projects: PROJECTS, clients: CLIENTS, trustStats: TRUST_STATS }),
-    getPublishedFaq("residential", dict.faq.items),
+    getPublishedCiContent({ projects: PROJECTS, clients: CLIENTS, trustStats: TRUST_STATS[lang] }, lang),
+    getPublishedFaq("residential", dict.faq.items, lang),
   ]);
 
   // The organisation is described once, here, because this is the page Google
@@ -117,12 +117,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}
-        explore={[
-          { label: t.work.eyebrow, href: "#work" },
-          { label: t.process.eyebrow, href: "#process" },
-          { label: t.routes.eyebrow, href: "#routes" },
-          { label: t.faq.eyebrow, href: "#faq" },
-        ]}
       />
 
       <script

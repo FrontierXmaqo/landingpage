@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { CREDENTIALS, OLD_SITE_IMAGES } from "@/lib/content";
-import { ACHIEVEMENT_STATS, FINAL_CTA_SECONDARY, PROOF_PROJECTS, SOLUTIONS, STORY_MILESTONES } from "./content";
+import { ABOUT_CONTENT, PROOF_PROJECTS } from "./content";
 import StoryRoad from "./StoryRoad";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
@@ -43,12 +43,13 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
   const t = dict.about;
+  const c = ABOUT_CONTENT[lang];
   const s = dict.space;
   const home = (hash: string) => localePath(lang, `/${hash}`);
 
   return (
     <div data-theme="about" className="contents">
-      <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
+      <Header locale={lang} t={dict} ctaHref={home("#consultation")} />
       <main className="flex-1 overflow-x-clip bg-base-panel">
         {/* Hero: full-bleed real installation photo, bottom-anchored gradient, copy pinned under the header, stat inline next to the CTA */}
         <section className="relative isolate flex min-h-[min(88vh,720px)] w-full items-start overflow-hidden">
@@ -80,7 +81,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <Link
-                href={home("#assessment")}
+                href={home("#consultation")}
                 className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
               >
                 {t.heroCta}
@@ -97,12 +98,14 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         <section id="our-story" className="scroll-mt-20 bg-base-bg pt-20 sm:pt-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal className="max-w-xl">
-              <SectionTag>Our Story</SectionTag>
+              <SectionTag>{c.storyTag}</SectionTag>
               <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
-                The road <span className="text-brand-orange-ink">since 2013.</span>
+                {c.storyTitleLead}
+                {s}
+                <span className="text-brand-orange-ink">{c.storyTitleAccent}</span>
               </h2>
             </ScrollReveal>
-            <StoryRoad milestones={STORY_MILESTONES} />
+            <StoryRoad milestones={c.milestones} />
           </div>
         </section>
 
@@ -211,16 +214,18 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         <section className="py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal className="max-w-xl">
-              <SectionTag>What We Do</SectionTag>
+              <SectionTag>{c.solutionsTag}</SectionTag>
               <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
-                One rooftop. Or a <span className="text-brand-orange-ink">gigawatt pipeline.</span>
+                {c.solutionsTitleLead}
+                {s}
+                <span className="text-brand-orange-ink">{c.solutionsTitleAccent}</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-base-slate">
-                One platform across the whole chain, serving homeowners, factories and developers alike.
+                {c.solutionsBody}
               </p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {SOLUTIONS.map((sol, i) => (
+              {c.solutions.map((sol, i) => (
                 <ScrollReveal key={sol.title} delayMs={i * 70}>
                   <div className="h-full rounded-2xl border border-base-line bg-base-panel p-6">
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-orange-tint text-sm font-bold text-brand-orange-ink">
@@ -316,14 +321,14 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
 
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <Link
-                      href={home("#assessment")}
+                      href={home("#consultation")}
                       className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
                     >
                       {t.teamCta}
                     </Link>
                     <a
                       href="#standards"
-                      className="inline-flex items-center justify-center rounded-full border border-base-line px-6 py-2.5 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+                      className="inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-6 py-2.5 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white"
                     >
                       {t.teamLicencesCta}
                     </a>
@@ -384,14 +389,14 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         <section id="achievements" className="scroll-mt-20 bg-base-bg py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <ScrollReveal className="max-w-xl">
-              <SectionTag>Track Record</SectionTag>
+              <SectionTag>{c.trackTag}</SectionTag>
               <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
-                Achievements &amp; Certifications
+                {c.trackTitle}
               </h2>
             </ScrollReveal>
 
             <ScrollReveal delayMs={80} className="mt-10 grid grid-cols-2 gap-8 border-y border-base-line py-10 sm:grid-cols-4">
-              {ACHIEVEMENT_STATS.map((stat) => (
+              {c.stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className="text-3xl font-bold text-brand-orange-ink sm:text-4xl">{stat.value}</p>
                   <p className="mt-2 text-xs text-base-slate sm:text-sm">{stat.label}</p>
@@ -439,9 +444,9 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
               <div className="mt-8 flex justify-center">
                 <Link
                   href={`${localePath(lang, "/commercial-and-industrial")}#projects`}
-                  className="inline-flex items-center justify-center rounded-full border border-base-line px-6 py-2.5 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-6 py-2.5 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white"
                 >
-                  View More
+                  {c.viewMore}
                 </Link>
               </div>
             </ScrollReveal>
@@ -501,16 +506,16 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
                 <Link
-                  href={home("#assessment")}
+                  href={home("#consultation")}
                   className="inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95"
                 >
                   {t.cta}
                 </Link>
                 <Link
-                  href={home("#assessment")}
-                  className="inline-flex items-center justify-center rounded-full border border-base-line px-7 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate"
+                  href={home("#consultation")}
+                  className="inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-7 py-3 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white"
                 >
-                  {FINAL_CTA_SECONDARY}
+                  {c.finalCtaSecondary}
                 </Link>
               </div>
             </div>
@@ -521,14 +526,6 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}
-        explore={[
-          { label: "Our Story", href: "#our-story" },
-          { label: "Who We Are", href: "#who-we-are" },
-          { label: "Our Team", href: "#team" },
-          { label: "Core Values", href: "#values" },
-          { label: "Standards", href: "#standards" },
-          { label: "Our Work", href: "#achievements" },
-        ]}
       />
     </div>
   );

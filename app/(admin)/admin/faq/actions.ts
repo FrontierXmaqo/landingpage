@@ -6,13 +6,13 @@ import { requireRole } from "../guard";
 import type { PublishState } from "../publishState";
 import { text, uuid, oneOf } from "@/lib/validate";
 
-export type FaqPage = "residential" | "ev" | "ci";
-const PAGES = ["residential", "ev", "ci"] as const;
+export type FaqPage = "residential" | "ev" | "atap";
+const PAGES = ["residential", "ev", "atap"] as const;
 
 /** Residential and EV are edited by the same sales team as the EV calculator
  *  and main/EV lead form; C&I has its own. Admin and marketing keep every page. */
 function rolesForPage(page: FaqPage) {
-  return page === "ci" ? (["admin", "marketing", "sales_ci"] as const) : (["admin", "marketing", "sales_resi"] as const);
+  return ["admin", "marketing", "sales_resi"] as const;
 }
 
 /** Seeds a draft copy of whatever is published, for one page's FAQ list —

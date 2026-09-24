@@ -1,7 +1,12 @@
-// Product catalogue for /products-and-services. Every figure here comes from
+// Product catalogue for /products-and-services (English; products.cn.ts and
+// products.ms.ts hold the translations). Every figure here comes from
 // the brand brochures (AIKO USP deck, FoxESS portfolio, Sigenergy SP2/TP2 and
 // SigenStor Neo decks). To add a product, append an entry: the card and the
 // detail dialog both render from this shape, nothing else needs to change.
+
+import type { Locale } from "@/lib/i18n";
+import { PRODUCTS_CN } from "./products.cn";
+import { PRODUCTS_MS } from "./products.ms";
 
 export type Category = "panels" | "inverters" | "batteries";
 
@@ -23,11 +28,12 @@ export type Product = {
   faq: { q: string; a: string }[];
 };
 
-export const CATEGORIES: { id: Category; label: string; blurb: string }[] = [
-  { id: "panels", label: "Solar Panels", blurb: "Turn sunlight into power" },
-  { id: "inverters", label: "Inverters", blurb: "Run the whole system" },
-  { id: "batteries", label: "Batteries", blurb: "Keep power for later" },
-];
+/** Filter order. Category names per language live in copy.ts. */
+export const CATEGORY_ORDER: Category[] = ["panels", "inverters", "batteries"];
+
+export function getProducts(locale: Locale): Product[] {
+  return locale === "cn" ? PRODUCTS_CN : locale === "ms" ? PRODUCTS_MS : PRODUCTS;
+}
 
 export const PRODUCTS: Product[] = [
   {

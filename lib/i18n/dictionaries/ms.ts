@@ -524,7 +524,7 @@ const ms: Dictionary = {
       title: "Daripada bil TNB kepada mengecas dengan cahaya matahari",
       steps: [
         { title: "Penilaian percuma, termasuk EV", body: "Kami semak bil TNB, bumbung dan tabiat pengecasan anda untuk menentukan saiz sistem yang menampung kereta anda, bukan isi rumah sahaja." },
-        { title: "Pilih pakej anda", body: "Bayaran penuh atau ansuran, dengan atau tanpa storan bateri. Kami uruskan permohonan TNB NEM/ATAP bagi pihak anda." },
+        { title: "Pilih pakej anda", body: "Bayaran penuh atau ansuran, dengan atau tanpa storan bateri. Kami uruskan permohonan TNB ATAP bagi pihak anda." },
         { title: "Pemasangan dalam 2 minggu", body: "Pasukan dalaman bertauliah CIDB G7 kami memasang panel, inverter, dan bateri jika dipilih, dengan gangguan minimum kepada laluan kereta atau pengecas anda." },
         { title: "Pemeriksaan TNB & meter pintar", body: "TNB memeriksa sistem dan menaik taraf meter anda supaya solar yang dieksport dan pengecasan EV yang diimbangi direkodkan dengan betul." },
         { title: "Cas, pantau, jimat", body: "Jejaki penjanaan dan beban pengecasan EV sebelah-menyebelah dalam aplikasi, disokong khidmat selepas jualan MAQO yang berterusan." },
@@ -570,7 +570,7 @@ const ms: Dictionary = {
       body: "Hanya kira-kira 60 saat. Pasukan ATAP kami akan menghubungi anda dalam 1 hari bekerja dengan sistem yang bersaiz untuk rumah dan EV anda.",
       points: [
         "Tiada obligasi, tiada kos tersembunyi dalam sebut harga",
-        "Kami uruskan permohonan TNB NEM / ATAP anda",
+        "Kami uruskan permohonan TNB ATAP anda",
         "Bersaiz mengikut corak pengecasan EV sebenar anda",
       ],
       successTitle: "Permintaan diterima",

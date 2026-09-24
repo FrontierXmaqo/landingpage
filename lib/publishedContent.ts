@@ -1,6 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, BRAND_LOGOS, type SolarPackage } from "@/lib/content";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
+import type { Locale } from "@/lib/i18n";
+
+// CMS text (FAQ, achievement labels, trust-stat labels) is written in English
+// only. Chinese and Malay pages skip it and show the dictionary translation,
+// which is what each fetcher's `fallback` holds.
+const cmsTextApplies = (locale: Locale) => locale === "en";
 
 export type PublishedCustomField = { key: string; label: string; values: string[] };
 
@@ -171,7 +177,7 @@ export type PublishedCiContent = {
  * Supabase leaves that section showing what it shows today rather than
  * collapsing to nothing. Same safety net as the calculator and lead form.
  */
-export async function getPublishedCiContent(fallback: PublishedCiContent): Promise<PublishedCiContent> {
+export async function getPublishedCiContent(fallback: PublishedCiContent, locale: Locale): Promise<PublishedCiContent> {
   try {
     const supabase = getAnonClient();
     const [projectsRes, clientsRes, statsRes] = await Promise.all([
@@ -199,7 +205,7 @@ export async function getPublishedCiContent(fallback: PublishedCiContent): Promi
     return {
       projects: projects.length ? projects : fallback.projects,
       clients: clients.length ? clients : fallback.clients,
-      trustStats: trustStats.length ? trustStats : fallback.trustStats,
+      trustStats: trustStats.length && cmsTextApplies(locale) ? trustStats : fallback.trustStats,
     };
   } catch {
     return fallback;
@@ -232,7 +238,8 @@ export type PublishedAchievement = { value: string; label: string };
 /** Fetches the homepage's published achievement figures, falling back to
  *  whatever `fallback` the caller passes (the dictionary's hardcoded items)
  *  if Supabase is unreachable or the table is empty. */
-export async function getPublishedAchievements(fallback: PublishedAchievement[]): Promise<PublishedAchievement[]> {
+export async function getPublishedAchievements(fallback: PublishedAchievement[], locale: Locale): Promise<PublishedAchievement[]> {
+  if (!cmsTextApplies(locale)) return fallback;
   try {
     const supabase = getAnonClient();
     const { data } = await supabase.from("home_achievements").select("value, label").eq("status", "published").order("sort_order");
@@ -243,13 +250,14 @@ export async function getPublishedAchievements(fallback: PublishedAchievement[])
   }
 }
 
-export type FaqPage = "residential" | "ev" | "ci";
+export type FaqPage = "residential" | "ev" | "atap";
 export type PublishedFaqItem = { q: string; a: string };
 
 /** Fetches a page's published FAQ list, falling back to whatever `fallback`
- *  the caller passes. Each page (Home/residential, EV, C&I) publishes
+ *  the caller passes. Each page (Home/residential, EV, ATAP) publishes
  *  independently, so this is always scoped to one `page` at a time. */
-export async function getPublishedFaq(page: FaqPage, fallback: PublishedFaqItem[]): Promise<PublishedFaqItem[]> {
+export async function getPublishedFaq(page: FaqPage, fallback: PublishedFaqItem[], locale: Locale): Promise<PublishedFaqItem[]> {
+  if (!cmsTextApplies(locale)) return fallback;
   try {
     const supabase = getAnonClient();
     const { data } = await supabase

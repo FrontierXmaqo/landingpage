@@ -15,12 +15,13 @@ import PublishButton from "../PublishButton";
 import { formatMYDateTime } from "@/lib/datetime";
 
 /** Same per-page brand colour each page uses on the live site (Home's
- *  orange, EV's green, C&I's navy), so this nav visually maps to the pages
+ *  orange, EV's green, ATAP's amber), so this nav visually maps to the pages
  *  it edits instead of reading as three interchangeable tabs. */
 const SECTIONS: { page: FaqPage; title: string; navLabel: string; hint: string; dot: string }[] = [
   { page: "residential", title: "Residential FAQ", navLabel: "Residential", dot: SEGMENT_DOT.residential, hint: "Shown on the homepage, under “Everything homeowners ask about ATAP.”" },
-  { page: "ci", title: "C&I FAQ", navLabel: "C&I", dot: SEGMENT_DOT.ci, hint: "Not shown on /commercial-and-industrial until at least one question here is published." },
   { page: "ev", title: "EV FAQ", navLabel: "EV", dot: SEGMENT_DOT.ev, hint: "Shown on /ev, under “What EV owners ask us.”" },
+  // ATAP has no segment of its own; the dot is the ATAP page's amber.
+  { page: "atap", title: "ATAP FAQ", navLabel: "ATAP", dot: "#B66D0C", hint: "Shown on /atap. Until something is published here, the page shows its built-in questions." },
 ];
 
 async function loadSection(page: FaqPage) {
@@ -41,14 +42,13 @@ async function loadSection(page: FaqPage) {
 /** Sales roles are scoped to their own category's page(s) — same split as the
  *  EV calculator, C&I editor and lead form. Admin/marketing see every page. */
 function visiblePages(role: string): FaqPage[] | null {
-  if (role === "sales_resi") return ["residential", "ev"];
-  if (role === "sales_ci") return ["ci"];
+  if (role === "sales_resi") return ["residential", "ev", "atap"];
   return null;
 }
 
 export default async function FaqAdminPage() {
   const profile = await getCurrentProfile();
-  if (!profile || !["admin", "marketing", "sales_resi", "sales_ci"].includes(profile.role)) redirect("/admin");
+  if (!profile || !["admin", "marketing", "sales_resi"].includes(profile.role)) redirect("/admin");
   const allowed = visiblePages(profile.role);
   const sectionDefs = allowed ? SECTIONS.filter((s) => allowed.includes(s.page)) : SECTIONS;
 

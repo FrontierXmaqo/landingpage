@@ -3,23 +3,27 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import ProductDetail from "./ProductDetail";
-import { CATEGORIES, PRODUCTS, type Category, type Product } from "./products";
+import type { Locale } from "@/lib/i18n";
+import { PAGE_COPY } from "./copy";
+import { CATEGORY_ORDER, getProducts, type Category, type Product } from "./products";
 import s from "./products.module.css";
 
-export default function ProductCatalog({ ctaHref }: { ctaHref: string }) {
+export default function ProductCatalog({ locale, ctaHref }: { locale: Locale; ctaHref: string }) {
+  const ui = PAGE_COPY[locale].ui;
+  const PRODUCTS = getProducts(locale);
   const [filter, setFilter] = useState<Category | "all">("all");
   const [selected, setSelected] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const list = filter === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.category === filter);
 
   const tabs: { id: Category | "all"; label: string; count: number }[] = [
-    { id: "all", label: "All products", count: PRODUCTS.length },
-    ...CATEGORIES.map((c) => ({ id: c.id, label: c.label, count: PRODUCTS.filter((p) => p.category === c.id).length })),
+    { id: "all", label: ui.allProducts, count: PRODUCTS.length },
+    ...CATEGORY_ORDER.map((c) => ({ id: c, label: ui.categories[c], count: PRODUCTS.filter((p) => p.category === c).length })),
   ];
 
   return (
     <>
-      <div role="group" aria-label="Filter by category" className="flex flex-wrap gap-2">
+      <div role="group" aria-label={ui.filterLabel} className="flex flex-wrap gap-2">
         {tabs.map((t) => {
           const on = filter === t.id;
           return (
@@ -45,13 +49,13 @@ export default function ProductCatalog({ ctaHref }: { ctaHref: string }) {
       </div>
 
       <p className="sr-only" aria-live="polite">
-        Showing {list.length} products
+        {ui.showing(list.length)}
       </p>
 
       <ul key={filter} className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((p, i) => (
           <li key={p.id} className={s.enter} style={{ animationDelay: `${i * 60}ms` }}>
-            <ProductCard product={p} onOpen={(prod) => {
+            <ProductCard product={p} ui={ui} onOpen={(prod) => {
                 setSelected(prod);
                 setOpen(true);
               }} />
@@ -59,7 +63,7 @@ export default function ProductCatalog({ ctaHref }: { ctaHref: string }) {
         ))}
       </ul>
 
-      <ProductDetail product={selected} open={open} ctaHref={ctaHref} onClose={() => setOpen(false)} />
+      <ProductDetail product={selected} ui={ui} open={open} ctaHref={ctaHref} onClose={() => setOpen(false)} />
     </>
   );
 }

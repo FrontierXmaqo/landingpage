@@ -57,8 +57,8 @@ export default async function ResidentialPage({ params }: PageProps<"/[lang]/res
     getPublishedLeadFormOptions("main"),
     getPublishedLeadFormFields("main"),
     getPublishedBrandLogos(),
-    getPublishedAchievements(t.achievements.items),
-    getPublishedFaq("residential", t.faq.items),
+    getPublishedAchievements(t.achievements.items, lang),
+    getPublishedFaq("residential", t.faq.items, lang),
   ]);
 
   return (
@@ -88,13 +88,6 @@ export default async function ResidentialPage({ params }: PageProps<"/[lang]/res
         locale={lang}
         t={t.footer}
         nav={t.header.nav}
-        explore={[
-          { label: "Solar Calculator", href: "#packages" },
-          { label: "How It Works", href: "#how-it-works" },
-          { label: "What's Included", href: "#whats-included" },
-          { label: "Testimonials", href: "#testimonials" },
-          { label: "FAQ", href: "#faq" },
-        ]}
       />
     </>
   );

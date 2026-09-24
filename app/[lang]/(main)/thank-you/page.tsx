@@ -24,7 +24,7 @@ export default async function ThankYouPage({ params }: PageProps<"/[lang]/thank-
   return (
     <div className="contents">
       <ThankYouTracking id="main" />
-      <Header locale={lang} t={dict} ctaHref={localePath(lang, "/#assessment")} />
+      <Header locale={lang} t={dict} ctaHref={localePath(lang, "/#consultation")} />
       <main className="flex flex-1 items-center justify-center bg-base-bg px-4 py-20 sm:py-28">
         <div className="mx-auto flex max-w-xl flex-col items-center text-center">
           <span className="section-eyebrow inline-flex items-center gap-2 rounded-full bg-brand-green-tint px-3.5 py-1.5 text-xs font-semibold uppercase text-brand-green-ink">

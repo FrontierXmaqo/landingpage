@@ -28,7 +28,7 @@ export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy
 
   return (
     <div className="contents">
-      <Header locale={lang} t={dict} ctaHref={localePath(lang, "/#assessment")} />
+      <Header locale={lang} t={dict} ctaHref={localePath(lang, "/#consultation")} />
       <main className="flex-1 bg-base-bg px-4 py-16 sm:px-6 sm:py-20">
         <article className="mx-auto max-w-3xl text-base leading-relaxed text-base-slate">
           <h1 className="text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{p.title}</h1>

@@ -228,15 +228,17 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .hero-chip-value b{color:var(--green-700); font-weight:700;}
 .hero-chip-value .arrow{color:var(--orange);}
 
-/* ---------- Credential band (Actmax stat strip) ---------- */
-.band{background:var(--ink); padding:44px 0; color:#fff;}
+/* ---------- Credential band ----------
+   Light green ground with dark green figures: reads as part of the page's
+   green identity instead of a black slab between two light sections. */
+.band{background:var(--green-050); padding:44px 0; color:var(--green-700); border-block:1px solid rgba(11,92,44,0.14);}
 .band-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:28px;}
-.band-item{padding-left:20px; border-left:2px solid rgba(11,92,44,0.55);}
+.band-item{padding-left:20px; border-left:3px solid var(--green);}
 .band-item b{
   display:block; font-family:var(--font-head); font-weight:700;
-  font-size:clamp(1.7rem,2.6vw,2.3rem); letter-spacing:-0.03em; color:var(--orange);
+  font-size:clamp(1.7rem,2.6vw,2.3rem); letter-spacing:-0.03em; color:var(--green-700);
 }
-.band-item span{display:block; margin-top:4px; font-size:0.85rem; color:rgba(255,255,255,0.68); line-height:1.45;}
+.band-item span{display:block; margin-top:4px; font-size:0.85rem; color:var(--green-600); line-height:1.45;}
 
 /* ---------- Sections ---------- */
 section{padding:96px 0;}
@@ -266,6 +268,20 @@ section{padding:96px 0;}
 .bill-bar-fill{height:100%; border-radius:var(--pill); display:block;}
 .bill-card.before .bill-bar-fill{background:var(--danger); width:100%;}
 .bill-card.after .bill-bar-fill{background:var(--green); width:9%;}
+/* The after-solar bar starts as the same full red bill, then drains to the
+   small green one: the saving shown as a change, not two static bars. It runs
+   as the card scrolls into view where scroll timelines exist, on load otherwise. */
+@keyframes bill-drain{
+  0%, 25%{width:100%; background:var(--danger);}
+  100%{width:9%; background:var(--green);}
+}
+.bill-card.after .bill-bar-fill{animation:bill-drain 1.6s cubic-bezier(.6,0,.2,1) 0.4s both;}
+@supports (animation-timeline: view()){
+  .bill-card.after .bill-bar-fill{animation:bill-drain linear both; animation-timeline:view(); animation-range:entry 20% cover 45%;}
+}
+@media (prefers-reduced-motion: reduce){
+  .bill-card.after .bill-bar-fill{animation:none;}
+}
 .bill-note{font-size:0.86rem; color:var(--text-faint); line-height:1.55;}
 .compare-note{grid-column:1/-1; font-size:0.8rem; color:var(--text-faint); text-align:center;}
 
@@ -420,24 +436,6 @@ form input:focus, form select:focus{border-color:var(--green); outline:none;}
 /* Honeypot — off-screen (not display:none) so bots that skip hidden fields still fill it */
 .hp-field{position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;}
 
-/* ---------- Footer ---------- */
-/* Light footer, matching every other page's site-wide footer treatment
-   (white panel, hairline border, neutral ink/slate text) instead of a
-   page-specific dark band. */
-footer{background:var(--paper); color:var(--text-dim); padding:56px 0 40px; border-top:1px solid var(--line);}
-.foot-grid{display:grid; grid-template-columns:1.3fr 0.9fr 0.8fr 1fr; gap:40px; padding-bottom:32px; border-bottom:1px solid var(--line); margin-bottom:24px;}
-.foot-brand .foot-wordmark{font-family:var(--font-head); font-size:0.9rem; font-weight:600; color:var(--text);}
-.foot-brand p{font-size:0.875rem; max-width:34ch; margin-top:8px; color:var(--text-dim);}
-.foot-brand .foot-cred-line{margin-top:16px; font-size:0.7rem; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--text-dim);}
-.foot-certs{list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
-.foot-certs li{font-size:0.75rem; font-weight:600; padding:4px 12px; border:1px solid var(--line); border-radius:var(--pill); color:var(--text-dim); background:var(--sand);}
-.foot-col{display:flex; flex-direction:column; gap:8px; font-size:0.875rem;}
-.foot-col h5{font-size:0.875rem; font-weight:600; color:var(--text); margin-bottom:4px;}
-.foot-col a{color:var(--text-dim); transition:color .16s ease;}
-.foot-col a:hover{color:var(--text);}
-.foot-col p{color:var(--text-faint); font-size:0.8rem; margin-top:4px; max-width:32ch;}
-.foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.75rem; color:var(--text-faint);}
-
 /* ---------- Responsive ----------
    Breakpoints now match the real Tailwind breakpoints the rest of the site
    stacks at — 1024px (lg) and 640px (sm) — instead of the old custom 1080 /
@@ -450,7 +448,6 @@ footer{background:var(--paper); color:var(--text-dim); padding:56px 0 40px; bord
   .hero{padding:64px 0 80px;}
   .hero-grid, .split, .how-grid, .faq-grid, .form-grid{grid-template-columns:1fr; gap:44px;}
   .flow-card, .faq-grid .section-head{position:static;}
-  .foot-grid{grid-template-columns:1fr 1fr; gap:36px;}
 }
 @media (max-width: 640px){
   .compare, .calc-panel, .res-grid, .form-row, .pillars{grid-template-columns:1fr;}
@@ -458,7 +455,6 @@ footer{background:var(--paper); color:var(--text-dim); padding:56px 0 40px; bord
   .calc-results{border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:28px;}
   .hero-ctas .btn{flex:1;}
   .hero-chip{position:static; margin-top:16px; display:inline-block;}
-  .foot-grid{grid-template-columns:1fr;}
   .band-grid{grid-template-columns:1fr;}
   form{padding:24px;}
 }

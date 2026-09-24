@@ -14,7 +14,7 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
     getPublishedEvCalculatorConfig(),
     getPublishedLeadFormOptions("ev"),
     getPublishedLeadFormFields("ev"),
-    getPublishedFaq("ev", dict.ev.faq.items),
+    getPublishedFaq("ev", dict.ev.faq.items, lang),
   ]);
 
   return (

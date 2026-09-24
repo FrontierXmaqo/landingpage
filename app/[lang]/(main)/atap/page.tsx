@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { OLD_SITE_IMAGES } from "@/lib/content";
+import { getPublishedFaq } from "@/lib/publishedContent";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/atap">): Promise<Metadata> {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/atap">): P
 const buttonPrimary =
   "inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95";
 const buttonGhost =
-  "inline-flex items-center justify-center rounded-full border border-base-line px-7 py-3 text-sm font-semibold text-base-ink transition hover:border-base-slate";
+  "inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-7 py-3 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white";
 
 export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
   const { lang } = await params;
@@ -35,10 +36,11 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
   const t = dict.atap;
   const s = dict.space;
   const home = (hash: string) => localePath(lang, `/${hash}`);
+  const faqItems = await getPublishedFaq("atap", t.faq, lang);
 
   return (
     <div data-theme="atap" className="contents">
-      <Header locale={lang} t={dict} ctaHref={home("#assessment")} />
+      <Header locale={lang} t={dict} ctaHref={home("#consultation")} />
       <main className="flex-1 overflow-x-clip bg-base-bg">
         {/* Hero: a mock TNB bill with the ATAP credit applied stands in for a
             stock photo — it makes the value proposition concrete instead of
@@ -367,7 +369,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
               <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.faqTitle}</h2>
             </ScrollReveal>
             <div className="mt-10 border-t border-base-line">
-              {t.faq.map((item, i) => (
+              {faqItems.map((item, i) => (
                 <ScrollReveal key={item.q} delayMs={i * 50}>
                   <details open={i === 0} className="group border-b border-base-line">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-bold text-base-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green-ink [&::-webkit-details-marker]:hidden">
@@ -390,7 +392,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
             <h2 className="text-2xl font-bold text-base-ink sm:text-3xl">{t.ctaTitle}</h2>
             <p className="mx-auto mt-3 max-w-xl text-sm text-base-slate sm:text-base">{t.ctaBody}</p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-              <Link href={home("#assessment")} className={buttonPrimary}>
+              <Link href={home("#consultation")} className={buttonPrimary}>
                 {t.ctaButton}
               </Link>
             </div>
@@ -401,13 +403,6 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}
-        explore={[
-          { label: "What Is ATAP", href: "#what-is-atap" },
-          { label: "How It Works", href: "#how" },
-          { label: "ATAP vs. NEM", href: "#compare" },
-          { label: "Eligibility", href: "#eligibility" },
-          { label: "FAQ", href: "#faq" },
-        ]}
       />
     </div>
   );

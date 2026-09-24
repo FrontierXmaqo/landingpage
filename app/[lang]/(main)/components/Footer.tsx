@@ -2,21 +2,18 @@ import { CONTACT, CREDENTIALS } from "@/lib/content";
 import SocialLinks from "./SocialLinks";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import s from "./Footer.module.css";
 
+/** The one footer every page renders, /ev included, so the links and layout
+ *  never drift between pages. */
 export default function Footer({
   locale,
   t,
   nav,
-  explore,
 }: {
   locale: Locale;
   t: Dictionary["footer"];
-  /** The site's cross-page nav, moved here now that the header no longer
-   * shows it. Same labels/order Header used to render. */
   nav: Dictionary["header"]["nav"];
-  /** Quick links to this same page's own sections — the pattern EV's footer
-   * already used. Plain in-page anchors, not routed through localePath. */
-  explore?: { label: string; href: string }[];
 }) {
   const links = [
     { label: nav.residential, href: localePath(locale, "/residential") },
@@ -30,68 +27,40 @@ export default function Footer({
   ];
 
   return (
-    <footer className="mt-auto border-t border-base-line bg-base-panel py-12">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className={s.footer}>
+      <div className={s.wrap}>
+        <div className={s.grid}>
           <div>
-            <p className="text-sm font-semibold text-base-ink">MAQO Engineering Sdn Bhd</p>
-            <p className="mt-2 text-sm text-base-slate">{t.tagline}</p>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-base-slate">
-              {CREDENTIALS.join(" · ")}
-            </p>
-            <SocialLinks className="mt-5" />
+            <p className={s.heading}>MAQO Engineering Sdn Bhd</p>
+            <p className={s.tagline}>{t.tagline}</p>
+            <p className={s.creds}>{CREDENTIALS.join(" · ")}</p>
+            <div className={s.social}>
+              <SocialLinks />
+            </div>
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-base-ink">{t.solutions}</p>
-            <ul className="mt-3 space-y-2 text-sm text-base-slate">
+            <p className={s.heading}>{t.solutions}</p>
+            <ul className={s.list}>
               {links.map((l) => (
-                <li key={l.label}>
-                  <a href={l.href} className="hover:text-base-ink">
-                    {l.label}
-                  </a>
+                <li key={l.href}>
+                  <a href={l.href}>{l.label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {explore && explore.length > 0 && (
-            <div>
-              <p className="text-sm font-semibold text-base-ink">Explore</p>
-              <ul className="mt-3 space-y-2 text-sm text-base-slate">
-                {explore.map((l) => (
-                  <li key={l.label}>
-                    <a href={l.href} className="hover:text-base-ink">
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           <div>
-            <p className="text-sm font-semibold text-base-ink">{t.contact}</p>
-            <ul className="mt-3 space-y-2 text-sm text-base-slate">
+            <p className={s.heading}>{t.contact}</p>
+            <ul className={s.list}>
               <li>
-                {t.email}{" "}
-                <a href={CONTACT.emailHref} className="hover:text-base-ink">
-                  {CONTACT.email}
-                </a>
+                {t.email} <a href={CONTACT.emailHref}>{CONTACT.email}</a>
               </li>
               <li>
-                {t.office}{" "}
-                <a href={CONTACT.officeHref} className="hover:text-base-ink">
-                  {CONTACT.office}
-                </a>
+                {t.office} <a href={CONTACT.officeHref}>{CONTACT.office}</a>
               </li>
               <li>
-                <a
-                  href={CONTACT.mapsHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-base-ink"
-                >
+                <a href={CONTACT.mapsHref} target="_blank" rel="noopener noreferrer">
                   {CONTACT.address}
                 </a>
               </li>
@@ -99,11 +68,9 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-base-line pt-6 text-xs text-base-slate">
+        <div className={s.bottom}>
           <span>{t.rights}</span>
-          <a href={localePath(locale, "/privacy")} className="hover:text-base-ink">
-            {PRIVACY_POLICY[locale].footerLink}
-          </a>
+          <a href={localePath(locale, "/privacy")}>{PRIVACY_POLICY[locale].footerLink}</a>
         </div>
       </div>
     </footer>

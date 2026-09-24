@@ -14,7 +14,7 @@ export default function Header({
   /** Where the header's CTA button points. Defaults to a same-page anchor,
    * correct for every page that has its own #assessment form (Residential,
    * EV, C&I). Pages without one (About, ATAP) pass an explicit cross-page
-   * link instead — e.g. `localePath(locale, "/#assessment")`. */
+   * link instead — e.g. `localePath(locale, "/#consultation")`. */
   ctaHref?: string;
 }) {
   return (

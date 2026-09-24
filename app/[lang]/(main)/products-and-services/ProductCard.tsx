@@ -1,10 +1,17 @@
 import Image from "next/image";
 import type { Product } from "./products";
-import { CATEGORIES } from "./products";
+import type { CatalogUi } from "./copy";
 import s from "./products.module.css";
 
-export default function ProductCard({ product, onOpen }: { product: Product; onOpen: (p: Product) => void }) {
-  const cat = CATEGORIES.find((c) => c.id === product.category)!;
+export default function ProductCard({
+  product,
+  ui,
+  onOpen,
+}: {
+  product: Product;
+  ui: CatalogUi;
+  onOpen: (p: Product) => void;
+}) {
   const cover = product.images[0];
 
   return (
@@ -20,7 +27,7 @@ export default function ProductCard({ product, onOpen }: { product: Product; onO
           className={`${s.shot} object-contain p-6`}
         />
         <span className="absolute left-4 top-4 rounded-md bg-[var(--cat)] px-2.5 py-1 text-xs font-semibold text-white">
-          {cat.label}
+          {ui.categories[product.category]}
         </span>
       </div>
 
@@ -42,10 +49,10 @@ export default function ProductCard({ product, onOpen }: { product: Product; onO
           <button
             type="button"
             onClick={() => onOpen(product)}
-            aria-label={`View product: ${product.name}`}
+            aria-label={ui.viewProductLabel(product.name)}
             className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-[var(--cat)] px-6 text-sm font-semibold text-[var(--cat)] transition-colors hover:bg-[var(--cat)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--cat)]"
           >
-            View product
+            {ui.viewProduct}
           </button>
         </div>
       </div>

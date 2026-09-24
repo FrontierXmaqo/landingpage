@@ -532,7 +532,7 @@ const en = {
       title: "From TNB bill to charging on sunlight",
       steps: [
         { title: "Free assessment, EV included", body: "We review your TNB bill, roof, and your charging habits to size a system that covers your car, not just your household." },
-        { title: "Pick your package", body: "Outright purchase or instalments, with or without battery storage. We handle the TNB NEM/ATAP application on your behalf." },
+        { title: "Pick your package", body: "Outright purchase or instalments, with or without battery storage. We handle the TNB ATAP application on your behalf." },
         { title: "Installation in 2 weeks", body: "Our CIDB G7-certified in-house team installs panels, inverter, and - if selected - battery, with minimal disruption to your driveway or charger." },
         { title: "TNB inspection & smart meter", body: "TNB inspects the system and upgrades your meter so exported solar and offset EV charging are correctly recorded." },
         { title: "Charge, monitor, save", body: "Track generation and EV charging load side by side in the app, backed by ongoing MAQO after-sales support." },
@@ -578,7 +578,7 @@ const en = {
       body: "Takes about 60 seconds. Our ATAP team calls you within 1 business day with a system sized around your home and your EV.",
       points: [
         "No obligation, no hidden costs on your quote",
-        "We handle your TNB NEM / ATAP application",
+        "We handle your TNB ATAP application",
         "Sized around your actual EV charging pattern",
       ],
       successTitle: "Request received",
