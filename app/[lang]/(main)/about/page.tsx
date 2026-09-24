@@ -7,7 +7,8 @@ import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { CREDENTIALS, OLD_SITE_IMAGES } from "@/lib/content";
-import { ACHIEVEMENT_STATS, FINAL_CTA_SECONDARY, PROOF_PROJECTS, SOLUTIONS } from "./content";
+import { ACHIEVEMENT_STATS, FINAL_CTA_SECONDARY, PROOF_PROJECTS, SOLUTIONS, STORY_MILESTONES } from "./content";
+import StoryRoad from "./StoryRoad";
 import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
@@ -89,6 +90,19 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
                 <span className="text-sm text-white/80">{t.heroStatLabel}</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Our story: the milestones as stops on a winding road, with a truck driven by scroll */}
+        <section id="our-story" className="scroll-mt-20 bg-base-bg pt-20 sm:pt-24">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6">
+            <ScrollReveal className="max-w-xl">
+              <SectionTag>Our Story</SectionTag>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
+                The road <span className="text-brand-orange-ink">since 2013.</span>
+              </h2>
+            </ScrollReveal>
+            <StoryRoad milestones={STORY_MILESTONES} />
           </div>
         </section>
 
@@ -508,6 +522,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         t={dict.footer}
         nav={dict.header.nav}
         explore={[
+          { label: "Our Story", href: "#our-story" },
           { label: "Who We Are", href: "#who-we-are" },
           { label: "Our Team", href: "#team" },
           { label: "Core Values", href: "#values" },

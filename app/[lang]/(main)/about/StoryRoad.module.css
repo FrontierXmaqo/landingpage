@@ -1,0 +1,190 @@
+/* The Our Story road. StoryRoad.tsx builds the path from wherever the text
+   blocks landed, then drives the truck, the progress dash and the .on class of
+   each stop by hand. This file only describes the states.
+
+   The about page repoints brand-green to its burgundy theme, so the road keeps
+   its own greens here rather than borrowing the brand tokens. */
+
+.road {
+  --road: #cfe5d6;
+  --road-done: #137a4e;
+  --road-dot: #13251b;
+  --road-w: 26px;
+  --truck-len: 60px;
+  /* Read by StoryRoad.tsx: road centre sits --gap in from the text edge, and
+     on phones every other bend swings a further --swing toward the margin. */
+  --gap: 30px;
+  --swing: 22px;
+  --dot-r: 6;
+  --rail: 78px;
+  --step: clamp(340px, 52svh, 520px);
+  position: relative;
+  padding: 64px 0 96px;
+}
+
+/* Faint survey-map dots behind the road, faded out at both ends. */
+.road::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(color-mix(in srgb, var(--road-done) 14%, transparent) 1.1px, transparent 1.6px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+}
+
+.svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  mask-image: linear-gradient(to bottom, transparent, #000 56px, #000 calc(100% - 140px), transparent);
+}
+
+.base,
+.done,
+.lane {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.base { stroke: var(--road); stroke-width: var(--road-w); }
+.done { stroke: var(--road-done); stroke-width: var(--road-w); }
+.lane { stroke: #fff; stroke-opacity: 0.75; stroke-width: 1.5; stroke-dasharray: 7 10; }
+.dot { fill: var(--road-dot); stroke: #fff; stroke-width: 3; }
+
+/* Zero-size anchor translated onto the road. The shadow lives here, outside
+   the rotation, so it always falls the same way whichever way the truck faces. */
+.truck {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  filter: drop-shadow(0 6px 5px rgb(12 38 24 / 0.26)) drop-shadow(0 1px 1.5px rgb(12 38 24 / 0.35));
+  will-change: transform;
+}
+/* 0.2049 = half the truck image's 118/288 aspect, so it rotates about its centre. */
+.body {
+  position: absolute;
+  left: calc(var(--truck-len) / -2);
+  top: calc(var(--truck-len) * -0.2049);
+  width: var(--truck-len);
+  will-change: transform;
+}
+.body img { display: block; width: 100%; height: auto; }
+
+.road[data-ready] .svg,
+.road[data-ready] .truck { opacity: 1; }
+
+.list {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  position: relative;
+  min-height: var(--step);
+  padding-left: var(--rail);
+}
+.item:last-child { min-height: 0; }
+
+.content {
+  transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+/* Gated on data-ready so the copy stays fully readable if the script never runs. */
+.road[data-ready] .item:not(.on) .content {
+  opacity: 0.15;
+  filter: blur(2.5px);
+  transform: translateY(20px);
+}
+.year {
+  white-space: nowrap;
+  color: var(--road-done);
+  font-variant-numeric: tabular-nums;
+}
+
+.scene { display: block; height: auto; margin-top: 18px; overflow: visible; }
+.house { width: 116px; }
+.factory { width: 152px; }
+
+@media (min-width: 700px) {
+  .road {
+    --road-w: 38px;
+    --truck-len: 90px;
+    --gap: 54px;
+    --dot-r: 7;
+    --rail: 0px;
+    --col: min(330px, 35%);
+    --step: clamp(400px, 55svh, 600px);
+    padding: 88px 0 128px;
+  }
+  .lane { stroke-width: 2; stroke-dasharray: 10 14; }
+  .content { width: var(--col); }
+  .left .content { text-align: right; }
+  .right .content { margin-left: auto; }
+  .left .badges { justify-content: flex-end; }
+  /* Inner side of the bend: past the road's far edge, clear of the truck. */
+  .scene { position: absolute; top: -36px; margin: 0; }
+  .left .scene { left: calc(var(--col) + var(--gap) + var(--road-w) / 2 + 40px); }
+  .right .scene { right: calc(var(--col) + var(--gap) + var(--road-w) / 2 + 40px); }
+  .house { width: 150px; }
+  .factory { width: 200px; }
+}
+
+/* Panels: --in staggers the install, --out runs the same order backwards so
+   they lift off last-on, first-off when the truck reverses past the stop. */
+.panel {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition:
+    transform 0.3s cubic-bezier(0.55, 0, 0.9, 0.45) var(--out),
+    opacity 0.2s ease-in calc(var(--out) + 0.1s);
+}
+.on .panel {
+  opacity: 1;
+  transform: none;
+  transition:
+    transform 0.55s cubic-bezier(0.3, 1.5, 0.55, 1) var(--in),
+    opacity 0.15s linear var(--in);
+}
+
+.glint { opacity: 0; }
+.on .glint { animation: glint 0.9s ease-in-out var(--glint-at) both; }
+@keyframes glint {
+  0% { opacity: 0; transform: translateX(0); }
+  20%, 75% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(var(--sweep)); }
+}
+
+.puff {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: puff 3.6s ease-out infinite;
+}
+.puff:nth-of-type(2) { animation-delay: -1.2s; }
+.puff:nth-of-type(3) { animation-delay: -2.4s; }
+@keyframes puff {
+  0% { opacity: 0; transform: translate(0, 4px) scale(0.45); }
+  20% { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(12px, -22px) scale(1.5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content { transition: opacity 0.3s linear; }
+  .road[data-ready] .item:not(.on) .content { filter: none; transform: none; }
+  .panel,
+  .on .panel { transform: none; transition: opacity 0.01s linear; }
+  .on .glint { animation: none; }
+  .puff { animation: none; opacity: 0.55; }
+  .puff:nth-of-type(2) { transform: translate(6px, -9px) scale(1.1); opacity: 0.4; }
+  .puff:nth-of-type(3) { transform: translate(13px, -18px) scale(1.4); opacity: 0.25; }
+}
