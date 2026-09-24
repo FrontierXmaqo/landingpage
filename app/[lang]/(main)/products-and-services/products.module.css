@@ -1,0 +1,61 @@
+/* Category colours reuse brand tokens so the three groups read apart at a
+   glance: green = panels (the sun side), orange = inverters, navy = storage. */
+.cat-panels { --cat: var(--color-brand-green-ink); --cat-tint: var(--color-brand-green-tint); }
+.cat-inverters { --cat: var(--color-brand-orange-ink); --cat-tint: var(--color-brand-orange-tint); }
+.cat-batteries { --cat: var(--color-status-info); --cat-tint: var(--color-status-info-tint); }
+
+.card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+}
+.card:hover,
+.card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -24px rgb(20 39 68 / 0.35);
+}
+.card .shot {
+  transition: transform 0.4s ease;
+}
+.card:hover .shot {
+  transform: scale(1.05);
+}
+
+/* Filtering: cards fade and settle rather than popping in. */
+.enter {
+  animation: card-in 0.35s ease-out both;
+}
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Detail dialog slides up; backdrop fades. @starting-style gives the open
+   transition without JS timing. */
+.dialog {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.25s ease, transform 0.3s ease, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+}
+.dialog[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .dialog[open] { opacity: 0; transform: translateY(24px); }
+}
+.dialog::backdrop {
+  background: rgb(11 36 19 / 0);
+  transition: background 0.3s ease, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+}
+.dialog[open]::backdrop {
+  background: rgb(11 36 19 / 0.55);
+}
+@starting-style {
+  .dialog[open]::backdrop { background: rgb(11 36 19 / 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card .shot, .dialog, .dialog::backdrop { transition: none; }
+  .card:hover, .card:focus-within { transform: none; }
+  .card:hover .shot { transform: none; }
+  .enter { animation: none; }
+}
