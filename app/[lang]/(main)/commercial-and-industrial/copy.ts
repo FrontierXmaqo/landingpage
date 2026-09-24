@@ -142,7 +142,7 @@ const en: CiCopy = {
     quoteCta: "Get a quote for your site",
   },
   bess: {
-    eyebrow: "Battery Energy Storage",
+    eyebrow: "Battery Energy Storage System",
     title: "BESS",
     body:
       "On a TNB maximum demand tariff, one half-hour spike sets the charge for the entire month, and solar alone cannot flatten it. A Battery Energy Storage System discharges into those peaks, so the meter never records them.",
