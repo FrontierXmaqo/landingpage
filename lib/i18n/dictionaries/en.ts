@@ -41,6 +41,7 @@ const en = {
       ev: "EV",
       atap: "ATAP",
       bess: "BESS",
+      products: "Products & Services",
     },
   },
 

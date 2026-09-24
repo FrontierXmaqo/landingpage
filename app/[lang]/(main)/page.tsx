@@ -15,6 +15,7 @@ import ManagingDirector from "./components/home/ManagingDirector";
 import HomeNumbers from "./components/home/HomeNumbers";
 import FeaturedProjects from "./components/home/FeaturedProjects";
 import ProcessTimeline from "./components/home/ProcessTimeline";
+import ProductsTeaser from "./components/home/ProductsTeaser";
 import RouteTiles from "./components/home/RouteTiles";
 import HomeFaq from "./components/home/HomeFaq";
 import HomeFinalCta from "./components/home/HomeFinalCta";
@@ -105,6 +106,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
         <HomeNumbers t={t.numbers} />
         <FeaturedProjects locale={lang} t={t} ciProjects={ci.projects.slice(0, 3)} />
+        <ProductsTeaser locale={lang} />
         <ProcessTimeline t={t.process} />
         <RouteTiles locale={lang} t={t.routes} />
         <HomeFaq t={t.faq} items={faqItems} />

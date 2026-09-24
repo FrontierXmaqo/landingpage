@@ -35,11 +35,15 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
 
   // The topbar abbreviates for space; the footer column has room for the
   // segment's real name, so it renders the same list with that one swapped.
-  const footerNav = nav.map((item) =>
-    item.href === localePath(locale, "/commercial-and-industrial")
-      ? { ...item, label: t.footer.commercial }
-      : item
-  );
+  const footerNav = [
+    ...nav.map((item) =>
+      item.href === localePath(locale, "/commercial-and-industrial")
+        ? { ...item, label: t.footer.commercial }
+        : item
+    ),
+    { href: localePath(locale, "/products-and-services"), label: dict.header.nav.products },
+    { href: localePath(locale, "/contact"), label: dict.footer.contactUs },
+  ];
 
   return (
     <>

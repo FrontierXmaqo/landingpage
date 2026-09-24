@@ -26,7 +26,7 @@ export default function Header({
             screen reader hears "MAQO Solar, link" rather than a bare image. */}
         <Link
           href={localePath(locale, "/")}
-          className="relative h-9 w-28 shrink-0 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green-ink sm:h-10 sm:w-36"
+          className="relative h-9 w-24 shrink-0 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green-ink sm:h-10 sm:w-36"
         >
           <Image
             src={OLD_SITE_IMAGES.logo}
@@ -37,7 +37,18 @@ export default function Header({
             priority
           />
         </Link>
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-1 sm:gap-4">
+          <Link
+            href={localePath(locale, "/products-and-services")}
+            aria-label={t.header.nav.products}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-sm font-semibold text-base-ink transition hover:text-brand-green-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green-ink sm:px-3"
+          >
+            {/* Phones get a panel glyph: the full label would push the CTA off-screen. */}
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" className="sm:hidden" aria-hidden>
+              <path d="M4 4h16v16H4V4Zm0 8h16M12 4v16" />
+            </svg>
+            <span className="hidden sm:inline">{t.header.nav.products}</span>
+          </Link>
           <LanguageSwitcher
             locale={locale}
             label={t.languageSwitcher.label}

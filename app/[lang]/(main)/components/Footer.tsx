@@ -24,8 +24,9 @@ export default function Footer({
     { label: nav.bess, href: localePath(locale, "/bess") },
     { label: nav.ev, href: localePath(locale, "/ev") },
     { label: nav.atap, href: localePath(locale, "/atap") },
+    { label: nav.products, href: localePath(locale, "/products-and-services") },
     { label: nav.about, href: localePath(locale, "/about") },
-    { label: t.contactUs, href: localePath(locale, "/#consultation") },
+    { label: t.contactUs, href: localePath(locale, "/contact") },
   ];
 
   return (

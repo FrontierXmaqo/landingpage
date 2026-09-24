@@ -60,8 +60,8 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
-  // No lead form on this page; quotes go to the homepage assessment form.
-  const quoteHref = localePath(lang, "/#assessment");
+  // No lead form on this page; quotes go to the homepage consultation form.
+  const quoteHref = localePath(lang, "/#consultation");
 
   return (
     <>
@@ -96,8 +96,8 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
 
             <ol className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
               {SERVICES.map((svc, i) => (
-                <ScrollReveal key={svc.title} delayMs={i * 60} className="h-full">
-                  <li className="flex h-full gap-4 border-t-2 border-brand-green pt-5">
+                <li key={svc.title}>
+                  <ScrollReveal delayMs={i * 60} className="flex h-full gap-4 border-t-2 border-brand-green pt-5">
                     <span aria-hidden className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-green-tint text-brand-green-ink">
                       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <path d={svc.icon} />
@@ -107,8 +107,8 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
                       <h3 className="text-lg font-bold text-base-ink">{svc.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-base-slate">{svc.body}</p>
                     </div>
-                  </li>
-                </ScrollReveal>
+                  </ScrollReveal>
+                </li>
               ))}
             </ol>
           </div>
