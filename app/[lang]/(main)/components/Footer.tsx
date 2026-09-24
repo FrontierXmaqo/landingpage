@@ -23,6 +23,7 @@ export default function Footer({
     { label: nav.atap, href: localePath(locale, "/atap") },
     { label: nav.products, href: localePath(locale, "/products-and-services") },
     { label: nav.about, href: localePath(locale, "/about") },
+    { label: t.blog, href: localePath(locale, "/blog") },
     { label: t.contactUs, href: localePath(locale, "/contact") },
   ];
 

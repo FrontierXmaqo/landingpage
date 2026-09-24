@@ -243,6 +243,7 @@ const ms: Dictionary = {
     commercial: "Komersial & Industri",
     about: "Tentang kami",
     contactUs: "Hubungi kami",
+    blog: "Blog",
     contact: "Hubungi",
     email: "E-mel:",
     office: "Pejabat:",

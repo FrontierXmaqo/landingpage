@@ -248,6 +248,7 @@ const en = {
     commercial: "Commercial & Industrial",
     about: "About",
     contactUs: "Contact us",
+    blog: "Blog",
     contact: "Contact",
     email: "Email:",
     office: "Office:",

@@ -242,6 +242,7 @@ const cn: Dictionary = {
     commercial: "工商业",
     about: "关于我们",
     contactUs: "联系我们",
+    blog: "博客",
     contact: "联络方式",
     email: "电邮：",
     office: "办公室：",
