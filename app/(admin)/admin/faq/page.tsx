@@ -10,8 +10,7 @@ import {
   type FaqPage,
 } from "./actions";
 import FaqListEditor, { type FaqRow } from "./FaqListEditor";
-import DiscardDraftButton from "../DiscardDraftButton";
-import PublishButton from "../PublishButton";
+import PublishControls from "../PublishControls";
 import { formatMYDateTime } from "@/lib/datetime";
 
 /** Same per-page brand colour each page uses on the live site (Home's
@@ -97,26 +96,12 @@ export default async function FaqAdminPage() {
                 {lastPublished && <span className="text-xs text-base-slate">Last published {formatMYDateTime(lastPublished)}</span>}
               </div>
 
-              <div className="mt-4 flex flex-wrap gap-3">
-                <PublishButton
-                  action={publishFaq.bind(null, section.page)}
-                  canRun={publishStatus.canPublish}
-                  idleHint="Nothing to publish - the draft matches what's already live."
-                  pendingLabel="Publishing…"
-                >
-                  Publish
-                </PublishButton>
-                <PublishButton
-                  action={unpublishFaq.bind(null, section.page)}
-                  canRun={publishStatus.canUnpublish}
-                  idleHint="Nothing to revert to - no earlier published version yet."
-                  pendingLabel="Reverting…"
-                  variant="outline"
-                >
-                  Unpublish (revert to previous)
-                </PublishButton>
-                <DiscardDraftButton action={discardFaqDraft.bind(null, section.page)} />
-              </div>
+              <PublishControls
+                publish={publishFaq.bind(null, section.page)}
+                unpublish={unpublishFaq.bind(null, section.page)}
+                discard={discardFaqDraft.bind(null, section.page)}
+                status={publishStatus}
+              />
 
               <div className="mt-4">
                 <FaqListEditor page={section.page} items={items} />

@@ -1,45 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { addBrand, moveBrand, removeBrand, removeBrandLogo, updateBrand, uploadBrandLogo } from "./actions";
+import { ErrorNote, inputClass, labelClass, useAddedRow } from "../editorUi";
 
 export type BrandRow = { id: string; name: string; logo_url: string | null };
-
-const inputClass =
-  "w-full rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green";
-const labelClass = "block text-xs font-semibold uppercase tracking-wide text-base-slate";
-
-function ErrorNote({ message }: { message: string | null }) {
-  if (!message) return null;
-  return (
-    <p role="alert" className="mt-2 rounded-lg border border-status-critical/40 bg-status-critical/5 px-3 py-2 text-xs text-status-critical">
-      {message}
-    </p>
-  );
-}
-
-/** Reports the id of a row that appeared since the last render, so the editor can
- *  point at it — same pattern as the C&I editor's useAddedRow. */
-function useAddedRow(ids: string[]) {
-  const [added, setAdded] = useState<string | null>(null);
-  const seen = useRef<string[] | null>(null);
-
-  useEffect(() => {
-    const previous = seen.current;
-    seen.current = ids;
-    if (!previous) return;
-    const fresh = ids.find((id) => !previous.includes(id));
-    if (!fresh) return;
-
-    setAdded(fresh);
-    document.getElementById(`brand-row-${fresh}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    const timer = setTimeout(() => setAdded(null), 5000);
-    return () => clearTimeout(timer);
-  }, [ids.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return added;
-}
 
 function BrandLogoField({ brand }: { brand: BrandRow }) {
   const [error, setError] = useState<string | null>(null);
@@ -122,7 +88,7 @@ export default function BrandLogosEditor({ brands }: { brands: BrandRow[] }) {
   const [adding, startAdding] = useTransition();
   const [newBrand, setNewBrand] = useState("");
   const [addError, setAddError] = useState<string | null>(null);
-  const added = useAddedRow(brands.map((b) => b.id));
+  const added = useAddedRow(brands.map((b) => b.id), "brand-row-");
 
   return (
     <section>

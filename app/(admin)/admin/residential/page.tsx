@@ -19,7 +19,7 @@ import AchievementsEditor, { type AchievementRow } from "../achievements/Achieve
 import { ensureEvDraftSeeded, publishEvCalculator, unpublishEvCalculator, discardEvConfigDraft } from "../calculator-ev/actions";
 import ConfigForm from "../calculator-ev/ConfigForm";
 import DiscardDraftButton from "../DiscardDraftButton";
-import PublishButton from "../PublishButton";
+import PublishControls from "../PublishControls";
 import { formatMYDateTime } from "@/lib/datetime";
 
 export default async function ResidentialPage() {
@@ -72,26 +72,12 @@ export default async function ResidentialPage() {
               <span className="text-xs text-base-slate">Last published {formatMYDateTime(brandsPublished.published_at)}</span>
             )}
           </div>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <PublishButton
-              action={publishBrandLogos}
-              canRun={brandsStatus.canPublish}
-              idleHint="Nothing to publish - the draft matches what's already live."
-              pendingLabel="Publishing…"
-            >
-              Publish
-            </PublishButton>
-            <PublishButton
-              action={unpublishBrandLogos}
-              canRun={brandsStatus.canUnpublish}
-              idleHint="Nothing to revert to - no earlier published version yet."
-              pendingLabel="Reverting…"
-              variant="outline"
-            >
-              Unpublish (revert to previous)
-            </PublishButton>
-            <DiscardDraftButton action={discardBrandLogosDraft} />
-          </div>
+          <PublishControls
+            publish={publishBrandLogos}
+            unpublish={unpublishBrandLogos}
+            discard={discardBrandLogosDraft}
+            status={brandsStatus}
+          />
           <div className="mt-6">
             <BrandLogosEditor brands={(brands ?? []) as BrandRow[]} />
           </div>
@@ -110,26 +96,12 @@ export default async function ResidentialPage() {
               <span className="text-xs text-base-slate">Last published {formatMYDateTime(achievementsPublished.published_at)}</span>
             )}
           </div>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <PublishButton
-              action={publishAchievements}
-              canRun={achievementsStatus.canPublish}
-              idleHint="Nothing to publish - the draft matches what's already live."
-              pendingLabel="Publishing…"
-            >
-              Publish
-            </PublishButton>
-            <PublishButton
-              action={unpublishAchievements}
-              canRun={achievementsStatus.canUnpublish}
-              idleHint="Nothing to revert to - no earlier published version yet."
-              pendingLabel="Reverting…"
-              variant="outline"
-            >
-              Unpublish (revert to previous)
-            </PublishButton>
-            <DiscardDraftButton action={discardAchievementsDraft} />
-          </div>
+          <PublishControls
+            publish={publishAchievements}
+            unpublish={unpublishAchievements}
+            discard={discardAchievementsDraft}
+            status={achievementsStatus}
+          />
           <div className="mt-6">
             <AchievementsEditor items={(achievements ?? []) as AchievementRow[]} />
           </div>

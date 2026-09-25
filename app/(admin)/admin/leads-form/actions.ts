@@ -103,7 +103,7 @@ export async function getLeadFormPublishStatus(page: LeadFormPage) {
   };
 }
 
-// ponytail: sequential writes, matches the same pattern (and the same ceiling) as calculator publish/unpublish.
+// Sequential writes, matches the same pattern (and the same ceiling) as calculator publish/unpublish.
 //
 // Each table's archive step only runs if that table actually has a draft ready
 // to take the published slot. Without this guard, publishing twice in a row
@@ -112,7 +112,7 @@ export async function getLeadFormPublishStatus(page: LeadFormPage) {
 // archives the live published rows and promotes zero rows to replace them,
 // silently wiping every option. Learned the hard way: this happened for real
 // and left every field showing "No options yet".
-export async function publishLeadFormOptions(page: LeadFormPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function publishLeadFormOptions(page: LeadFormPage): Promise<PublishState> {
   const p = oneOf(page, PAGES, "page");
   const profile = await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();
@@ -141,7 +141,7 @@ export async function publishLeadFormOptions(page: LeadFormPage, _prevState: Pub
     : { status: "empty", message: "Nothing to publish - the draft has no changes." };
 }
 
-export async function unpublishLeadFormOptions(page: LeadFormPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function unpublishLeadFormOptions(page: LeadFormPage): Promise<PublishState> {
   const p = oneOf(page, PAGES, "page");
   await requireRole([...rolesForPage(p)]);
   const supabase = await getSupabaseUserClient();

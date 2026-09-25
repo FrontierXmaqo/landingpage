@@ -335,13 +335,6 @@ export async function getCiPublishStatus() {
 /**
  * Promotes each table's draft to published.
  *
- * The per-table draft check is the same guard the lead form carries, and for
- * the same reason: archiving the live rows when there is no draft to replace
- * them promotes nothing and silently empties the section on the public page.
- */
-/**
- * Promotes each table's draft to published.
- *
  * One locked transaction in the database (`ci_publish()`): archive the live
  * rows, promote the draft, then drop all but the newest three archived
  * snapshots so the history cannot grow without bound. Doing it here as a
@@ -350,7 +343,7 @@ export async function getCiPublishStatus() {
  * are skipped — archiving live rows with nothing to replace them would
  * silently empty the section on the public page.
  */
-export async function publishCiContent(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function publishCiContent(): Promise<PublishState> {
   const profile = await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
 
@@ -368,7 +361,7 @@ export async function publishCiContent(_prevState: PublishState, _formData: Form
 }
 
 /** Reverts to the snapshot taken by the previous publish. */
-export async function unpublishCiContent(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function unpublishCiContent(): Promise<PublishState> {
   await requireRole([...CI_ROLES]);
   const supabase = await getSupabaseUserClient();
   let reverted = false;

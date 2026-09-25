@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import {
   addClient,
   addProject,
@@ -16,6 +16,7 @@ import {
   uploadClientLogo,
   uploadProjectPhoto,
 } from "./actions";
+import { ErrorNote, inputClass, labelClass, useAddedRow } from "../editorUi";
 
 export type ProjectRow = {
   id: string;
@@ -34,19 +35,6 @@ export type StatRow = { id: string; value: string; label: string };
 /** Categories that have a drawn icon. Anything else is accepted and falls back
  *  to a generic building glyph on the page, so this is a shortcut, not a limit. */
 const KNOWN_TAGS = ["Factory", "Car Showroom", "School", "Shoplot", "Mosque", "Solar Farm"];
-
-const inputClass =
-  "w-full rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green";
-const labelClass = "block text-xs font-semibold uppercase tracking-wide text-base-slate";
-
-function ErrorNote({ message }: { message: string | null }) {
-  if (!message) return null;
-  return (
-    <p role="alert" className="mt-2 rounded-lg border border-status-critical/40 bg-status-critical/5 px-3 py-2 text-xs text-status-critical">
-      {message}
-    </p>
-  );
-}
 
 /** Saves on blur, like the lead-form editor, so there is no per-field Save button. */
 function Field({
@@ -161,32 +149,6 @@ function PhotoField({ project }: { project: ProjectRow }) {
   );
 }
 
-/**
- * Reports the id of a row that appeared since the last render, so the editor can
- * point at it. Adding a project used to give no feedback at all — the new card
- * landed at the bottom of a long list, off screen, and it was not obvious the
- * button had done anything.
- */
-function useAddedRow(ids: string[]) {
-  const [added, setAdded] = useState<string | null>(null);
-  const seen = useRef<string[] | null>(null);
-
-  useEffect(() => {
-    const previous = seen.current;
-    seen.current = ids;
-    if (!previous) return; // first render: nothing was "added"
-    const fresh = ids.find((id) => !previous.includes(id));
-    if (!fresh) return;
-
-    setAdded(fresh);
-    document.getElementById(`ci-row-${fresh}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    const timer = setTimeout(() => setAdded(null), 5000);
-    return () => clearTimeout(timer);
-  }, [ids.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return added;
-}
-
 /** Optional logo for a roster tile. Without one the tile shows the name, as before. */
 function ClientLogoField({ client }: { client: ClientRow }) {
   const [error, setError] = useState<string | null>(null);
@@ -277,8 +239,8 @@ export default function CiEditor({
   const [adding, startAdding] = useTransition();
   const [newClient, setNewClient] = useState("");
   const [clientError, setClientError] = useState<string | null>(null);
-  const addedProject = useAddedRow(projects.map((p) => p.id));
-  const addedClient = useAddedRow(clients.map((c) => c.id));
+  const addedProject = useAddedRow(projects.map((p) => p.id), "ci-row-");
+  const addedClient = useAddedRow(clients.map((c) => c.id), "ci-row-");
 
   return (
     <div className="space-y-10">

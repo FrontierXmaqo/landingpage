@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { updateUserRole, removeUser, type Role } from "./actions";
+import { ROLE_OPTIONS } from "./roles";
 
 export default function UserRow({ id, email, fullName, role, isSelf }: { id: string; email: string; fullName: string; role: Role; isSelf: boolean }) {
   const [current, setCurrent] = useState(role);
@@ -17,10 +18,9 @@ export default function UserRow({ id, email, fullName, role, isSelf }: { id: str
           onChange={async (e) => { const next = e.target.value as Role; setCurrent(next); await updateUserRole(id, next); }}
           className="rounded-lg border border-base-line bg-base-bg px-2 py-1 text-sm text-base-ink disabled:opacity-50"
         >
-          <option value="admin">Admin</option>
-          <option value="marketing">Marketing</option>
-          <option value="sales_resi">Sales - Residential/EV</option>
-          <option value="sales_ci">Sales - C&amp;I</option>
+          {ROLE_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
         </select>
       </td>
       <td className="px-3 py-2.5">

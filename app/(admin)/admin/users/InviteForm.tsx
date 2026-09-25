@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { inviteUser, type FormState } from "./actions";
+import { ROLE_OPTIONS } from "./roles";
 
 const initial: FormState = { status: "idle" };
 const fieldClass = "mt-1 w-full rounded-lg border border-base-line bg-base-bg px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green";
@@ -22,10 +23,9 @@ export default function InviteForm() {
       <label className="text-sm font-medium text-base-ink">
         Role
         <select name="role" defaultValue="marketing" className={fieldClass}>
-          <option value="admin">Admin</option>
-          <option value="marketing">Marketing</option>
-          <option value="sales_resi">Sales - Residential/EV</option>
-          <option value="sales_ci">Sales - C&amp;I</option>
+          {ROLE_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
         </select>
       </label>
       <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-transform duration-100 active:scale-[0.98]">

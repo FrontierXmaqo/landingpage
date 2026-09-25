@@ -1,22 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { addAchievement, moveAchievement, removeAchievement, updateAchievement } from "./actions";
+import { ErrorNote, inputClass, labelClass, useAddedRow } from "../editorUi";
 
 export type AchievementRow = { id: string; value: string; label: string };
-
-const inputClass =
-  "w-full rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green";
-const labelClass = "block text-xs font-semibold uppercase tracking-wide text-base-slate";
-
-function ErrorNote({ message }: { message: string | null }) {
-  if (!message) return null;
-  return (
-    <p role="alert" className="mt-2 rounded-lg border border-status-critical/40 bg-status-critical/5 px-3 py-2 text-xs text-status-critical">
-      {message}
-    </p>
-  );
-}
 
 function Field({
   label,
@@ -61,26 +49,6 @@ function Field({
   );
 }
 
-function useAddedRow(ids: string[]) {
-  const [added, setAdded] = useState<string | null>(null);
-  const seen = useRef<string[] | null>(null);
-
-  useEffect(() => {
-    const previous = seen.current;
-    seen.current = ids;
-    if (!previous) return;
-    const fresh = ids.find((id) => !previous.includes(id));
-    if (!fresh) return;
-
-    setAdded(fresh);
-    document.getElementById(`achievement-${fresh}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    const timer = setTimeout(() => setAdded(null), 5000);
-    return () => clearTimeout(timer);
-  }, [ids.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return added;
-}
-
 function MoveButtons({ id, first, last }: { id: string; first: boolean; last: boolean }) {
   const [pending, startTransition] = useTransition();
   const base = "rounded-md border border-base-line px-2 py-1 text-xs font-semibold text-base-slate disabled:opacity-30 hover:border-base-slate";
@@ -100,7 +68,7 @@ export default function AchievementsEditor({ items }: { items: AchievementRow[] 
   const [pending, startTransition] = useTransition();
   const [adding, startAdding] = useTransition();
   const [addError, setAddError] = useState<string | null>(null);
-  const added = useAddedRow(items.map((i) => i.id));
+  const added = useAddedRow(items.map((i) => i.id), "achievement-");
 
   return (
     <div className="admin-card p-5">

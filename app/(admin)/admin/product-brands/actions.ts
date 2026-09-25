@@ -156,7 +156,7 @@ export async function getBrandLogosPublishStatus() {
   };
 }
 
-export async function publishBrandLogos(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function publishBrandLogos(): Promise<PublishState> {
   const profile = await requireRole([...ROLES]);
   const supabase = await getSupabaseUserClient();
 
@@ -173,7 +173,7 @@ export async function publishBrandLogos(_prevState: PublishState, _formData: For
   return { status: "success", message: "Published - the public page now shows this draft." };
 }
 
-export async function unpublishBrandLogos(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function unpublishBrandLogos(): Promise<PublishState> {
   await requireRole([...ROLES]);
   const supabase = await getSupabaseUserClient();
 

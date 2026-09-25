@@ -9,11 +9,9 @@ import { text, uuid, oneOf } from "@/lib/validate";
 export type FaqPage = "residential" | "ev" | "atap";
 const PAGES = ["residential", "ev", "atap"] as const;
 
-/** Residential and EV are edited by the same sales team as the EV calculator
- *  and main/EV lead form; C&I has its own. Admin and marketing keep every page. */
-function rolesForPage(page: FaqPage) {
-  return ["admin", "marketing", "sales_resi"] as const;
-}
+/** Every FAQ page (Residential, EV, ATAP) is edited by the same sales team as
+ *  the EV calculator and main/EV lead form. Admin and marketing keep every page. */
+const FAQ_ROLES = ["admin", "marketing", "sales_resi"] as const;
 
 /** Seeds a draft copy of whatever is published, for one page's FAQ list —
  *  same reasoning as the C&I editor's ensureCiDraftSeeded: one locked
@@ -21,7 +19,7 @@ function rolesForPage(page: FaqPage) {
  *  the list. */
 export async function ensureFaqDraftSeeded(page: FaqPage) {
   const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
+  await requireRole([...FAQ_ROLES]);
   const supabase = await getSupabaseUserClient();
   const { error } = await supabase.rpc("ensure_faq_draft_seeded", { p_page: p });
   if (error) {
@@ -33,7 +31,7 @@ export async function ensureFaqDraftSeeded(page: FaqPage) {
 
 export async function addFaqItem(page: FaqPage, question: string) {
   const p = oneOf(page, PAGES, "page");
-  const profile = await requireRole([...rolesForPage(p)]);
+  const profile = await requireRole([...FAQ_ROLES]);
   const clean = text(question, { max: 300, required: true, field: "question" });
   await ensureFaqDraftSeeded(p);
   const supabase = await getSupabaseUserClient();
@@ -51,7 +49,7 @@ export async function addFaqItem(page: FaqPage, question: string) {
 
 export async function updateFaqItem(page: FaqPage, id: string, field: string, value: string) {
   const p = oneOf(page, PAGES, "page");
-  const profile = await requireRole([...rolesForPage(p)]);
+  const profile = await requireRole([...FAQ_ROLES]);
   const column = oneOf(field, ["question", "answer"] as const, "field");
   const clean = text(value, { max: column === "answer" ? 1200 : 300, required: column === "question", field: column });
   const supabase = await getSupabaseUserClient();
@@ -66,7 +64,7 @@ export async function updateFaqItem(page: FaqPage, id: string, field: string, va
 
 export async function removeFaqItem(page: FaqPage, id: string) {
   const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
+  await requireRole([...FAQ_ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase.from("faqs").delete().eq("id", uuid(id)).eq("page", p).eq("status", "draft");
   revalidatePath("/admin/faq");
@@ -74,7 +72,7 @@ export async function removeFaqItem(page: FaqPage, id: string) {
 
 export async function moveFaqItem(page: FaqPage, id: string, direction: "up" | "down") {
   const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
+  await requireRole([...FAQ_ROLES]);
   const rowId = uuid(id);
   const supabase = await getSupabaseUserClient();
 
@@ -99,7 +97,7 @@ function signature(rows: Record<string, unknown>[] | null) {
 
 export async function getFaqPublishStatus(page: FaqPage) {
   const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
+  await requireRole([...FAQ_ROLES]);
   const supabase = await getSupabaseUserClient();
 
   const [draft, live, archived] = await Promise.all([
@@ -114,9 +112,9 @@ export async function getFaqPublishStatus(page: FaqPage) {
   };
 }
 
-export async function publishFaq(page: FaqPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function publishFaq(page: FaqPage): Promise<PublishState> {
   const p = oneOf(page, PAGES, "page");
-  const profile = await requireRole([...rolesForPage(p)]);
+  const profile = await requireRole([...FAQ_ROLES]);
   const supabase = await getSupabaseUserClient();
 
   const { canPublish } = await getFaqPublishStatus(p);
@@ -132,9 +130,9 @@ export async function publishFaq(page: FaqPage, _prevState: PublishState, _formD
   return { status: "success", message: "Published - the public page now shows this draft." };
 }
 
-export async function unpublishFaq(page: FaqPage, _prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function unpublishFaq(page: FaqPage): Promise<PublishState> {
   const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
+  await requireRole([...FAQ_ROLES]);
   const supabase = await getSupabaseUserClient();
 
   const { data: lastArchived } = await supabase
@@ -165,7 +163,7 @@ export async function unpublishFaq(page: FaqPage, _prevState: PublishState, _for
 
 export async function discardFaqDraft(page: FaqPage) {
   const p = oneOf(page, PAGES, "page");
-  await requireRole([...rolesForPage(p)]);
+  await requireRole([...FAQ_ROLES]);
   const supabase = await getSupabaseUserClient();
   await supabase.from("faqs").delete().eq("status", "draft").eq("page", p);
   await ensureFaqDraftSeeded(p);

@@ -11,8 +11,7 @@ import {
   type LeadFormPage,
 } from "./actions";
 import LeadFormTable from "./LeadFormTable";
-import DiscardDraftButton from "../DiscardDraftButton";
-import PublishButton from "../PublishButton";
+import PublishControls from "../PublishControls";
 import { formatMYDateTime } from "@/lib/datetime";
 
 /** Same per-page brand colour each page uses on the live site (Home's orange,
@@ -106,26 +105,12 @@ export default async function LeadFormOptionsPage() {
                 {lastPublished && <span className="text-xs text-base-slate">Last published {formatMYDateTime(lastPublished)}</span>}
               </div>
 
-              <div className="mt-4 flex flex-wrap gap-3">
-                <PublishButton
-                  action={publishLeadFormOptions.bind(null, section.page)}
-                  canRun={publishStatus.canPublish}
-                  idleHint="Nothing to publish - the draft matches what's already live."
-                  pendingLabel="Publishing…"
-                >
-                  Publish
-                </PublishButton>
-                <PublishButton
-                  action={unpublishLeadFormOptions.bind(null, section.page)}
-                  canRun={publishStatus.canUnpublish}
-                  idleHint="Nothing to revert to - no earlier published version yet."
-                  pendingLabel="Reverting…"
-                  variant="outline"
-                >
-                  Unpublish (revert to previous)
-                </PublishButton>
-                <DiscardDraftButton action={discardLeadFormDraft.bind(null, section.page)} />
-              </div>
+              <PublishControls
+                publish={publishLeadFormOptions.bind(null, section.page)}
+                unpublish={unpublishLeadFormOptions.bind(null, section.page)}
+                discard={discardLeadFormDraft.bind(null, section.page)}
+                status={publishStatus}
+              />
 
               <div className="mt-6">
                 <LeadFormTable page={section.page} fields={fields} options={options} />

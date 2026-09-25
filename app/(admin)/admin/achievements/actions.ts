@@ -94,7 +94,7 @@ export async function getAchievementsPublishStatus() {
   };
 }
 
-export async function publishAchievements(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function publishAchievements(): Promise<PublishState> {
   const profile = await requireRole([...ROLES]);
   const supabase = await getSupabaseUserClient();
 
@@ -111,7 +111,7 @@ export async function publishAchievements(_prevState: PublishState, _formData: F
   return { status: "success", message: "Published - the public page now shows this draft." };
 }
 
-export async function unpublishAchievements(_prevState: PublishState, _formData: FormData): Promise<PublishState> {
+export async function unpublishAchievements(): Promise<PublishState> {
   await requireRole([...ROLES]);
   const supabase = await getSupabaseUserClient();
 

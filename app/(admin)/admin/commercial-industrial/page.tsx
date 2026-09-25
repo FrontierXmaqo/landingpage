@@ -2,8 +2,7 @@ import { redirect } from "next/navigation";
 import { getSupabaseUserClient, getCurrentProfile } from "@/lib/supabase/server";
 import { ensureCiDraftSeeded, getCiPublishStatus, publishCiContent, unpublishCiContent, discardCiDraft } from "./actions";
 import CiEditor, { type ClientRow, type ProjectRow, type StatRow } from "./CiEditor";
-import DiscardDraftButton from "../DiscardDraftButton";
-import PublishButton from "../PublishButton";
+import PublishControls from "../PublishControls";
 import { formatMYDateTime } from "@/lib/datetime";
 
 export default async function CommercialIndustrialPage() {
@@ -36,26 +35,13 @@ export default async function CommercialIndustrialPage() {
         )}
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-3">
-        <PublishButton
-          action={publishCiContent}
-          canRun={publishStatus.canPublish}
-          idleHint="Nothing to publish - the draft matches what's already live."
-          pendingLabel="Publishing…"
-        >
-          Publish
-        </PublishButton>
-        <PublishButton
-          action={unpublishCiContent}
-          canRun={publishStatus.canUnpublish}
-          idleHint="Nothing to revert to - no earlier published version yet."
-          pendingLabel="Reverting…"
-          variant="outline"
-        >
-          Unpublish (revert to previous)
-        </PublishButton>
-        <DiscardDraftButton action={discardCiDraft} />
-      </div>
+      <PublishControls
+        publish={publishCiContent}
+        unpublish={unpublishCiContent}
+        discard={discardCiDraft}
+        status={publishStatus}
+        className="mt-6"
+      />
 
       <div className="mt-8">
         <CiEditor

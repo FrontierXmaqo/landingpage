@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const MILESTONES = [25, 50, 75, 100] as const;
+import { MILESTONES } from "./milestones";
 
 export type PageStats = {
   page: string;
