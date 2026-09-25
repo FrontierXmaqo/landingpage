@@ -37,6 +37,12 @@ const UNCLASSIFIED: Section = {
   dot: SEGMENT_DOT.shared,
 };
 
+// Only what the tables render (plus segment, to split Residential from EV):
+// each row is serialized to the browser, so nothing else leaves the server.
+const ATAP_SELECT = "id, created_at, segment, full_name, phone, email, state, lead_source, status, notes";
+const CI_SELECT =
+  "id, created_at, full_name, company_name, industry, role_in_organization, phone, email, state, monthly_bill_range, status, notes";
+
 const ATAP_COLUMNS = ["Contact", "State", "Source", "Status", "Received", "Notes"];
 const CI_COLUMNS = ["Contact", "Company / Industry", "State", "Bill range", "Status", "Received", "Notes"];
 
@@ -92,10 +98,10 @@ export default async function EnquiriesPage() {
   const supabase = await getSupabaseUserClient();
   const [{ data: leads }, { data: ciLeads }] = await Promise.all([
     showResi
-      ? supabase.from("atap_leads").select("*").order("created_at", { ascending: false }).limit(200)
+      ? supabase.from("atap_leads").select(ATAP_SELECT).order("created_at", { ascending: false }).limit(200)
       : Promise.resolve({ data: null }),
     showCi
-      ? supabase.from("ci_leads").select("*").order("created_at", { ascending: false }).limit(200)
+      ? supabase.from("ci_leads").select(CI_SELECT).order("created_at", { ascending: false }).limit(200)
       : Promise.resolve({ data: null }),
   ]);
 

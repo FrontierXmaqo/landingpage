@@ -33,19 +33,23 @@ function fromBase64Url(value: string): Uint8Array<ArrayBuffer> {
   return bytes;
 }
 
-export async function signLeadToken(): Promise<string> {
+/**
+ * The funnel is part of what's signed, so a token earned on one funnel's form
+ * can't be replayed on another funnel's thank-you page to fire its conversion.
+ */
+export async function signLeadToken(funnel: LeadFunnel): Promise<string> {
   const exp = String(Date.now() + LEAD_TOKEN_TTL_MS);
   const key = await getKey();
-  const signature = await crypto.subtle.sign("HMAC", key, ENCODER.encode(exp));
+  const signature = await crypto.subtle.sign("HMAC", key, ENCODER.encode(`${funnel}.${exp}`));
   return `${exp}.${toBase64Url(new Uint8Array(signature))}`;
 }
 
-export async function verifyLeadToken(token: string): Promise<boolean> {
+export async function verifyLeadToken(token: string, funnel: LeadFunnel): Promise<boolean> {
   const [exp, signature] = token.split(".");
   if (!exp || !signature || !Number.isFinite(Number(exp)) || Number(exp) < Date.now()) return false;
   try {
     const key = await getKey();
-    return await crypto.subtle.verify("HMAC", key, fromBase64Url(signature), ENCODER.encode(exp));
+    return await crypto.subtle.verify("HMAC", key, fromBase64Url(signature), ENCODER.encode(`${funnel}.${exp}`));
   } catch {
     return false;
   }
@@ -58,6 +62,12 @@ export const THANK_YOU_FUNNELS = {
   ci: { thankYouPath: "/commercial-and-industrial/thank-you", landingPath: "/commercial-and-industrial" },
 } as const;
 
+export type LeadFunnel = keyof typeof THANK_YOU_FUNNELS;
+
+export function isLeadFunnel(value: unknown): value is LeadFunnel {
+  return typeof value === "string" && Object.hasOwn(THANK_YOU_FUNNELS, value);
+}
+
 // ponytail: assert-based self-check, run with `node lib/leadToken.ts`
 if (process.argv[1]?.replace(/\\/g, "/").endsWith("lib/leadToken.ts")) {
   const assert = (cond: boolean, msg: string) => {
@@ -66,13 +76,14 @@ if (process.argv[1]?.replace(/\\/g, "/").endsWith("lib/leadToken.ts")) {
 
   process.env.LEAD_TOKEN_SECRET ??= "test-secret-for-self-check";
 
-  const token = await signLeadToken();
-  assert(await verifyLeadToken(token), "valid token should verify");
-  assert(!(await verifyLeadToken(token + "x")), "tampered token should fail");
-  assert(!(await verifyLeadToken("not-a-token")), "garbage token should fail");
+  const token = await signLeadToken("main");
+  assert(await verifyLeadToken(token, "main"), "valid token should verify");
+  assert(!(await verifyLeadToken(token, "ci")), "token from another funnel should fail");
+  assert(!(await verifyLeadToken(token + "x", "main")), "tampered token should fail");
+  assert(!(await verifyLeadToken("not-a-token", "main")), "garbage token should fail");
 
   const expiredToken = `${Date.now() - 1000}.${token.split(".")[1]}`;
-  assert(!(await verifyLeadToken(expiredToken)), "expired token should fail");
+  assert(!(await verifyLeadToken(expiredToken, "main")), "expired token should fail");
 
   console.log("lib/leadToken.ts self-check passed");
 }

@@ -1,7 +1,7 @@
 "use server";
 
 import { headers, cookies } from "next/headers";
-import { getSupabaseServerClient } from "@/lib/supabase";
+import { getSupabaseServiceClient } from "@/lib/supabase/server";
 import { buildLeadWebhookPayload, buildCiLeadWebhookPayload } from "@/lib/leadWebhookTemplate";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { verifyTurnstileToken } from "@/lib/turnstile";
@@ -16,16 +16,45 @@ import {
 } from "@/lib/leadFormOptions";
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
-import { signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
+import { isLeadFunnel, signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 import { toLeadPhone, toPhoneCountry } from "@/lib/phone";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
 const MAX_FIELD_LENGTH = 200;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Starts with a letter or digit and uses only the characters real addresses
+// do, so an "email" can't carry markup or a spreadsheet formula to the CRM.
+const EMAIL_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._%+'-]*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 
+/** Label sent to the CRM as the lead's source, keyed by funnel. Decided here,
+ *  not taken from the client, which can post any value it likes. */
+const SOURCE_PAGE: Record<LeadFormPage, string> = {
+  main: "MAQO Main Site",
+  ci: "MAQO C&I Landing Page",
+  ev: "MAQO EV Landing Page",
+};
+
+/** Trimmed, length-capped, with control/format characters (CR/LF, tabs,
+ *  zero-width and bidi marks) removed, so nothing can break lines or hide text
+ *  in the CRM, WhatsApp templates or exports. */
 function clean(value: FormDataEntryValue | null, maxLength = MAX_FIELD_LENGTH) {
-  return String(value || "").trim().slice(0, maxLength);
+  return String(value || "").replace(/[\p{Cc}\p{Cf}]/gu, "").trim().slice(0, maxLength);
+}
+
+/** Free text that ends up in CRM exports: a leading = + - @ would be run as a
+ *  spreadsheet formula when someone opens the export, so it's escaped with '. */
+function noFormula(value: string) {
+  return /^[=+\-@]/.test(value) ? `'${value}` : value;
+}
+
+/** Only an http(s) URL is kept; anything else (javascript:, data:, junk) becomes empty. */
+function httpUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:" ? value : "";
+  } catch {
+    return "";
+  }
 }
 
 function oneOf(value: string, allowed: readonly string[]) {
@@ -53,7 +82,13 @@ async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof
   // each gets its own webhook URL rather than sharing one. A "test_webhook"
   // cookie (set from the browser console for QA) redirects C&I submissions
   // to TESTING_WEBHOOK_URL instead, without touching the real CRM webhook.
-  const testMode = formPage === "ci" && (await cookies()).get("test_webhook")?.value === "1";
+  // On production the cookie must carry TEST_WEBHOOK_TOKEN, so a visitor
+  // can't divert their lead away from the CRM just by setting the cookie.
+  const testCookie = (await cookies()).get("test_webhook")?.value;
+  const testToken = process.env.TEST_WEBHOOK_TOKEN;
+  const testMode =
+    formPage === "ci" &&
+    (process.env.VERCEL_ENV === "production" ? Boolean(testToken) && testCookie === testToken : testCookie === "1");
   const envVar = testMode ? "TESTING_WEBHOOK_URL" : formPage === "ci" ? "CI_LEAD_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
   const webhookUrl = process.env[envVar];
   if (!webhookUrl) return;
@@ -83,13 +118,22 @@ async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof
   }
 }
 
-export async function submitLead(sourcePage: string, formPage: LeadFormPage, _prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
+// The first two arguments are bound in the client components, which means the
+// browser posts them and can change them. formPage is checked against the
+// known funnels; the client's source label is ignored in favour of SOURCE_PAGE.
+export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _prevState: LeadFormState, formData: FormData): Promise<LeadFormState> {
   const localeRaw = clean(formData.get("locale"), 5);
   const locale = hasLocale(localeRaw) ? localeRaw : DEFAULT_LOCALE;
   const t = getDictionary(locale).leadMessages;
+  if (!isLeadFunnel(formPage)) {
+    return { status: "error", message: t.invalid };
+  }
+  const sourcePage = SOURCE_PAGE[formPage];
   const clientIp = await getClientIp();
 
-  const rateLimit = checkRateLimit(clientIp);
+  // Namespaced so the tracking endpoints (their own "track:" buckets) can
+  // never use up a visitor's lead submissions.
+  const rateLimit = checkRateLimit(`lead:${clientIp}`);
   if (!rateLimit.allowed) {
     return { status: "error", message: t.rateLimited };
   }
@@ -118,8 +162,8 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const roleOptions = pageOptions.roleInOrganization?.length ? pageOptions.roleInOrganization : ROLE_IN_ORGANIZATION_OPTIONS;
 
   const salutation = oneOf(clean(formData.get("salutation"), 10), salutationOptions);
-  const full_name = clean(formData.get("full_name")).replace(/[\p{Cc}\p{Cf}]/gu, "");
-  const company_name = clean(formData.get("company_name"), 150);
+  const full_name = noFormula(clean(formData.get("full_name")));
+  const company_name = noFormula(clean(formData.get("company_name"), 150));
   // Checked against the picked country's real number lengths, in WhatsApp's
   // digit format ("60123456789"). The browser caps this too, but only here
   // is it enforced: a direct POST, or typing before the page hydrates, skips
@@ -135,17 +179,19 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   const role_in_organization = oneOf(clean(formData.get("role_in_organization"), 60), roleOptions);
   const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
   const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), languageOptions);
-  const campaign_id = clean(formData.get("campaign_id"), 100);
-  const gclid = clean(formData.get("gclid"), 100);
-  const fbclid = clean(formData.get("fbclid"), 200);
-  const landing_referrer = clean(formData.get("landing_referrer"), 500);
-  const utm_source = clean(formData.get("utm_source"), 100);
-  const utm_medium = clean(formData.get("utm_medium"), 100);
-  const utm_campaign = clean(formData.get("utm_campaign"), 100);
-  const utm_term = clean(formData.get("utm_term"), 150);
-  const utm_content = clean(formData.get("utm_content"), 150);
-  const landing_page_source = clean(formData.get("landing_page_source"), 300);
-  const charge_time = clean(formData.get("charge_time"), 80);
+  // Attribution values are kept as sent (so campaign reporting is unchanged),
+  // only with control characters stripped and formula starts escaped.
+  const campaign_id = noFormula(clean(formData.get("campaign_id"), 100));
+  const gclid = noFormula(clean(formData.get("gclid"), 100));
+  const fbclid = noFormula(clean(formData.get("fbclid"), 200));
+  const landing_referrer = httpUrl(clean(formData.get("landing_referrer"), 500));
+  const utm_source = noFormula(clean(formData.get("utm_source"), 100));
+  const utm_medium = noFormula(clean(formData.get("utm_medium"), 100));
+  const utm_campaign = noFormula(clean(formData.get("utm_campaign"), 100));
+  const utm_term = noFormula(clean(formData.get("utm_term"), 150));
+  const utm_content = noFormula(clean(formData.get("utm_content"), 150));
+  const landing_page_source = httpUrl(clean(formData.get("landing_page_source"), 300));
+  const charge_time = noFormula(clean(formData.get("charge_time"), 80));
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
 
   // Every field on the form is mandatory — mirrors the `required` attributes
@@ -186,7 +232,8 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     .filter((f) => extraFields[f.key])
     .map((f) => `${f.label}: ${extraFields[f.key]}`);
 
-  const turnstileOk = await verifyTurnstileToken(turnstileToken, clientIp);
+  const requestHost = ((await headers()).get("host") ?? "").split(":")[0];
+  const turnstileOk = await verifyTurnstileToken(turnstileToken, clientIp, requestHost);
   if (!turnstileOk) {
     return { status: "error", message: t.captcha };
   }
@@ -197,7 +244,10 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   // squeezed into atap_leads's residential/EV columns.
   let supabaseOk = true;
   try {
-    const supabase = getSupabaseServerClient();
+    // Server-only key: the lead tables no longer need to accept inserts from
+    // the public anon key, so every lead has to come through this action's
+    // validation, rate limit and bot check.
+    const supabase = getSupabaseServiceClient();
     const { industry: _industry, ...ciExtraFields } = extraFields;
     const { error } =
       formPage === "ci"
@@ -219,7 +269,8 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
             extra_fields: extraFields,
           });
     if (error) {
-      console.error("Supabase insert error", error);
+      // Code and message only: `details` can echo the row, i.e. the visitor's PII.
+      console.error("Supabase insert error", error.code, error.message);
       supabaseOk = false;
     }
   } catch (err) {
@@ -261,7 +312,7 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   // Proof, for the thank-you page's proxy check, that this browser was just
   // handed a real success — not a bookmark, a shared link, or a bot. Scoped
   // to the exact route this submission is about to redirect to.
-  (await cookies()).set("lead_ok", await signLeadToken(), {
+  (await cookies()).set("lead_ok", await signLeadToken(formPage), {
     httpOnly: true,
     secure: true,
     sameSite: "lax",

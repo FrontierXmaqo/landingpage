@@ -4,7 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase/server";
 import { SUPABASE_URL } from "@/lib/supabase/url";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, hasLocale, type Locale } from "@/lib/i18n/config";
-import { THANK_YOU_FUNNELS, verifyLeadToken } from "@/lib/leadToken";
+import { THANK_YOU_FUNNELS, verifyLeadToken, type LeadFunnel } from "@/lib/leadToken";
 
 // Nonce + 'strict-dynamic' lets the GTM bootstrap script (loaded with this
 // nonce) inject its own configured tags (Ads, Clarity, LinkedIn, Meta Pixel,
@@ -52,13 +52,15 @@ function pickLocale(request: NextRequest): Locale {
 }
 
 /** Matches "/{locale}/thank-you", "/{locale}/ev/thank-you", "/{locale}/commercial-and-industrial/thank-you". */
-function matchThankYouRoute(pathname: string): { landingPath: string } | null {
+function matchThankYouRoute(pathname: string): { funnel: LeadFunnel; landingPath: string } | null {
   const segments = pathname.split("/");
   const locale = segments[1] ?? "";
   if (!hasLocale(locale)) return null;
   const rest = "/" + segments.slice(2).join("/");
-  const funnel = Object.values(THANK_YOU_FUNNELS).find((f) => f.thankYouPath === rest);
-  return funnel ? { landingPath: `/${locale}${funnel.landingPath}` } : null;
+  const match = (Object.entries(THANK_YOU_FUNNELS) as [LeadFunnel, (typeof THANK_YOU_FUNNELS)[LeadFunnel]][]).find(
+    ([, f]) => f.thankYouPath === rest
+  );
+  return match ? { funnel: match[0], landingPath: `/${locale}${match[1].landingPath}` } : null;
 }
 
 /** Next's own prefetching (Link hover, router.prefetch) must not burn the one-time cookie before the visitor actually lands on the page. */
@@ -153,7 +155,7 @@ export async function proxy(request: NextRequest) {
   const thankYouRoute = matchThankYouRoute(pathname);
   if (thankYouRoute) {
     const token = request.cookies.get("lead_ok")?.value;
-    const valid = token ? await verifyLeadToken(token) : false;
+    const valid = token ? await verifyLeadToken(token, thankYouRoute.funnel) : false;
 
     if (!valid) {
       const redirectUrl = request.nextUrl.clone();
