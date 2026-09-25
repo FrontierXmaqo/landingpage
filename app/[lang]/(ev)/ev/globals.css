@@ -113,7 +113,12 @@ h3{font-size:1.12rem; letter-spacing:-0.02em;}
 .link-arrow:hover{gap:12px; border-color:var(--green);}
 
 /* ---------- Header ---------- */
-.topbar{position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:1px solid var(--line);}
+.topbar{position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:1px solid var(--line);
+  /* Tokens the shared SiteMenu reads — the main site's defaults, from (main)/globals.css. */
+  --color-base-line:#e4e7e4; --color-base-panel:#ffffff; --color-base-ink:#1a1a1a; --color-base-slate:#5b6660;
+  --color-brand-green-ink:#0c842b;
+  --color-brand-orange:#ff8c4c; --color-brand-orange-deep:#f97000; --color-brand-orange-tint:#f8e7e0;
+}
 .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px;}
 
 .topbar-logo{position:relative; display:block; width:150px; height:40px; flex-shrink:0;}

@@ -8,6 +8,8 @@ import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import Footer from "@/app/[lang]/(main)/components/Footer";
+import SiteMenu from "@/app/[lang]/(main)/components/SiteMenu";
+import { siteMenuItems } from "@/app/[lang]/(main)/components/Header";
 import PhoneField from "@/app/[lang]/(main)/components/PhoneField";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import { resolveLeadAttribution } from "@/lib/attribution";
@@ -401,6 +403,7 @@ export default function EvPage({
             <a className="btn btn-primary btn-sm" href="#assessment">
               {dict.header.cta}
             </a>
+            <SiteMenu label={dict.header.menu} items={siteMenuItems(locale, dict)} />
           </div>
         </div>
       </header>
