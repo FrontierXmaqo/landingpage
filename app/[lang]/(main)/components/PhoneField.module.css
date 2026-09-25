@@ -1,16 +1,14 @@
 /* Shared by the main site (Tailwind tokens) and the EV page (its own
    globals.css tokens), so each colour falls back from one set to the other. */
 .wrapper {
-  --pf-panel: var(--color-base-panel, var(--paper, #fff));
-  --pf-line: var(--color-base-line, var(--line, #e4e7e4));
   --pf-ink: var(--color-base-ink, var(--text, #1a1a1a));
-  --pf-slate: var(--color-base-slate, var(--text-dim, #5b6660));
-  --pf-green: var(--color-brand-green, var(--green, #31ac47));
+  --pf-line: var(--color-base-line, var(--line, #e4e7e4));
   position: relative;
   width: 100%;
 }
 
-.trigger {
+/* Fixed Malaysia prefix: leads are Malaysia-only, so there is no country picker. */
+.prefix {
   position: absolute;
   inset-block: 0;
   left: 0;
@@ -18,91 +16,17 @@
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0 0.6rem 0 0.85rem;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  border-radius: 0.5rem 0 0 0.5rem;
-}
-.trigger:focus-visible {
-  outline: 2px solid var(--pf-green);
-  outline-offset: -2px;
-}
-.trigger:disabled {
-  cursor: default;
-  opacity: 0.6;
+  padding: 0 0.7rem 0 0.85rem;
+  border-right: 1px solid var(--pf-line);
+  margin-block: 0.5rem;
+  color: var(--pf-ink);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
 }
 
 .flag {
   display: block;
   flex-shrink: 0;
   border-radius: 2px;
-  /* White-field flags (Japan, Singapore) would vanish on a white input without an edge. */
   box-shadow: 0 0 0 1px rgb(0 0 0 / 0.12);
-}
-
-.caret {
-  width: 0;
-  height: 0;
-  border-inline: 4px solid transparent;
-  border-top: 5px solid var(--pf-slate);
-  transition: transform 150ms ease;
-}
-.caretOpen {
-  transform: rotate(180deg);
-}
-
-.list {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  z-index: 30;
-  max-height: 16rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  margin: 0;
-  padding: 0.25rem 0;
-  list-style: none;
-  background: var(--pf-panel);
-  border: 1px solid var(--pf-line);
-  border-radius: 0.5rem;
-  box-shadow: 0 16px 32px -16px rgb(8 26 15 / 0.35);
-}
-.list:focus-visible {
-  outline: 2px solid var(--pf-green);
-  outline-offset: 2px;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 44px;
-  padding: 0 1rem;
-  font-size: 0.95rem;
-  color: var(--pf-ink);
-  cursor: pointer;
-}
-.optionActive {
-  background: color-mix(in srgb, var(--pf-green) 12%, transparent);
-}
-.option[aria-selected="true"] .name {
-  font-weight: 600;
-}
-.optionPinnedEnd {
-  border-bottom: 1px solid var(--pf-line);
-}
-
-.name {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.code {
-  color: var(--pf-slate);
-  font-variant-numeric: tabular-nums;
 }
