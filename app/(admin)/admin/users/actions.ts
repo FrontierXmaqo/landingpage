@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getSupabaseServiceClient, getSupabaseUserClient, type Role } from "@/lib/supabase/server";
 import { requireRole } from "../guard";
 import { oneOf, text, uuid } from "@/lib/validate";
+import { SITE_URL } from "@/lib/site";
 
 const ROLES = ["admin", "marketing", "sales_resi", "sales_ci"] as const;
 
@@ -27,13 +28,22 @@ export async function inviteUser(_prev: FormState, formData: FormData): Promise<
   }
 
   const service = getSupabaseServiceClient();
-  const { data, error } = await service.auth.admin.inviteUserByEmail(email);
+  // The email links to our own /admin/auth/confirm (no third-party scripts)
+  // rather than the public site, which is where Supabase sends it by default.
+  const { data, error } = await service.auth.admin.inviteUserByEmail(email, {
+    redirectTo: new URL("/admin/auth/confirm", SITE_URL).toString(),
+  });
   if (error || !data.user) {
     return { status: "error", message: error?.message || "Could not send the invite." };
   }
 
   const { error: profileError } = await service.from("profiles").insert({ id: data.user.id, full_name: fullName, role });
-  if (profileError) return { status: "error", message: profileError.message };
+  if (profileError) {
+    // Don't leave a login with no profile behind — it reaches nothing, and it
+    // blocks re-inviting the same email.
+    await service.auth.admin.deleteUser(data.user.id);
+    return { status: "error", message: profileError.message };
+  }
 
   revalidatePath("/admin/users");
   return { status: "success", message: `Invite sent to ${email}.` };

@@ -96,8 +96,10 @@ async function guardAdmin(request: NextRequest, requestHeaders: Headers) {
   const { data: { user } } = await supabase.auth.getUser();
   const { pathname } = request.nextUrl;
   const isLoginPage = pathname === "/admin/login";
+  // The invite link has to work before the invited person has a session.
+  const isInviteConfirm = pathname === "/admin/auth/confirm";
 
-  if (!user && !isLoginPage) {
+  if (!user && !isLoginPage && !isInviteConfirm) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/admin/login";
     return NextResponse.redirect(redirectUrl);
