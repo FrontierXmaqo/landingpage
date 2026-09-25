@@ -84,7 +84,8 @@ export async function createFirstAdmin(_prev: FormState, formData: FormData): Pr
   const supabase = getSupabaseServiceClient();
   const { data, error } = await supabase.auth.admin.createUser({ email, password, email_confirm: true });
   if (error || !data.user) {
-    return { status: "error", message: error?.message || "Could not create the account." };
+    console.error("createFirstAdmin: createUser failed", error);
+    return { status: "error", message: "Could not create the account." };
   }
 
   const { error: profileError } = await supabase
@@ -93,7 +94,8 @@ export async function createFirstAdmin(_prev: FormState, formData: FormData): Pr
   if (profileError) {
     // Don't leave an auth user with no profile — it would be a login that reaches nothing.
     await supabase.auth.admin.deleteUser(data.user.id);
-    return { status: "error", message: profileError.message };
+    console.error("createFirstAdmin: profile insert failed", profileError);
+    return { status: "error", message: "Could not create the account." };
   }
 
   console.info(`First admin account created for ${email} from ${ip}`);

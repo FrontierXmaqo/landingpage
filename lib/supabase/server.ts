@@ -50,12 +50,22 @@ export function getSupabaseServiceClient() {
   return createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY as string);
 }
 
-/** True until the first internal user has been created (login page then offers "create admin account"). */
+/**
+ * True until the first internal user has been created (login page then offers "create admin account").
+ *
+ * Fails closed: if the count can't be read (bad key, timeout, schema change),
+ * this reports "not first run" rather than treating the error as an empty
+ * table — otherwise any visitor could claim the admin bootstrap during an outage.
+ */
 export async function isFirstRunSetup() {
-  const { count } = await getSupabaseServiceClient()
+  const { count, error } = await getSupabaseServiceClient()
     .from("profiles")
     .select("*", { count: "exact", head: true });
-  return (count ?? 0) === 0;
+  if (error || count === null) {
+    console.error("isFirstRunSetup: could not count profiles, refusing first-run setup", error);
+    return false;
+  }
+  return count === 0;
 }
 
 export type Role = "admin" | "marketing" | "sales_resi" | "sales_ci";
