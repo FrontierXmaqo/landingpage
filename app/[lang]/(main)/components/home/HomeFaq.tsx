@@ -62,8 +62,10 @@ export default function HomeFaq({ t, items }: { t: HomeCopy["faq"]; items: Publi
       <script
         type="application/ld+json"
         // Built from `items` above, so the markup and the structured data
-        // are the same content by construction.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        // are the same content by construction. `<` is escaped because the
+        // text is CMS-editable: a literal "</script>" in an answer would
+        // otherwise close this tag and inject markup into the public page.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
       />
     </section>
   );

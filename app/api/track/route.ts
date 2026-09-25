@@ -7,7 +7,7 @@ const EVENT_TYPES = ["pageview", "calculator_start", "calculator_complete"] as c
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
-  if (!checkRateLimit(ip).allowed) return NextResponse.json({ ok: false }, { status: 429 });
+  if (!checkRateLimit(`track:${ip}`).allowed) return NextResponse.json({ ok: false }, { status: 429 });
 
   // Bound the request before parsing: an unbounded body is a cheap DoS.
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
