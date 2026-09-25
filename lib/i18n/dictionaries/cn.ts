@@ -30,6 +30,7 @@ const cn: Dictionary = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "免费评估",
+    menu: "菜单",
     nav: {
       about: "关于我们",
       residential: "住宅",

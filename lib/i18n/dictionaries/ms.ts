@@ -29,6 +29,7 @@ const ms: Dictionary = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "Penilaian Percuma",
+    menu: "Menu",
     nav: {
       about: "Tentang Kami",
       residential: "Kediaman",

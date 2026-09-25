@@ -1,0 +1,234 @@
+.root {
+  position: relative;
+}
+
+/* ---- the button: three lines -> sun ---- */
+.btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--color-base-line);
+  background: var(--color-base-panel);
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.35s;
+}
+@media (min-width: 640px) {
+  .btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+.btn:hover {
+  border-color: var(--color-brand-orange);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--color-brand-green-ink);
+  outline-offset: 2px;
+}
+.btn svg {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+}
+
+.l {
+  stroke: var(--color-base-ink);
+  transform-origin: 12px 12px;
+  transition: transform 0.3s ease, opacity 0.2s, stroke 0.2s;
+}
+/* Hover, closed: top and bottom lines spring apart, the middle one warms. */
+.l1,
+.l3 {
+  transition: transform 0.28s cubic-bezier(0.3, 1.8, 0.5, 1), opacity 0.2s;
+}
+.btn[aria-expanded="false"]:hover .l1 {
+  transform: translateY(-3px);
+}
+.btn[aria-expanded="false"]:hover .l3 {
+  transform: translateY(3px);
+}
+.btn[aria-expanded="false"]:hover .l2 {
+  stroke: var(--color-brand-orange-deep);
+}
+
+.rays {
+  stroke: var(--color-brand-orange-deep);
+  transform-origin: 12px 12px;
+  transform: rotate(-120deg) scale(0.3);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.1s, opacity 0.2s 0.1s;
+}
+.disc {
+  fill: var(--color-brand-orange-deep);
+  transform-origin: 12px 12px;
+  transform: scale(0);
+  transition: transform 0.4s cubic-bezier(0.3, 1.7, 0.5, 1) 0.05s;
+}
+
+/* Open: the lines pull into the centre and the sun appears. */
+.btn[aria-expanded="true"] {
+  background: var(--color-brand-orange-tint);
+  border-color: var(--color-brand-orange);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-orange) 22%, transparent),
+    0 0 18px color-mix(in srgb, var(--color-brand-orange-deep) 45%, transparent);
+}
+.btn[aria-expanded="true"] .l {
+  opacity: 0;
+}
+.btn[aria-expanded="true"] .l1 {
+  transform: translateY(4px) scaleX(0);
+}
+.btn[aria-expanded="true"] .l2 {
+  transform: scaleX(0);
+}
+.btn[aria-expanded="true"] .l3 {
+  transform: translateY(-4px) scaleX(0);
+}
+.btn[aria-expanded="true"] .rays {
+  transform: none;
+  opacity: 1;
+}
+.btn[aria-expanded="true"] .disc {
+  transform: none;
+}
+.btn[aria-expanded="true"]:hover .rays {
+  transform: rotate(45deg);
+  transition-delay: 0s;
+}
+
+.spark {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+  border: 2px solid var(--color-brand-orange);
+  opacity: 0;
+  animation: burst 0.5s ease-out;
+}
+@keyframes burst {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* ---- the panel ---- */
+.panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 50;
+  display: grid;
+  width: min(300px, calc(100vw - 32px));
+  padding: 8px;
+  border: 1px solid var(--color-base-line);
+  border-radius: 18px;
+  background: var(--color-base-panel);
+  box-shadow: 0 22px 46px -14px rgb(11 36 19 / 0.3);
+}
+.sep {
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--color-base-line);
+}
+
+/* Each page's own theme colour. The menu shows every page from any page, so
+   these are fixed values, not the brand-* tokens a [data-theme] wrapper
+   repoints. They mirror the -deep step each theme in globals.css sets
+   (EV uses its own page's green; default-theme pages use brand green). */
+.residential { --c: #f97000; }
+.ci { --c: #15304f; }
+.bess { --c: #e11d48; }
+.ev { --c: #7db928; }
+.atap { --c: #b66d0c; }
+.about { --c: #7a2140; }
+.default { --c: #31ac47; }
+
+.link {
+  --on: #fff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  color: var(--color-base-ink);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+/* White on EV's lime is unreadable. */
+.ev {
+  --on: var(--color-base-ink);
+}
+.plain {
+  color: var(--color-base-slate);
+  font-size: 14px;
+}
+/* The fill wipes in from the left on hover and carries on out to the right. */
+.link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--c);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.38s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.link:hover::before,
+.link:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.link:hover,
+.link:focus-visible {
+  color: var(--on);
+}
+.link:focus-visible {
+  outline: 2px solid var(--c);
+  outline-offset: 2px;
+}
+
+/* Dots switch on one after another as the menu opens. */
+.dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c);
+  transition: background 0.3s;
+  animation: on 0.35s cubic-bezier(0.3, 1.8, 0.5, 1) both;
+  animation-delay: calc(0.1s + var(--i) * 0.06s);
+}
+.link:hover .dot,
+.link:focus-visible .dot {
+  background: var(--on);
+}
+@keyframes on {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn *,
+  .panel * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
