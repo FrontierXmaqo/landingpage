@@ -843,11 +843,11 @@ const cn: Dictionary = {
 
     modelTag: "商业模式",
     modelTitle: "两种为 BESS 融资的方式",
-    modelZeroKicker: "无需预付资金",
+    modelZeroKicker: "0% 预付成本",
     modelZeroTitle: "零资本支出",
     modelZeroBody:
-      "MAQO 负责整套系统的融资、设计、安装与管理。您无需支付任何预付款项，即可享有可预期的能源成本节省，完全无需操心。",
-    modelZeroPoints: ["无需资本支出", "MAQO 承担运营风险", "从第一期账单起即可节省"],
+      "以 0% 预付成本，轻松为您的企业导入 BESS。MAQO 出资并在您的场地建造电池系统，让您无需动用资本，即可开始享有可观的能源节省。",
+    modelZeroPoints: ["MAQO 出资并在您的场地建造电池系统", "无需预付任何费用即可启动", "保证节省，并提升营运韧性", "维护由 MAQO 负责，无后顾之忧"],
     modelBuyKicker: "完全拥有系统",
     modelBuyTitle: "直接购买",
     modelBuyBody: "以现金、银行贷款或信贷方式购买系统，并保留 100% 的 MD 节省金额与长期回报。",

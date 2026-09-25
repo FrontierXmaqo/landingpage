@@ -853,11 +853,11 @@ const en = {
 
     modelTag: "Business Model",
     modelTitle: "Two ways to fund your BESS",
-    modelZeroKicker: "Zero upfront cost",
+    modelZeroKicker: "0% upfront cost",
     modelZeroTitle: "Zero CAPEX",
     modelZeroBody:
-      "MAQO finances, designs, installs and manages the entire system. You pay nothing upfront and keep predictable energy cost savings, with zero hassle.",
-    modelZeroPoints: ["No capital outlay", "MAQO owns operating risk", "Savings from your first bill"],
+      "Adopt BESS for your business with 0% upfront cost. MAQO invests in and builds the battery system at your site, so high energy savings start without touching your capital.",
+    modelZeroPoints: ["MAQO invests in & builds the battery system at your site", "No upfront cost to get started", "Guaranteed savings and stronger operational resilience", "Worry-free maintenance, handled by MAQO"],
     modelBuyKicker: "Own it outright",
     modelBuyTitle: "Direct Purchase",
     modelBuyBody: "Buy your system with cash, a bank loan, or a credit facility, and keep 100% of your MD savings and long-term returns.",

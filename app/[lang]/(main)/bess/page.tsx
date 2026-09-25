@@ -26,6 +26,19 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): P
   };
 }
 
+// Wraps each "0%" in the brand accent so the zero-upfront promise stands out.
+function highlightZero(text: string) {
+  return text.split(/(\b0%)/).map((part, i) =>
+    part === "0%" ? (
+      <span key={i} className="font-extrabold text-brand-orange-deep">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 const buttonPrimary =
   "inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95";
 const buttonGhost =
@@ -311,9 +324,9 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                 </ul>
               </ScrollReveal>
               <ScrollReveal delayMs={140} className="funding-card funding-card-light rounded-2xl border border-base-line bg-base-panel p-7">
-                <p className="text-xs font-bold uppercase tracking-wide text-base-slate">{t.modelZeroKicker}</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-base-slate">{highlightZero(t.modelZeroKicker)}</p>
                 <h3 className="mt-2 text-lg font-extrabold text-base-ink">{t.modelZeroTitle}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-base-slate">{t.modelZeroBody}</p>
+                <p className="mt-2.5 text-sm leading-relaxed text-base-slate">{highlightZero(t.modelZeroBody)}</p>
                 <ul className="mt-5 flex flex-col gap-2 text-sm text-base-ink">
                   {t.modelZeroPoints.map((point) => (
                     <li key={point} className="flex items-baseline gap-2">

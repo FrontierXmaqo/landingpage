@@ -845,11 +845,11 @@ const ms: Dictionary = {
 
     modelTag: "Model Perniagaan",
     modelTitle: "Dua cara untuk membiayai BESS anda",
-    modelZeroKicker: "Tiada kos pendahuluan",
+    modelZeroKicker: "0% kos pendahuluan",
     modelZeroTitle: "Sifar CAPEX",
     modelZeroBody:
-      "MAQO membiayai, mereka bentuk, memasang dan menguruskan keseluruhan sistem. Anda tidak membayar apa-apa pendahuluan dan terus menikmati penjimatan kos tenaga yang boleh diramal, tanpa kesulitan.",
-    modelZeroPoints: ["Tiada perbelanjaan modal", "MAQO menanggung risiko operasi", "Penjimatan bermula dari bil pertama anda"],
+      "Gunakan BESS untuk perniagaan anda dengan 0% kos pendahuluan. MAQO melabur dan membina sistem bateri di tapak anda, supaya penjimatan tenaga yang tinggi bermula tanpa menyentuh modal anda.",
+    modelZeroPoints: ["MAQO melabur & membina sistem bateri di tapak anda", "Tiada kos pendahuluan untuk bermula", "Penjimatan terjamin dan daya tahan operasi yang lebih kukuh", "Penyelenggaraan tanpa risau, diuruskan oleh MAQO"],
     modelBuyKicker: "Miliki sepenuhnya",
     modelBuyTitle: "Pembelian Terus",
     modelBuyBody: "Beli sistem anda secara tunai, pinjaman bank, atau kemudahan kredit, dan kekalkan 100% penjimatan MD serta pulangan jangka panjang anda.",
