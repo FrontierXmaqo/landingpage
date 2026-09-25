@@ -33,6 +33,21 @@ export function localePath(locale: Locale, path = "/") {
   return `/${locale}${path}`;
 }
 
+/**
+ * Canonical + hreflang set for a page, in every language. `x-default` is where
+ * Google sends a visitor whose language matches none of the three. Relative
+ * paths resolve against the layout's metadataBase.
+ */
+export function alternatesFor(locale: Locale, path = "/") {
+  return {
+    canonical: localePath(locale, path),
+    languages: {
+      ...Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, path)])),
+      "x-default": localePath(DEFAULT_LOCALE, path),
+    },
+  };
+}
+
 /** Swaps the locale segment of a pathname that already has one. */
 export function switchLocalePath(pathname: string, locale: Locale) {
   const parts = pathname.split("/");
