@@ -143,11 +143,12 @@
 /* Each page's own theme colour. The menu shows every page from any page, so
    these are fixed values, not the brand-* tokens a [data-theme] wrapper
    repoints. They mirror the -deep step each theme in globals.css sets
-   (EV uses its own page's green; default-theme pages use brand green). */
+   (EV uses its page's --orange-700 green, which EV's own menu hovers in;
+   default-theme pages use brand green). */
 .residential { --c: #f97000; }
 .ci { --c: #15304f; }
 .bess { --c: #e11d48; }
-.ev { --c: #7db928; }
+.ev { --c: #0f6e37; }
 .atap { --c: #b66d0c; }
 .about { --c: #7a2140; }
 .default { --c: #31ac47; }
@@ -167,10 +168,6 @@
   font-weight: 500;
   text-decoration: none;
   transition: color 0.3s;
-}
-/* White on EV's lime is unreadable. */
-.ev {
-  --on: var(--color-base-ink);
 }
 .plain {
   color: var(--color-base-slate);
