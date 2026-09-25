@@ -10,7 +10,8 @@ import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
 import BessFlowDiagram from "./BessFlowDiagram";
 import CredentialBadges from "../components/CredentialBadges";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
+import { buttonGhost, buttonPrimary } from "../components/buttonStyles";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
   const { lang } = await params;
@@ -19,10 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): P
   return {
     title: t.bessTitle,
     description: t.bessDescription,
-    alternates: {
-      canonical: localePath(lang, "/bess"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/bess")])),
-    },
+    alternates: localeAlternates(lang, "/bess"),
   };
 }
 
@@ -38,11 +36,6 @@ function highlightZero(text: string) {
     ),
   );
 }
-
-const buttonPrimary =
-  "inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95";
-const buttonGhost =
-  "inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-7 py-3 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white";
 
 export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
   const { lang } = await params;

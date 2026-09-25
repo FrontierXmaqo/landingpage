@@ -253,7 +253,6 @@ const cn: Dictionary = {
   leadForm: {
     title: "获取免费上门评估",
     subtitle: "只需 60 秒。我们的 ATAP 团队会在 1 个工作日内致电给您。",
-    successTitle: "已收到您的申请",
     honeypot: "请勿填写此栏",
     salutation: "称谓 *",
     salutationPlaceholder: "选择称谓",
@@ -436,22 +435,6 @@ const cn: Dictionary = {
   },
 
   ev: {
-    logoAlt: "MAQO，为更洁净的未来供能",
-    homeLabel: "MAQO 首页",
-    nav: {
-      problem: "问题所在",
-      savings: "节省",
-      howItWorks: "流程",
-      covered: "配套内容",
-      faq: "常见问题",
-      cta: "免费评估",
-      about: "关于我们",
-      residential: "住宅",
-      commercial: "工商业",
-      ev: "电动车",
-      atap: "ATAP",
-      bess: "BESS",
-    },
     hero: {
       badge: "MAQO ATAP · 专为有电动车的家庭打造",
       titleLine1Lead: "用",
@@ -574,7 +557,6 @@ const cn: Dictionary = {
         "TNB ATAP 申请由我们代办",
         "按您实际的电动车充电习惯设计",
       ],
-      successTitle: "已收到您的申请",
       honeypot: "公司",
       salutation: "称谓",
       fullName: "全名",
@@ -599,15 +581,6 @@ const cn: Dictionary = {
       body: "我们的充电顾问将在 1 个工作日内致电给您，一并评估您的家用充电桩与太阳能配置。",
       learnMore: "了解更多关于 MAQO",
       backHome: "返回首页",
-    },
-    footer: {
-      tagline: "住宅与工商业太阳能EPCC工程,持有ST A级与CIDB G7认证,自2013年起。",
-      company: "公司",
-      commercial: "工商业",
-      explore: "浏览",
-      calculator: "节省计算器",
-      contact: "联络方式",
-      rights: "© 2026 MAQO Engineering Sdn Bhd（MAQO Solar / MAQO Technologies）。版权所有。",
     },
   },
 

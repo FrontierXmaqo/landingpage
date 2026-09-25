@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { CONTACT } from "@/lib/content";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath, type Locale } from "@/lib/i18n";
+import { getDictionary, hasLocale, type Locale, localeAlternates, localePath } from "@/lib/i18n";
 
 const COPY: Record<
   Locale,
@@ -84,10 +84,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/contact">)
   return {
     title: t.metaTitle,
     description: t.metaDescription,
-    alternates: {
-      canonical: localePath(lang, "/contact"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/contact")])),
-    },
+    alternates: localeAlternates(lang, "/contact"),
   };
 }
 

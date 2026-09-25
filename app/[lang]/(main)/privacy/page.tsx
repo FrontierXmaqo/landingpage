@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { CONTACT } from "@/lib/content";
 import { PRIVACY_LAST_UPDATED, PRIVACY_POLICY } from "@/lib/privacyPolicy";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/privacy">): Promise<Metadata> {
   const { lang } = await params;
@@ -13,10 +13,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/privacy">)
   return {
     title: `${p.title} | MAQO Solar`,
     description: p.metaDescription,
-    alternates: {
-      canonical: localePath(lang, "/privacy"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/privacy")])),
-    },
+    alternates: localeAlternates(lang, "/privacy"),
   };
 }
 

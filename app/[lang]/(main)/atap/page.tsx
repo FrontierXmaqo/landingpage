@@ -8,7 +8,8 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { getPublishedFaq } from "@/lib/publishedContent";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
+import { buttonGhost, buttonPrimary } from "../components/buttonStyles";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/atap">): Promise<Metadata> {
   const { lang } = await params;
@@ -17,17 +18,9 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/atap">): P
   return {
     title: t.atapTitle,
     description: t.atapDescription,
-    alternates: {
-      canonical: localePath(lang, "/atap"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/atap")])),
-    },
+    alternates: localeAlternates(lang, "/atap"),
   };
 }
-
-const buttonPrimary =
-  "inline-flex items-center justify-center rounded-full bg-brand-orange-deep px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95";
-const buttonGhost =
-  "inline-flex items-center justify-center rounded-full border-2 border-base-ink bg-base-panel px-7 py-3 text-sm font-semibold text-base-ink transition hover:bg-base-ink hover:text-white";
 
 export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
   const { lang } = await params;

@@ -259,7 +259,6 @@ const en = {
   leadForm: {
     title: "Get your free home assessment",
     subtitle: "Takes 60 seconds. Our ATAP team calls you within 1 business day.",
-    successTitle: "Request received",
     honeypot: "Leave this field blank",
     salutation: "Salutation *",
     salutationPlaceholder: "Select salutation",
@@ -445,22 +444,6 @@ const en = {
   },
 
   ev: {
-    logoAlt: "MAQO - Energizing a cleaner future",
-    homeLabel: "MAQO home",
-    nav: {
-      problem: "The problem",
-      savings: "Savings",
-      howItWorks: "How it works",
-      covered: "What's covered",
-      faq: "FAQ",
-      cta: "Free Assessment",
-      about: "About Us",
-      residential: "Residential",
-      commercial: "C&I",
-      ev: "EV",
-      atap: "ATAP",
-      bess: "BESS",
-    },
     hero: {
       badge: "MAQO ATAP · Built for EV-owning homes",
       titleLine1Lead: "Charge Your EV On",
@@ -583,7 +566,6 @@ const en = {
         "We handle your TNB ATAP application",
         "Sized around your actual EV charging pattern",
       ],
-      successTitle: "Request received",
       honeypot: "Company",
       salutation: "Salutation",
       fullName: "Full name",
@@ -608,15 +590,6 @@ const en = {
       body: "A charging consultant will call you within 1 business day to size your home charger and solar offset together.",
       learnMore: "Learn more about MAQO",
       backHome: "Back to homepage",
-    },
-    footer: {
-      tagline: "Residential & C&I solar EPCC, ST Class A & CIDB G7-certified, since 2013.",
-      company: "Company",
-      commercial: "Commercial & Industrial",
-      explore: "Explore",
-      calculator: "Savings calculator",
-      contact: "Contact",
-      rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). All rights reserved.",
     },
   },
 

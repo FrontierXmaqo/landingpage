@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates } from "@/lib/i18n";
 import {
   getPublishedCalculatorData,
   getPublishedLeadFormOptions,
@@ -37,10 +37,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/residentia
   return {
     title: t.homeTitle,
     description: t.homeDescription,
-    alternates: {
-      canonical: localePath(lang, "/residential"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/residential")])),
-    },
+    alternates: localeAlternates(lang, "/residential"),
   };
 }
 

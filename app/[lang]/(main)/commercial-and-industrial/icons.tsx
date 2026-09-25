@@ -30,7 +30,7 @@ export function CheckCircle({ className }: { className?: string }) {
   );
 }
 
-export function IconTax({ className }: { className?: string }) {
+function IconTax({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M8 3h13l4 4v22H8z" />
@@ -41,7 +41,7 @@ export function IconTax({ className }: { className?: string }) {
   );
 }
 
-export function IconWallet({ className }: { className?: string }) {
+function IconWallet({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M4 9a3 3 0 0 1 3-3h17v5" />
@@ -51,7 +51,7 @@ export function IconWallet({ className }: { className?: string }) {
   );
 }
 
-export function IconShield({ className }: { className?: string }) {
+function IconShield({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M16 3 5 7v9c0 7 4.7 11.6 11 13 6.3-1.4 11-6 11-13V7L16 3Z" />
@@ -60,7 +60,7 @@ export function IconShield({ className }: { className?: string }) {
   );
 }
 
-export function IconGear({ className }: { className?: string }) {
+function IconGear({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <circle cx="16" cy="16" r="4.2" />
@@ -69,7 +69,7 @@ export function IconGear({ className }: { className?: string }) {
   );
 }
 
-export function IconFactory({ className }: { className?: string }) {
+function IconFactory({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M4 28V14l8 5V14l8 5V9h8v19z" />
@@ -79,7 +79,7 @@ export function IconFactory({ className }: { className?: string }) {
   );
 }
 
-export function IconCar({ className }: { className?: string }) {
+function IconCar({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M4 22v-5.5L7 9h18l3 7.5V22" />
@@ -91,7 +91,7 @@ export function IconCar({ className }: { className?: string }) {
   );
 }
 
-export function IconSchool({ className }: { className?: string }) {
+function IconSchool({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="m16 4 13 5.5L16 15 3 9.5 16 4Z" />
@@ -101,7 +101,7 @@ export function IconSchool({ className }: { className?: string }) {
   );
 }
 
-export function IconStorefront({ className }: { className?: string }) {
+function IconStorefront({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M4 12h24v16H4z" />
@@ -112,7 +112,7 @@ export function IconStorefront({ className }: { className?: string }) {
   );
 }
 
-export function IconMosque({ className }: { className?: string }) {
+function IconMosque({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M11 28V15a5 5 0 0 1 10 0v13" />
@@ -124,7 +124,7 @@ export function IconMosque({ className }: { className?: string }) {
   );
 }
 
-export function IconSolarFarm({ className }: { className?: string }) {
+function IconSolarFarm({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M3 17h12l-2 7H5l-2-7ZM17 17h12l-2 7h-8l-2-7Z" />
@@ -179,7 +179,7 @@ export function IconPlay({ className }: { className?: string }) {
   );
 }
 
-export function IconBuilding({ className }: { className?: string }) {
+function IconBuilding({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M6 28V6h13v22" />
@@ -189,18 +189,6 @@ export function IconBuilding({ className }: { className?: string }) {
     </Frame>
   );
 }
-
-/** Maps a project's industry tag to its glyph. */
-export const PROJECT_ICONS = {
-  Factory: IconFactory,
-  "Car Showroom": IconCar,
-  School: IconSchool,
-  Shoplot: IconStorefront,
-  Mosque: IconMosque,
-  "Solar Farm": IconSolarFarm,
-} as const;
-
-export type ProjectTag = keyof typeof PROJECT_ICONS;
 
 /**
  * Icon for a project's category.
@@ -230,39 +218,14 @@ export function ProjectIcon({ tag, className }: { tag: string; className?: strin
   }
 }
 
-/** Battery stack, the BESS section's opening mark. */
-export function IconBattery({ className }: { className?: string }) {
-  return (
-    <Frame className={className}>
-      <rect x="6" y="5" width="20" height="22" rx="3" />
-      <path d="M13 3h6" />
-      <path d="M11 21h10" />
-      <path d="M17 9l-5 7h4l-1 5 5-7h-4z" />
-    </Frame>
-  );
-}
-
-/** A load profile with its peak shaved flat, the point of the whole section. */
-export function IconPeakShave({ className }: { className?: string }) {
-  return (
-    <Frame className={className}>
-      <path d="M4 27V6" />
-      <path d="M4 27h24" />
-      <path d="M6 22l4-2 3-9 4 12 3-6 4 3 3-1" />
-      <path d="M8 12h18" strokeDasharray="3 3" />
-    </Frame>
-  );
-}
-
 /**
- * Animated counterparts of the four BESS glyphs above. Kept separate from
- * IconBattery/IconWallet/IconGear rather than animating those directly,
- * because IconWallet and IconGear are also reused by PILLAR_ICONS, those
- * pillar cards should stay static.
+ * Animated glyphs for the BESS section. Kept separate from IconWallet/IconGear
+ * rather than animating those directly, because those are also used by
+ * PILLAR_ICONS, and the pillar cards should stay static.
  */
 
 /** Battery with its charge bolt pulsing, as if it were actively cycling. */
-export function IconBatteryAnimated({ className }: { className?: string }) {
+function IconBatteryAnimated({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <rect x="6" y="5" width="20" height="22" rx="3" />
@@ -274,7 +237,7 @@ export function IconBatteryAnimated({ className }: { className?: string }) {
 }
 
 /** Peak-shave chart with the dashed ceiling line flowing left to right. */
-export function IconPeakShaveAnimated({ className }: { className?: string }) {
+function IconPeakShaveAnimated({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M4 27V6" />
@@ -286,7 +249,7 @@ export function IconPeakShaveAnimated({ className }: { className?: string }) {
 }
 
 /** Wallet with a coin dropping into the slot on a loop. */
-export function IconWalletAnimated({ className }: { className?: string }) {
+function IconWalletAnimated({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M4 9a3 3 0 0 1 3-3h17v5" />
@@ -298,7 +261,7 @@ export function IconWalletAnimated({ className }: { className?: string }) {
 }
 
 /** Gear, rotating slowly and continuously. */
-export function IconGearAnimated({ className }: { className?: string }) {
+function IconGearAnimated({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <g className="bess-icon-gear-spin">
@@ -310,7 +273,7 @@ export function IconGearAnimated({ className }: { className?: string }) {
 }
 
 /** Utility meter: the dial needle sweeps up toward the peak and settles back. */
-export function IconUtilityMeterAnimated({ className }: { className?: string }) {
+function IconUtilityMeterAnimated({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <rect x="5" y="4" width="22" height="20" rx="3" />

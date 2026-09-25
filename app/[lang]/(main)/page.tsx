@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 import { CONTACT, CREDENTIALS } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";
 import { getPublishedCiContent, getPublishedFaq } from "@/lib/publishedContent";
@@ -40,13 +40,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   return {
     title: t.meta.title,
     description: t.meta.description,
-    alternates: {
-      canonical: localePath(lang),
-      languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l)])),
-        "x-default": localePath(LOCALES[0]),
-      },
-    },
+    alternates: localeAlternates(lang, "/", { xDefault: true }),
   };
 }
 

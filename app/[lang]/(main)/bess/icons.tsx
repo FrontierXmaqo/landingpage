@@ -21,7 +21,7 @@ function Frame({ children, className }: { children: React.ReactNode; className?:
 }
 
 /** Maximum Demand / Peak Shaving: a load curve with its peak clipped flat. */
-export function IconPeakShave({ className }: { className?: string }) {
+function IconPeakShave({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M3 24h4l4-13 5 16 4-11h9" />
@@ -31,7 +31,7 @@ export function IconPeakShave({ className }: { className?: string }) {
 }
 
 /** Lower Energy Costs: a coin with a downward trend. */
-export function IconCost({ className }: { className?: string }) {
+function IconCost({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <circle cx="12" cy="13" r="9" />
@@ -42,7 +42,7 @@ export function IconCost({ className }: { className?: string }) {
 }
 
 /** Energy Management: an equalizer of sliders. */
-export function IconSliders({ className }: { className?: string }) {
+function IconSliders({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M6 26V16M6 11V6M16 26V19M16 14V6M26 26V21M26 16V6" />
@@ -54,7 +54,7 @@ export function IconSliders({ className }: { className?: string }) {
 }
 
 /** Solar Energy Optimisation: sun. */
-export function IconSun({ className }: { className?: string }) {
+function IconSun({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <circle cx="16" cy="16" r="6.5" />
@@ -64,7 +64,7 @@ export function IconSun({ className }: { className?: string }) {
 }
 
 /** Backup / Energy Resilience: shield with a lightning bolt. */
-export function IconShieldBolt({ className }: { className?: string }) {
+function IconShieldBolt({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <path d="M16 3 5 7v9c0 7 4.7 11.6 11 13 6.3-1.4 11-6 11-13V7L16 3Z" />
@@ -74,7 +74,7 @@ export function IconShieldBolt({ className }: { className?: string }) {
 }
 
 /** Fully Integrated System: a hub node wired to solar, grid and facility nodes. */
-export function IconIntegrate({ className }: { className?: string }) {
+function IconIntegrate({ className }: { className?: string }) {
   return (
     <Frame className={className}>
       <circle cx="16" cy="6" r="3" />

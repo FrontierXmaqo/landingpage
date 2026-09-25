@@ -9,7 +9,7 @@ import SectionTag from "../components/SectionTag";
 import { CREDENTIALS, OLD_SITE_IMAGES } from "@/lib/content";
 import { ABOUT_CONTENT, PROOF_PROJECTS } from "./content";
 import StoryRoad from "./StoryRoad";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
   const { lang } = await params;
@@ -18,10 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/about">): 
   return {
     title: t.aboutTitle,
     description: t.aboutDescription,
-    alternates: {
-      canonical: localePath(lang, "/about"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/about")])),
-    },
+    alternates: localeAlternates(lang, "/about"),
   };
 }
 

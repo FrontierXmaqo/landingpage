@@ -1,5 +1,6 @@
 import Image from "next/image";
-import LeadForm, { type LeadFormOptionLists } from "./LeadForm";
+import LeadForm from "./LeadForm";
+import type { LeadFormOptionLists } from "@/lib/leadFormOptions";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import type { Dictionary, Locale } from "@/lib/i18n";

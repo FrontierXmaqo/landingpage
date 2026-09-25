@@ -254,7 +254,6 @@ const ms: Dictionary = {
   leadForm: {
     title: "Dapatkan penilaian rumah percuma",
     subtitle: "Hanya 60 saat. Pasukan ATAP kami akan menghubungi anda dalam 1 hari bekerja.",
-    successTitle: "Permintaan diterima",
     honeypot: "Biarkan ruangan ini kosong",
     salutation: "Gelaran *",
     salutationPlaceholder: "Pilih gelaran",
@@ -437,22 +436,6 @@ const ms: Dictionary = {
   },
 
   ev: {
-    logoAlt: "MAQO, Menjana masa depan yang lebih bersih",
-    homeLabel: "Laman utama MAQO",
-    nav: {
-      problem: "Masalahnya",
-      savings: "Penjimatan",
-      howItWorks: "Cara ia berfungsi",
-      covered: "Apa yang termasuk",
-      faq: "Soalan lazim",
-      cta: "Penilaian Percuma",
-      about: "Tentang Kami",
-      residential: "Kediaman",
-      commercial: "C&I",
-      ev: "EV",
-      atap: "ATAP",
-      bess: "BESS",
-    },
     hero: {
       badge: "MAQO ATAP · Dibina untuk rumah pemilik EV",
       titleLine1Lead: "Cas EV Anda Dengan",
@@ -575,7 +558,6 @@ const ms: Dictionary = {
         "Kami uruskan permohonan TNB ATAP anda",
         "Bersaiz mengikut corak pengecasan EV sebenar anda",
       ],
-      successTitle: "Permintaan diterima",
       honeypot: "Syarikat",
       salutation: "Gelaran",
       fullName: "Nama penuh",
@@ -600,15 +582,6 @@ const ms: Dictionary = {
       body: "Perunding pengecasan kami akan menghubungi anda dalam 1 hari bekerja untuk menyesuaikan pengecas rumah dan ofset solar anda bersama-sama.",
       learnMore: "Ketahui lebih lanjut tentang MAQO",
       backHome: "Kembali ke laman utama",
-    },
-    footer: {
-      tagline: "EPCC solar kediaman & C&I, bertauliah ST Kelas A & CIDB G7, sejak 2013.",
-      company: "Syarikat",
-      commercial: "Komersial & Industri",
-      explore: "Terokai",
-      calculator: "Kalkulator penjimatan",
-      contact: "Hubungi",
-      rights: "© 2026 MAQO Engineering Sdn Bhd (MAQO Solar / MAQO Technologies). Hak cipta terpelihara.",
     },
   },
 

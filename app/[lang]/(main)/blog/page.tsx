@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath, type Locale } from "@/lib/i18n";
+import { getDictionary, hasLocale, type Locale, localeAlternates, localePath } from "@/lib/i18n";
 import { POSTS, type TopicKey } from "./posts";
 
 const TOPIC_ORDER: TopicKey[] = ["schemes", "tariffs", "industry", "archive"];
@@ -97,10 +97,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/blog">): P
   return {
     title: t.metaTitle,
     description: t.metaDescription,
-    alternates: {
-      canonical: localePath(lang, "/blog"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/blog")])),
-    },
+    alternates: localeAlternates(lang, "/blog"),
   };
 }
 

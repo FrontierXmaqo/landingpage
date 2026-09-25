@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, HTML_LANG, localeAlternates, LOCALES } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import PagePerfTracker from "@/lib/pagePerf";
 import ScrollToTopOnNavigate from "@/app/[lang]/(main)/components/ScrollToTopOnNavigate";
@@ -35,10 +35,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]/ev">): P
     title: t.evTitle,
     description: t.evDescription,
     metadataBase: SITE_URL,
-    alternates: {
-      canonical: localePath(lang, "/ev"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/ev")])),
-    },
+    alternates: localeAlternates(lang, "/ev"),
     verification: {
       google: "FdVlWEEvys2RdCCMKjiAkXv3HGVMWr9foIpy036CmiA",
     },
@@ -77,6 +74,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           fbq('track', 'PageView');`}
         </Script>
         <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element -- Meta Pixel noscript beacon; must hit facebook.com directly, not /_next/image */}
           <img
             height="1"
             width="1"

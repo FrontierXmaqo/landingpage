@@ -7,7 +7,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import ProductCatalog from "./ProductCatalog";
 import { PAGE_COPY } from "./copy";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/products-and-services">): Promise<Metadata> {
   const { lang } = await params;
@@ -16,10 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products-a
   return {
     title: t.metaTitle,
     description: t.metaDescription,
-    alternates: {
-      canonical: localePath(lang, "/products-and-services"),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, "/products-and-services")])),
-    },
+    alternates: localeAlternates(lang, "/products-and-services"),
   };
 }
 

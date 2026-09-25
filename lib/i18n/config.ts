@@ -42,3 +42,14 @@ export function switchLocalePath(pathname: string, locale: Locale) {
   }
   return localePath(locale, pathname);
 }
+
+/**
+ * Metadata `alternates` for a page: its canonical URL in `locale`, plus one
+ * hreflang link per language. `xDefault` adds the link Google uses for a
+ * visitor whose language matches none of the three.
+ */
+export function localeAlternates(locale: Locale, path = "/", { xDefault = false } = {}) {
+  const languages: Record<string, string> = Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, path)]));
+  if (xDefault) languages["x-default"] = localePath(DEFAULT_LOCALE, path);
+  return { canonical: localePath(locale, path), languages };
+}

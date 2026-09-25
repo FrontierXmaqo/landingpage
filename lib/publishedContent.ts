@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, BRAND_LOGOS, type SolarPackage } from "@/lib/content";
-import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
+import type { LeadFormOptionLists } from "@/lib/leadFormOptions";
 import type { Locale } from "@/lib/i18n";
 
 // CMS text (FAQ, achievement labels, trust-stat labels) is written in English

@@ -163,9 +163,6 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 @keyframes fade-in-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fade-in-up { animation: fade-in-up 0.35s ease-out both; }
 
-@keyframes modal-in { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
-.animate-modal-in { animation: modal-in 0.2s ease-out both; }
-
 @keyframes credential-highlight {
   0% { background-color: transparent; }
   20% { background-color: var(--color-brand-green-tint); }
@@ -229,7 +226,7 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-in-up, .animate-modal-in, .animate-credential-highlight { animation: none; }
+  .animate-fade-in-up, .animate-credential-highlight { animation: none; }
   .reveal-on-scroll { animation: none; opacity: 1; transform: none; }
   .animate-bar-rise { animation: none; transform: none; }
 }

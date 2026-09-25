@@ -14,7 +14,7 @@ import ProjectsCarousel, { type Surface } from "./ProjectsCarousel";
 import { BESS_ICONS, CheckCircle, IconChevron, PILLAR_ICONS } from "./icons";
 import { CLIENTS, PROJECTS, PROJECT_VIDEO_URL, TRUST_STATS } from "./content";
 import { getCiCopy } from "./copy";
-import { HTML_LANG, LOCALES, getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 import { getPublishedCiContent, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
 
 const PATH = "/commercial-and-industrial";
@@ -31,10 +31,7 @@ export async function generateMetadata({
   return {
     title: meta.title,
     description: meta.description,
-    alternates: {
-      canonical: localePath(lang, PATH),
-      languages: Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], localePath(l, PATH)])),
-    },
+    alternates: localeAlternates(lang, PATH),
   };
 }
 

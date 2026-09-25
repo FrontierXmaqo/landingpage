@@ -1,14 +1,19 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
-import { resolveLeadAttribution } from "@/lib/attribution";
-import type { LeadFormOptionLists } from "../components/LeadForm";
+import AttributionFields from "../components/AttributionFields";
 import PhoneField from "../components/PhoneField";
 import type { PublishedCustomField } from "@/lib/publishedContent";
-import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/lib/leadFormOptions";
+import {
+  SALUTATIONS,
+  MALAYSIAN_STATES,
+  ROLE_IN_ORGANIZATION_OPTIONS,
+  withFallback,
+  type LeadFormOptionLists,
+} from "@/lib/leadFormOptions";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
@@ -61,10 +66,10 @@ export default function CiLeadForm({
   options?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
 }) {
-  const salutations = options?.salutations?.length ? options.salutations : SALUTATIONS;
-  const states = options?.states?.length ? options.states : MALAYSIAN_STATES;
-  const billRanges = options?.billRanges?.length ? options.billRanges : CI_BILL_RANGES;
-  const roles = options?.roleInOrganization?.length ? options.roleInOrganization : ROLE_IN_ORGANIZATION_OPTIONS;
+  const salutations = withFallback(options?.salutations, SALUTATIONS);
+  const states = withFallback(options?.states, MALAYSIAN_STATES);
+  const billRanges = withFallback(options?.billRanges, CI_BILL_RANGES);
+  const roles = withFallback(options?.roleInOrganization, ROLE_IN_ORGANIZATION_OPTIONS);
   // "Industry" is a CMS custom field like any other, but always rendered in
   // this fixed spot rather than appended at the end, it's core to what a C&I
   // enquiry needs, not an incidental extra.
@@ -74,34 +79,6 @@ export default function CiLeadForm({
 
   const [state, formAction, pending] = useActionState(submitCiLead, initialState);
   const router = useRouter();
-  const campaignIdRef = useRef<HTMLInputElement>(null);
-  const gclidRef = useRef<HTMLInputElement>(null);
-  const fbclidRef = useRef<HTMLInputElement>(null);
-  const referrerRef = useRef<HTMLInputElement>(null);
-  const landingPageSourceRef = useRef<HTMLInputElement>(null);
-  const utmSourceRef = useRef<HTMLInputElement>(null);
-  const utmMediumRef = useRef<HTMLInputElement>(null);
-  const utmCampaignRef = useRef<HTMLInputElement>(null);
-  const utmTermRef = useRef<HTMLInputElement>(null);
-  const utmContentRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    // Reads the visit's first-touch attribution (persisted by lib/attribution
-    // since whichever page the visitor actually landed on) rather than this
-    // page's own URL, so campaign data survives even when the visitor
-    // browsed elsewhere before reaching this form.
-    const a = resolveLeadAttribution();
-    if (campaignIdRef.current) campaignIdRef.current.value = a.campaignId;
-    if (gclidRef.current) gclidRef.current.value = a.gclid;
-    if (fbclidRef.current) fbclidRef.current.value = a.fbclid;
-    if (referrerRef.current) referrerRef.current.value = a.referrer;
-    if (utmSourceRef.current) utmSourceRef.current.value = a.utmSource;
-    if (utmMediumRef.current) utmMediumRef.current.value = a.utmMedium;
-    if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
-    if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
-    if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
-    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin;
-  }, []);
 
   useEffect(() => {
     if (state.status === "success") {
@@ -131,16 +108,7 @@ export default function CiLeadForm({
 
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="locale" value={locale} />
-        <input type="hidden" name="campaign_id" ref={campaignIdRef} />
-        <input type="hidden" name="gclid" ref={gclidRef} />
-        <input type="hidden" name="fbclid" ref={fbclidRef} />
-        <input type="hidden" name="landing_referrer" ref={referrerRef} />
-        <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
-        <input type="hidden" name="utm_source" ref={utmSourceRef} />
-        <input type="hidden" name="utm_medium" ref={utmMediumRef} />
-        <input type="hidden" name="utm_campaign" ref={utmCampaignRef} />
-        <input type="hidden" name="utm_term" ref={utmTermRef} />
-        <input type="hidden" name="utm_content" ref={utmContentRef} />
+        <AttributionFields />
         <div className="absolute left-[-9999px]" aria-hidden="true">
           <label>
             {t.honeypot}
