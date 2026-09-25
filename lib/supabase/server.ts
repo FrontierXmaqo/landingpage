@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = "https://yhpsidiipdassknsggcz.supabase.co";
+import { SUPABASE_URL } from "./url";
 
 /**
  * Hardening for the admin session cookie.

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase/server";
+import { SUPABASE_URL } from "@/lib/supabase/url";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, hasLocale, type Locale } from "@/lib/i18n/config";
 import { THANK_YOU_FUNNELS, verifyLeadToken } from "@/lib/leadToken";
 
@@ -74,7 +75,7 @@ async function guardAdmin(request: NextRequest, requestHeaders: Headers) {
   let response = NextResponse.next({ request: { headers: requestHeaders } });
 
   const supabase = createServerClient(
-    "https://yhpsidiipdassknsggcz.supabase.co",
+    SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
     {
       cookies: {

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { LOCALES } from "@/lib/i18n";
-import { getSessionId, sendBeacon } from "@/lib/track";
+import { SESSION_KEY, getSessionId, sendBeacon } from "@/lib/track";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import { captureAttribution } from "@/lib/attribution";
 
@@ -57,7 +57,7 @@ export default function PagePerfTracker() {
     captureAttribution();
 
     if (startedNewSession.current === null) {
-      startedNewSession.current = !sessionStorage.getItem("maqo_session_id");
+      startedNewSession.current = !sessionStorage.getItem(SESSION_KEY);
     }
     const isNewSession = startedNewSession.current;
     startedNewSession.current = false; // only the very first page of the session counts
