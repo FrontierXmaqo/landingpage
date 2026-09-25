@@ -31,20 +31,3 @@ export const ROLE_IN_ORGANIZATION_OPTIONS = [
   "Contractor / Subcontractor",
   "Others",
 ];
-
-/** Dropdown option lists — CMS-managed in Supabase (lead_form_options), falling
- * back to the hardcoded lists above so the form never breaks if a table is empty. */
-export type LeadFormOptionLists = {
-  salutations?: string[];
-  states?: string[];
-  billRanges?: string[];
-  propertyTypes?: string[];
-  electricSupply?: string[];
-  languages?: string[];
-  roleInOrganization?: string[];
-};
-
-/** The CMS list when it has any entries, otherwise the hardcoded fallback. */
-export function withFallback(list: string[] | undefined, fallback: string[]) {
-  return list?.length ? list : fallback;
-}

@@ -10,7 +10,7 @@
    about it identifies a person.
    ------------------------------------------------------------------------- */
 
-export const SESSION_KEY = "maqo_session_id";
+const SESSION_KEY = "maqo_session_id";
 
 function newId() {
   try {

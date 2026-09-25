@@ -2,8 +2,15 @@
 
 import { useState } from "react";
 import { updateCiEnquiryStatus, updateCiEnquiryNotes } from "./actions";
-import { STATUSES, STATUS_STYLE, type EnquiryStatus } from "./statuses";
+import { STATUSES, type EnquiryStatus } from "./statuses";
 import { formatMYDate } from "@/lib/datetime";
+
+const STATUS_STYLE: Record<string, string> = {
+  new: "bg-status-info/10 text-status-info",
+  contacted: "bg-status-warn-bg text-status-warn",
+  qualified: "bg-brand-green-tint text-brand-green-ink",
+  converted: "bg-brand-green text-white",
+};
 
 export default function CiEnquiryRow({ lead }: { lead: Record<string, unknown> }) {
   const [notes, setNotes] = useState(String(lead.notes ?? ""));

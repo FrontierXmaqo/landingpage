@@ -259,6 +259,7 @@ const en = {
   leadForm: {
     title: "Get your free home assessment",
     subtitle: "Takes 60 seconds. Our ATAP team calls you within 1 business day.",
+    successTitle: "Request received",
     honeypot: "Leave this field blank",
     salutation: "Salutation *",
     salutationPlaceholder: "Select salutation",
@@ -566,6 +567,7 @@ const en = {
         "We handle your TNB ATAP application",
         "Sized around your actual EV charging pattern",
       ],
+      successTitle: "Request received",
       honeypot: "Company",
       salutation: "Salutation",
       fullName: "Full name",

@@ -1,10 +1,10 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
-import AttributionFields from "./AttributionFields";
+import { resolveLeadAttribution } from "@/lib/attribution";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import {
   SALUTATIONS,
@@ -13,8 +13,6 @@ import {
   PROPERTY_TYPES,
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
-  withFallback,
-  type LeadFormOptionLists,
 } from "@/lib/leadFormOptions";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
@@ -25,6 +23,18 @@ const initialState: LeadFormState = { status: "idle" };
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site", "main");
+
+/** Dropdown option lists — CMS-managed in Supabase (lead_form_options), falling
+ * back to these hardcoded lists so the form never breaks if a table is empty. */
+export type LeadFormOptionLists = {
+  salutations?: string[];
+  states?: string[];
+  billRanges?: string[];
+  propertyTypes?: string[];
+  electricSupply?: string[];
+  languages?: string[];
+  roleInOrganization?: string[];
+};
 
 /**
  * Which option values exist is decided by the CMS; only the visitor-facing text
@@ -52,14 +62,44 @@ export default function LeadForm({
   options?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
 }) {
-  const salutations = withFallback(lists?.salutations, SALUTATIONS);
-  const states = withFallback(lists?.states, MALAYSIAN_STATES);
-  const billRanges = withFallback(lists?.billRanges, BILL_RANGES);
-  const propertyTypes = withFallback(lists?.propertyTypes, PROPERTY_TYPES);
-  const electricSupply = withFallback(lists?.electricSupply, ELECTRIC_SUPPLY_OPTIONS);
-  const languages = withFallback(lists?.languages, COMMUNICATION_LANGUAGES);
+  const salutations = lists?.salutations?.length ? lists.salutations : SALUTATIONS;
+  const states = lists?.states?.length ? lists.states : MALAYSIAN_STATES;
+  const billRanges = lists?.billRanges?.length ? lists.billRanges : BILL_RANGES;
+  const propertyTypes = lists?.propertyTypes?.length ? lists.propertyTypes : PROPERTY_TYPES;
+  const electricSupply = lists?.electricSupply?.length ? lists.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languages = lists?.languages?.length ? lists.languages : COMMUNICATION_LANGUAGES;
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const router = useRouter();
+  const campaignIdRef = useRef<HTMLInputElement>(null);
+  const gclidRef = useRef<HTMLInputElement>(null);
+  const fbclidRef = useRef<HTMLInputElement>(null);
+  const referrerRef = useRef<HTMLInputElement>(null);
+  const landingPageSourceRef = useRef<HTMLInputElement>(null);
+  const utmSourceRef = useRef<HTMLInputElement>(null);
+  const utmMediumRef = useRef<HTMLInputElement>(null);
+  const utmCampaignRef = useRef<HTMLInputElement>(null);
+  const utmTermRef = useRef<HTMLInputElement>(null);
+  const utmContentRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Reads the visit's first-touch attribution (persisted by lib/attribution
+    // since whichever page the visitor actually landed on) rather than this
+    // page's own URL, so campaign data survives even when the visitor
+    // browsed elsewhere before reaching this form.
+    const a = resolveLeadAttribution();
+    if (campaignIdRef.current) campaignIdRef.current.value = a.campaignId;
+    if (gclidRef.current) gclidRef.current.value = a.gclid;
+    if (fbclidRef.current) fbclidRef.current.value = a.fbclid;
+    if (referrerRef.current) referrerRef.current.value = a.referrer;
+    if (utmSourceRef.current) utmSourceRef.current.value = a.utmSource;
+    if (utmMediumRef.current) utmMediumRef.current.value = a.utmMedium;
+    if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
+    if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
+    if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
+    // Hardcoded, not derived from location.pathname: this component is only ever
+    // the main site's landing page, regardless of query strings on the URL.
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin;
+  }, []);
 
   useEffect(() => {
     if (state.status === "success") {
@@ -86,7 +126,16 @@ export default function LeadForm({
 
       <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="locale" value={locale} />
-        <AttributionFields />
+        <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+        <input type="hidden" name="gclid" ref={gclidRef} />
+        <input type="hidden" name="fbclid" ref={fbclidRef} />
+        <input type="hidden" name="landing_referrer" ref={referrerRef} />
+        <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
+        <input type="hidden" name="utm_source" ref={utmSourceRef} />
+        <input type="hidden" name="utm_medium" ref={utmMediumRef} />
+        <input type="hidden" name="utm_campaign" ref={utmCampaignRef} />
+        <input type="hidden" name="utm_term" ref={utmTermRef} />
+        <input type="hidden" name="utm_content" ref={utmContentRef} />
         <div className="absolute left-[-9999px]" aria-hidden="true">
           <label>
             {t.honeypot}

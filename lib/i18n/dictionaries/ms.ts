@@ -254,6 +254,7 @@ const ms: Dictionary = {
   leadForm: {
     title: "Dapatkan penilaian rumah percuma",
     subtitle: "Hanya 60 saat. Pasukan ATAP kami akan menghubungi anda dalam 1 hari bekerja.",
+    successTitle: "Permintaan diterima",
     honeypot: "Biarkan ruangan ini kosong",
     salutation: "Gelaran *",
     salutationPlaceholder: "Pilih gelaran",
@@ -558,6 +559,7 @@ const ms: Dictionary = {
         "Kami uruskan permohonan TNB ATAP anda",
         "Bersaiz mengikut corak pengecasan EV sebenar anda",
       ],
+      successTitle: "Permintaan diterima",
       honeypot: "Syarikat",
       salutation: "Gelaran",
       fullName: "Nama penuh",

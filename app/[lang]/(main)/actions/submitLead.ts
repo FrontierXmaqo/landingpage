@@ -13,7 +13,6 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
   ROLE_IN_ORGANIZATION_OPTIONS,
-  withFallback,
 } from "@/lib/leadFormOptions";
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
@@ -37,9 +36,10 @@ function oneOf(value: string, allowed: readonly string[]) {
 function classifyLeadSource(referrer: string): "google" | "social" | "direct" {
   const r = referrer.toLowerCase();
   if (r.includes("google")) return "google";
-  if (r.includes("facebook") || r.includes("instagram") || r.includes("fb.com")) return "social";
+  if (r.includes("facebook") || r.includes("instagram") || r.includes("fb.com") || r.includes("l.instagram")) return "social";
   return "direct";
 }
+
 
 async function getClientIp() {
   const h = await headers();
@@ -109,13 +109,13 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
     getPublishedLeadFormOptions(formPage),
     getPublishedLeadFormFields(formPage),
   ]);
-  const salutationOptions = withFallback(pageOptions.salutations, SALUTATIONS);
-  const stateOptions = withFallback(pageOptions.states, MALAYSIAN_STATES);
-  const billRangeOptions = withFallback(pageOptions.billRanges, BILL_RANGES);
-  const propertyTypeOptions = withFallback(pageOptions.propertyTypes, PROPERTY_TYPES);
-  const electricSupplyOptions = withFallback(pageOptions.electricSupply, ELECTRIC_SUPPLY_OPTIONS);
-  const languageOptions = withFallback(pageOptions.languages, COMMUNICATION_LANGUAGES);
-  const roleOptions = withFallback(pageOptions.roleInOrganization, ROLE_IN_ORGANIZATION_OPTIONS);
+  const salutationOptions = pageOptions.salutations?.length ? pageOptions.salutations : SALUTATIONS;
+  const stateOptions = pageOptions.states?.length ? pageOptions.states : MALAYSIAN_STATES;
+  const billRangeOptions = pageOptions.billRanges?.length ? pageOptions.billRanges : BILL_RANGES;
+  const propertyTypeOptions = pageOptions.propertyTypes?.length ? pageOptions.propertyTypes : PROPERTY_TYPES;
+  const electricSupplyOptions = pageOptions.electricSupply?.length ? pageOptions.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languageOptions = pageOptions.languages?.length ? pageOptions.languages : COMMUNICATION_LANGUAGES;
+  const roleOptions = pageOptions.roleInOrganization?.length ? pageOptions.roleInOrganization : ROLE_IN_ORGANIZATION_OPTIONS;
 
   const salutation = oneOf(clean(formData.get("salutation"), 10), salutationOptions);
   const full_name = clean(formData.get("full_name")).replace(/[\p{Cc}\p{Cf}]/gu, "");
@@ -198,8 +198,6 @@ export async function submitLead(sourcePage: string, formPage: LeadFormPage, _pr
   let supabaseOk = true;
   try {
     const supabase = getSupabaseServerClient();
-    // industry has its own column on ci_leads, so it is left out of extra_fields.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { industry: _industry, ...ciExtraFields } = extraFields;
     const { error } =
       formPage === "ci"

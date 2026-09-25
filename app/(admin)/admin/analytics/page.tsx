@@ -4,10 +4,11 @@ import { SEGMENTS, SEGMENT_LABEL, type Segment } from "@/lib/segments";
 import Charts, { type Bucket, type Overview } from "./Charts";
 import FilterBar from "./FilterBar";
 import { parseFilters, rangeLabel, sinceISO } from "./filters";
-import { MILESTONES } from "./milestones";
 import PagePerformance, { type PageGroup, type PageStats } from "./PagePerformance";
 import { pageNameFromPath, localeFromPath, pathsForPageName, ALL_PAGE_NAMES, PAGES_WITH_FORM } from "@/lib/pageNames";
 import { LOCALES, LOCALE_LABELS } from "@/lib/i18n";
+
+const MILESTONES = [25, 50, 75, 100] as const;
 
 type PageviewRow = {
   path: string;

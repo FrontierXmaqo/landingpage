@@ -253,6 +253,7 @@ const cn: Dictionary = {
   leadForm: {
     title: "获取免费上门评估",
     subtitle: "只需 60 秒。我们的 ATAP 团队会在 1 个工作日内致电给您。",
+    successTitle: "已收到您的申请",
     honeypot: "请勿填写此栏",
     salutation: "称谓 *",
     salutationPlaceholder: "选择称谓",
@@ -557,6 +558,7 @@ const cn: Dictionary = {
         "TNB ATAP 申请由我们代办",
         "按您实际的电动车充电习惯设计",
       ],
+      successTitle: "已收到您的申请",
       honeypot: "公司",
       salutation: "称谓",
       fullName: "全名",

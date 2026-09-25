@@ -74,7 +74,6 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           fbq('track', 'PageView');`}
         </Script>
         <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element -- Meta Pixel noscript beacon; must hit facebook.com directly, not /_next/image */}
           <img
             height="1"
             width="1"

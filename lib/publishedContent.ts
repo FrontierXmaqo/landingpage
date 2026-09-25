@@ -1,8 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, BRAND_LOGOS, type SolarPackage } from "@/lib/content";
-import type { LeadFormOptionLists } from "@/lib/leadFormOptions";
+import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import type { Locale } from "@/lib/i18n";
-import { SUPABASE_URL } from "@/lib/supabase/url";
 
 // CMS text (FAQ, achievement labels, trust-stat labels) is written in English
 // only. Chinese and Malay pages skip it and show the dictionary translation,
@@ -14,7 +13,7 @@ export type PublishedCustomField = { key: string; label: string; values: string[
 // Public, RLS-protected anon client — server-side only, reads `status='published'` rows.
 function getAnonClient() {
   return createClient(
-    SUPABASE_URL,
+    "https://yhpsidiipdassknsggcz.supabase.co",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
     { auth: { persistSession: false } }
   );

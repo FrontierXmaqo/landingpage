@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import { useActionState, useEffect, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import Footer from "@/app/[lang]/(main)/components/Footer";
 import PhoneField from "@/app/[lang]/(main)/components/PhoneField";
-import AttributionFields from "@/app/[lang]/(main)/components/AttributionFields";
+import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
+import { resolveLeadAttribution } from "@/lib/attribution";
 import { EV_CALC_DEFAULTS, OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import {
@@ -19,8 +20,6 @@ import {
   PROPERTY_TYPES,
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
-  withFallback,
-  type LeadFormOptionLists,
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
@@ -310,15 +309,25 @@ export default function EvPage({
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
   const router = useRouter();
+  const campaignIdRef = useRef<HTMLInputElement>(null);
+  const gclidRef = useRef<HTMLInputElement>(null);
+  const fbclidRef = useRef<HTMLInputElement>(null);
+  const referrerRef = useRef<HTMLInputElement>(null);
+  const landingPageSourceRef = useRef<HTMLInputElement>(null);
+  const utmSourceRef = useRef<HTMLInputElement>(null);
+  const utmMediumRef = useRef<HTMLInputElement>(null);
+  const utmCampaignRef = useRef<HTMLInputElement>(null);
+  const utmTermRef = useRef<HTMLInputElement>(null);
+  const utmContentRef = useRef<HTMLInputElement>(null);
 
   const evCalc = evCalcConfig ?? EV_CALC_DEFAULTS;
   const faqList = faqItems?.length ? faqItems : t.faq.items;
-  const salutations = withFallback(optionValues?.salutations, SALUTATIONS);
-  const states = withFallback(optionValues?.states, MALAYSIAN_STATES);
-  const billRanges = withFallback(optionValues?.billRanges, BILL_RANGES);
-  const propertyTypes = withFallback(optionValues?.propertyTypes, PROPERTY_TYPES);
-  const electricSupply = withFallback(optionValues?.electricSupply, ELECTRIC_SUPPLY_OPTIONS);
-  const languages = withFallback(optionValues?.languages, COMMUNICATION_LANGUAGES);
+  const salutations = optionValues?.salutations?.length ? optionValues.salutations : SALUTATIONS;
+  const states = optionValues?.states?.length ? optionValues.states : MALAYSIAN_STATES;
+  const billRanges = optionValues?.billRanges?.length ? optionValues.billRanges : BILL_RANGES;
+  const propertyTypes = optionValues?.propertyTypes?.length ? optionValues.propertyTypes : PROPERTY_TYPES;
+  const electricSupply = optionValues?.electricSupply?.length ? optionValues.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
+  const languages = optionValues?.languages?.length ? optionValues.languages : COMMUNICATION_LANGUAGES;
 
   // `label` is what the sales team reads in the lead's remarks, so it stays English
   // whatever language the visitor chose. On-page wording comes from the dictionary.
@@ -327,6 +336,27 @@ export default function EvPage({
     { key: "night", label: "Mostly at night", offsetRate: evCalc.offsetNightPercent / 100 },
     { key: "mixed", label: "Mixed / it varies", offsetRate: evCalc.offsetMixedPercent / 100 },
   ];
+
+  useEffect(() => {
+    // Reads the visit's first-touch attribution (persisted by lib/attribution
+    // since whichever page the visitor actually landed on) rather than this
+    // page's own URL, so campaign data survives even when the visitor
+    // browsed elsewhere before reaching this form.
+    const a = resolveLeadAttribution();
+    if (campaignIdRef.current) campaignIdRef.current.value = a.campaignId;
+    if (gclidRef.current) gclidRef.current.value = a.gclid;
+    if (fbclidRef.current) fbclidRef.current.value = a.fbclid;
+    if (referrerRef.current) referrerRef.current.value = a.referrer;
+    if (utmSourceRef.current) utmSourceRef.current.value = a.utmSource;
+    if (utmMediumRef.current) utmMediumRef.current.value = a.utmMedium;
+    if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
+    if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
+    if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
+    // Hardcoded, not derived from location.pathname: this page is reachable both
+    // at /ev directly and at /?site=ev (rewritten by proxy.ts), but it's always
+    // the EV landing page — never derive this from the visible URL/query string.
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/ev";
+  }, []);
 
   useEffect(() => {
     if (formState.status === "success") {
@@ -693,7 +723,16 @@ export default function EvPage({
               <p className="form-alert">{formState.message}</p>
             )}
             <input type="hidden" name="locale" value={locale} />
-            <AttributionFields landingPath="/ev" />
+            <input type="hidden" name="campaign_id" ref={campaignIdRef} />
+            <input type="hidden" name="gclid" ref={gclidRef} />
+            <input type="hidden" name="fbclid" ref={fbclidRef} />
+            <input type="hidden" name="landing_referrer" ref={referrerRef} />
+            <input type="hidden" name="landing_page_source" ref={landingPageSourceRef} />
+            <input type="hidden" name="utm_source" ref={utmSourceRef} />
+            <input type="hidden" name="utm_medium" ref={utmMediumRef} />
+            <input type="hidden" name="utm_campaign" ref={utmCampaignRef} />
+            <input type="hidden" name="utm_term" ref={utmTermRef} />
+            <input type="hidden" name="utm_content" ref={utmContentRef} />
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
               <label htmlFor="company_website">{t.form.honeypot}</label>
