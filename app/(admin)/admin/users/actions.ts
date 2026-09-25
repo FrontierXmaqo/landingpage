@@ -100,3 +100,21 @@ export async function removeUser(id: string) {
   await service.auth.admin.deleteUser(targetId); // cascades to profiles via FK on delete cascade
   revalidatePath("/admin/users");
 }
+
+/**
+ * Gives a role to a login that has none — e.g. one added straight in the
+ * Supabase dashboard, which creates the auth user but no profile, so they can
+ * sign in yet reach nothing.
+ */
+export async function assignProfile(id: string, fullName: string, role: Role) {
+  await requireRole(["admin"]);
+  const targetId = uuid(id);
+  const name = text(fullName, { max: 120, required: true, field: "Full name" });
+  const nextRole = oneOf(role, ROLES, "role");
+  const service = getSupabaseServiceClient();
+  const { data: authUser, error: lookupError } = await service.auth.admin.getUserById(targetId);
+  if (lookupError || !authUser.user) throw new Error("That login no longer exists.");
+  const { error } = await service.from("profiles").insert({ id: targetId, full_name: name, role: nextRole });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/users");
+}

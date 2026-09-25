@@ -1,9 +1,28 @@
 import { getCurrentProfile, getSupabaseUserClient } from "@/lib/supabase/server";
 import { NAV, NAV_CATEGORIES } from "./nav";
 import { NAV_ICONS } from "./navIcons";
+import { signOut } from "./login/actions";
 
 export default async function AdminHome() {
   const profile = await getCurrentProfile();
+  // Signed in, but no profile (so no role): say so instead of an empty dashboard.
+  if (!profile) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-base-bg px-4">
+        <div className="admin-card animate-fade-in-up w-full max-w-sm p-8">
+          <h1 className="text-lg font-bold text-base-ink">Your account isn&apos;t set up yet</h1>
+          <p className="mt-2 text-sm text-base-slate">
+            You&apos;re signed in, but no role has been assigned to you, so there&apos;s nothing to show. Ask a CMS admin
+            to give you access under User Management, then sign in again.
+          </p>
+          <form action={signOut} className="mt-6">
+            <button className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white">Sign out</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   const items = NAV.filter((item) => item.href !== "/admin" && profile && item.roles.includes(profile.role));
 
   let leadCount: number | null = null;
