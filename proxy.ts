@@ -104,6 +104,15 @@ async function guardAdmin(request: NextRequest, requestHeaders: Headers) {
     redirectUrl.pathname = "/admin/login";
     return NextResponse.redirect(redirectUrl);
   }
+  // An account an admin created with a temporary password goes nowhere else
+  // until its owner picks their own. Server Actions post to the page they were
+  // rendered on, so sign-out from the set-password page still works.
+  if (user?.app_metadata?.must_change_password && pathname !== "/admin/auth/set-password") {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/admin/auth/set-password";
+    redirectUrl.search = "";
+    return NextResponse.redirect(redirectUrl);
+  }
   if (user && isLoginPage) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/admin";

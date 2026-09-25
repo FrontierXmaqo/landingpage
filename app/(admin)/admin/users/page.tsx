@@ -18,7 +18,7 @@ export default async function UsersPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="text-2xl font-bold text-base-ink">User Management</h1>
-      <p className="mt-1 text-sm text-base-slate">Invite Maqo staff and assign their role. Supabase emails them an invite link.</p>
+      <p className="mt-1 text-sm text-base-slate">Add Maqo staff and assign their role — email them an invite link, or set a temporary password yourself.</p>
 
       <div className="mt-6"><InviteForm /></div>
 

@@ -7,6 +7,7 @@ import { oneOf, text, uuid } from "@/lib/validate";
 import { SITE_URL } from "@/lib/site";
 
 const ROLES = ["admin", "marketing", "sales_resi", "sales_ci"] as const;
+const MIN_PASSWORD_LENGTH = 12;
 
 export type { Role };
 
@@ -27,26 +28,55 @@ export async function inviteUser(_prev: FormState, formData: FormData): Promise<
     return { status: "error", message: "Please choose a valid role." };
   }
 
+  const method = formData.get("method") === "password" ? "password" : "email";
   const service = getSupabaseServiceClient();
-  // The email links to our own /admin/auth/confirm (no third-party scripts)
-  // rather than the public site, which is where Supabase sends it by default.
-  const { data, error } = await service.auth.admin.inviteUserByEmail(email, {
-    redirectTo: new URL("/admin/auth/confirm", SITE_URL).toString(),
-  });
-  if (error || !data.user) {
-    return { status: "error", message: error?.message || "Could not send the invite." };
+
+  let userId: string;
+  if (method === "password") {
+    // No email is sent: the admin hands the password over themselves. The
+    // flag lives in app_metadata, which only the service role can write, so
+    // the new user can't clear it without actually choosing a new password.
+    const password = String(formData.get("password") ?? "");
+    if (password.length < MIN_PASSWORD_LENGTH || password.length > 200) {
+      return { status: "error", message: `Please set a password of at least ${MIN_PASSWORD_LENGTH} characters.` };
+    }
+    const { data, error } = await service.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      app_metadata: { must_change_password: true },
+    });
+    if (error || !data.user) {
+      return { status: "error", message: error?.message || "Could not create the account." };
+    }
+    userId = data.user.id;
+  } else {
+    // The email links to our own /admin/auth/confirm (no third-party scripts)
+    // rather than the public site, which is where Supabase sends it by default.
+    const { data, error } = await service.auth.admin.inviteUserByEmail(email, {
+      redirectTo: new URL("/admin/auth/confirm", SITE_URL).toString(),
+    });
+    if (error || !data.user) {
+      return { status: "error", message: error?.message || "Could not send the invite." };
+    }
+    userId = data.user.id;
   }
 
-  const { error: profileError } = await service.from("profiles").insert({ id: data.user.id, full_name: fullName, role });
+  const { error: profileError } = await service.from("profiles").insert({ id: userId, full_name: fullName, role });
   if (profileError) {
     // Don't leave a login with no profile behind — it reaches nothing, and it
     // blocks re-inviting the same email.
-    await service.auth.admin.deleteUser(data.user.id);
+    await service.auth.admin.deleteUser(userId);
     return { status: "error", message: profileError.message };
   }
 
   revalidatePath("/admin/users");
-  return { status: "success", message: `Invite sent to ${email}.` };
+  return {
+    status: "success",
+    message: method === "password"
+      ? `Account created for ${email}. Share the password with them directly — they'll be asked to change it when they first sign in.`
+      : `Invite sent to ${email}.`,
+  };
 }
 
 export async function updateUserRole(id: string, role: Role) {
