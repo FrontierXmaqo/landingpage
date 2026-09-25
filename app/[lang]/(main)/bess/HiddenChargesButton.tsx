@@ -19,9 +19,6 @@ import { createPortal } from "react-dom";
  */
 export default function HiddenChargesButton() {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!open) return;
@@ -51,7 +48,6 @@ export default function HiddenChargesButton() {
       </button>
 
       {open &&
-        mounted &&
         createPortal(
           <div
             role="dialog"

@@ -1,5 +1,3 @@
-import { hasLocale } from "@/lib/i18n/config";
-
 /**
  * The three business lines the CMS reports on.
  *
@@ -39,39 +37,4 @@ export const SEGMENT_DOT: Record<PageSegment, string> = {
 
 export function isSegment(value: unknown): value is Segment {
   return value === "residential" || value === "ci" || value === "ev";
-}
-
-/**
- * Which line a public URL belongs to. BESS sits with C&I: it targets the same
- * TNB medium-voltage customers the C&I team already owns.
- *
- * The locale prefix is stripped first, so /ms/atap and /atap both resolve.
- */
-export function segmentForPath(pathname: string): PageSegment {
-  const parts = pathname.split("/").filter(Boolean);
-  if (parts.length && hasLocale(parts[0])) parts.shift();
-  const route = parts[0] ?? "";
-
-  switch (route) {
-    case "residential":
-    case "atap":
-      return "residential";
-    case "commercial-and-industrial":
-    case "bess":
-      return "ci";
-    case "ev":
-      return "ev";
-    default:
-      // Homepage, /about, and anything not yet mapped.
-      return "shared";
-  }
-}
-
-/**
- * The segment a lead belongs to. C&I needs no stored column — ci_leads is the
- * C&I segment. Residential and EV share atap_leads, so they carry one.
- */
-export function leadSegment(row: { segment?: string | null }, table: "atap" | "ci"): Segment | "unknown" {
-  if (table === "ci") return "ci";
-  return row.segment === "residential" || row.segment === "ev" ? row.segment : "unknown";
 }

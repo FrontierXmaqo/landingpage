@@ -45,18 +45,3 @@ export function uuid(value: unknown, field = "id") {
   if (!UUID.test(v)) throw new ValidationError(`${field} is not a valid id.`);
   return v;
 }
-
-/**
- * Copies only `keys` from an untrusted object.
- *
- * This is the guard against field tampering: without it, spreading a
- * client-supplied object into an update lets the caller set columns the form
- * never showed them — `status: 'published'` to skip the publish workflow,
- * or `published_by` to forge an audit trail.
- */
-export function pick<T extends Record<string, unknown>>(source: unknown, keys: readonly (keyof T)[]): Partial<T> {
-  const src = (source ?? {}) as Record<string, unknown>;
-  const out: Record<string, unknown> = {};
-  for (const key of keys) if (key in src) out[key as string] = src[key as string];
-  return out as Partial<T>;
-}
