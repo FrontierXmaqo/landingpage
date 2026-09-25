@@ -100,7 +100,7 @@ export default function CiLeadForm({
     if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
     if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
     if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
-    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin;
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/commercial-and-industrial";
   }, []);
 
   useEffect(() => {
