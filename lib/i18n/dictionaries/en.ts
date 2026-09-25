@@ -34,6 +34,7 @@ const en = {
   header: {
     logoAlt: "MAQO Solar",
     cta: "Free Assessment",
+    menu: "Menu",
     nav: {
       about: "About Us",
       residential: "Residential",

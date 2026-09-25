@@ -3,6 +3,7 @@ import Link from "next/link";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
+import SiteMenu from "./SiteMenu";
 
 export default function Header({
   locale,
@@ -17,6 +18,7 @@ export default function Header({
    * link instead — e.g. `localePath(locale, "/#consultation")`. */
   ctaHref?: string;
 }) {
+  const nav = t.header.nav;
   return (
     <header className="sticky top-0 z-40 w-full border-b border-base-line bg-base-panel/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -55,6 +57,20 @@ export default function Header({
           >
             {t.header.cta}
           </Link>
+          <SiteMenu
+            label={t.header.menu}
+            items={[
+              { label: nav.residential, href: localePath(locale, "/residential"), theme: "residential", dot: true },
+              { label: t.footer.commercial, href: localePath(locale, "/commercial-and-industrial"), theme: "ci", dot: true },
+              { label: nav.bess, href: localePath(locale, "/bess"), theme: "bess", dot: true },
+              { label: nav.ev, href: localePath(locale, "/ev"), theme: "ev", dot: true },
+              { label: nav.atap, href: localePath(locale, "/atap"), theme: "atap", dot: true },
+              { label: nav.products, href: localePath(locale, "/products-and-services"), theme: "default" },
+              { label: nav.about, href: localePath(locale, "/about"), theme: "about" },
+              { label: t.footer.blog, href: localePath(locale, "/blog"), theme: "default" },
+              { label: t.footer.contactUs, href: localePath(locale, "/contact"), theme: "default" },
+            ]}
+          />
         </div>
       </div>
     </header>
