@@ -21,6 +21,8 @@ export default function Footer({
     { label: nav.bess, href: localePath(locale, "/bess") },
     { label: nav.ev, href: localePath(locale, "/ev") },
     { label: nav.atap, href: localePath(locale, "/atap") },
+  ];
+  const more = [
     { label: nav.products, href: localePath(locale, "/products-and-services") },
     { label: nav.about, href: localePath(locale, "/about") },
     { label: t.blog, href: localePath(locale, "/blog") },
@@ -42,13 +44,17 @@ export default function Footer({
 
           <div>
             <p className={s.heading}>{t.solutions}</p>
-            <ul className={s.list}>
-              {links.map((l) => (
-                <li key={l.href}>
-                  <a href={l.href}>{l.label}</a>
-                </li>
+            <div className={s.navCols}>
+              {[links, more].map((group, i) => (
+                <ul key={i} className={s.list}>
+                  {group.map((l) => (
+                    <li key={l.href}>
+                      <a href={l.href}>{l.label}</a>
+                    </li>
+                  ))}
+                </ul>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div>
