@@ -1,4 +1,5 @@
 import { CONTACT, CREDENTIALS } from "@/lib/content";
+import type { ContactLinks } from "@/lib/siteContent";
 import SocialLinks from "./SocialLinks";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
@@ -10,10 +11,13 @@ export default function Footer({
   locale,
   t,
   nav,
+  contact = CONTACT,
 }: {
   locale: Locale;
   t: Dictionary["footer"];
   nav: Dictionary["header"]["nav"];
+  /** Published Contact Us details; the built-in CONTACT where a page can't fetch (the client-side EV page). */
+  contact?: ContactLinks;
 }) {
   const links = [
     { label: nav.residential, href: localePath(locale, "/residential") },
@@ -61,14 +65,14 @@ export default function Footer({
             <p className={s.heading}>{t.contact}</p>
             <ul className={s.list}>
               <li>
-                {t.email} <a href={CONTACT.emailHref}>{CONTACT.email}</a>
+                {t.email} <a href={contact.emailHref}>{contact.email}</a>
               </li>
               <li>
-                {t.office} <a href={CONTACT.officeHref}>{CONTACT.office}</a>
+                {t.office} <a href={contact.officeHref}>{contact.office}</a>
               </li>
               <li>
-                <a href={CONTACT.mapsHref} target="_blank" rel="noopener noreferrer">
-                  {CONTACT.address}
+                <a href={contact.mapsHref} target="_blank" rel="noopener noreferrer">
+                  {contact.address}
                 </a>
               </li>
             </ul>

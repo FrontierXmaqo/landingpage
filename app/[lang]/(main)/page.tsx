@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
-import { CONTACT, CREDENTIALS } from "@/lib/content";
+import { CREDENTIALS } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";
 import { getPublishedCiContent, getPublishedFaq } from "@/lib/publishedContent";
 import { CLIENTS, PROJECTS, TRUST_STATS } from "./commercial-and-industrial/content";
@@ -19,6 +19,7 @@ import ProductsTeaser from "./components/home/ProductsTeaser";
 import RouteTiles from "./components/home/RouteTiles";
 import HomeFaq from "./components/home/HomeFaq";
 import HomeFinalCta from "./components/home/HomeFinalCta";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 /**
  * The technical face used for eyebrows, capacities and step numbers. Declared
@@ -48,6 +49,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const t = getHomeCopy(lang);
 
   // The C&I project cards and the FAQ are the same CMS rows the C&I and
@@ -67,8 +69,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     name: "MAQO Engineering Sdn Bhd",
     alternateName: "MAQO Solar",
     url: `${SITE_URL.origin}${localePath(lang)}`,
-    email: CONTACT.email,
-    telephone: "+60380691706",
+    email: contact.email,
+    telephone: contact.officeHref.replace("tel:", ""),
     foundingDate: "2013",
     description: t.meta.description,
     address: {
@@ -87,7 +89,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     <div className={`${plexMono.variable} contents`}>
       <Header locale={lang} t={dict} ctaHref="#consultation" />
       <main className="flex-1 overflow-x-clip">
-        <HomeHero locale={lang} t={t} />
+        <HomeHero locale={lang} t={t} contact={contact} />
 
         {/* Why MAQO: the issued marks a buyer can verify, then the mission
             line attributed to the person who said it. Deliberately short. */}
@@ -104,10 +106,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <ProcessTimeline t={t.process} />
         <RouteTiles locale={lang} t={t.routes} />
         <HomeFaq t={t.faq} items={faqItems} />
-        <HomeFinalCta locale={lang} t={t.finalCta} shared={dict.finalCta} space={dict.space} />
+        <HomeFinalCta contact={contact} locale={lang} t={t.finalCta} shared={dict.finalCta} space={dict.space} />
       </main>
 
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}

@@ -7,6 +7,8 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import ProductCatalog from "./ProductCatalog";
 import { PAGE_COPY } from "./copy";
+import { PRODUCTS, getProducts } from "./products";
+import { getPublishedContact, getPublishedSection } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/products-and-services">): Promise<Metadata> {
@@ -38,6 +40,12 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
   const t = PAGE_COPY[lang];
   // No lead form on this page; quotes go to the homepage consultation form.
   const quoteHref = localePath(lang, "/#consultation");
+  // CMS copy is English only; Chinese and Malay keep their built-in translations.
+  const [products, services, contact] = await Promise.all([
+    lang === "en" ? getPublishedSection("products", PRODUCTS) : getProducts(lang),
+    lang === "en" ? getPublishedSection("services", t.services) : t.services,
+    getPublishedContact(),
+  ]);
 
   return (
     <>
@@ -58,7 +66,8 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
             </ScrollReveal>
 
             <div className="mt-10">
-              <ProductCatalog locale={lang} ctaHref={quoteHref} />
+              {/* A product still missing its photo stays in the CMS draft, off the page. */}
+              <ProductCatalog locale={lang} ctaHref={quoteHref} products={products.filter((p) => p.images.length)} />
             </div>
           </div>
         </section>
@@ -75,12 +84,12 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
             </ScrollReveal>
 
             <ol className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-              {t.services.map((svc, i) => (
+              {services.map((svc, i) => (
                 <li key={svc.title}>
                   <ScrollReveal delayMs={i * 60} className="flex h-full gap-4 border-t-2 border-brand-green pt-5">
                     <span aria-hidden className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-green-tint text-brand-green-ink">
                       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <path d={SERVICE_ICONS[i]} />
+                        <path d={SERVICE_ICONS[i % SERVICE_ICONS.length]} />
                       </svg>
                     </span>
                     <div>
@@ -109,7 +118,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
           </div>
         </section>
       </main>
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}

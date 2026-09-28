@@ -8,6 +8,7 @@ import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import Footer from "@/app/[lang]/(main)/components/Footer";
+import type { ContactLinks } from "@/lib/siteContent";
 import SiteMenu from "@/app/[lang]/(main)/components/SiteMenu";
 import { siteMenuItems } from "@/app/[lang]/(main)/components/Header";
 import PhoneField from "@/app/[lang]/(main)/components/PhoneField";
@@ -295,6 +296,7 @@ export default function EvPage({
   customFields,
   evCalcConfig,
   faqItems,
+  contact,
 }: {
   locale: Locale;
   dict: Dictionary;
@@ -305,6 +307,7 @@ export default function EvPage({
   customFields?: PublishedCustomField[];
   evCalcConfig?: typeof EV_CALC_DEFAULTS;
   faqItems?: { q: string; a: string }[];
+  contact?: ContactLinks;
 }) {
   const [bill, setBill] = useState(650);
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
@@ -876,7 +879,7 @@ export default function EvPage({
         </div>
       </section>
 
-      <Footer locale={locale} t={dict.footer} nav={dict.header.nav} />
+      <Footer contact={contact} locale={locale} t={dict.footer} nav={dict.header.nav} />
     </>
   );
 }

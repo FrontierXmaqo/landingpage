@@ -7,6 +7,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { getDictionary, hasLocale, type Locale, localeAlternates, localePath } from "@/lib/i18n";
 import { POSTS, type TopicKey } from "./posts";
+import { getPublishedContact, getPublishedSection } from "@/lib/publishedContent";
 
 const TOPIC_ORDER: TopicKey[] = ["schemes", "tariffs", "industry", "archive"];
 
@@ -107,6 +108,9 @@ export default async function BlogPage({ params }: PageProps<"/[lang]/blog">) {
   const dict = getDictionary(lang);
   const t = COPY[lang];
   const quoteHref = localePath(lang, "/#consultation");
+  const [posts, contact] = await Promise.all([getPublishedSection("blog", POSTS), getPublishedContact()]);
+  // A topic emptied in the CMS drops out instead of rendering a blank section.
+  const topics = TOPIC_ORDER.filter((key) => posts[key].length);
 
   return (
     <>
@@ -129,14 +133,14 @@ export default async function BlogPage({ params }: PageProps<"/[lang]/blog">) {
           <nav aria-label={t.jump} className="lg:sticky lg:top-24 lg:self-start">
             <p className="text-sm font-semibold text-base-slate">{t.jump}</p>
             <ul className="mt-3 flex flex-wrap gap-2 lg:flex-col lg:gap-1">
-              {TOPIC_ORDER.map((key) => (
+              {topics.map((key) => (
                 <li key={key}>
                   <a
                     href={`#${key}`}
                     className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-base-line px-3 text-sm font-semibold text-base-ink transition hover:border-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green-ink lg:w-full lg:border-transparent lg:px-2"
                   >
                     {t.topics[key].name}
-                    <span className="text-xs font-medium text-base-slate">{POSTS[key].length}</span>
+                    <span className="text-xs font-medium text-base-slate">{posts[key].length}</span>
                   </a>
                 </li>
               ))}
@@ -144,8 +148,8 @@ export default async function BlogPage({ params }: PageProps<"/[lang]/blog">) {
           </nav>
 
           <div className="space-y-16">
-            {TOPIC_ORDER.map((key) => {
-              const [lead, ...rest] = POSTS[key];
+            {topics.map((key) => {
+              const [lead, ...rest] = posts[key];
               return (
                 <section key={key} id={key} aria-labelledby={`${key}-h`} className="scroll-mt-24">
                   <h2 id={`${key}-h`} className="text-2xl font-bold text-base-ink sm:text-3xl">{t.topics[key].name}</h2>
@@ -204,7 +208,7 @@ export default async function BlogPage({ params }: PageProps<"/[lang]/blog">) {
           </div>
         </section>
       </main>
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer contact={contact} locale={lang} t={dict.footer} nav={dict.header.nav} />
     </>
   );
 }

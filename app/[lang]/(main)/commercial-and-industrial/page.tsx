@@ -16,6 +16,7 @@ import { CLIENTS, PROJECTS, PROJECT_VIDEO_URL, TRUST_STATS } from "./content";
 import { getCiCopy } from "./copy";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 import { getPublishedCiContent, getPublishedLeadFormOptions, getPublishedLeadFormFields } from "@/lib/publishedContent";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 const PATH = "/commercial-and-industrial";
 
@@ -41,6 +42,7 @@ export default async function CommercialAndIndustrialPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const c = getCiCopy(lang);
 
   // Projects, client roster and trust stats are CMS-managed; the constants in
@@ -279,7 +281,7 @@ export default async function CommercialAndIndustrialPage({
         </section>
       </main>
 
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}

@@ -24,6 +24,7 @@ import CommercialTeaser from "../components/CommercialTeaser";
 import Achievements from "../components/Achievements";
 import FinalCTA from "../components/FinalCTA";
 import Footer from "../components/Footer";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 /**
  * This page was the site's homepage until the MAQO Engineering homepage took
@@ -45,6 +46,7 @@ export default async function ResidentialPage({ params }: PageProps<"/[lang]/res
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = getDictionary(lang);
+  const contact = await getPublishedContact();
 
   // Pricing and lead-form options come from the CMS in every language: the
   // dictionaries carry the surrounding copy, but the numbers and the dropdown
@@ -81,7 +83,7 @@ export default async function ResidentialPage({ params }: PageProps<"/[lang]/res
         <Achievements t={t.achievements} items={achievements} />
         <FinalCTA t={t.finalCta} space={t.space} />
       </main>
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={t.footer}
         nav={t.header.nav}

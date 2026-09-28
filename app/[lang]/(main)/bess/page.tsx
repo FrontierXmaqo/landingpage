@@ -12,6 +12,7 @@ import BessFlowDiagram from "./BessFlowDiagram";
 import CredentialBadges from "../components/CredentialBadges";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 import { buttonGhost, buttonPrimary } from "../components/buttonStyles";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/bess">): Promise<Metadata> {
   const { lang } = await params;
@@ -41,6 +42,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const t = dict.bess;
   // BESS has no lead form of its own (the hero shows the battery visual
   // instead), so every CTA here routes to the C&I page's #assessment form,
@@ -358,7 +360,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
         </section>
       </main>
 
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}

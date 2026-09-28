@@ -152,3 +152,12 @@ export const CONTACT = {
     OFFICE_ADDRESS
   )}`,
 };
+
+/** CONTACT as the Contact Us CMS edits it; the fallback when nothing is published. */
+export const CONTACT_FIELDS = {
+  address: CONTACT.address,
+  mapsHref: CONTACT.mapsHref,
+  office: CONTACT.office,
+  officeTel: "+60380691706",
+  email: CONTACT.email,
+};

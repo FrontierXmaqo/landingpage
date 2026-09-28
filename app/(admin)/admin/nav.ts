@@ -2,7 +2,7 @@ import type { Role } from "@/lib/supabase/server";
 
 /** Fixed display order for the sidebar and dashboard's category headers —
  * both group NAV by this, so a new category only needs adding here. */
-export const NAV_CATEGORIES = ["Home", "Site Content", "Forms & FAQ", "Leads & Analytics", "Administration"] as const;
+export const NAV_CATEGORIES = ["Home", "Site Content", "Website Pages", "Forms & FAQ", "Leads & Analytics", "Administration"] as const;
 export type NavCategory = (typeof NAV_CATEGORIES)[number];
 
 /** Single source of truth for the CMS's sections — used by both the sidebar
@@ -12,6 +12,9 @@ export const NAV: { href: string; label: string; description: string; category: 
   { href: "/admin", label: "Overview", description: "Dashboard home.", category: "Home", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
   { href: "/admin/residential", label: "Residential Page", description: "Brand logos, achievement stats and calculator settings on the homepage.", category: "Site Content", roles: ["admin", "marketing"] },
   { href: "/admin/commercial-industrial", label: "Commercial & Industrial Page", description: "Projects, clients and stats on the C&I landing page.", category: "Site Content", roles: ["admin", "marketing", "sales_ci"] },
+  { href: "/admin/products-services", label: "Products & Services", description: "Product catalogue and service cards on /products-and-services.", category: "Website Pages", roles: ["admin", "marketing"] },
+  { href: "/admin/blog", label: "Blog", description: "Articles on /blog, grouped by topic.", category: "Website Pages", roles: ["admin", "marketing"] },
+  { href: "/admin/contact", label: "Contact Us", description: "Office address, phone and email used across the site.", category: "Website Pages", roles: ["admin", "marketing"] },
   { href: "/admin/leads-form", label: "Lead Form", description: "Fields and dropdown options on the public assessment form.", category: "Forms & FAQ", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },
   { href: "/admin/faq", label: "FAQ", description: "Questions and answers across Residential, EV and ATAP. English only: the Chinese and Malay pages use built-in translations.", category: "Forms & FAQ", roles: ["admin", "marketing", "sales_resi"] },
   { href: "/admin/enquiries", label: "Customer Enquiries", description: "Incoming leads - status and notes.", category: "Leads & Analytics", roles: ["admin", "marketing", "sales_resi", "sales_ci"] },

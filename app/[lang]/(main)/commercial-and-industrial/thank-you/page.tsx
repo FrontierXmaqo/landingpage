@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 import ThankYouTracking from "../../components/ThankYouTracking";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { getCiCopy } from "../copy";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 export async function generateMetadata({
   params,
@@ -24,6 +25,7 @@ export default async function CiThankYouPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const t = getCiCopy(lang).thankYou;
 
   return (
@@ -69,7 +71,7 @@ export default async function CiThankYouPage({
           </div>
         </div>
       </main>
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer contact={contact} locale={lang} t={dict.footer} nav={dict.header.nav} />
     </div>
   );
 }

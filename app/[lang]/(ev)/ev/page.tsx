@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "@/lib/i18n";
-import { getPublishedEvCalculatorConfig, getPublishedLeadFormOptions, getPublishedLeadFormFields, getPublishedFaq } from "@/lib/publishedContent";
+import { getPublishedEvCalculatorConfig, getPublishedLeadFormOptions, getPublishedLeadFormFields, getPublishedFaq, getPublishedContact } from "@/lib/publishedContent";
 import EvPage from "./EvPage";
 
 export default async function Page({ params }: PageProps<"/[lang]/ev">) {
@@ -10,11 +10,12 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
 
   // Pricing formula, lead-form options and the FAQ come from the CMS, same as
   // the main site — see app/[lang]/(main)/page.tsx.
-  const [evCalcConfig, optionValues, customFields, faqItems] = await Promise.all([
+  const [evCalcConfig, optionValues, customFields, faqItems, contact] = await Promise.all([
     getPublishedEvCalculatorConfig(),
     getPublishedLeadFormOptions("ev"),
     getPublishedLeadFormFields("ev"),
     getPublishedFaq("ev", dict.ev.faq.items, lang),
+    getPublishedContact(),
   ]);
 
   return (
@@ -28,6 +29,7 @@ export default async function Page({ params }: PageProps<"/[lang]/ev">) {
       customFields={customFields}
       evCalcConfig={evCalcConfig}
       faqItems={faqItems}
+      contact={contact}
     />
   );
 }

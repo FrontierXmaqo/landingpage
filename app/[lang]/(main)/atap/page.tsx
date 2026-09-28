@@ -10,6 +10,7 @@ import { OLD_SITE_IMAGES } from "@/lib/content";
 import { getPublishedFaq } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 import { buttonGhost, buttonPrimary } from "../components/buttonStyles";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/atap">): Promise<Metadata> {
   const { lang } = await params;
@@ -26,6 +27,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const t = dict.atap;
   const s = dict.space;
   const home = (hash: string) => localePath(lang, `/${hash}`);
@@ -392,7 +394,7 @@ export default async function AtapPage({ params }: PageProps<"/[lang]/atap">) {
           </ScrollReveal>
         </section>
       </main>
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}

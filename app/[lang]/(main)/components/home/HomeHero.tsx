@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { localePath, type Locale } from "@/lib/i18n";
 import { CONTACT } from "@/lib/content";
+import type { ContactLinks } from "@/lib/siteContent";
 import type { HomeCopy } from "./copy";
 
 /**
@@ -14,7 +15,7 @@ import type { HomeCopy } from "./copy";
  *
  * The photographs are decorative: the boxes carry the same meaning in text.
  */
-export default function HomeHero({ locale, t }: { locale: Locale; t: HomeCopy }) {
+export default function HomeHero({ locale, t, contact = CONTACT }: { locale: Locale; t: HomeCopy; contact?: ContactLinks }) {
   const boxBase =
     "home-box relative isolate flex flex-col gap-3 overflow-hidden rounded-2xl border border-base-line bg-base-panel p-6 text-base-ink sm:p-7 lg:p-8";
 
@@ -88,7 +89,7 @@ export default function HomeHero({ locale, t }: { locale: Locale; t: HomeCopy })
               <span aria-hidden>&rarr;</span>
             </a>
             <a
-              href={CONTACT.officeHref}
+              href={contact.officeHref}
               className="border-b border-white/40 pb-0.5 text-sm font-semibold text-white transition hover:border-brand-orange hover:text-brand-orange"
             >
               {t.hero.tel}

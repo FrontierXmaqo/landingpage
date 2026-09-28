@@ -7,6 +7,7 @@ import Footer from "@/app/[lang]/(main)/components/Footer";
 import ThankYouTracking from "@/app/[lang]/(main)/components/ThankYouTracking";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/ev/thank-you">): Promise<Metadata> {
   const { lang } = await params;
@@ -21,6 +22,7 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
   const { lang: locale } = await params;
   if (!hasLocale(locale)) notFound();
   const dict = getDictionary(locale);
+  const contact = await getPublishedContact();
   const t = dict.ev;
   const evHome = localePath(locale, "/ev");
 
@@ -93,7 +95,7 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
         </section>
       </main>
 
-      <Footer locale={locale} t={dict.footer} nav={dict.header.nav} />
+      <Footer contact={contact} locale={locale} t={dict.footer} nav={dict.header.nav} />
     </>
   );
 }

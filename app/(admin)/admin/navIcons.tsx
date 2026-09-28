@@ -97,11 +97,41 @@ function IconQuestion(props: IconProps) {
   );
 }
 
+function IconPanel(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 5h18l-2 10H5L3 5Z" />
+      <path d="M4 10h16M12 5v10M12 15v4m-4 0h8" />
+    </Icon>
+  );
+}
+
+function IconDocument(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5 4h10l4 4v12H5z" />
+      <path d="M15 4v4h4M8 12h8M8 16h5" />
+    </Icon>
+  );
+}
+
+function IconMail(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="3" y="5.5" width="18" height="13" rx="2" />
+      <path d="m3.5 7 8.5 6.5L20.5 7" />
+    </Icon>
+  );
+}
+
 export const NAV_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   "/admin": IconGrid,
   "/admin/residential": IconHome,
   "/admin/faq": IconQuestion,
   "/admin/commercial-industrial": IconBuildings,
+  "/admin/products-services": IconPanel,
+  "/admin/blog": IconDocument,
+  "/admin/contact": IconMail,
   "/admin/leads-form": IconClipboard,
   "/admin/enquiries": IconInbox,
   "/admin/analytics": IconBarChart,

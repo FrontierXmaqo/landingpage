@@ -10,6 +10,7 @@ import { CREDENTIALS, OLD_SITE_IMAGES } from "@/lib/content";
 import { ABOUT_CONTENT, PROOF_PROJECTS } from "./content";
 import StoryRoad from "./StoryRoad";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
   const { lang } = await params;
@@ -39,6 +40,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const t = dict.about;
   const c = ABOUT_CONTENT[lang];
   const s = dict.space;
@@ -519,7 +521,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
           </ScrollReveal>
         </section>
       </main>
-      <Footer
+      <Footer contact={contact}
         locale={lang}
         t={dict.footer}
         nav={dict.header.nav}

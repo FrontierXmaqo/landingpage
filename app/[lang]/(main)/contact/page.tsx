@@ -5,8 +5,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
-import { CONTACT } from "@/lib/content";
 import { getDictionary, hasLocale, type Locale, localeAlternates, localePath } from "@/lib/i18n";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 const COPY: Record<
   Locale,
@@ -99,13 +99,14 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const t = COPY[lang];
   const quoteHref = localePath(lang, "/#consultation");
 
   const channels = [
-    { key: "office" as const, label: t.office, value: CONTACT.address, href: CONTACT.mapsHref, action: t.openMap, external: true },
-    { key: "phone" as const, label: t.phone, value: CONTACT.office, href: CONTACT.officeHref, action: t.call, external: false },
-    { key: "email" as const, label: t.email, value: CONTACT.email, href: CONTACT.emailHref, action: t.write, external: false },
+    { key: "office" as const, label: t.office, value: contact.address, href: contact.mapsHref, action: t.openMap, external: true },
+    { key: "phone" as const, label: t.phone, value: contact.office, href: contact.officeHref, action: t.call, external: false },
+    { key: "email" as const, label: t.email, value: contact.email, href: contact.emailHref, action: t.write, external: false },
   ];
 
   return (
@@ -161,7 +162,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
           </div>
         </section>
       </main>
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer contact={contact} locale={lang} t={dict.footer} nav={dict.header.nav} />
     </>
   );
 }

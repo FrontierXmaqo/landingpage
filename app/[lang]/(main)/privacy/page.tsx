@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { CONTACT } from "@/lib/content";
 import { PRIVACY_LAST_UPDATED, PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
+import { getPublishedContact } from "@/lib/publishedContent";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/privacy">): Promise<Metadata> {
   const { lang } = await params;
@@ -21,6 +21,7 @@ export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const contact = await getPublishedContact();
   const p = PRIVACY_POLICY[lang];
 
   return (
@@ -57,18 +58,18 @@ export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy
               <li>MAQO Engineering Sdn Bhd</li>
               <li>
                 {p.emailLabel}{" "}
-                <a href={CONTACT.emailHref} className="font-semibold text-brand-green-deep hover:underline">
-                  {CONTACT.email}
+                <a href={contact.emailHref} className="font-semibold text-brand-green-deep hover:underline">
+                  {contact.email}
                 </a>
               </li>
               <li>
                 {p.phoneLabel}{" "}
-                <a href={CONTACT.officeHref} className="font-semibold text-brand-green-deep hover:underline">
-                  {CONTACT.office}
+                <a href={contact.officeHref} className="font-semibold text-brand-green-deep hover:underline">
+                  {contact.office}
                 </a>
               </li>
               <li>
-                {p.addressLabel} {CONTACT.address}
+                {p.addressLabel} {contact.address}
               </li>
             </ul>
           </section>
@@ -76,7 +77,7 @@ export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy
           <p className="mt-10 border-t border-base-line pt-6 text-sm">{p.languageNote}</p>
         </article>
       </main>
-      <Footer locale={lang} t={dict.footer} nav={dict.header.nav} />
+      <Footer contact={contact} locale={lang} t={dict.footer} nav={dict.header.nav} />
     </div>
   );
 }

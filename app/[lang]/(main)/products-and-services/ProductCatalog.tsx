@@ -5,12 +5,11 @@ import ProductCard from "./ProductCard";
 import ProductDetail from "./ProductDetail";
 import type { Locale } from "@/lib/i18n";
 import { PAGE_COPY } from "./copy";
-import { CATEGORY_ORDER, getProducts, type Category, type Product } from "./products";
+import { CATEGORY_ORDER, type Category, type Product } from "./products";
 import s from "./products.module.css";
 
-export default function ProductCatalog({ locale, ctaHref }: { locale: Locale; ctaHref: string }) {
+export default function ProductCatalog({ locale, ctaHref, products: PRODUCTS }: { locale: Locale; ctaHref: string; products: Product[] }) {
   const ui = PAGE_COPY[locale].ui;
-  const PRODUCTS = getProducts(locale);
   const [filter, setFilter] = useState<Category | "all">("all");
   const [selected, setSelected] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);

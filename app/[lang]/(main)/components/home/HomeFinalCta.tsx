@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CONTACT } from "@/lib/content";
+import type { ContactLinks } from "@/lib/siteContent";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import type { HomeCopy } from "./copy";
 
@@ -19,11 +20,13 @@ export default function HomeFinalCta({
   t,
   shared,
   space,
+  contact = CONTACT,
 }: {
   locale: Locale;
   t: HomeCopy["finalCta"];
   shared: Dictionary["finalCta"];
   space: string;
+  contact?: ContactLinks;
 }) {
   return (
     <section id="consultation" className="scroll-mt-20 px-4 py-12 sm:px-6 sm:py-16">
@@ -53,7 +56,7 @@ export default function HomeFinalCta({
             <span aria-hidden>&rarr;</span>
           </Link>
           <a
-            href={CONTACT.officeHref}
+            href={contact.officeHref}
             className="inline-flex items-center justify-center rounded-full border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
           >
             {t.secondary}
@@ -64,8 +67,8 @@ export default function HomeFinalCta({
           <span>{t.foot}</span>
           <span>
             {t.emailLabel}{" "}
-            <a href={CONTACT.emailHref} className="font-semibold text-white transition hover:text-brand-orange">
-              {CONTACT.email}
+            <a href={contact.emailHref} className="font-semibold text-white transition hover:text-brand-orange">
+              {contact.email}
             </a>
           </span>
         </p>

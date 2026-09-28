@@ -46,3 +46,68 @@ export function useAddedRow(ids: string[], idPrefix: string) {
 
   return added;
 }
+
+/** Key-order-independent JSON, so the same content always compares equal. */
+const stable = (v: unknown) =>
+  JSON.stringify(v, (_k, x) => (x && typeof x === "object" && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort()) : x));
+
+/**
+ * Whole-document editing for the `site_content` sections: edits apply locally
+ * at once and save 700ms after the last change. `clean` is the same validator
+ * the server runs, so a bad value shows its error here instead of saving.
+ *
+ * The server re-renders after every save; `initial` only replaces local state
+ * when it differs from what was last sent, i.e. after Discard draft.
+ */
+export function useAutosave<T>(initial: T, clean: (v: unknown) => T, save: (data: T) => Promise<void>) {
+  const [data, setData] = useState(initial);
+  const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+  const sent = useRef(stable(initial));
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    const incoming = stable(initial);
+    if (incoming !== sent.current) {
+      sent.current = incoming;
+      setData(initial);
+    }
+  }, [initial]);
+
+  function update(next: T) {
+    setData(next);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(async () => {
+      let cleaned: T;
+      try {
+        cleaned = clean(next);
+      } catch (e) {
+        setState("error");
+        setError(e instanceof Error ? e.message : "That value can't be saved.");
+        return;
+      }
+      sent.current = stable(cleaned);
+      setState("saving");
+      setError(null);
+      try {
+        await save(cleaned);
+        setState("saved");
+      } catch (e) {
+        setState("error");
+        setError(e instanceof Error ? e.message : "Could not save the draft.");
+      }
+    }, 700);
+  }
+
+  return { data, update, state, error };
+}
+
+export function SaveStatus({ state, error }: { state: "idle" | "saving" | "saved" | "error"; error: string | null }) {
+  return (
+    <div aria-live="polite">
+      {state === "saving" && <p className="text-xs text-base-slate">Saving draft…</p>}
+      {state === "saved" && <p className="text-xs font-semibold text-brand-green-ink">✓ Draft saved - Publish to put it live.</p>}
+      <ErrorNote message={error} />
+    </div>
+  );
+}

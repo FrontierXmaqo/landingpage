@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, BRAND_LOGOS, type SolarPackage } from "@/lib/content";
+import { SOLAR_CALC_CONFIG, SOLAR_PACKAGES_HYBRID, SOLAR_PACKAGES_NEO, EV_CALC_DEFAULTS, BRAND_LOGOS, CONTACT_FIELDS, type SolarPackage } from "@/lib/content";
+import { CLEAN, contactLinks, type SiteContent, type SiteSection } from "@/lib/siteContent";
 import type { LeadFormOptionLists } from "@/app/[lang]/(main)/components/LeadForm";
 import type { Locale } from "@/lib/i18n";
 
@@ -271,4 +272,21 @@ export async function getPublishedFaq(page: FaqPage, fallback: PublishedFaqItem[
   } catch {
     return fallback;
   }
+}
+
+/** Fetches one published `site_content` section (Products & Services, Blog,
+ *  Contact Us), falling back to `fallback` when nothing is published, the row
+ *  fails validation, or Supabase is unreachable — same safety net as above. */
+export async function getPublishedSection<S extends SiteSection>(section: S, fallback: SiteContent[S]): Promise<SiteContent[S]> {
+  try {
+    const { data } = await getAnonClient().from("site_content").select("data").eq("section", section).eq("status", "published").maybeSingle();
+    return data ? CLEAN[section](data.data) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+/** Published contact details in the link-ready CONTACT shape. */
+export async function getPublishedContact() {
+  return contactLinks(await getPublishedSection("contact", CONTACT_FIELDS));
 }
