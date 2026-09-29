@@ -4,15 +4,23 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   AsYouType,
   getCountryCallingCode,
-  getExampleNumber,
   isValidPhoneNumber,
   parsePhoneNumberFromString,
   validatePhoneNumberLength,
-} from "libphonenumber-js/max";
-import examples from "libphonenumber-js/mobile/examples";
+  type MetadataJson,
+} from "libphonenumber-js/core";
 import type { Locale } from "@/lib/i18n";
-import { PHONE_COUNTRY as country } from "@/lib/phone";
+// Malaysia's entry cut from libphonenumber-js/metadata.max.json (1.4KB versus
+// 157KB for every country, which this browser bundle only ever checks against).
+// Regenerate it when upgrading libphonenumber-js. The server (lib/phone.ts)
+// still validates with the full metadata.
+import metadataJson from "@/lib/phone-metadata-my.json";
 import styles from "./PhoneField.module.css";
+
+const metadata = metadataJson as MetadataJson;
+// Not imported from lib/phone.ts: that module loads the full metadata, which
+// would put all 157KB back into this bundle.
+const country = "MY";
 
 const COPY: Record<Locale, { invalid: string }> = {
   en: { invalid: "Enter a valid Malaysian mobile number." },
@@ -20,11 +28,12 @@ const COPY: Record<Locale, { invalid: string }> = {
   ms: { invalid: "Masukkan nombor telefon bimbit Malaysia yang sah." },
 };
 
-const CODE = getCountryCallingCode(country);
-const placeholder = getExampleNumber(country, examples)?.formatNational() ?? "";
+const CODE = getCountryCallingCode(country, metadata);
+// Malaysia's example mobile number from libphonenumber-js/mobile/examples.
+const placeholder = parsePhoneNumberFromString("123456789", country, metadata)?.formatNational() ?? "";
 
 function format(digits: string) {
-  return new AsYouType(country).input(digits);
+  return new AsYouType(country, metadata).input(digits);
 }
 
 /**
@@ -62,7 +71,7 @@ export default function PhoneField({
   useEffect(() => {
     const input = inputRef.current;
     if (!input) return;
-    const invalid = value !== "" && !isValidPhoneNumber(value, country);
+    const invalid = value !== "" && !isValidPhoneNumber(value, country, metadata);
     input.setCustomValidity(invalid ? t.invalid : "");
   }, [value, t]);
 
@@ -88,8 +97,8 @@ export default function PhoneField({
     if (raw.trim().startsWith("+")) {
       // 15 digits is the longest any number can be (E.164).
       if (raw.replace(/\D/g, "").length > 15) return;
-      const parsed = parsePhoneNumberFromString(raw);
-      setValue(parsed?.country === country ? parsed.formatNational() : new AsYouType().input(raw));
+      const parsed = parsePhoneNumberFromString(raw, metadata);
+      setValue(parsed?.country === country ? parsed.formatNational() : new AsYouType(undefined, metadata).input(raw));
       return;
     }
 
@@ -108,9 +117,9 @@ export default function PhoneField({
       }
     }
 
-    if (validatePhoneNumberLength(digits, country) === "TOO_LONG") {
+    if (validatePhoneNumberLength(digits, country, metadata) === "TOO_LONG") {
       // A pasted "60123456789" is Malaysia's code without the "+", not an overlong number.
-      const withCode = digits.startsWith(CODE) ? parsePhoneNumberFromString(`+${digits}`) : undefined;
+      const withCode = digits.startsWith(CODE) ? parsePhoneNumberFromString(`+${digits}`, metadata) : undefined;
       if (withCode?.country === country) {
         setValue(withCode.formatNational());
       } else {

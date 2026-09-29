@@ -528,10 +528,12 @@ body { background: var(--color-base-bg); color: var(--color-base-ink); }
 .ci-hero-blob,
 .ci-hero-blob-deep {
   border-radius: 50%;
-  filter: blur(70px);
 }
-.ci-hero-blob { background: color-mix(in srgb, var(--color-ci-sky) 30%, transparent); }
-.ci-hero-blob-deep { background: color-mix(in srgb, var(--color-ci-sky-soft) 24%, transparent); }
+/* Soft edge painted as a radial gradient rather than filter: blur(70px): the
+   same glow, but a blur filter this large is re-rasterised on every repaint of
+   the hero, which showed up as seconds of Rendering in Lighthouse on mobile. */
+.ci-hero-blob { background: radial-gradient(closest-side, color-mix(in srgb, var(--color-ci-sky) 30%, transparent) 55%, transparent); }
+.ci-hero-blob-deep { background: radial-gradient(closest-side, color-mix(in srgb, var(--color-ci-sky-soft) 24%, transparent) 55%, transparent); }
 
 /* ======================================================================
    Homepage

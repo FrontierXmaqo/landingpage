@@ -21,6 +21,9 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
+  // Not preloaded: font preloads leak to every route in this build, so this
+  // put a 48KB unused file on the critical path of every non-EV page.
+  preload: false,
 });
 
 export function generateStaticParams() {

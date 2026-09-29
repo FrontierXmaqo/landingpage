@@ -32,6 +32,9 @@ const plexMono = IBM_Plex_Mono({
   weight: ["500", "600"],
   variable: "--font-plex-mono",
   display: "swap",
+  // Font preloads leak to every route in this build, so a preload here made
+  // every page (C&I, EV...) fetch two unused files ahead of its LCP image.
+  preload: false,
 });
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
