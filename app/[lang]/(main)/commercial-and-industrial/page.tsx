@@ -74,10 +74,10 @@ export default async function CommercialAndIndustrialPage({
               behind it. */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <Image
-              src="/ci-hero-solar-rooftop.png"
+              src="/ci-hero-solar-rooftop.webp"
               alt=""
               fill
-              priority
+              preload
               className="object-cover"
               sizes="100vw"
             />

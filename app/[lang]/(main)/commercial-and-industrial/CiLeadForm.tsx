@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
@@ -73,6 +73,10 @@ export default function CiLeadForm({
   const otherCustomFields = customFields?.filter((f) => f.key !== "industry") ?? [];
 
   const [state, formAction, pending] = useActionState(submitCiLead, initialState);
+  // Turnstile is ~100KB of JS plus an iframe; with the form above the fold it
+  // landed inside the measured load window and drove TBT. Loading it on the
+  // first focus still leaves it seconds to solve while the visitor types.
+  const [captchaWanted, setCaptchaWanted] = useState(false);
   const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const gclidRef = useRef<HTMLInputElement>(null);
@@ -129,7 +133,7 @@ export default function CiLeadForm({
         </p>
       )}
 
-      <form action={formAction} className="mt-6 grid grid-cols-1 gap-4">
+      <form action={formAction} onFocus={() => setCaptchaWanted(true)} className="mt-6 grid grid-cols-1 gap-4">
         <input type="hidden" name="locale" value={locale} />
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
         <input type="hidden" name="gclid" ref={gclidRef} />
@@ -299,7 +303,7 @@ export default function CiLeadForm({
 
         {TURNSTILE_SITE_KEY && (
           <>
-            <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />
+            {captchaWanted && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />}
             <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
           </>
         )}
