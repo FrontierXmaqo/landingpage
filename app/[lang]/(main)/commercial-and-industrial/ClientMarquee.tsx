@@ -33,7 +33,7 @@ export default function ClientMarquee({ clients }: { clients: Client[] }) {
                 width={160}
                 height={56}
                 className="max-h-12 w-auto max-w-full object-contain"
-                unoptimized
+                sizes="160px"
               />
             ) : (
               <span className="leading-tight">{client.name}</span>

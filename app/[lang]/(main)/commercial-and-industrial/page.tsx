@@ -78,6 +78,7 @@ export default async function CommercialAndIndustrialPage({
               alt=""
               fill
               preload
+              fetchPriority="high"
               className="object-cover"
               sizes="100vw"
             />

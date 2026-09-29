@@ -80,6 +80,7 @@ export default function CredentialBadges({
               width={badge.width}
               height={badge.height}
               className={`${markSize} w-auto max-w-full object-contain`}
+              sizes="140px"
             />
           </div>
           <p className={`text-center text-base-ink ${inline ? "mt-2 text-sm leading-snug" : "mt-3 text-base sm:text-lg"}`}>
