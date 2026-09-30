@@ -2,7 +2,7 @@
 // server clock is UTC — so every date must be formatted against an explicit
 // timezone rather than the runtime's. Malaysia is a fixed UTC+8 with no DST,
 // which is what makes the arithmetic in startOfMonthMYISO safe.
-export const MY_TIME_ZONE = "Asia/Kuala_Lumpur";
+const MY_TIME_ZONE = "Asia/Kuala_Lumpur";
 const MY_UTC_OFFSET_MS = 8 * 60 * 60 * 1000;
 
 /** e.g. "14 Sep 2026, 3:47 pm" — Malaysia time, wherever this runs. */

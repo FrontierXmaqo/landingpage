@@ -592,7 +592,7 @@ const ms: CiCopy = {
   },
 };
 
-export const CI_COPY: Record<Locale, CiCopy> = { en, cn, ms };
+const CI_COPY: Record<Locale, CiCopy> = { en, cn, ms };
 
 export function getCiCopy(locale: Locale): CiCopy {
   return CI_COPY[locale] ?? en;
