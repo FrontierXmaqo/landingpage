@@ -17,7 +17,29 @@ const adminHeaders = [
   { key: "X-Robots-Tag", value: "noindex, nofollow" },
 ];
 
+/**
+ * Top-level paths of the old get.maqosolar.com site, which now lives under /lp
+ * (see lib/legacySite.ts). Old ads, Google results and shared links keep working.
+ */
+const LEGACY_SITE_PATHS = [
+  "-842225",
+  "battery-energy-storage-system-malaysia",
+  "career",
+  "commercial-and-industrial-landing-page",
+  "commercial-industry",
+  "commercial-solar",
+  "let-the-sun-pay-for-you-blog",
+  "let-the-sun-pay-for-you-contact",
+  "post",
+  "residential-landing-page",
+  "solar-battery-energy-storage-system",
+  "solar-pv-self-consumption",
+  "thank-you-page-let-the-sun-pay-for-you",
+];
+
 const nextConfig: NextConfig = {
+  // The /lp and /phil pages need their trailing slash; proxy.ts strips it everywhere else.
+  skipTrailingSlashRedirect: true,
   images: {
     remotePatterns: [
       new URL("https://images.leadconnectorhq.com/**"),
@@ -31,6 +53,16 @@ const nextConfig: NextConfig = {
     // action caps the file at 10MB itself and returns a readable error; this
     // just has to be the larger of the two so the request reaches it.
     serverActions: { bodySizeLimit: "12mb" },
+  },
+  async redirects() {
+    return [
+      ...LEGACY_SITE_PATHS.map((path) => ({
+        source: `/${path}/:rest*`,
+        destination: `/lp/${path}/:rest*`,
+        permanent: true,
+      })),
+      { source: "/philippines/:rest*", destination: "/phil/:rest*", permanent: true },
+    ];
   },
   async headers() {
     return [

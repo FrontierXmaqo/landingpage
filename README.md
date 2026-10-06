@@ -1,6 +1,6 @@
 # Maqo landing page
 
-Marketing site for Maqo solar (https://get.maqo.asia) plus a staff CMS at
+Marketing site for Maqo solar (https://get.maqosolar.com) plus a staff CMS at
 `/admin`. Built with Next.js 16, Supabase and Tailwind, hosted on Vercel.
 
 ## Run it
@@ -27,6 +27,9 @@ LEAD_WEBHOOK_URL=
 CI_LEAD_WEBHOOK_URL=
 TESTING_WEBHOOK_URL=      # optional, see "Lead webhook"
 TEST_WEBHOOK_TOKEN=       # optional, see "Lead webhook"
+LEGACY_SITE_ORIGIN=       # see "Old site under /lp"
+LEGACY_SITE_BYPASS=
+LP_PROXY_SECRET=
 ```
 
 ## Where things are
@@ -38,7 +41,16 @@ TEST_WEBHOOK_TOKEN=       # optional, see "Lead webhook"
 | `app/(admin)/admin/` | Staff CMS: edit content, view enquiries, analytics |
 | `lib/` | Shared helpers, translations (`lib/i18n/`), Supabase client |
 | `public/` | Images and logos |
-| `proxy.ts` | Runs on every request: language redirect, security headers, admin login |
+| `proxy.ts` | Runs on every request: language redirect, security headers, admin login, forwarding `/lp` and `/phil` |
+
+## Old site under /lp
+
+get.maqo.asia moved to get.maqosolar.com, and the old get.maqosolar.com site
+moved to `/lp`. It still lives in its own repo and Vercel project
+(`get.maqo.solar-lp`); `lib/legacySite.ts` forwards `/lp/...`, `/phil/...`
+(Philippines) and its form APIs (`/api/submit`, `/api/ph-submit`,
+`/api/tags`) there. The old URLs (`/residential-landing-page/`, `/post/...`
+and the rest) redirect to `/lp/...` in `next.config.ts`.
 
 ## Common edits
 

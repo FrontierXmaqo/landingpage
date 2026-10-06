@@ -5,6 +5,7 @@ import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase/server";
 import { SUPABASE_URL } from "@/lib/supabase/url";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, hasLocale, type Locale } from "@/lib/i18n/config";
 import { THANK_YOU_FUNNELS, verifyLeadToken, type LeadFunnel } from "@/lib/leadToken";
+import { forwardToLegacySite, isLegacyPath } from "@/lib/legacySite";
 
 // Nonce + 'strict-dynamic' lets the GTM bootstrap script (loaded with this
 // nonce) inject its own configured tags (Ads, Clarity, LinkedIn, Meta Pixel,
@@ -115,6 +116,18 @@ async function guardAdmin(request: NextRequest, requestHeaders: Headers) {
 export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const firstSegment = pathname.split("/")[1] ?? "";
+
+  // /lp, /phil and the old pages' form APIs are served by the get-maqo-solar-lp
+  // project, with that site's own headers, so they skip the CSP and locale handling below.
+  if (isLegacyPath(pathname)) return forwardToLegacySite(request);
+
+  // next.config sets skipTrailingSlashRedirect so the legacy pages above keep
+  // their trailing slash; everything else still drops it, as Next does by default.
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    const trimmed = new URL(request.url); // NextURL would keep the slash
+    trimmed.pathname = pathname.replace(/\/+$/, "") || "/";
+    return NextResponse.redirect(trimmed, 308);
+  }
 
   const nonce = crypto.randomUUID().replace(/-/g, "");
   const csp = buildCsp(nonce);

@@ -31,7 +31,7 @@ export type LeadWebhookInput = {
   /** Which of our own landing pages this lead was submitted from (e.g. "MAQO Main Site", "MAQO EV Landing Page"). */
   sourcePage: string;
   remarks: string;
-  /** The clean landing page URL the visitor actually landed on (e.g. "https://get.maqo.asia", "https://get.maqo.asia/ev") — no query strings. */
+  /** The clean landing page URL the visitor actually landed on (e.g. "https://get.maqosolar.com", "https://get.maqosolar.com/ev") — no query strings. */
   landingPageSource: string;
 };
 
