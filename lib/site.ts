@@ -4,9 +4,9 @@
  * hreflang links into the absolute URLs Google requires — a relative hreflang
  * is silently ignored by crawlers.
  *
- * Override per deployment (preview branches, other domains) with
+ * Override per deployment (preview branches, the .my domain) with
  * NEXT_PUBLIC_SITE_URL; the default is the production landing page.
  */
 export const SITE_URL = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL || "https://get.maqosolar.com",
+  process.env.NEXT_PUBLIC_SITE_URL || "https://get.maqo.asia",
 );
