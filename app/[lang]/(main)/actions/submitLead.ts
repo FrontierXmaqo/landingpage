@@ -18,6 +18,7 @@ import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormP
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 import { isLeadFunnel, signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 import { toLeadPhone } from "@/lib/phone";
+import { visitorHost, visitorIp } from "@/lib/forwarded";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
@@ -71,10 +72,7 @@ function classifyLeadSource(referrer: string): "google" | "social" | "direct" {
 
 
 async function getClientIp() {
-  const h = await headers();
-  const forwardedFor = h.get("x-forwarded-for");
-  if (forwardedFor) return forwardedFor.split(",")[0].trim();
-  return h.get("x-real-ip") || "unknown";
+  return visitorIp(await headers());
 }
 
 async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof buildLeadWebhookPayload>[0]) {
@@ -228,7 +226,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     .filter((f) => extraFields[f.key])
     .map((f) => `${f.label}: ${extraFields[f.key]}`);
 
-  const requestHost = ((await headers()).get("host") ?? "").split(":")[0];
+  const requestHost = visitorHost(await headers()).split(":")[0];
   const turnstileOk = await verifyTurnstileToken(turnstileToken, clientIp, requestHost);
   if (!turnstileOk) {
     return { status: "error", message: t.captcha };

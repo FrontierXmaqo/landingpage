@@ -16,6 +16,7 @@ import type { Locale } from "@/lib/i18n";
 // still validates with the full metadata.
 import metadataJson from "@/lib/phone-metadata-my.json";
 import styles from "./PhoneField.module.css";
+import { withBasePath } from "@/lib/basePath";
 
 const metadata = metadataJson as MetadataJson;
 // Not imported from lib/phone.ts: that module loads the full metadata, which
@@ -138,7 +139,7 @@ export default function PhoneField({
     <div className={styles.wrapper}>
       <span className={styles.prefix} aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element -- one tiny SVG, nothing for next/image to optimise */}
-        <img src={`/flags/${country}.svg`} alt="" width={22} height={15} className={styles.flag} />
+        <img src={withBasePath(`/flags/${country}.svg`)} alt="" width={22} height={15} className={styles.flag} />
         +{CODE}
       </span>
 

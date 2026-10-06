@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/lib/Image";
 import { useEffect, useRef } from "react";
 import type { StoryMilestone } from "./content";
 import { FactoryScene, HouseScene } from "./StoryScenes";

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/lib/Image";
 import type { Dictionary } from "@/lib/i18n";
 import type { PublishedBrandLogo } from "@/lib/publishedContent";
 

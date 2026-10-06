@@ -1,5 +1,7 @@
 "use client";
 
+import { withBasePath } from "@/lib/basePath";
+
 /* -------------------------------------------------------------------------
    First-party visitor analytics.
 
@@ -50,7 +52,7 @@ export function sendBeacon(url: string, payload: unknown) {
 
 /** Fire-and-forget conversion event. Never blocks or throws. */
 export function trackEvent(eventType: "pageview" | "calculator_start" | "calculator_complete") {
-  sendBeacon("/api/track", {
+  sendBeacon(withBasePath("/api/track"), {
     event_type: eventType,
     session_id: getSessionId(),
     path: window.location.pathname,

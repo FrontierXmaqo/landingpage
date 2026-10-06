@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/lib/Image";
 import Link from "next/link";
 import SectionTag from "./SectionTag";
 import ScrollReveal from "./ScrollReveal";

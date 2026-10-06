@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/lib/Image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
@@ -26,6 +26,7 @@ import {
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
+import { BASE_PATH, withBasePath } from "@/lib/basePath";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
@@ -360,7 +361,7 @@ export default function EvPage({
     // Hardcoded, not derived from location.pathname: this page is reachable both
     // at /ev directly and at /?site=ev (rewritten by proxy.ts), but it's always
     // the EV landing page — never derive this from the visible URL/query string.
-    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/ev";
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + BASE_PATH + "/ev";
   }, []);
 
   useEffect(() => {
@@ -873,7 +874,7 @@ export default function EvPage({
               {submitting ? t.form.submitting : t.form.submit}
               {!submitting && <ArrowIcon />}
             </button>
-            <p className="form-legal">{t.form.legal} <a href={localePath(locale, "/privacy")} target="_blank" className="underline">{PRIVACY_POLICY[locale].formLink}</a></p>
+            <p className="form-legal">{t.form.legal} <a href={withBasePath(localePath(locale, "/privacy"))} target="_blank" className="underline">{PRIVACY_POLICY[locale].formLink}</a></p>
           </form>
           )}
         </div>

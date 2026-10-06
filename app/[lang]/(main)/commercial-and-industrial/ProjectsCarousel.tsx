@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/lib/Image";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Project } from "./content";
 import type { CiCopy } from "./copy";

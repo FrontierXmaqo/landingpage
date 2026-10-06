@@ -4,6 +4,7 @@ import SocialLinks from "./SocialLinks";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import s from "./Footer.module.css";
+import { withBasePath } from "@/lib/basePath";
 
 /** The one footer every page renders, /ev included, so the links and layout
  *  never drift between pages. */
@@ -53,7 +54,7 @@ export default function Footer({
                 <ul key={i} className={s.list}>
                   {group.map((l) => (
                     <li key={l.href}>
-                      <a href={l.href}>{l.label}</a>
+                      <a href={withBasePath(l.href)}>{l.label}</a>
                     </li>
                   ))}
                 </ul>
@@ -81,7 +82,7 @@ export default function Footer({
 
         <div className={s.bottom}>
           <span>{t.rights}</span>
-          <a href={localePath(locale, "/privacy")}>{PRIVACY_POLICY[locale].footerLink}</a>
+          <a href={withBasePath(localePath(locale, "/privacy"))}>{PRIVACY_POLICY[locale].footerLink}</a>
         </div>
       </div>
     </footer>

@@ -40,6 +40,22 @@ TEST_WEBHOOK_TOKEN=       # optional, see "Lead webhook"
 | `public/` | Images and logos |
 | `proxy.ts` | Runs on every request: language redirect, security headers, admin login |
 
+## The /homepage copy
+
+get.maqosolar.com/homepage/... serves a second build of this repo: the
+`landingpage-homepage` Vercel project, built with
+`NEXT_PUBLIC_BASE_PATH=/homepage` (next.config `basePath`). The
+get.maqo.solar-lp project forwards those paths to it.
+
+- `<Link>`, `router.push` and `redirect()` add the basePath themselves. Plain
+  `<a href>`, `<img src>` and fetch/beacon URLs don't: wrap root-relative
+  paths in `withBasePath()` (`lib/basePath.ts`). Import `Image` from
+  `@/lib/Image`, not `next/image`, so local image srcs get it too.
+- Canonical and hreflang links still point to get.maqo.asia (`SITE_URL`).
+- `/homepage/admin` redirects to get.maqo.asia/admin.
+- `lib/forwarded.ts` reads the visitor's IP and host from the forwarding
+  project (signed with `LP_PROXY_SECRET`) for rate limits and Turnstile.
+
 ## Common edits
 
 | To change... | Go to |

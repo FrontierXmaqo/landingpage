@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/lib/Image";
 import SectionTag from "./SectionTag";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { fill, type Dictionary } from "@/lib/i18n";

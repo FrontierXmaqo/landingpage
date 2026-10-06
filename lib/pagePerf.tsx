@@ -6,6 +6,7 @@ import { LOCALES } from "@/lib/i18n";
 import { getSessionId, sendBeacon } from "@/lib/track";
 import { getExternalReferrer } from "@/lib/getExternalReferrer";
 import { captureAttribution } from "@/lib/attribution";
+import { withBasePath } from "@/lib/basePath";
 
 /**
  * Which page a path belongs to, for the "each page's performance" breakdown —
@@ -150,7 +151,7 @@ export default function PagePerfTracker() {
       const finalActiveMs = activeMs + (visibleSince != null ? now - visibleSince : 0);
       sectionStarts.forEach((_, id) => pauseSection(id));
 
-      sendBeacon("/api/track-perf", {
+      sendBeacon(withBasePath("/api/track-perf"), {
         view_id: viewId,
         session_id: getSessionId(),
         path: pathname,

@@ -5,6 +5,8 @@ import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase/server";
 import { SUPABASE_URL } from "@/lib/supabase/url";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, hasLocale, type Locale } from "@/lib/i18n/config";
 import { THANK_YOU_FUNNELS, verifyLeadToken, type LeadFunnel } from "@/lib/leadToken";
+import { BASE_PATH } from "@/lib/basePath";
+import { SITE_URL } from "@/lib/site";
 
 // Nonce + 'strict-dynamic' lets the GTM bootstrap script (loaded with this
 // nonce) inject its own configured tags (Ads, Clarity, LinkedIn, Meta Pixel,
@@ -122,6 +124,12 @@ export async function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
 
+  // The /homepage copy on get.maqosolar.com has no CMS of its own: staff sign in
+  // on get.maqo.asia.
+  if (BASE_PATH && pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL(pathname, SITE_URL));
+  }
+
   // The CMS is checked before any locale handling, so /admin keeps its bare path.
   if (pathname.startsWith("/admin")) {
     const response = await guardAdmin(request, requestHeaders);
@@ -182,5 +190,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon).*)"],
+  // "/" on its own too: under the /homepage basePath the pattern below needs a trailing slash.
+  matcher: ["/", "/((?!_next/static|_next/image|favicon.ico|icon).*)"],
 };

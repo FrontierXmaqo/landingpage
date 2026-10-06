@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/lib/Image";
 import LeadForm, { type LeadFormOptionLists } from "./LeadForm";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import type { PublishedCustomField } from "@/lib/publishedContent";

@@ -12,6 +12,7 @@ import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/l
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
+import { BASE_PATH, withBasePath } from "@/lib/basePath";
 
 const initialState: LeadFormState = { status: "idle" };
 const submitCiLead = submitLead.bind(null, "MAQO C&I Landing Page", "ci");
@@ -104,7 +105,7 @@ export default function CiLeadForm({
     if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
     if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
     if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
-    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/commercial-and-industrial";
+    if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + BASE_PATH + "/commercial-and-industrial";
   }, []);
 
   useEffect(() => {
@@ -317,7 +318,7 @@ export default function CiLeadForm({
         </button>
 
         <p className="text-xs text-base-slate">
-          {t.consent} <a href={localePath(locale, "/privacy")} target="_blank" className="font-semibold underline hover:text-base-ink">{PRIVACY_POLICY[locale].formLink}</a>
+          {t.consent} <a href={withBasePath(localePath(locale, "/privacy"))} target="_blank" className="font-semibold underline hover:text-base-ink">{PRIVACY_POLICY[locale].formLink}</a>
         </p>
       </form>
     </div>

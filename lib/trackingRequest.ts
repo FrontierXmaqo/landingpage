@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { visitorHost, visitorIp } from "@/lib/forwarded";
 
 /**
  * Shared guards for the public analytics endpoints (/api/track, /api/track-perf).
@@ -11,7 +12,7 @@ import type { NextRequest } from "next/server";
 export const MAX_DURATION_MS = 24 * 60 * 60 * 1000;
 
 export function clientIp(request: NextRequest) {
-  return request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
+  return visitorIp(request.headers);
 }
 
 /**
@@ -23,7 +24,7 @@ export function isCrossOrigin(request: NextRequest) {
   const origin = request.headers.get("origin");
   if (!origin) return false;
   try {
-    return new URL(origin).host !== request.headers.get("host");
+    return new URL(origin).host !== visitorHost(request.headers);
   } catch {
     return true;
   }

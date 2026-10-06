@@ -8,6 +8,7 @@ import {
   switchLocalePath,
   type Locale,
 } from "@/lib/i18n/config";
+import { withBasePath } from "@/lib/basePath";
 
 function rememberAndGo(locale: Locale, path: string) {
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
@@ -38,7 +39,7 @@ export default function LanguageSwitcher({
     <div className={classes.root}>
       <nav aria-label={label} className={classes.links}>
         {LOCALES.map((l) => {
-          const href = switchLocalePath(pathname, l);
+          const href = withBasePath(switchLocalePath(pathname, l));
           const active = l === locale;
           return (
             <a
@@ -65,7 +66,7 @@ export default function LanguageSwitcher({
         value={locale}
         onChange={(e) => {
           const next = e.target.value as Locale;
-          rememberAndGo(next, switchLocalePath(pathname, next));
+          rememberAndGo(next, withBasePath(switchLocalePath(pathname, next)));
         }}
         className={classes.select}
       >

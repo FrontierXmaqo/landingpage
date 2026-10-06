@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/lib/Image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
@@ -8,6 +8,7 @@ import ThankYouTracking from "@/app/[lang]/(main)/components/ThankYouTracking";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { getPublishedContact } from "@/lib/publishedContent";
+import { withBasePath } from "@/lib/basePath";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/ev/thank-you">): Promise<Metadata> {
   const { lang } = await params;
@@ -42,7 +43,7 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
               label={dict.languageSwitcher.label}
               classes={{ root: "lang-switch", links: "lang-pills", link: "lang-pill", select: "lang-select" }}
             />
-            <a className="btn btn-primary btn-sm" href={`${evHome}#assessment`}>
+            <a className="btn btn-primary btn-sm" href={withBasePath(`${evHome}#assessment`)}>
               {dict.header.cta}
             </a>
           </div>

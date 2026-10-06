@@ -18,6 +18,8 @@ const adminHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Set to "/homepage" for the copy served at get.maqosolar.com/homepage (see README).
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
   images: {
     remotePatterns: [
       new URL("https://images.leadconnectorhq.com/**"),
@@ -30,7 +32,12 @@ const nextConfig: NextConfig = {
     // Default is 1MB, which a phone photo blows past instantly. The upload
     // action caps the file at 10MB itself and returns a readable error; this
     // just has to be the larger of the two so the request reaches it.
-    serverActions: { bodySizeLimit: "12mb" },
+    serverActions: {
+      bodySizeLimit: "12mb",
+      // The /homepage build is served on get.maqosolar.com through another
+      // project, so the form's Origin is not this deployment's own host.
+      ...(process.env.NEXT_PUBLIC_BASE_PATH ? { allowedOrigins: ["get.maqosolar.com"] } : {}),
+    },
   },
   async headers() {
     return [
