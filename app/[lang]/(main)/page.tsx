@@ -44,6 +44,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   return {
     title: t.meta.title,
     description: t.meta.description,
+    openGraph: { title: t.meta.title },
     alternates: localeAlternates(lang, "/", { xDefault: true }),
   };
 }
@@ -69,8 +70,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${SITE_URL.origin}/#organization`,
-    name: "MAQO Engineering Sdn Bhd",
-    alternateName: "MAQO Solar",
+    name: "MAQO Solar",
+    legalName: "MAQO Engineering Sdn Bhd",
     url: `${SITE_URL.origin}${localePath(lang)}`,
     email: contact.email,
     telephone: contact.officeHref.replace("tel:", ""),
@@ -86,6 +87,15 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     },
     areaServed: { "@type": "Place", name: "Peninsular Malaysia" },
     hasCredential: CREDENTIALS,
+  };
+
+  // The site name Google shows above the result is read from this.
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "MAQO Solar",
+    alternateName: ["MAQO", "MAQO Engineering", "MAQO ATAP"],
+    url: "https://get.maqo.asia/",
   };
 
   return (
@@ -121,6 +131,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organisation) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
       />
     </div>
   );

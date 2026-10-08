@@ -10,7 +10,7 @@ const en = {
   space: " ",
 
   meta: {
-    homeTitle: "MAQO ATAP | Residential Solar Malaysia: Cut Your TNB Bill Up to 90%",
+    homeTitle: "MAQO Solar | Residential Solar Malaysia: Cut Your TNB Bill Up to 90%",
     homeDescription:
       "MAQO ATAP Residential Solar Programme. Free home assessment, transparent packages, ST Class A & CIDB G7-certified installation across Peninsular Malaysia. 1,000+ homes powered since 2013.",
     aboutTitle: "About MAQO Solar | Malaysia's Trusted Solar EPC Since 2013",

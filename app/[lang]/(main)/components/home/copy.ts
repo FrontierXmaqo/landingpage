@@ -84,7 +84,7 @@ export type HomeCopy = {
 
 const en: HomeCopy = {
   meta: {
-    title: "MAQO Solar Malaysia | Residential & Commercial Solar Engineering",
+    title: "MAQO Solar | Residential, Commercial & Industrial Malaysia",
     description:
       "MAQO Engineering Sdn Bhd designs, builds and maintains rooftop solar for Malaysian homes and businesses. ST Class A, CIDB G7, SEDA registered and ISO 9001:2015 certified, with 1,000+ systems installed since 2013.",
   },

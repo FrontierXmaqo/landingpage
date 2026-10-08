@@ -68,6 +68,7 @@ export default function HomeHero({ locale, t, contact = CONTACT }: { locale: Loc
           </p>
 
           <h1 className="text-[clamp(2.25rem,min(6.4vw,8vh),4.5rem)] font-bold leading-[1.03] tracking-[-0.04em] text-white [text-shadow:0_2px_28px_rgba(6,26,14,0.45)]">
+            <span className="mb-2 block text-[clamp(1.125rem,1.8vw,1.5rem)] font-semibold tracking-[-0.01em] text-white/90">MAQO Solar</span>
             <span className="block">{t.hero.titleLine1}</span>
             <span className="block">
               {t.hero.titleLine2Lead}

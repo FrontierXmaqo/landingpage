@@ -5,7 +5,7 @@ const ms: Dictionary = {
   space: " ",
 
   meta: {
-    homeTitle: "MAQO ATAP | Solar Kediaman Malaysia: Jimat Bil TNB Sehingga 90%",
+    homeTitle: "MAQO Solar | Solar Kediaman Malaysia: Jimat Bil TNB Sehingga 90%",
     homeDescription:
       "Program Solar Kediaman MAQO ATAP. Penilaian rumah percuma, pakej yang telus, pemasangan bertauliah ST Class A & CIDB G7 di seluruh Semenanjung Malaysia. Lebih 1,000 rumah dikuasakan sejak 2013.",
     aboutTitle: "Tentang MAQO Solar | EPC Solar Dipercayai di Malaysia Sejak 2013",

@@ -6,7 +6,7 @@ const cn: Dictionary = {
   space: "",
 
   meta: {
-    homeTitle: "MAQO ATAP | 马来西亚住宅太阳能：TNB 电费最高省 90%",
+    homeTitle: "MAQO Solar | 马来西亚住宅太阳能：TNB 电费最高省 90%",
     homeDescription:
       "MAQO ATAP 住宅太阳能计划。免费上门评估，配套价格透明，由 ST Class A 与 CIDB G7 认证团队在西马各地安装。自 2013 年起已为 1,000 多户家庭供电。",
     aboutTitle: "关于 MAQO Solar | 自 2013 年起值得信赖的马来西亚太阳能 EPC 公司",
