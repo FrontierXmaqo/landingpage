@@ -273,7 +273,6 @@ const cn: Dictionary = {
     languagePlaceholder: "选择语言",
     submitting: "提交中…",
     submit: "获取免费上门评估",
-    consent: "提交即表示您同意 MAQO Engineering Sdn Bhd 就太阳能评估与您联系。绝无垃圾信息。",
   },
 
   formOptions: {
@@ -575,7 +574,6 @@ const cn: Dictionary = {
       language: "偏好语言",
       submitting: "发送中…",
       submit: "获取免费上门评估",
-      legal: "提交即表示您同意 MAQO Engineering Sdn Bhd 就太阳能评估与您联系。绝无垃圾信息。",
     },
     thankYou: {
       eyebrow: "已收到评估申请",

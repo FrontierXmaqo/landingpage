@@ -274,7 +274,6 @@ const ms: Dictionary = {
     languagePlaceholder: "Pilih bahasa",
     submitting: "Menghantar…",
     submit: "Dapatkan Penilaian Rumah Percuma",
-    consent: "Dengan menghantar, anda bersetuju untuk dihubungi oleh MAQO Engineering Sdn Bhd mengenai penilaian solar anda. Tiada spam.",
   },
 
   formOptions: {
@@ -576,7 +575,6 @@ const ms: Dictionary = {
       language: "Bahasa pilihan",
       submitting: "Menghantar…",
       submit: "Dapatkan Penilaian Rumah Percuma",
-      legal: "Dengan menghantar, anda bersetuju untuk dihubungi oleh MAQO Engineering Sdn Bhd mengenai penilaian solar anda. Tiada spam.",
     },
     thankYou: {
       eyebrow: "Penilaian Diminta",

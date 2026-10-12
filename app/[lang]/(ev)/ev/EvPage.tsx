@@ -25,7 +25,7 @@ import {
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
-import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
+import TermsAgree from "@/app/[lang]/(main)/components/TermsAgree";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
@@ -859,6 +859,7 @@ export default function EvPage({
                 ))}
               </div>
             )}
+            <TermsAgree locale={locale} className="form-legal form-terms" linkClassName="underline" />
             {TURNSTILE_SITE_KEY && (
               <>
                 <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />
@@ -873,7 +874,6 @@ export default function EvPage({
               {submitting ? t.form.submitting : t.form.submit}
               {!submitting && <ArrowIcon />}
             </button>
-            <p className="form-legal">{t.form.legal} <a href={localePath(locale, "/privacy")} target="_blank" className="underline">{PRIVACY_POLICY[locale].formLink}</a></p>
           </form>
           )}
         </div>

@@ -19,6 +19,7 @@ const PATHS = [
   "/blog",
   "/ev",
   "/privacy",
+  "/terms",
 ];
 
 const absolute = (path: string) => new URL(path, SITE_URL).toString();

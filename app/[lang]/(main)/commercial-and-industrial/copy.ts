@@ -82,7 +82,6 @@ export type CiCopy = {
     billPlaceholder: string;
     submit: string;
     submitting: string;
-    consent: string;
   };
   thankYou: {
     metaTitle: string;
@@ -246,7 +245,6 @@ const en: CiCopy = {
     billPlaceholder: "Select a range",
     submit: "Get Free Solar Assessment & ROI Quote",
     submitting: "Submitting…",
-    consent: "By submitting, you agree to be contacted by MAQO Solar about your enquiry.",
   },
   thankYou: {
     metaTitle: "Thank You | MAQO Solar",
@@ -406,7 +404,6 @@ const cn: CiCopy = {
     billPlaceholder: "请选择范围",
     submit: "获取免费太阳能评估与投资回报报价",
     submitting: "提交中…",
-    consent: "提交即表示您同意 MAQO Solar 就您的询问与您联系。",
   },
   thankYou: {
     metaTitle: "感谢您的查询 | MAQO Solar",
@@ -570,8 +567,6 @@ const ms: CiCopy = {
     billPlaceholder: "Pilih julat",
     submit: "Dapatkan Penilaian Solar & Sebut Harga ROI Percuma",
     submitting: "Menghantar…",
-    consent:
-      "Dengan menghantar, anda bersetuju untuk dihubungi oleh MAQO Solar berkenaan pertanyaan anda.",
   },
   thankYou: {
     metaTitle: "Terima Kasih | MAQO Solar",

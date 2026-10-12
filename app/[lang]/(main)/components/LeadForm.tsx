@@ -14,7 +14,7 @@ import {
   ELECTRIC_SUPPLY_OPTIONS,
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
-import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
+import TermsAgree from "./TermsAgree";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { PhoneTextField, SelectField, TextField, type Option } from "./formFields";
 
@@ -216,6 +216,8 @@ export default function LeadForm({
           </>
         )}
 
+        <TermsAgree locale={locale} className="text-sm leading-relaxed text-base-slate" linkClassName="font-semibold underline hover:text-base-ink" />
+
         <button
           type="submit"
           disabled={pending}
@@ -223,10 +225,6 @@ export default function LeadForm({
         >
           {pending ? t.submitting : t.submit}
         </button>
-
-        <p className="text-xs leading-relaxed text-base-slate">
-          {t.consent} <a href={localePath(locale, "/privacy")} target="_blank" className="font-semibold underline hover:text-base-ink">{PRIVACY_POLICY[locale].formLink}</a>
-        </p>
       </form>
     </div>
   );

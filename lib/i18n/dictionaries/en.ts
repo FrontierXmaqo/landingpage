@@ -279,7 +279,6 @@ const en = {
     languagePlaceholder: "Select language",
     submitting: "Submitting…",
     submit: "Get My Free Home Assessment",
-    consent: "By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar assessment. No Spam.",
   },
 
   // Display labels for the lead form's allowlisted values. The submitted value stays
@@ -584,7 +583,6 @@ const en = {
       language: "Preferred language",
       submitting: "Sending…",
       submit: "Get My Free Home Assessment",
-      legal: "By submitting, you agree to be contacted by MAQO Engineering Sdn Bhd about your solar assessment. No spam.",
     },
     thankYou: {
       eyebrow: "Assessment Requested",

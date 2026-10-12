@@ -2,6 +2,7 @@ import { CONTACT, CREDENTIALS } from "@/lib/content";
 import type { ContactLinks } from "@/lib/siteContent";
 import SocialLinks from "./SocialLinks";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
+import { TERMS_CONDITIONS } from "@/lib/termsConditions";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import s from "./Footer.module.css";
 
@@ -82,6 +83,7 @@ export default function Footer({
         <div className={s.bottom}>
           <span>{t.rights}</span>
           <a href={localePath(locale, "/privacy")}>{PRIVACY_POLICY[locale].footerLink}</a>
+          <a href={localePath(locale, "/terms")}>{TERMS_CONDITIONS[locale].footerLink}</a>
         </div>
       </div>
     </footer>

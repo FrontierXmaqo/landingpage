@@ -21,8 +21,6 @@ export type PrivacyPolicy = {
   phoneLabel: string;
   addressLabel: string;
   languageNote: string;
-  /** Short link text appended to the consent line under each lead form. */
-  formLink: string;
   /** Footer link label. */
   footerLink: string;
 };
@@ -123,7 +121,6 @@ export const PRIVACY_POLICY: Record<Locale, PrivacyPolicy> = {
     addressLabel: "Address:",
     languageNote:
       "This Privacy Policy is available in English, Bahasa Melayu and Chinese. In the event of any inconsistency, the English version shall prevail.",
-    formLink: "Read our Privacy Policy.",
     footerLink: "Privacy Policy",
   },
 
@@ -220,7 +217,6 @@ export const PRIVACY_POLICY: Record<Locale, PrivacyPolicy> = {
     addressLabel: "Alamat:",
     languageNote:
       "Dasar Privasi ini disediakan dalam Bahasa Inggeris, Bahasa Melayu dan Bahasa Cina. Sekiranya terdapat sebarang percanggahan, versi Bahasa Inggeris akan diguna pakai.",
-    formLink: "Baca Dasar Privasi kami.",
     footerLink: "Dasar Privasi",
   },
 
@@ -306,7 +302,6 @@ export const PRIVACY_POLICY: Record<Locale, PrivacyPolicy> = {
     phoneLabel: "电话：",
     addressLabel: "地址：",
     languageNote: "本隐私政策备有英文、马来文及中文版本。如有任何歧义，概以英文版本为准。",
-    formLink: "阅读我们的隐私政策。",
     footerLink: "隐私政策",
   },
 };

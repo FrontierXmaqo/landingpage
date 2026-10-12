@@ -202,6 +202,10 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   ) {
     return { status: "error", message: t.invalid };
   }
+  // The Terms & Conditions tick box (TermsAgree) is required on every form.
+  if (formData.get("terms_accepted") !== "yes") {
+    return { status: "error", message: t.invalid };
+  }
   if (formPage === "ci" && (!company_name || !role_in_organization)) {
     return { status: "error", message: t.invalid };
   }
