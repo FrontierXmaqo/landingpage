@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { submitApplication, type ApplicationState } from "../actions/submitApplication";
 import { CAREER_ROLES, RESUME_EXTENSIONS, RESUME_MAX_BYTES } from "@/lib/careers";
@@ -18,6 +18,11 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
   const [position, setPosition] = useState("");
   const [fileError, setFileError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
+
+  // The form is replaced by a shorter card on success, which shrinks the page and would leave the visitor at the bottom.
+  useEffect(() => {
+    if (state.status === "success") document.getElementById("apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [state.status]);
 
   const pick = (title: string) => {
     setPosition(title);
