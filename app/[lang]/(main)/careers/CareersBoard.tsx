@@ -58,22 +58,21 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
         </div>
 
         {/* key restarts the entrance animation each time the filter changes */}
-        <ul key={team} className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul key={team} className="mt-8 border-t-2 border-base-ink">
           {shown.map((r, i) => (
             <li
               key={r.title}
-              style={{ animationDelay: `${i * 50}ms` }}
-              className="career-card group relative flex flex-col gap-3 overflow-hidden rounded-[22px] border border-base-line bg-base-panel p-6 transition hover:-translate-y-1 hover:border-brand-orange"
+              style={{ animationDelay: `${i * 40}ms` }}
+              className="career-card group grid grid-cols-1 items-center gap-x-6 gap-y-3 border-b border-base-line px-2 py-5 transition hover:bg-brand-orange-tint/60 sm:grid-cols-[9rem_1fr_auto]"
             >
-              <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand-orange transition-transform duration-300 group-hover:scale-x-100" />
-              <span className="self-start rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-ink">{r.team}</span>
-              <h3 className="text-xl font-bold leading-snug text-base-ink">{r.title}</h3>
+              <span className="self-center justify-self-start rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-ink">{r.team}</span>
+              <h3 className="text-lg font-bold leading-snug text-base-ink sm:text-xl">{r.title}</h3>
               <button
                 type="button"
                 onClick={() => pick(r.title)}
-                className="mt-auto inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-full bg-brand-orange-deep px-5 text-sm font-semibold text-white transition hover:brightness-95"
+                className="inline-flex min-h-11 items-center justify-center gap-2 justify-self-start rounded-full bg-brand-orange-deep px-5 text-sm font-semibold text-white transition hover:brightness-95 sm:justify-self-end"
               >
-                Apply for this role
+                Apply
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
               </button>
             </li>
