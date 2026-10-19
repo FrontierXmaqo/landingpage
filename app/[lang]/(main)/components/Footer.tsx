@@ -6,6 +6,8 @@ import { TERMS_CONDITIONS } from "@/lib/termsConditions";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import s from "./Footer.module.css";
 
+const CAREERS_LABEL: Record<Locale, string> = { en: "Careers", cn: "加入我们", ms: "Kerjaya" };
+
 /** The one footer every page renders, /ev included, so the links and layout
  *  never drift between pages. */
 export default function Footer({
@@ -31,6 +33,7 @@ export default function Footer({
     { label: nav.products, href: localePath(locale, "/products-and-services") },
     { label: nav.about, href: localePath(locale, "/about") },
     { label: t.blog, href: localePath(locale, "/blog") },
+    { label: CAREERS_LABEL[locale], href: localePath(locale, "/careers") },
     { label: t.contactUs, href: localePath(locale, "/contact") },
   ];
 

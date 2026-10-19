@@ -16,6 +16,7 @@ const PATHS = [
   "/products-and-services",
   "/about",
   "/contact",
+  "/careers",
   "/blog",
   "/ev",
   "/privacy",
