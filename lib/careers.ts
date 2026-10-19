@@ -1,3 +1,8 @@
+import type { Locale } from "@/lib/i18n";
+
+/** Menu and footer link text for the Careers page. */
+export const CAREERS_LABEL: Record<Locale, string> = { en: "Careers", cn: "加入我们", ms: "Kerjaya" };
+
 /** Open roles. `title` is also the value posted by the application form and checked by submitApplication. */
 export const CAREER_ROLES = [
   { title: "Account & Finance Manager / Finance Controller", team: "Finance", type: "Full-time" },

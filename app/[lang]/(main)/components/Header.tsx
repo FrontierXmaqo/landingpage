@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { OLD_SITE_IMAGES } from "@/lib/content";
+import { CAREERS_LABEL } from "@/lib/careers";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 import SiteMenu, { type SiteMenuItem } from "./SiteMenu";
@@ -75,6 +76,7 @@ export function siteMenuItems(locale: Locale, t: Dictionary): SiteMenuItem[] {
     { label: nav.products, href: localePath(locale, "/products-and-services"), theme: "default" },
     { label: nav.about, href: localePath(locale, "/about"), theme: "about" },
     { label: t.footer.blog, href: localePath(locale, "/blog"), theme: "default" },
+    { label: CAREERS_LABEL[locale], href: localePath(locale, "/careers"), theme: "default" },
     { label: t.footer.contactUs, href: localePath(locale, "/contact"), theme: "default" },
   ];
 }

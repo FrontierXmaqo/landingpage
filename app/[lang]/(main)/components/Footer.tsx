@@ -4,9 +4,8 @@ import SocialLinks from "./SocialLinks";
 import { PRIVACY_POLICY } from "@/lib/privacyPolicy";
 import { TERMS_CONDITIONS } from "@/lib/termsConditions";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import { CAREERS_LABEL } from "@/lib/careers";
 import s from "./Footer.module.css";
-
-const CAREERS_LABEL: Record<Locale, string> = { en: "Careers", cn: "加入我们", ms: "Kerjaya" };
 
 /** The one footer every page renders, /ev included, so the links and layout
  *  never drift between pages. */
