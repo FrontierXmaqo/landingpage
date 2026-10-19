@@ -74,10 +74,10 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <section id="apply" className="mx-auto grid max-w-6xl scroll-mt-6 grid-cols-1 gap-10 px-4 pb-20 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
+      <section id="apply" className="mx-auto flex max-w-2xl scroll-mt-6 flex-col gap-8 px-4 pb-20 sm:px-6">
+        <div className="text-center">
           <h2 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-base-ink sm:text-5xl">Tell us about you</h2>
-          <p className="mt-4 max-w-md text-base-slate">Pick the role you want, attach your resume and add a short note. Our team reviews every application.</p>
+          <p className="mx-auto mt-4 max-w-md text-base-slate">Pick the role you want, attach your resume and add a short note. Our team reviews every application.</p>
         </div>
 
         {state.status === "success" ? (
