@@ -10,12 +10,15 @@ import { FIELD, PhoneTextField, TextField } from "../components/formFields";
 
 const initialState: ApplicationState = { status: "idle" };
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+const TEAMS = [...new Set(CAREER_ROLES.map((r) => r.team))];
 const LABEL = "text-[13px] font-semibold uppercase tracking-wide text-base-slate";
 
 export default function CareersBoard({ locale }: { locale: Locale }) {
   const [state, formAction, pending] = useActionState(submitApplication, initialState);
   const [position, setPosition] = useState("");
   const [fileError, setFileError] = useState("");
+  const [team, setTeam] = useState<string>("All");
+  const shown = team === "All" ? CAREER_ROLES : CAREER_ROLES.filter((r) => r.team === team);
   const formRef = useRef<HTMLFormElement>(null);
 
   const pick = (title: string) => {
@@ -28,20 +31,51 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
       <section id="roles" className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="text-3xl font-extrabold tracking-tight text-base-ink sm:text-4xl">Open roles</h2>
-          <p className="text-base-slate">{CAREER_ROLES.length} positions open · Malaysia</p>
+          <p aria-live="polite" className="text-base-slate">
+            {shown.length} of {CAREER_ROLES.length} positions · Malaysia
+          </p>
         </div>
-        <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {CAREER_ROLES.map((r) => (
-            <li key={r.title} className="flex flex-col gap-3 rounded-[22px] border border-base-line bg-base-panel p-6">
-              <span className="self-start rounded-full bg-brand-orange-tint px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-orange-ink">{r.team}</span>
+
+        <div role="group" aria-label="Filter roles by team" className="mt-6 flex flex-wrap gap-2.5">
+          {["All", ...TEAMS].map((t) => {
+            const count = t === "All" ? CAREER_ROLES.length : CAREER_ROLES.filter((r) => r.team === t).length;
+            const on = team === t;
+            return (
+              <button
+                key={t}
+                type="button"
+                aria-pressed={on}
+                onClick={() => setTeam(t)}
+                className={`inline-flex min-h-11 items-center gap-2 rounded-full border-2 px-4 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange-ink ${
+                  on ? "border-base-ink bg-base-ink text-white" : "border-base-line bg-base-panel text-base-ink hover:border-brand-orange"
+                }`}
+              >
+                {t}
+                <span className={`rounded-full px-2 py-0.5 text-xs ${on ? "bg-white/20" : "bg-brand-orange-tint text-brand-orange-ink"}`}>{count}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* key restarts the entrance animation each time the filter changes */}
+        <ul key={team} className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((r, i) => (
+            <li
+              key={r.title}
+              style={{ animationDelay: `${i * 50}ms` }}
+              className="career-card group relative flex flex-col gap-3 overflow-hidden rounded-[22px] border border-base-line bg-base-panel p-6 transition hover:-translate-y-1 hover:border-brand-orange"
+            >
+              <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand-orange transition-transform duration-300 group-hover:scale-x-100" />
+              <span className="self-start rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-ink">{r.team}</span>
               <h3 className="text-xl font-bold leading-snug text-base-ink">{r.title}</h3>
               <p className="text-[15px] leading-relaxed text-base-slate">{r.blurb}</p>
               <button
                 type="button"
                 onClick={() => pick(r.title)}
-                className="mt-auto inline-flex min-h-11 items-center justify-center self-start rounded-full bg-brand-orange-deep px-5 text-sm font-semibold text-white transition hover:brightness-95"
+                className="mt-auto inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-full bg-brand-orange-deep px-5 text-sm font-semibold text-white transition hover:brightness-95"
               >
                 Apply for this role
+                <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
               </button>
             </li>
           ))}
