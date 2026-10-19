@@ -98,9 +98,6 @@ export async function submitApplication(_prev: ApplicationState, formData: FormD
         position,
         message,
         resumeUrl: signed.signedUrl,
-        resumeFileName: noFormula(clean(resume.name, 150)),
-        sourcePage: "MAQO Careers",
-        submittedAt: new Date().toISOString(),
       }),
       signal: controller.signal,
     });
