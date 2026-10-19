@@ -17,8 +17,6 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
   const [state, formAction, pending] = useActionState(submitApplication, initialState);
   const [position, setPosition] = useState("");
   const [fileError, setFileError] = useState("");
-  const [team, setTeam] = useState<string>("All");
-  const shown = team === "All" ? CAREER_ROLES : CAREER_ROLES.filter((r) => r.team === team);
   const formRef = useRef<HTMLFormElement>(null);
 
   const pick = (title: string) => {
@@ -31,53 +29,49 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
       <section id="roles" className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="text-3xl font-extrabold tracking-tight text-base-ink sm:text-4xl">Open roles</h2>
-          <p aria-live="polite" className="text-base-slate">
-            {shown.length} of {CAREER_ROLES.length} positions · Malaysia
-          </p>
+          <p className="text-base-slate">{CAREER_ROLES.length} positions · {TEAMS.length} teams · Malaysia</p>
         </div>
 
-        <div role="group" aria-label="Filter roles by team" className="mt-6 flex flex-wrap gap-2.5">
-          {["All", ...TEAMS].map((t) => {
-            const count = t === "All" ? CAREER_ROLES.length : CAREER_ROLES.filter((r) => r.team === t).length;
-            const on = team === t;
+        <div className="mt-8 flex flex-col gap-6">
+          {TEAMS.map((team, gi) => {
+            const roles = CAREER_ROLES.filter((r) => r.team === team);
             return (
-              <button
-                key={t}
-                type="button"
-                aria-pressed={on}
-                onClick={() => setTeam(t)}
-                className={`inline-flex min-h-11 items-center gap-2 rounded-full border-2 px-4 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange-ink ${
-                  on ? "border-base-ink bg-base-ink text-white" : "border-base-line bg-base-panel text-base-ink hover:border-brand-orange"
-                }`}
+              <div
+                key={team}
+                style={{ animationDelay: `${gi * 60}ms` }}
+                className="career-card grid grid-cols-1 gap-x-10 gap-y-5 rounded-[28px] border border-base-line bg-base-panel p-6 sm:p-8 lg:grid-cols-[14rem_1fr]"
               >
-                {t}
-                <span className={`rounded-full px-2 py-0.5 text-xs ${on ? "bg-white/20" : "bg-brand-orange-tint text-brand-orange-ink"}`}>{count}</span>
-              </button>
+                <div className="flex items-baseline gap-3 lg:flex-col lg:gap-1">
+                  <h3 className="text-3xl font-extrabold leading-none tracking-tight text-brand-orange-ink">{team}</h3>
+                  <span className="text-sm font-semibold text-base-slate">
+                    {roles.length} {roles.length === 1 ? "role" : "roles"}
+                  </span>
+                </div>
+                <ul className="divide-y divide-base-line border-y border-base-line">
+                  {roles.map((r) => (
+                    <li key={r.title} className="group flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4">
+                      <div className="min-w-0 flex-1 basis-72">
+                        <h4 className="text-lg font-bold leading-snug text-base-ink">{r.title}</h4>
+                        <p className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-base-slate">
+                          <span className="rounded-full bg-brand-green-tint px-2.5 py-1 text-brand-green-ink">Malaysia</span>
+                          <span className="rounded-full bg-brand-orange-tint px-2.5 py-1 text-brand-orange-ink">{r.type}</span>
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => pick(r.title)}
+                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-brand-orange-deep px-5 text-sm font-semibold text-white transition hover:brightness-95"
+                      >
+                        Apply
+                        <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             );
           })}
         </div>
-
-        {/* key restarts the entrance animation each time the filter changes */}
-        <ul key={team} className="mt-8 border-t-2 border-base-ink">
-          {shown.map((r, i) => (
-            <li
-              key={r.title}
-              style={{ animationDelay: `${i * 40}ms` }}
-              className="career-card group grid grid-cols-1 items-center gap-x-6 gap-y-3 border-b border-base-line px-2 py-5 transition hover:bg-brand-orange-tint/60 sm:grid-cols-[9rem_1fr_auto]"
-            >
-              <span className="self-center justify-self-start rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-ink">{r.team}</span>
-              <h3 className="text-lg font-bold leading-snug text-base-ink sm:text-xl">{r.title}</h3>
-              <button
-                type="button"
-                onClick={() => pick(r.title)}
-                className="inline-flex min-h-11 items-center justify-center gap-2 justify-self-start rounded-full bg-brand-orange-deep px-5 text-sm font-semibold text-white transition hover:brightness-95 sm:justify-self-end"
-              >
-                Apply
-                <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-              </button>
-            </li>
-          ))}
-        </ul>
       </section>
 
       <section id="apply" className="mx-auto grid max-w-6xl scroll-mt-6 grid-cols-1 gap-10 px-4 pb-20 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
