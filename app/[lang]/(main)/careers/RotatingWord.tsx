@@ -26,7 +26,7 @@ export default function RotatingWord() {
   }, []);
 
   return (
-    <span className="relative inline-block text-brand-orange-ink sm:whitespace-nowrap">
+    <span className="relative inline-block text-brand-orange-ink">
       <span className={`inline-block transition duration-500 ${out ? "-translate-y-2 opacity-0" : ""}`}>{WORDS[i]}</span>
       <span aria-hidden className="absolute inset-x-[-0.06em] bottom-[0.04em] -z-10 h-[0.2em] rounded-full bg-brand-orange opacity-60" />
     </span>

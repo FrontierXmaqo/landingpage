@@ -44,7 +44,7 @@ export default async function CareersPage({ params }: PageProps<"/[lang]/careers
           <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
             <ScrollReveal>
               <SectionTag>Careers at MAQO</SectionTag>
-              <h1 className="mt-5 max-w-4xl text-5xl font-extrabold leading-[1] tracking-tight text-base-ink sm:text-7xl lg:text-8xl">
+              <h1 className="mt-5 whitespace-nowrap text-[clamp(2rem,8vw,6rem)] font-extrabold leading-[1] tracking-tight text-base-ink">
                 Power up your <RotatingWord />
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-base-slate sm:text-lg">

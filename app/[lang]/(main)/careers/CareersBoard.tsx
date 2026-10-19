@@ -68,7 +68,6 @@ export default function CareersBoard({ locale }: { locale: Locale }) {
               <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand-orange transition-transform duration-300 group-hover:scale-x-100" />
               <span className="self-start rounded-full bg-brand-green-tint px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-ink">{r.team}</span>
               <h3 className="text-xl font-bold leading-snug text-base-ink">{r.title}</h3>
-              <p className="text-[15px] leading-relaxed text-base-slate">{r.blurb}</p>
               <button
                 type="button"
                 onClick={() => pick(r.title)}
