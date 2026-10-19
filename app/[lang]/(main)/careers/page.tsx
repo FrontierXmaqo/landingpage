@@ -21,10 +21,10 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/careers">)
 
 const CREDENTIALS = ["ST Class A", "CIDB G7", "SEDA Registered", "ISO 9001:2015", "In-house licensed wiremen"];
 const POWER = [
-  ["P", "Passion"],
-  ["O", "Ownership"],
-  ["W", "Win Win"],
-  ["E", "Excellence, Endurance, Efficient"],
+  ["P", "Purpose"],
+  ["O", "Own it / Ownership"],
+  ["W", "Win together"],
+  ["E", "Excellent & Endurance"],
   ["R", "Respect & Honesty"],
 ];
 
