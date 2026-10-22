@@ -324,6 +324,7 @@ export default function EvPage({
   const utmCampaignRef = useRef<HTMLInputElement>(null);
   const utmTermRef = useRef<HTMLInputElement>(null);
   const utmContentRef = useRef<HTMLInputElement>(null);
+  const refCodeRef = useRef<HTMLInputElement>(null);
 
   const evCalc = evCalcConfig ?? EV_CALC_DEFAULTS;
   const faqList = faqItems?.length ? faqItems : t.faq.items;
@@ -357,6 +358,7 @@ export default function EvPage({
     if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
     if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
     if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
+    if (refCodeRef.current) refCodeRef.current.value = a.ref;
     // Hardcoded, not derived from location.pathname: this page is reachable both
     // at /ev directly and at /?site=ev (rewritten by proxy.ts), but it's always
     // the EV landing page — never derive this from the visible URL/query string.
@@ -739,6 +741,7 @@ export default function EvPage({
             <input type="hidden" name="utm_campaign" ref={utmCampaignRef} />
             <input type="hidden" name="utm_term" ref={utmTermRef} />
             <input type="hidden" name="utm_content" ref={utmContentRef} />
+            <input type="hidden" name="ref" ref={refCodeRef} />
             {/* Honeypot — hidden from real visitors, bots tend to fill every field. */}
             <div className="hp-field" aria-hidden="true">
               <label htmlFor="company_website">{t.form.honeypot}</label>

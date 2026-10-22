@@ -20,6 +20,8 @@ export type LeadWebhookInput = {
   preferredLanguage: string;
   sourceOfLeads: string;
   campaignId: string;
+  /** Salesperson referral code from the visitor's personal link; the CRM assigns the lead owner from it. */
+  referralCode: string;
   gclid: string;
   fbclid: string;
   /** Full UTM breakdown behind campaignId — persisted first-touch attribution (see lib/attribution.ts). */
@@ -101,6 +103,7 @@ function blankTemplate() {
     "Preferred Appointment Time:": "",
     "Monthly Electric Bills (RM)": "",
     "Campaign ID": "",
+    "Referral Code": "",
     "Location": "",
     "What type of real estate service are you interested in?": "",
     "Position": "",
@@ -162,6 +165,7 @@ function blankTemplate() {
       "Monthly TNB Bill": "",
       "Source of Leads": "",
       "Campaign ID": "",
+      "Referral Code": "",
       "Landing Page Source": "",
       "Fbclid": "",
       "UTM Source": "",
@@ -186,6 +190,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["contact_source"] = input.sourcePage;
   payload["gclid"] = input.gclid;
   payload["Campaign ID"] = input.campaignId;
+  payload["Referral Code"] = input.referralCode;
   if (input.remarks) payload["Remarks"] = input.remarks;
 
   payload.customData["Name"] = input.fullName;
@@ -194,6 +199,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload.customData["Monthly TNB Bill"] = input.monthlyBillRange;
   payload.customData["Source of Leads"] = input.sourceOfLeads;
   payload.customData["Campaign ID"] = input.campaignId;
+  payload.customData["Referral Code"] = input.referralCode;
   payload.customData["Landing Page Source"] = input.landingPageSource;
   payload.customData["Fbclid"] = input.fbclid;
   payload.customData["UTM Source"] = input.utmSource;
@@ -223,8 +229,10 @@ export function buildCiLeadWebhookPayload(input: LeadWebhookInput) {
   payload["contact_source"] = input.sourcePage;
   payload["gclid"] = input.gclid;
   payload["Campaign ID"] = input.campaignId;
+  payload["Referral Code"] = input.referralCode;
 
   const customData = payload.customData as Record<string, string>;
+  customData["Referral Code"] = input.referralCode;
   customData["Name"] = `${input.salutation} ${input.fullName}`.trim();
   customData["Company Name"] = input.companyName;
   customData["Industry"] = input.industry;

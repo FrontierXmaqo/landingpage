@@ -186,6 +186,9 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const utm_campaign = noFormula(clean(formData.get("utm_campaign"), 100));
   const utm_term = noFormula(clean(formData.get("utm_term"), 150));
   const utm_content = noFormula(clean(formData.get("utm_content"), 150));
+  // Salesperson referral code (?ref=S01). Unknown codes are harmless: the CRM
+  // only assigns on codes it has mapped and falls back to a default owner.
+  const referral_code = noFormula(clean(formData.get("ref"), 30)).toUpperCase();
   const landing_page_source = httpUrl(clean(formData.get("landing_page_source"), 300));
   const charge_time = noFormula(clean(formData.get("charge_time"), 80));
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
@@ -256,7 +259,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             role_in_organization: role_in_organization || null,
             phone, email, state, monthly_bill_range,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-            extra_fields: ciExtraFields,
+            extra_fields: { ...ciExtraFields, referral_code },
           })
         : await supabase.from("atap_leads").insert({
             // atap_leads holds both Residential and EV, and this form is the
@@ -266,7 +269,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-            extra_fields: extraFields,
+            extra_fields: { ...extraFields, referral_code },
           });
     if (error) {
       // Code and message only: `details` can echo the row, i.e. the visitor's PII.
@@ -293,6 +296,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     preferredLanguage: preferred_language,
     sourceOfLeads: landing_referrer,
     campaignId: campaign_id,
+    referralCode: referral_code,
     gclid,
     fbclid,
     utmSource: utm_source,

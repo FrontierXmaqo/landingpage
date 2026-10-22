@@ -88,6 +88,7 @@ export default function CiLeadForm({
   const utmCampaignRef = useRef<HTMLInputElement>(null);
   const utmTermRef = useRef<HTMLInputElement>(null);
   const utmContentRef = useRef<HTMLInputElement>(null);
+  const refCodeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Reads the visit's first-touch attribution (persisted by lib/attribution
@@ -104,6 +105,7 @@ export default function CiLeadForm({
     if (utmCampaignRef.current) utmCampaignRef.current.value = a.utmCampaign;
     if (utmTermRef.current) utmTermRef.current.value = a.utmTerm;
     if (utmContentRef.current) utmContentRef.current.value = a.utmContent;
+    if (refCodeRef.current) refCodeRef.current.value = a.ref;
     if (landingPageSourceRef.current) landingPageSourceRef.current.value = window.location.origin + "/commercial-and-industrial";
   }, []);
 
@@ -145,6 +147,7 @@ export default function CiLeadForm({
         <input type="hidden" name="utm_campaign" ref={utmCampaignRef} />
         <input type="hidden" name="utm_term" ref={utmTermRef} />
         <input type="hidden" name="utm_content" ref={utmContentRef} />
+        <input type="hidden" name="ref" ref={refCodeRef} />
         <div className="absolute left-[-9999px]" aria-hidden="true">
           <label>
             {t.honeypot}

@@ -40,8 +40,16 @@ export type Attribution = {
   gclid: string;
   fbclid: string;
   referrer: string;
+  /** Salesperson referral code from a personal link (?ref=S01). Empty when none. */
+  ref: string;
   captured_at: string;
 };
+
+// Uppercased so ?ref=s01 and ?ref=S01 are the same code downstream.
+function cleanRef(value: string | null) {
+  const v = (value ?? "").trim().toUpperCase();
+  return /^[A-Z0-9_-]{1,30}$/.test(v) ? v : "";
+}
 
 function hasCookie(name: string) {
   return document.cookie.split("; ").some((c) => c === name || c.startsWith(`${name}=`));
@@ -101,11 +109,18 @@ export function captureAttribution() {
   try {
     const ttlValid = hasCookie(TTL_COOKIE);
     const existing = readStored();
+    const params = new URLSearchParams(window.location.search);
+    // Unlike UTMs, a personal referral link always wins: someone handed this
+    // link to the visitor directly, even if an ad brought them here before.
+    const ref = cleanRef(params.get("ref"));
 
-    if (existing && ttlValid) return; // first touch already captured and still within its window
+    if (existing && ttlValid) {
+      // first touch already captured and still within its window
+      if (ref && existing.ref !== ref) writeStored({ ...existing, ref });
+      return;
+    }
     if (existing && !ttlValid) clearStored(); // window lapsed — drop the stale data for privacy
 
-    const params = new URLSearchParams(window.location.search);
     const utmValues = Object.fromEntries(UTM_PARAMS.map((k) => [k, params.get(k) || ""])) as Record<
       (typeof UTM_PARAMS)[number],
       string
@@ -115,13 +130,15 @@ export function captureAttribution() {
       string
     >;
     const referrer = getExternalReferrer();
-    const hasSignal = Object.values(utmValues).some(Boolean) || Object.values(clickIds).some(Boolean) || referrer;
+    const hasSignal =
+      Object.values(utmValues).some(Boolean) || Object.values(clickIds).some(Boolean) || referrer || ref;
     if (!hasSignal) return; // direct/organic visit with nothing new worth capturing
 
     const data: Attribution = {
       ...utmValues,
       ...clickIds,
       referrer,
+      ref,
       captured_at: new Date().toISOString(),
     };
     writeStored(data);
@@ -145,6 +162,7 @@ export type LeadAttributionFields = {
   gclid: string;
   fbclid: string;
   referrer: string;
+  ref: string;
   utmSource: string;
   utmMedium: string;
   utmCampaign: string;
@@ -172,6 +190,7 @@ export function resolveLeadAttribution(): LeadAttributionFields {
     gclid: params.get("gclid") || "",
     fbclid: params.get("fbclid") || "",
     referrer: getExternalReferrer(),
+    ref: cleanRef(params.get("ref")),
     captured_at: "",
   };
   const a = stored ?? live;
@@ -181,6 +200,8 @@ export function resolveLeadAttribution(): LeadAttributionFields {
     gclid: a.gclid,
     fbclid: a.fbclid,
     referrer: a.referrer,
+    // `|| ""`: attribution stored before this field existed has no `ref`.
+    ref: live.ref || a.ref || "",
     utmSource: a.utm_source,
     utmMedium: a.utm_medium,
     utmCampaign: a.utm_campaign,
