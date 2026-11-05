@@ -3,7 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 import type { LeadFormPage, PublishedCustomField } from "@/lib/publishedContent";
-import { WHATSAPP_COPY, openWhatsapp, readWhatsappText, whatsappMessage, whatsappUrl } from "@/lib/whatsapp";
+import { WHATSAPP_COPY, whatsappMessage, whatsappUrl } from "@/lib/whatsapp";
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    fbq?: (...args: unknown[]) => void;
+  }
+}
 
 // Neutral greys over whatever the page's palette is, so this fits the main, C&I and EV themes alike.
 const PREVIEW_BOX: React.CSSProperties = {
@@ -74,35 +81,50 @@ export function WhatsappPreview({
 }
 
 /**
- * On a thank-you page: opens WhatsApp with the message the form left behind.
- * Waits a moment first so the page's lead conversion (ThankYouTracking) is sent
- * before the visitor leaves; the button covers browsers that block the redirect.
+ * Reports the lead conversion once (GTM's generate_lead and lead_confirmed, and
+ * the Meta Pixel's Lead), as the thank-you pages used to. Only called after
+ * submitLead saved the lead. Deduped per session so a remount doesn't count twice.
  */
-export function WhatsappContinue({ locale }: { locale: Locale }) {
+function reportLead(id: string) {
+  const key = `maqo_lead_tracked_${id}`;
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch {
+    // storage blocked (private mode): report anyway rather than drop the conversion
+  }
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: "generate_lead" });
+  window.dataLayer.push({ event: "lead_confirmed" });
+  // event_id lets a future Conversions API call dedupe against this browser-side fire.
+  window.fbq?.("track", "Lead", {}, { eventID: crypto.randomUUID() });
+}
+
+/**
+ * Shown in place of a form once its lead is saved: reports the conversion, then
+ * opens WhatsApp a second later so the tags have time to send. The button covers
+ * browsers that block the redirect.
+ */
+export function WhatsappContinue({ locale, text, conversionId }: { locale: Locale; text: string; conversionId: string }) {
   const t = WHATSAPP_COPY[locale];
-  const [text, setText] = useState("");
+  const url = whatsappUrl(text);
+  const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Read, not taken: React may run this effect twice, and the second run must still find it.
-    const stored = readWhatsappText();
-    if (!stored) return;
-    // sessionStorage doesn't exist during the server render, so it's read after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setText(stored);
-    const timer = setTimeout(() => openWhatsapp(stored), 2000);
+    // The form it replaces was taller, so bring this (and its button) into view.
+    box.current?.scrollIntoView({ block: "center" });
+    reportLead(conversionId);
+    const timer = setTimeout(() => {
+      window.location.href = url;
+    }, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [conversionId, url]);
 
-  if (!text) return null;
   return (
-    <div style={{ marginTop: 28, display: "grid", justifyItems: "center", gap: 12, textAlign: "center" }} role="status">
+    <div ref={box} style={{ padding: "28px 8px", display: "grid", justifyItems: "center", gap: 12, textAlign: "center" }} role="status">
       <p style={{ margin: 0, maxWidth: 420, fontWeight: 600 }}>{t.opening}</p>
       <a
-        href={whatsappUrl(text)}
-        onClick={(e) => {
-          e.preventDefault();
-          openWhatsapp(text);
-        }}
+        href={url}
         style={{
           display: "inline-flex",
           alignItems: "center",

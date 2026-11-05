@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { submitLead, type LeadFormState } from "@/app/[lang]/(main)/actions/submitLead";
@@ -26,8 +25,8 @@ import {
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import TermsAgree from "@/app/[lang]/(main)/components/TermsAgree";
-import { WhatsappIcon, WhatsappPreview } from "@/app/[lang]/(main)/components/WhatsappSubmit";
-import { WHATSAPP_COPY, rememberWhatsappText, whatsappUrl } from "@/lib/whatsapp";
+import { WhatsappContinue, WhatsappIcon, WhatsappPreview } from "@/app/[lang]/(main)/components/WhatsappSubmit";
+import { WHATSAPP_COPY, whatsappUrl } from "@/lib/whatsapp";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
@@ -315,7 +314,6 @@ export default function EvPage({
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
-  const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const gclidRef = useRef<HTMLInputElement>(null);
   const fbclidRef = useRef<HTMLInputElement>(null);
@@ -366,14 +364,12 @@ export default function EvPage({
   }, []);
 
   useEffect(() => {
-    if (formState.status === "success") {
-      rememberWhatsappText(formState.whatsappText);
-      router.push(localePath(locale, "/ev/thank-you"));
-    } else if (formState.whatsappText) {
-      // The lead passed every check but couldn't be saved: it still reaches us on WhatsApp.
+    // Saved leads open WhatsApp from WhatsappContinue below. A lead that passed every
+    // check but couldn't be saved still reaches us on WhatsApp, without counting a conversion.
+    if (formState.status !== "success" && formState.whatsappText) {
       window.location.href = whatsappUrl(formState.whatsappText);
     }
-  }, [formState, router, locale]);
+  }, [formState]);
 
   const selected = CHARGE_OPTIONS.find((c) => c.key === chargeTime)!;
   const selectedCopy = t.calculator.options[chargeTime];
@@ -729,7 +725,9 @@ export default function EvPage({
               ))}
             </ul>
           </div>
-          {formState.status === "success" ? null : (
+          {formState.status === "success" ? (
+            formState.whatsappText ? <WhatsappContinue locale={locale} text={formState.whatsappText} conversionId="ev" /> : null
+          ) : (
           <form action={formAction}>
             {formState.status === "error" && formState.message && (
               <p className="form-alert">{formState.message}</p>

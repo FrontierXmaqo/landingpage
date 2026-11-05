@@ -16,7 +16,6 @@ import {
 } from "@/lib/leadFormOptions";
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
-import { isLeadFunnel, signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 import { toLeadPhone } from "@/lib/phone";
 import { newRefId, whatsappMessage } from "@/lib/whatsapp";
 import { salespeopleFor } from "@/lib/salespeople";
@@ -129,7 +128,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const localeRaw = clean(formData.get("locale"), 5);
   const locale = hasLocale(localeRaw) ? localeRaw : DEFAULT_LOCALE;
   const t = getDictionary(locale).leadMessages;
-  if (!isLeadFunnel(formPage)) {
+  if (!Object.hasOwn(SOURCE_PAGE, formPage)) {
     return { status: "error", message: t.invalid };
   }
   const sourcePage = SOURCE_PAGE[formPage];
@@ -341,17 +340,6 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   if (!supabaseOk) {
     return { status: "error", message: t.generic, whatsappText };
   }
-
-  // Proof, for the thank-you page's proxy check, that this browser was just
-  // handed a real success — not a bookmark, a shared link, or a bot. Scoped
-  // to the exact route this submission is about to redirect to.
-  (await cookies()).set("lead_ok", await signLeadToken(formPage), {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: `/${locale}${THANK_YOU_FUNNELS[formPage].thankYouPath}`,
-    maxAge: 600,
-  });
 
   return { status: "success", message: t.success, whatsappText };
 }

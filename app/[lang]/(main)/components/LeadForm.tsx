@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { resolveLeadAttribution } from "@/lib/attribution";
@@ -15,10 +14,10 @@ import {
   COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import TermsAgree from "./TermsAgree";
-import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
+import type { Dictionary, Locale } from "@/lib/i18n";
 import { PhoneTextField, SelectField, TextField, YesNoField, type Option } from "./formFields";
-import { WhatsappIcon, WhatsappPreview } from "./WhatsappSubmit";
-import { WHATSAPP_COPY, rememberWhatsappText, whatsappUrl } from "@/lib/whatsapp";
+import { WhatsappContinue, WhatsappIcon, WhatsappPreview } from "./WhatsappSubmit";
+import { WHATSAPP_COPY, whatsappUrl } from "@/lib/whatsapp";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -75,7 +74,6 @@ export default function LeadForm({
   const languages = lists?.languages?.length ? lists.languages : COMMUNICATION_LANGUAGES;
   const [referred, setReferred] = useState<"no" | "yes">("no");
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
-  const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const gclidRef = useRef<HTMLInputElement>(null);
   const fbclidRef = useRef<HTMLInputElement>(null);
@@ -108,17 +106,16 @@ export default function LeadForm({
   }, []);
 
   useEffect(() => {
-    if (state.status === "success") {
-      rememberWhatsappText(state.whatsappText);
-      router.push(localePath(locale, "/thank-you"));
-    } else if (state.whatsappText) {
-      // The lead passed every check but couldn't be saved: it still reaches us on WhatsApp.
+    // Saved leads open WhatsApp from WhatsappContinue below. A lead that passed every
+    // check but couldn't be saved still reaches us on WhatsApp, without counting a conversion.
+    if (state.status !== "success" && state.whatsappText) {
       window.location.href = whatsappUrl(state.whatsappText);
     }
-  }, [state, router, locale]);
+  }, [state]);
 
   if (state.status === "success") {
-    return null;
+    // No message means the honeypot caught a bot: nothing to open, nothing to count.
+    return state.whatsappText ? <WhatsappContinue locale={locale} text={state.whatsappText} conversionId="main" /> : null;
   }
 
   return (

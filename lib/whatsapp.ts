@@ -2,13 +2,11 @@ import type { Locale } from "@/lib/i18n";
 import type { LeadFormPage, PublishedCustomField } from "@/lib/publishedContent";
 
 /**
- * Every lead form saves the lead (Supabase + Lark), then sends the visitor to
- * this WhatsApp number with their details typed in, so the chat starts in
- * respond.io. The form's thank-you page opens it (after the lead conversion
- * fires); the message is handed over in sessionStorage under WHATSAPP_TEXT_KEY.
+ * Every lead form saves the lead (Supabase + Lark), reports the lead conversion,
+ * then sends the visitor to this WhatsApp number with their details typed in, so
+ * the chat starts in respond.io.
  */
 export const WHATSAPP_NUMBER = "60187771095";
-export const WHATSAPP_TEXT_KEY = "maqo_whatsapp_text";
 
 const INTRO: Record<LeadFormPage, string> = {
   main: "Hi MAQO, I'd like a free solar home assessment.",
@@ -150,32 +148,3 @@ export const WHATSAPP_COPY: Record<
     open: "打开 WhatsApp",
   },
 };
-
-/** Browser only. Keeps the message for the thank-you page, which opens WhatsApp. */
-export function rememberWhatsappText(text: string | undefined) {
-  if (!text) return;
-  try {
-    sessionStorage.setItem(WHATSAPP_TEXT_KEY, text);
-  } catch {
-    // storage blocked: the thank-you page then just shows no WhatsApp step
-  }
-}
-
-/** Browser only. The message the form left for this thank-you page, or "". */
-export function readWhatsappText(): string {
-  try {
-    return sessionStorage.getItem(WHATSAPP_TEXT_KEY) || "";
-  } catch {
-    return "";
-  }
-}
-
-/** Browser only. Opens WhatsApp and drops the message, so a later refresh of the thank-you page doesn't reopen it. */
-export function openWhatsapp(text: string) {
-  try {
-    sessionStorage.removeItem(WHATSAPP_TEXT_KEY);
-  } catch {
-    // storage blocked: nothing was kept
-  }
-  window.location.href = whatsappUrl(text);
-}

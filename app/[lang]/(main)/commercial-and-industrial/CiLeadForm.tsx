@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { submitLead, type LeadFormState } from "../actions/submitLead";
 import { resolveLeadAttribution } from "@/lib/attribution";
@@ -10,10 +9,10 @@ import PhoneField from "../components/PhoneField";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/lib/leadFormOptions";
 import TermsAgree from "../components/TermsAgree";
-import { localePath, type Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
-import { WhatsappIcon, WhatsappPreview } from "../components/WhatsappSubmit";
-import { WHATSAPP_COPY, rememberWhatsappText, whatsappUrl } from "@/lib/whatsapp";
+import { WhatsappContinue, WhatsappIcon, WhatsappPreview } from "../components/WhatsappSubmit";
+import { WHATSAPP_COPY, whatsappUrl } from "@/lib/whatsapp";
 
 const initialState: LeadFormState = { status: "idle" };
 const submitCiLead = submitLead.bind(null, "MAQO C&I Landing Page", "ci");
@@ -79,7 +78,6 @@ export default function CiLeadForm({
   // landed inside the measured load window and drove TBT. Loading it on the
   // first focus still leaves it seconds to solve while the visitor types.
   const [captchaWanted, setCaptchaWanted] = useState(false);
-  const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const gclidRef = useRef<HTMLInputElement>(null);
   const fbclidRef = useRef<HTMLInputElement>(null);
@@ -110,17 +108,16 @@ export default function CiLeadForm({
   }, []);
 
   useEffect(() => {
-    if (state.status === "success") {
-      rememberWhatsappText(state.whatsappText);
-      router.push(localePath(locale, "/commercial-and-industrial/thank-you"));
-    } else if (state.whatsappText) {
-      // The lead passed every check but couldn't be saved: it still reaches us on WhatsApp.
+    // Saved leads open WhatsApp from WhatsappContinue below. A lead that passed every
+    // check but couldn't be saved still reaches us on WhatsApp, without counting a conversion.
+    if (state.status !== "success" && state.whatsappText) {
       window.location.href = whatsappUrl(state.whatsappText);
     }
-  }, [state, router, locale]);
+  }, [state]);
 
   if (state.status === "success") {
-    return null;
+    // No message means the honeypot caught a bot: nothing to open, nothing to count.
+    return state.whatsappText ? <WhatsappContinue locale={locale} text={state.whatsappText} conversionId="ci" /> : null;
   }
 
   return (

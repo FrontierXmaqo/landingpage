@@ -4,7 +4,6 @@ import { createServerClient } from "@supabase/ssr";
 import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase/server";
 import { SUPABASE_URL } from "@/lib/supabase/url";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, hasLocale, type Locale } from "@/lib/i18n/config";
-import { THANK_YOU_FUNNELS, verifyLeadToken, type LeadFunnel } from "@/lib/leadToken";
 
 // Nonce + 'strict-dynamic' lets the GTM bootstrap script (loaded with this
 // nonce) inject its own configured tags (Ads, Clarity, LinkedIn, Meta Pixel,
@@ -49,27 +48,6 @@ function isUnlocalized(pathname: string) {
 function pickLocale(request: NextRequest): Locale {
   const saved = request.cookies.get(LOCALE_COOKIE)?.value;
   return saved && hasLocale(saved) ? saved : DEFAULT_LOCALE;
-}
-
-/** Matches "/{locale}/thank-you", "/{locale}/ev/thank-you", "/{locale}/commercial-and-industrial/thank-you". */
-function matchThankYouRoute(pathname: string): { funnel: LeadFunnel; landingPath: string } | null {
-  const segments = pathname.split("/");
-  const locale = segments[1] ?? "";
-  if (!hasLocale(locale)) return null;
-  const rest = "/" + segments.slice(2).join("/");
-  const match = (Object.entries(THANK_YOU_FUNNELS) as [LeadFunnel, (typeof THANK_YOU_FUNNELS)[LeadFunnel]][]).find(
-    ([, f]) => f.thankYouPath === rest
-  );
-  return match ? { funnel: match[0], landingPath: `/${locale}${match[1].landingPath}` } : null;
-}
-
-/** Next's own prefetching (Link hover, router.prefetch) must not burn the one-time cookie before the visitor actually lands on the page. */
-function isPrefetchRequest(request: NextRequest) {
-  return (
-    request.headers.get("next-router-prefetch") === "1" ||
-    request.headers.get("purpose") === "prefetch" ||
-    request.headers.get("sec-purpose")?.includes("prefetch") === true
-  );
 }
 
 /** Refreshes the Supabase auth session cookie and gates /admin/* to signed-in users. */
@@ -147,32 +125,6 @@ export async function proxy(request: NextRequest) {
     rewritten.pathname = `/${firstSegment}/ev`;
     const response = NextResponse.rewrite(rewritten, { request: { headers: requestHeaders } });
     response.headers.set("Content-Security-Policy", csp);
-    return response;
-  }
-
-  // Thank-you pages exist only for conversion tracking: anyone opening one
-  // without a fresh, signed "lead_ok" cookie (a bookmark, a shared link, a
-  // bot, or a refresh) gets sent back to that funnel's own landing page
-  // before the page — and its GTM/Meta conversion tags — ever loads.
-  const thankYouRoute = matchThankYouRoute(pathname);
-  if (thankYouRoute) {
-    const token = request.cookies.get("lead_ok")?.value;
-    const valid = token ? await verifyLeadToken(token, thankYouRoute.funnel) : false;
-
-    if (!valid) {
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = thankYouRoute.landingPath;
-      redirectUrl.search = "";
-      return NextResponse.redirect(redirectUrl);
-    }
-
-    const response = NextResponse.next({ request: { headers: requestHeaders } });
-    response.headers.set("Content-Security-Policy", csp);
-    // A prefetch must not consume the token — the visitor hasn't actually
-    // landed on the page yet, so the real navigation still needs it.
-    if (!isPrefetchRequest(request)) {
-      response.cookies.delete({ name: "lead_ok", path: pathname });
-    }
     return response;
   }
 
