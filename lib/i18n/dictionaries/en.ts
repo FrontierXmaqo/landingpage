@@ -279,6 +279,11 @@ const en = {
     languagePlaceholder: "Select language",
     submitting: "Submitting…",
     submit: "Get My Free Home Assessment",
+    referred: "Were you referred by any salesman? *",
+    referredNo: "No",
+    referredYes: "Yes",
+    salesman: "Salesman *",
+    salesmanPlaceholder: "Select your salesman",
   },
 
   // Display labels for the lead form's allowlisted values. The submitted value stays

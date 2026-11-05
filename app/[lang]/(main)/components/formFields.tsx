@@ -114,3 +114,40 @@ export function SelectField({
     </label>
   );
 }
+
+/** A required No / Yes question as two radio buttons (48px targets, like every
+ *  control here). Posts "no" or "yes" under `name`. */
+export function YesNoField({
+  label,
+  name,
+  no,
+  yes,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  no: string;
+  yes: string;
+  onChange: (value: "no" | "yes") => void;
+}) {
+  return (
+    <fieldset className="flex flex-col gap-1.5">
+      <legend className={`${LABEL} mb-1.5`}>{label}</legend>
+      <div className="flex gap-6">
+        {(["no", "yes"] as const).map((value) => (
+          <label key={value} className="flex min-h-12 cursor-pointer items-center gap-2 text-base text-base-ink">
+            <input
+              type="radio"
+              name={name}
+              value={value}
+              required
+              onChange={() => onChange(value)}
+              className="h-5 w-5 accent-brand-green"
+            />
+            {value === "yes" ? yes : no}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}

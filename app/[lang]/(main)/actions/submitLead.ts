@@ -231,6 +231,15 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   if (formPage === "ci" && !extraFields["industry"]) {
     return { status: "error", message: t.invalid };
   }
+  // "Were you referred by any salesman?": residential only, and only asked while
+  // the CMS lists salesmen. The name must be one of those published names.
+  const salesmanOptions = formPage === "main" ? (pageOptions.salesmen ?? []) : [];
+  const referred = oneOf(clean(formData.get("referred"), 3), ["no", "yes"]);
+  const salesman = referred === "yes" ? oneOf(clean(formData.get("salesman"), 120), salesmanOptions) : "";
+  if (salesmanOptions.length && (!referred || (referred === "yes" && !salesman))) {
+    return { status: "error", message: t.invalid };
+  }
+
   const extraFieldsSummary = customFields
     .filter((f) => extraFields[f.key])
     .map((f) => `${f.label}: ${extraFields[f.key]}`);
@@ -246,6 +255,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     {
       salutation, full_name, company_name, role_in_organization, phone, email, state,
       monthly_bill_range, property_type, electric_supply, preferred_language, charge_time,
+      referred, salesman,
       ...extraFields,
     },
     customFields,
@@ -279,7 +289,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-            extra_fields: extraFields,
+            extra_fields: salesman ? { ...extraFields, salesman } : extraFields,
           });
     if (error) {
       // Code and message only: `details` can echo the row, i.e. the visitor's PII.
@@ -316,6 +326,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     sourcePage,
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,
+    salesPartner: salesman,
   });
 
   if (!supabaseOk) {

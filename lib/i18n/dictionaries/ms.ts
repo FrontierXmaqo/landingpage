@@ -274,6 +274,11 @@ const ms: Dictionary = {
     languagePlaceholder: "Pilih bahasa",
     submitting: "Menghantar…",
     submit: "Dapatkan Penilaian Rumah Percuma",
+    referred: "Adakah anda dirujuk oleh mana-mana jurujual? *",
+    referredNo: "Tidak",
+    referredYes: "Ya",
+    salesman: "Jurujual *",
+    salesmanPlaceholder: "Pilih jurujual anda",
   },
 
   formOptions: {

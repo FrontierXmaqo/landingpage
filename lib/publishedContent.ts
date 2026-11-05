@@ -97,6 +97,7 @@ export async function getPublishedLeadFormOptions(page: LeadFormPage): Promise<L
       electricSupply: byField("electric_supply"),
       languages: byField("language"),
       roleInOrganization: byField("role_in_organization"),
+      salesmen: byField("salesman"),
     };
   } catch {
     return {};

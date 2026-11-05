@@ -273,6 +273,11 @@ const cn: Dictionary = {
     languagePlaceholder: "选择语言",
     submitting: "提交中…",
     submit: "获取免费上门评估",
+    referred: "您是否由销售人员推荐？ *",
+    referredNo: "否",
+    referredYes: "是",
+    salesman: "销售人员 *",
+    salesmanPlaceholder: "请选择您的销售人员",
   },
 
   formOptions: {

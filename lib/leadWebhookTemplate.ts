@@ -33,6 +33,8 @@ export type LeadWebhookInput = {
   remarks: string;
   /** The clean landing page URL the visitor actually landed on (e.g. "https://get.maqo.asia", "https://get.maqo.asia/ev") — no query strings. */
   landingPageSource: string;
+  /** The salesman who referred the visitor (residential form), sent in the template's "salespartner" key. */
+  salesPartner?: string;
 };
 
 function blankTemplate() {
@@ -187,6 +189,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["gclid"] = input.gclid;
   payload["Campaign ID"] = input.campaignId;
   if (input.remarks) payload["Remarks"] = input.remarks;
+  if (input.salesPartner) payload["salespartner"] = input.salesPartner;
 
   payload.customData["Name"] = input.fullName;
   payload.customData["Salutation"] = input.salutation;

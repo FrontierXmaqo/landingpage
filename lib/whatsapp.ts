@@ -76,6 +76,9 @@ export function whatsappMessage(
   for (const f of customFields) {
     if (!LINES[page].some(([, key]) => key === f.key)) lines.push(`${f.label}: ${v(f.key) || "-"}`);
   }
+  if (page === "main" && v("referred")) {
+    lines.push(`Referred by salesman: ${v("referred") === "yes" ? v("salesman") || "-" : "No"}`);
+  }
   lines.push(`Page: get.maqo.asia ${PAGE_NAME[page]}`);
   return lines.join("\n");
 }
