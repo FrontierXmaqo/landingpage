@@ -18,8 +18,11 @@ import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormP
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 import { isLeadFunnel, signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 import { toLeadPhone } from "@/lib/phone";
+import { whatsappMessage } from "@/lib/whatsapp";
 
-export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
+/** whatsappText: the message for WhatsApp, set once the lead passed every check
+ *  (also when saving it failed, so the visitor can still reach us there). */
+export type LeadFormState = { status: "idle" | "success" | "error"; message?: string; whatsappText?: string };
 
 const MAX_FIELD_LENGTH = 200;
 // Starts with a letter or digit and uses only the characters real addresses
@@ -238,6 +241,16 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     return { status: "error", message: t.captcha };
   }
 
+  const whatsappText = whatsappMessage(
+    formPage,
+    {
+      salutation, full_name, company_name, role_in_organization, phone, email, state,
+      monthly_bill_range, property_type, electric_supply, preferred_language, charge_time,
+      ...extraFields,
+    },
+    customFields,
+  );
+
   // C&I leads are commercial enquiries, not residential/EV ones — different
   // shape (a company, an industry, no property type or electric supply) and a
   // different sales workflow, so they get their own table rather than being
@@ -306,7 +319,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   });
 
   if (!supabaseOk) {
-    return { status: "error", message: t.generic };
+    return { status: "error", message: t.generic, whatsappText };
   }
 
   // Proof, for the thank-you page's proxy check, that this browser was just
@@ -320,5 +333,5 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     maxAge: 600,
   });
 
-  return { status: "success", message: t.success };
+  return { status: "success", message: t.success, whatsappText };
 }

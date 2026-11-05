@@ -17,6 +17,8 @@ import {
 import TermsAgree from "./TermsAgree";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { PhoneTextField, SelectField, TextField, type Option } from "./formFields";
+import { WhatsappIcon, WhatsappPreview } from "./WhatsappSubmit";
+import { WHATSAPP_COPY, rememberWhatsappText, whatsappUrl } from "@/lib/whatsapp";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -103,9 +105,13 @@ export default function LeadForm({
 
   useEffect(() => {
     if (state.status === "success") {
+      rememberWhatsappText(state.whatsappText);
       router.push(localePath(locale, "/thank-you"));
+    } else if (state.whatsappText) {
+      // The lead passed every check but couldn't be saved: it still reaches us on WhatsApp.
+      window.location.href = whatsappUrl(state.whatsappText);
     }
-  }, [state.status, router, locale]);
+  }, [state, router, locale]);
 
   if (state.status === "success") {
     return null;
@@ -221,10 +227,14 @@ export default function LeadForm({
         <button
           type="submit"
           disabled={pending}
-          className="mt-1 inline-flex min-h-14 items-center justify-center rounded-xl bg-brand-orange-deep px-6 text-base font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-1 inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-brand-orange-deep px-6 text-base font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {pending ? t.submitting : t.submit}
+          {!pending && <WhatsappIcon size={20} />}
+          {pending ? WHATSAPP_COPY[locale].sending : WHATSAPP_COPY[locale].submit}
         </button>
+        <div className="text-base-slate">
+          <WhatsappPreview page="main" locale={locale} customFields={customFields} />
+        </div>
       </form>
     </div>
   );

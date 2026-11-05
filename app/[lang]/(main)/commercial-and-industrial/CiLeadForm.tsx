@@ -12,6 +12,8 @@ import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/l
 import TermsAgree from "../components/TermsAgree";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
+import { WhatsappIcon, WhatsappPreview } from "../components/WhatsappSubmit";
+import { WHATSAPP_COPY, rememberWhatsappText, whatsappUrl } from "@/lib/whatsapp";
 
 const initialState: LeadFormState = { status: "idle" };
 const submitCiLead = submitLead.bind(null, "MAQO C&I Landing Page", "ci");
@@ -109,9 +111,13 @@ export default function CiLeadForm({
 
   useEffect(() => {
     if (state.status === "success") {
+      rememberWhatsappText(state.whatsappText);
       router.push(localePath(locale, "/commercial-and-industrial/thank-you"));
+    } else if (state.whatsappText) {
+      // The lead passed every check but couldn't be saved: it still reaches us on WhatsApp.
+      window.location.href = whatsappUrl(state.whatsappText);
     }
-  }, [state.status, router, locale]);
+  }, [state, router, locale]);
 
   if (state.status === "success") {
     return null;
@@ -313,10 +319,14 @@ export default function CiLeadForm({
         <button
           type="submit"
           disabled={pending}
-          className="mt-1 inline-flex items-center justify-center rounded-lg bg-brand-orange-deep px-6 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-1 inline-flex items-center justify-center gap-2 rounded-lg bg-brand-orange-deep px-6 py-3 text-[13px] font-bold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {pending ? t.submitting : t.submit}
+          {!pending && <WhatsappIcon />}
+          {pending ? WHATSAPP_COPY[locale].sending : WHATSAPP_COPY[locale].submit}
         </button>
+        <div className="text-base-slate">
+          <WhatsappPreview page="ci" locale={locale} customFields={customFields} />
+        </div>
       </form>
     </div>
   );

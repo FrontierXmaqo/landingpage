@@ -26,6 +26,8 @@ import {
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import TermsAgree from "@/app/[lang]/(main)/components/TermsAgree";
+import { WhatsappIcon, WhatsappPreview } from "@/app/[lang]/(main)/components/WhatsappSubmit";
+import { WHATSAPP_COPY, rememberWhatsappText, whatsappUrl } from "@/lib/whatsapp";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
@@ -365,9 +367,13 @@ export default function EvPage({
 
   useEffect(() => {
     if (formState.status === "success") {
+      rememberWhatsappText(formState.whatsappText);
       router.push(localePath(locale, "/ev/thank-you"));
+    } else if (formState.whatsappText) {
+      // The lead passed every check but couldn't be saved: it still reaches us on WhatsApp.
+      window.location.href = whatsappUrl(formState.whatsappText);
     }
-  }, [formState.status, router, locale]);
+  }, [formState, router, locale]);
 
   const selected = CHARGE_OPTIONS.find((c) => c.key === chargeTime)!;
   const selectedCopy = t.calculator.options[chargeTime];
@@ -871,9 +877,12 @@ export default function EvPage({
               className="btn btn-primary btn-block"
               disabled={submitting}
             >
-              {submitting ? t.form.submitting : t.form.submit}
-              {!submitting && <ArrowIcon />}
+              {!submitting && <WhatsappIcon />}
+              {submitting ? WHATSAPP_COPY[locale].sending : WHATSAPP_COPY[locale].submit}
             </button>
+            <div style={{ marginTop: 14 }}>
+              <WhatsappPreview page="ev" locale={locale} customFields={customFields} />
+            </div>
           </form>
           )}
         </div>

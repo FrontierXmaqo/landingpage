@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ThankYouTracking from "../../components/ThankYouTracking";
+import { WhatsappContinue } from "../../components/WhatsappSubmit";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { getCiCopy } from "../copy";
 import { getPublishedContact } from "@/lib/publishedContent";
@@ -51,6 +52,9 @@ export default async function CiThankYouPage({
           <p className="mt-4 max-w-md text-base leading-relaxed text-base-slate">
             {t.body}
           </p>
+          <div className="text-brand-green-ink">
+            <WhatsappContinue locale={lang} />
+          </div>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-6">
             <Link
