@@ -24,11 +24,20 @@ export async function POST(request: NextRequest) {
   const expected = process.env.RESPONDIO_WEBHOOK_KEY ?? "";
   const given = request.nextUrl.searchParams.get("key") ?? "";
   if (!expected || given.length !== expected.length || !timingSafeEqual(Buffer.from(given), Buffer.from(expected))) {
+    console.warn("respond.io webhook: wrong or missing ?key=, rejected");
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
   const body = (await readJsonBody(request, 100_000)) as RespondioEvent | null;
-  if (!body) return NextResponse.json({ ok: false }, { status: 400 });
+  if (!body) {
+    console.warn("respond.io webhook: body is not JSON (or over 100 KB)");
+    return NextResponse.json({ ok: false }, { status: 400 });
+  }
+  // Event type and which parts are present, never the message itself: enough to see what respond.io sends.
+  console.log(
+    `respond.io webhook: ${body.event_type ?? "(no event_type)"}, keys: ${Object.keys(body).join(",")}, ` +
+      `contact ${body.contact?.id ?? body.message?.contactId ?? "-"}, lifecycle ${body.lifecycle ?? body.contact?.lifecycle ?? "-"}`,
+  );
 
   const contactId = String(body.contact?.id ?? body.message?.contactId ?? "").slice(0, 50);
   if (!contactId) return NextResponse.json({ ok: true, skipped: "no contact" });
