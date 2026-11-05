@@ -57,18 +57,43 @@ const LINES: Record<LeadFormPage, [string, string][]> = {
   ],
 };
 
+// The ref id (MQ- plus 6 of these) links the WhatsApp chat to the lead's Lark row. Same scheme as the
+// get.maqosolar.com form, so the same Make scenario decodes both: no 0/O/1/I, so it reads cleanly in Lark.
+const REF_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+/** A new ref id, e.g. "MQ-7KQ2TX": always a mix of letters and digits. */
+export function newRefId(): string {
+  const r = crypto.getRandomValues(new Uint8Array(8));
+  const out = Array.from(r.subarray(0, 6), (n) => REF_CHARS[n % REF_CHARS.length]);
+  const s = out.join("");
+  if (!/\d/.test(s)) out[r[6] % 6] = "23456789"[r[7] % 8];
+  else if (!/[A-Z]/.test(s)) out[r[6] % 6] = REF_CHARS[r[7] % 24];
+  return "MQ-" + out.join("");
+}
+
+/** The ref id as 30 invisible characters (5 bits per character: U+200B = 0, U+200C = 1), placed right
+ *  after "Hi" so the visitor never sees it. Make turns it back into MQ-XXXXXX to find the Lark row. */
+export function hiddenRef(refId: string): string {
+  return refId
+    .slice(3)
+    .split("")
+    .map((c) => REF_CHARS.indexOf(c).toString(2).padStart(5, "0").replace(/0/g, "\u200B").replace(/1/g, "\u200C"))
+    .join("");
+}
+
 /**
  * The message the visitor sends us. Built by submitLead from the checked values
- * (so it matches what was saved) and by the form's live preview from what is
- * typed so far; an empty field shows as "-".
+ * (so it matches what was saved, with the lead's ref id hidden in it) and by the
+ * form's live preview from what is typed so far; an empty field shows as "-".
  */
 export function whatsappMessage(
   page: LeadFormPage,
   values: Record<string, string>,
   customFields: Pick<PublishedCustomField, "key" | "label">[] = [],
+  refId = "",
 ): string {
   const v = (key: string) => (values[key] ?? "").trim();
-  const lines = [INTRO[page]];
+  const lines = [INTRO[page].replace(/^Hi/, "Hi" + hiddenRef(refId))];
   for (const [label, key] of LINES[page]) {
     const value = key === "full_name" ? [v("salutation"), v("full_name")].filter(Boolean).join(" ") : v(key);
     lines.push(`${label}: ${value || "-"}`);
@@ -76,10 +101,11 @@ export function whatsappMessage(
   for (const f of customFields) {
     if (!LINES[page].some(([, key]) => key === f.key)) lines.push(`${f.label}: ${v(f.key) || "-"}`);
   }
-  if (page === "main" && v("referred")) {
-    lines.push(`Referred by salesman: ${v("referred") === "yes" ? v("salesman") || "-" : "No"}`);
-  }
   lines.push(`Page: get.maqo.asia ${PAGE_NAME[page]}`);
+  // Last line, only when a salesman referred them: respond.io's AI Agent assigns the chat to that
+  // salesperson by matching the name word for word (see lib/salespeople.ts).
+  const salesman = v("referred") === "yes" ? v("salesman") : "";
+  if (salesman) lines.push(`Referred by: ${salesman}`);
   return lines.join("\n");
 }
 

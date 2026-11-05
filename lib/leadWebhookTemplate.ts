@@ -35,6 +35,10 @@ export type LeadWebhookInput = {
   landingPageSource: string;
   /** The salesman who referred the visitor (residential form), sent in the template's "salespartner" key. */
   salesPartner?: string;
+  /** That salesman's code from lib/salespeople.ts (S01…, T00 on test sites). */
+  refCode?: string;
+  /** MQ-XXXXXX, also hidden in the visitor's WhatsApp message (lib/whatsapp.ts). */
+  refId?: string;
 };
 
 function blankTemplate() {
@@ -175,6 +179,21 @@ function blankTemplate() {
   };
 }
 
+/** Same keys as the get.maqosolar.com form sends: Make finds the Lark row by ref_id when the
+ *  WhatsApp message arrives and moves it on from "Empty Lead"; a referred lead also carries
+ *  the salesperson's name and code and the Source-Referral tag. */
+function addReferral(payload: Record<string, unknown>, input: LeadWebhookInput) {
+  if (input.refId) {
+    payload["ref_id"] = input.refId;
+    payload["lead_status"] = "Empty Lead";
+  }
+  if (input.salesPartner) {
+    payload["salespartner"] = input.salesPartner;
+    payload["ref_code"] = input.refCode ?? "";
+    payload["tags"] = "Source-Referral";
+  }
+}
+
 /** Fields the destination webhook actually reads. Everything else in the
  * template above is left blank on purpose (see project notes for the full list). */
 export function buildLeadWebhookPayload(input: LeadWebhookInput) {
@@ -189,7 +208,7 @@ export function buildLeadWebhookPayload(input: LeadWebhookInput) {
   payload["gclid"] = input.gclid;
   payload["Campaign ID"] = input.campaignId;
   if (input.remarks) payload["Remarks"] = input.remarks;
-  if (input.salesPartner) payload["salespartner"] = input.salesPartner;
+  addReferral(payload, input);
 
   payload.customData["Name"] = input.fullName;
   payload.customData["Salutation"] = input.salutation;
@@ -243,6 +262,7 @@ export function buildCiLeadWebhookPayload(input: LeadWebhookInput) {
   customData["UTM Campaign"] = input.utmCampaign;
   customData["UTM Term"] = input.utmTerm;
   customData["UTM Content"] = input.utmContent;
+  addReferral(payload, input);
 
   return payload;
 }

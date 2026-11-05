@@ -18,7 +18,8 @@ import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormP
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 import { isLeadFunnel, signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 import { toLeadPhone } from "@/lib/phone";
-import { whatsappMessage } from "@/lib/whatsapp";
+import { newRefId, whatsappMessage } from "@/lib/whatsapp";
+import { salespeopleFor } from "@/lib/salespeople";
 
 /** whatsappText: the message for WhatsApp, set once the lead passed every check
  *  (also when saving it failed, so the visitor can still reach us there). */
@@ -231,14 +232,17 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   if (formPage === "ci" && !extraFields["industry"]) {
     return { status: "error", message: t.invalid };
   }
-  // "Were you referred by any salesman?": residential only, and only asked while
-  // the CMS lists salesmen. The name must be one of those published names.
-  const salesmanOptions = formPage === "main" ? (pageOptions.salesmen ?? []) : [];
-  const referred = oneOf(clean(formData.get("referred"), 3), ["no", "yes"]);
-  const salesman = referred === "yes" ? oneOf(clean(formData.get("salesman"), 120), salesmanOptions) : "";
-  if (salesmanOptions.length && (!referred || (referred === "yes" && !salesman))) {
+  // "Were you referred by any salesman?" (residential only; No unless Yes is
+  // posted). Yes must name someone on this deployment's list in lib/salespeople.ts.
+  const referred = formPage === "main" && formData.get("referred") === "yes" ? "yes" : "no";
+  const referrer =
+    referred === "yes"
+      ? salespeopleFor(process.env.VERCEL_ENV === "production").find((p) => p.name === clean(formData.get("salesman"), 120))
+      : undefined;
+  if (referred === "yes" && !referrer) {
     return { status: "error", message: t.invalid };
   }
+  const salesman = referrer?.name ?? "";
 
   const extraFieldsSummary = customFields
     .filter((f) => extraFields[f.key])
@@ -250,6 +254,8 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     return { status: "error", message: t.captcha };
   }
 
+  // Links this lead's Lark row to its WhatsApp chat: hidden in the message, sent to Lark as ref_id.
+  const refId = newRefId();
   const whatsappText = whatsappMessage(
     formPage,
     {
@@ -259,6 +265,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
       ...extraFields,
     },
     customFields,
+    refId,
   );
 
   // C&I leads are commercial enquiries, not residential/EV ones — different
@@ -279,7 +286,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             role_in_organization: role_in_organization || null,
             phone, email, state, monthly_bill_range,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-            extra_fields: ciExtraFields,
+            extra_fields: { ...ciExtraFields, ref_id: refId },
           })
         : await supabase.from("atap_leads").insert({
             // atap_leads holds both Residential and EV, and this form is the
@@ -289,7 +296,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-            extra_fields: salesman ? { ...extraFields, salesman } : extraFields,
+            extra_fields: { ...extraFields, ref_id: refId, ...(salesman && { salesman }) },
           });
     if (error) {
       // Code and message only: `details` can echo the row, i.e. the visitor's PII.
@@ -327,6 +334,8 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,
     salesPartner: salesman,
+    refCode: referrer?.code ?? "",
+    refId,
   });
 
   if (!supabaseOk) {

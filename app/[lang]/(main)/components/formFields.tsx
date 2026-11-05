@@ -115,8 +115,8 @@ export function SelectField({
   );
 }
 
-/** A required No / Yes question as two radio buttons (48px targets, like every
- *  control here). Posts "no" or "yes" under `name`. */
+/** A No / Yes question as two radio buttons (48px targets, like every control
+ *  here), with No picked to start. Posts "no" or "yes" under `name`. */
 export function YesNoField({
   label,
   name,
@@ -140,7 +140,7 @@ export function YesNoField({
               type="radio"
               name={name}
               value={value}
-              required
+              defaultChecked={value === "no"}
               onChange={() => onChange(value)}
               className="h-5 w-5 accent-brand-green"
             />

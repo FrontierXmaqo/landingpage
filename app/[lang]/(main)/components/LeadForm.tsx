@@ -36,8 +36,6 @@ export type LeadFormOptionLists = {
   electricSupply?: string[];
   languages?: string[];
   roleInOrganization?: string[];
-  /** Residential only: who can be picked under "Were you referred by any salesman?". */
-  salesmen?: string[];
 };
 
 /**
@@ -59,8 +57,11 @@ export default function LeadForm({
   labels,
   options: lists,
   customFields,
+  salespeople,
 }: {
   locale: Locale;
+  /** Names offered under "Were you referred by any salesman?" (see lib/salespeople.ts). */
+  salespeople: string[];
   t: Dictionary["leadForm"];
   labels: Dictionary["formOptions"];
   options?: LeadFormOptionLists;
@@ -72,9 +73,7 @@ export default function LeadForm({
   const propertyTypes = lists?.propertyTypes?.length ? lists.propertyTypes : PROPERTY_TYPES;
   const electricSupply = lists?.electricSupply?.length ? lists.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
   const languages = lists?.languages?.length ? lists.languages : COMMUNICATION_LANGUAGES;
-  // No built-in fallback: with no salesmen in the CMS the referral question is left out.
-  const salesmen = lists?.salesmen ?? [];
-  const [referred, setReferred] = useState<"" | "no" | "yes">("");
+  const [referred, setReferred] = useState<"no" | "yes">("no");
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
@@ -220,18 +219,14 @@ export default function LeadForm({
           />
         ))}
 
-        {salesmen.length > 0 && (
-          <>
-            <YesNoField label={t.referred} name="referred" no={t.referredNo} yes={t.referredYes} onChange={setReferred} />
-            {referred === "yes" && (
-              <SelectField
-                label={t.salesman}
-                name="salesman"
-                placeholder={t.salesmanPlaceholder}
-                options={salesmen.map((value) => ({ value, label: value }))}
-              />
-            )}
-          </>
+        <YesNoField label={t.referred} name="referred" no={t.referredNo} yes={t.referredYes} onChange={setReferred} />
+        {referred === "yes" && (
+          <SelectField
+            label={t.salesman}
+            name="salesman"
+            placeholder={t.salesmanPlaceholder}
+            options={salespeople.map((value) => ({ value, label: value }))}
+          />
         )}
 
         {TURNSTILE_SITE_KEY && (

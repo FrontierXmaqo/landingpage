@@ -1,6 +1,7 @@
 import Image from "next/image";
 import LeadForm, { type LeadFormOptionLists } from "./LeadForm";
 import { OLD_SITE_IMAGES } from "@/lib/content";
+import { salespeopleFor } from "@/lib/salespeople";
 import type { PublishedCustomField } from "@/lib/publishedContent";
 import type { Dictionary, Locale } from "@/lib/i18n";
 
@@ -98,7 +99,14 @@ export default function Hero({
         </div>
 
         <div className="lg:pl-4">
-          <LeadForm locale={locale} t={dict.leadForm} labels={dict.formOptions} options={leadFormOptions} customFields={customFields} />
+          <LeadForm
+            locale={locale}
+            t={dict.leadForm}
+            labels={dict.formOptions}
+            options={leadFormOptions}
+            customFields={customFields}
+            salespeople={salespeopleFor(process.env.VERCEL_ENV === "production").map((p) => p.name)}
+          />
         </div>
       </div>
     </section>
