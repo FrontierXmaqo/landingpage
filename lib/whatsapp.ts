@@ -79,13 +79,6 @@ export function hiddenRef(refId: string): string {
     .join("");
 }
 
-/** The ref id hidden in a WhatsApp message by hiddenRef, or "" when it has none (or it was cut short). */
-export function readHiddenRef(text: string): string {
-  const bits = (text.match(/[\u200B\u200C]{30}/) ?? [""])[0].replace(/\u200B/g, "0").replace(/\u200C/g, "1");
-  if (!bits) return "";
-  return "MQ-" + (bits.match(/.{5}/g) ?? []).map((b) => REF_CHARS[parseInt(b, 2)]).join("");
-}
-
 /**
  * The message the visitor sends us. Built by submitLead from the checked values
  * (so it matches what was saved, with the lead's ref id hidden in it) and by the
