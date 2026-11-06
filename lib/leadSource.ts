@@ -1,38 +1,40 @@
 /**
- * Where a lead came from, as one label the sales team can filter on in Lark, from the visit's
- * first-touch attribution (lib/attribution). Ad click ids and UTM tags win over the referrer,
- * because Facebook/Instagram app clicks and many phone clicks send no referrer at all.
- * fbclid is added to every Facebook/Instagram link click, paid or not, so without a Meta UTM
- * tag it reads "Meta (Facebook / Instagram)" rather than "Meta Ads".
+ * Where a lead came from, as one label for Lark's Lead Source column and respond.io's
+ * "Source of Leads", from the visit's first-touch attribution (lib/attribution). UTM tags and
+ * Google click ids win over the referrer, because app clicks often send no referrer at all.
+ * A Meta click (fbclid) with no UTM tag can't say Instagram vs Facebook, so it stays "" —
+ * Meta ads should carry `utm_source={{site_source_name}}` in their URL parameters.
+ * "" = unknown (direct, other websites, other campaigns).
  */
-export type LeadSource =
-  | "Google Ads"
-  | "Meta Ads"
-  | "Meta (Facebook / Instagram)"
-  | "Google Search"
-  | "Other website"
-  | "Other campaign"
-  | "Direct";
+export type LeadSource = "Instagram" | "Facebook" | "Threads" | "Google" | "Referral" | "";
 
-const META = /facebook|instagram|^fb$|^ig$|^meta$|fb\.com/;
+/** The platform named by a utm_source or a referrer host, or "". */
+function platform(s: string): LeadSource {
+  if (/threads/.test(s)) return "Threads";
+  if (/instagram|^ig$/.test(s)) return "Instagram";
+  if (/facebook|^fb$|(^|\.)fb\.com$/.test(s)) return "Facebook";
+  if (/google/.test(s)) return "Google";
+  return "";
+}
 
-export function leadSource(a: { gclid: string; fbclid: string; utmSource: string; utmMedium: string; referrer: string }): LeadSource {
+function host(url: string): string {
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+/** The visit's channel; submitLead swaps in "Referral" when a salesperson was picked. */
+export function leadSource(a: { gclid: string; utmSource: string; referrer: string }): LeadSource {
+  if (a.gclid) return "Google";
   const utm = a.utmSource.toLowerCase();
-  const paid = /cpc|ppc|paid|^ads?$/.test(a.utmMedium.toLowerCase());
-  const ref = a.referrer.toLowerCase();
-  if (a.gclid || (utm === "google" && paid)) return "Google Ads";
-  if (META.test(utm)) return "Meta Ads";
-  if (a.fbclid) return "Meta (Facebook / Instagram)";
-  if (utm) return "Other campaign";
-  if (/\bgoogle\./.test(ref)) return "Google Search";
-  if (META.test(ref)) return "Meta (Facebook / Instagram)";
-  if (ref) return "Other website";
-  return "Direct";
+  return utm ? platform(utm) : platform(host(a.referrer));
 }
 
 /** The three values atap_leads / ci_leads.lead_source already hold (admin Enquiries, analytics). */
-export function leadSourceGroup(source: LeadSource): "google" | "social" | "direct" {
-  if (source.startsWith("Google")) return "google";
-  if (source.startsWith("Meta")) return "social";
+export function leadSourceGroup(channel: LeadSource, fbclid: string): "google" | "social" | "direct" {
+  if (channel === "Google") return "google";
+  if (channel || fbclid) return "social";
   return "direct";
 }

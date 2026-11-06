@@ -196,7 +196,8 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const salesperson = formPage === "main" && formData.get("referred") === "yes" ? findSalesperson(clean(formData.get("referred_by"), 80)) : undefined;
   const refIdRaw = clean(formData.get("ref_id"), 20);
   const ref_id = REF_ID_PATTERN.test(refIdRaw) ? refIdRaw : newRefId();
-  const lead_source = leadSource({ gclid, fbclid, utmSource: utm_source, utmMedium: utm_medium, referrer: landing_referrer });
+  const channel = leadSource({ gclid, utmSource: utm_source, referrer: landing_referrer });
+  const lead_source = salesperson ? "Referral" : channel;
 
   // Every field on the form is mandatory — mirrors the `required` attributes
   // client-side, but the server is the one that actually enforces it.
@@ -263,7 +264,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             full_name, company_name, industry: extraFields["industry"] || null,
             role_in_organization: role_in_organization || null,
             phone, email, state, monthly_bill_range,
-            lead_source: leadSourceGroup(lead_source), campaign_id: campaign_id || null,
+            lead_source: leadSourceGroup(channel, fbclid), campaign_id: campaign_id || null,
             extra_fields: { ...ciExtraFields, lead_source, ref_id },
           })
         : await supabase.from("atap_leads").insert({
@@ -273,7 +274,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             segment: formPage === "ev" ? "ev" : "residential",
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
-            lead_source: leadSourceGroup(lead_source), campaign_id: campaign_id || null,
+            lead_source: leadSourceGroup(channel, fbclid), campaign_id: campaign_id || null,
             extra_fields: { ...extraFields, lead_source, ref_id, ...(salesperson && { referred_by: salesperson.name }) },
           });
     if (error) {
@@ -312,7 +313,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,
   }, {
-    // "Google Ads", "Meta Ads", … for Lark's Lead Source column (lib/leadSource.ts).
+    // "Instagram", "Facebook", "Threads", "Google", "Referral" or "" for Lark's Lead Source column (lib/leadSource.ts).
     lead_source,
     // Lark starts the row as "Empty Lead"; it becomes "New Lead" once the WhatsApp message arrives
     // and Make matches it by this ref id.
