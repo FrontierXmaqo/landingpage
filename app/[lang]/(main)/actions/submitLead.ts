@@ -93,8 +93,6 @@ async function postJson(envVar: string, url: string, payload: unknown) {
   }
 }
 
-/** Residential leads also go, with the same payload, to the Lark "stage update" workflow
- *  (LARK_STAGE_WEBHOOK_URL, optional). Its result doesn't change the visitor's response. */
 async function forwardToWebhook(
   formPage: LeadFormPage,
   input: Parameters<typeof buildLeadWebhookPayload>[0],
@@ -113,18 +111,13 @@ async function forwardToWebhook(
     (process.env.VERCEL_ENV === "production" ? Boolean(testToken) && testCookie === testToken : testCookie === "1");
   const envVar = testMode ? "TESTING_WEBHOOK_URL" : formPage === "ci" ? "CI_LEAD_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
   const payload = { ...(formPage === "ci" ? buildCiLeadWebhookPayload(input) : buildLeadWebhookPayload(input)), ...extra };
-  const targets = [envVar, ...(formPage === "main" ? ["LARK_STAGE_WEBHOOK_URL"] : [])];
-  await Promise.all(
-    targets.map((name) => {
-      const url = process.env[name];
-      if (!url) return;
-      if (!url.startsWith("https://")) {
-        console.error(`${name} is not an https:// URL; refusing to send.`);
-        return;
-      }
-      return postJson(name, url, payload);
-    }),
-  );
+  const url = process.env[envVar];
+  if (!url) return;
+  if (!url.startsWith("https://")) {
+    console.error(`${envVar} is not an https:// URL; refusing to send.`);
+    return;
+  }
+  await postJson(envVar, url, payload);
 }
 
 // The first two arguments are bound in the client components, which means the
