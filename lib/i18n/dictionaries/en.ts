@@ -751,30 +751,24 @@ const en = {
       "1,000+ customers",
       "Turn-Key Solution",
     ],
-    heroVisual: {
-      title: "How a battery cuts your electricity bill",
-      subtitle: "Same building, same machines, same hours - just a smaller charge from TNB.",
-      legend: ["Solar power", "Battery power", "TNB grid power"],
-      nodes: {
-        solar: { label: "SOLAR PANELS", caption: "Free power while the sun is up" },
-        facility: { label: "YOUR BUILDING", caption: "Machines, chillers, lights, aircon" },
-        grid: { label: "TNB GRID", caption: "Standby supply from the utility" },
-        battery: { label: "BATTERY", caption: "Saves power now, uses it later" },
-      },
-      arrowLabels: [
-        "Runs your building - free",
-        "Leftover sunshine fills the battery",
-        "Battery covers your busiest moments",
-        "TNB tops you up if needed",
-        "Spare solar sold back to TNB",
-        "Refills overnight, when power is cheap",
+    heroFlow: {
+      aria: "Energy flow between solar panels, your building, the TNB grid and the battery through the day: solar powers the building and fills the battery, the battery covers the 3pm peak, and TNB refills the battery overnight.",
+      phases: [
+        { time: "11:00am · Sunny", body: "Solar runs your building for free, fills the battery, and sells the spare to TNB." },
+        { time: "3:00pm · Peak hour", body: "Your factory spikes. The battery covers it, so TNB records a lower Maximum Demand." },
+        { time: "11:00pm · Off-peak", body: "Power is cheapest. TNB refills the battery, ready for tomorrow's peak." },
       ],
-      footerPrefix: "TNB charges you on your ",
-      footerBold: "single busiest half-hour of the month",
-      footerSuffix:
-        ". The battery quietly covers that spike - so that charge, and your bill, come down.",
-      zoomLabel: "Tap to zoom in",
-      zoomCloseLabel: "Close",
+      steps: ["Day", "3pm peak", "Night"],
+      nodes: { solar: "SOLAR", building: "YOUR BUILDING", grid: "TNB GRID", battery: "MAQO BATTERY" },
+      arrows: {
+        freePower: "Free power",
+        fillsBattery: "Fills the battery",
+        soldToTnb: "Spare sold to TNB",
+        coversPeak: "Battery covers your peak",
+        tnbTopsUp: "TNB tops up",
+        refills: "Refills overnight",
+      },
+      legend: ["Solar power", "Battery power", "TNB grid power"],
     },
 
     problemTag: "The Problem",

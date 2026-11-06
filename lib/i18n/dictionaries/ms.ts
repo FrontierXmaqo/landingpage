@@ -743,30 +743,24 @@ const ms: Dictionary = {
       "1,000+ pelanggan",
       "Penyelesaian Sehenti",
     ],
-    heroVisual: {
-      title: "Bagaimana bateri mengurangkan bil elektrik anda",
-      subtitle: "Bangunan sama, mesin sama, waktu sama - cuma caj TNB yang lebih kecil.",
-      legend: ["Kuasa solar", "Kuasa bateri", "Kuasa grid TNB"],
-      nodes: {
-        solar: { label: "PANEL SOLAR", caption: "Kuasa percuma semasa matahari terbit" },
-        facility: { label: "BANGUNAN ANDA", caption: "Mesin, pendingin, lampu, penghawa dingin" },
-        grid: { label: "GRID TNB", caption: "Bekalan sandaran daripada utiliti" },
-        battery: { label: "BATERI", caption: "Menyimpan kuasa sekarang, guna kemudian" },
-      },
-      arrowLabels: [
-        "Menjalankan bangunan anda - percuma",
-        "Baki solar mengisi bateri",
-        "Bateri menampung waktu puncak anda",
-        "TNB menambah bekalan jika diperlukan",
-        "Lebihan solar dijual semula kepada TNB",
-        "Mengisi semula pada waktu malam, semasa kuasa murah",
+    heroFlow: {
+      aria: "Aliran tenaga antara panel solar, bangunan anda, grid TNB dan bateri sepanjang hari: solar menjana kuasa untuk bangunan dan mengecas bateri, bateri menampung puncak jam 3 petang, dan TNB mengecas semula bateri pada waktu malam.",
+      phases: [
+        { time: "11:00 pg · Cerah", body: "Solar menjana kuasa percuma untuk bangunan anda, mengecas bateri, dan menjual lebihan kepada TNB." },
+        { time: "3:00 ptg · Waktu puncak", body: "Penggunaan kilang anda melonjak. Bateri menampungnya, jadi TNB merekod Permintaan Maksimum yang lebih rendah." },
+        { time: "11:00 mlm · Luar puncak", body: "Kuasa paling murah. TNB mengecas semula bateri, sedia untuk puncak esok." },
       ],
-      footerPrefix: "TNB mengenakan caj berdasarkan ",
-      footerBold: "setengah jam tersibuk anda dalam sebulan",
-      footerSuffix:
-        ". Bateri diam-diam menampung lonjakan itu - jadi caj itu, dan bil anda, berkurangan.",
-      zoomLabel: "Ketik untuk zum",
-      zoomCloseLabel: "Tutup",
+      steps: ["Siang", "Puncak 3 ptg", "Malam"],
+      nodes: { solar: "SOLAR", building: "BANGUNAN ANDA", grid: "GRID TNB", battery: "BATERI MAQO" },
+      arrows: {
+        freePower: "Kuasa percuma",
+        fillsBattery: "Mengecas bateri",
+        soldToTnb: "Lebihan dijual ke TNB",
+        coversPeak: "Bateri tampung puncak",
+        tnbTopsUp: "TNB tambah bekalan",
+        refills: "Dicas semula waktu malam",
+      },
+      legend: ["Kuasa solar", "Kuasa bateri", "Kuasa grid TNB"],
     },
 
     problemTag: "Masalahnya",

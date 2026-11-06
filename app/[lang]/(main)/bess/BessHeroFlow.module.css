@@ -1,0 +1,43 @@
+/* One 12s loop in three equal steps: day (0–33%), 3pm peak (33–66%), night (66–100%). */
+
+.stack { display: grid; }
+.stack > * { grid-area: 1 / 1; }
+
+.sky { animation: sky 12s infinite; background: #e3efff; }
+@keyframes sky {
+  0%, 30% { background: #e3efff; }
+  33.3%, 63% { background: #fff0dc; }
+  66.6%, 97% { background: #16243f; }
+  100% { background: #e3efff; }
+}
+
+.p1 { animation: p1 12s infinite; }
+.p2 { animation: p2 12s infinite; opacity: 0; }
+.p3 { animation: p3 12s infinite; opacity: 0; }
+@keyframes p1 { 0%, 30% { opacity: 1; } 33.3%, 97% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes p2 { 0%, 30% { opacity: 0; } 33.3%, 63% { opacity: 1; } 66.6%, 100% { opacity: 0; } }
+@keyframes p3 { 0%, 63% { opacity: 0; } 66.6%, 97% { opacity: 1; } 100% { opacity: 0; } }
+
+.sun { animation: sun 12s infinite; }
+@keyframes sun { 0%, 63% { opacity: 1; } 66.6%, 97% { opacity: 0.15; } 100% { opacity: 1; } }
+
+.flow { fill: none; stroke-width: 5; stroke-dasharray: 3 11; stroke-linecap: round; animation: dash 0.7s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -14; } }
+
+.cell { transform-box: fill-box; transform-origin: bottom; animation: cell 12s infinite; }
+@keyframes cell {
+  0% { transform: scaleY(0.7); }
+  30%, 36% { transform: scaleY(1); }
+  63%, 69% { transform: scaleY(0.22); }
+  97%, 100% { transform: scaleY(0.7); }
+}
+
+/* on phones the in-diagram arrow labels are too small to read; the caption above carries the story */
+@media (max-width: 520px) {
+  .alabel { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky, .p1, .p2, .p3, .sun, .flow, .cell { animation: none; }
+  .cell { transform: scaleY(0.7); }
+}

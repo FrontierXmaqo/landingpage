@@ -8,7 +8,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
-import BessFlowDiagram from "./BessFlowDiagram";
+import BessHeroFlow from "./BessHeroFlow";
 import MdChart from "./MdChart";
 import CredentialBadges from "../components/CredentialBadges";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
@@ -79,7 +79,7 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
               </div>
             </div>
 
-            <BessFlowDiagram t={t.heroVisual} />
+            <BessHeroFlow t={t.heroFlow} />
           </div>
         </section>
 
