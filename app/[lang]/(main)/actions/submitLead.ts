@@ -18,6 +18,8 @@ import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormP
 import { getDictionary, hasLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 import { isLeadFunnel, signLeadToken, THANK_YOU_FUNNELS } from "@/lib/leadToken";
 import { toLeadPhone } from "@/lib/phone";
+import { findSalesperson } from "@/lib/salespeople";
+import { newRefId, REF_ID_PATTERN } from "@/lib/whatsappLead";
 
 export type LeadFormState = { status: "idle" | "success" | "error"; message?: string };
 
@@ -77,7 +79,33 @@ async function getClientIp() {
   return h.get("x-real-ip") || "unknown";
 }
 
-async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof buildLeadWebhookPayload>[0]) {
+async function postJson(envVar: string, url: string, payload: unknown) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      console.error(`${envVar} responded with`, res.status);
+    }
+  } catch (err) {
+    console.error(`${envVar} request failed`, err);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/** Residential leads also go, with the same payload, to the Lark "stage update" workflow
+ *  (LARK_STAGE_WEBHOOK_URL, optional). Its result doesn't change the visitor's response. */
+async function forwardToWebhook(
+  formPage: LeadFormPage,
+  input: Parameters<typeof buildLeadWebhookPayload>[0],
+  extra: Record<string, string> = {},
+) {
   // C&I leads go to a different downstream workflow than residential/EV, so
   // each gets its own webhook URL rather than sharing one. A "test_webhook"
   // cookie (set from the browser console for QA) redirects C&I submissions
@@ -90,32 +118,19 @@ async function forwardToWebhook(formPage: LeadFormPage, input: Parameters<typeof
     formPage === "ci" &&
     (process.env.VERCEL_ENV === "production" ? Boolean(testToken) && testCookie === testToken : testCookie === "1");
   const envVar = testMode ? "TESTING_WEBHOOK_URL" : formPage === "ci" ? "CI_LEAD_WEBHOOK_URL" : "LEAD_WEBHOOK_URL";
-  const webhookUrl = process.env[envVar];
-  if (!webhookUrl) return;
-  if (!webhookUrl.startsWith("https://")) {
-    console.error(`${envVar} is not an https:// URL; refusing to send.`);
-    return;
-  }
-
-  const payload = formPage === "ci" ? buildCiLeadWebhookPayload(input) : buildLeadWebhookPayload(input);
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8000);
-
-  try {
-    const res = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-    if (!res.ok) {
-      console.error("Lead webhook responded with", res.status);
-    }
-  } catch (err) {
-    console.error("Lead webhook request failed", err);
-  } finally {
-    clearTimeout(timeout);
-  }
+  const payload = { ...(formPage === "ci" ? buildCiLeadWebhookPayload(input) : buildLeadWebhookPayload(input)), ...extra };
+  const targets = [envVar, ...(formPage === "main" ? ["LARK_STAGE_WEBHOOK_URL"] : [])];
+  await Promise.all(
+    targets.map((name) => {
+      const url = process.env[name];
+      if (!url) return;
+      if (!url.startsWith("https://")) {
+        console.error(`${name} is not an https:// URL; refusing to send.`);
+        return;
+      }
+      return postJson(name, url, payload);
+    }),
+  );
 }
 
 // The first two arguments are bound in the client components, which means the
@@ -189,6 +204,11 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const landing_page_source = httpUrl(clean(formData.get("landing_page_source"), 300));
   const charge_time = noFormula(clean(formData.get("charge_time"), 80));
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
+  // Residential only: the salesman picked under "Were you referred by any salesman?" (only a name
+  // in lib/salespeople counts), and the ref id the browser hid in the WhatsApp message.
+  const salesperson = formPage === "main" && formData.get("referred") === "yes" ? findSalesperson(clean(formData.get("referred_by"), 80)) : undefined;
+  const refIdRaw = clean(formData.get("ref_id"), 20);
+  const ref_id = REF_ID_PATTERN.test(refIdRaw) ? refIdRaw : newRefId();
 
   // Every field on the form is mandatory — mirrors the `required` attributes
   // client-side, but the server is the one that actually enforces it.
@@ -266,7 +286,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: classifyLeadSource(landing_referrer), campaign_id: campaign_id || null,
-            extra_fields: extraFields,
+            extra_fields: formPage === "main" ? { ...extraFields, ref_id, ...(salesperson && { referred_by: salesperson.name }) } : extraFields,
           });
     if (error) {
       // Code and message only: `details` can echo the row, i.e. the visitor's PII.
@@ -303,7 +323,14 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     sourcePage,
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,
-  });
+  }, formPage === "main" ? {
+    // Lark starts the row as "Empty Lead"; it becomes "New Lead" once the WhatsApp message arrives.
+    ref_id,
+    lead_status: "Empty Lead",
+    salespartner: salesperson?.name ?? "",
+    ref_code: salesperson?.code ?? "",
+    tags: salesperson ? "Source-Referral" : "",
+  } : {});
 
   if (!supabaseOk) {
     return { status: "error", message: t.generic };

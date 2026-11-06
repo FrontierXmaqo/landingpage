@@ -273,6 +273,13 @@ const cn: Dictionary = {
     languagePlaceholder: "选择语言",
     submitting: "提交中…",
     submit: "获取免费上门评估",
+    referredQuestion: "您是否由销售顾问介绍？ *",
+    referredYes: "是",
+    referredNo: "否",
+    salesman: "销售顾问 *",
+    salesmanPlaceholder: "请选择您的销售顾问",
+    whatsappNote: "提交后，WhatsApp 会自动打开并填好您的资料。按发送即可联系我们。",
+    previewTitle: "预览：将发送的信息",
   },
 
   formOptions: {
@@ -339,6 +346,9 @@ const cn: Dictionary = {
     body: "我们的能源顾问将在 1 个工作日内致电给您，安排免费屋顶评估。",
     learnMore: "了解更多关于 MAQO",
     backHome: "返回首页",
+    whatsappTitle: "最后一步：通过 WhatsApp 发送您的资料",
+    whatsappOpening: "正在打开 WhatsApp…",
+    whatsappButton: "通过 WhatsApp 发送",
   },
 
   about: {
