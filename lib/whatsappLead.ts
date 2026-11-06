@@ -3,8 +3,13 @@
  * as "Label: value" lines (residential adds "Referred by: <name>" when a salesman was picked;
  * respond.io's AI Agent assigns the chat on it), and the lead's ref id hidden right after "Hi" as zero-width
  * characters, so Make can match the chat to the Lark row without the customer seeing a code.
+ * 3 more hidden bits after it carry the lead source (SOURCE_CODES), which Make writes to
+ * respond.io's "Source of Leads" field.
  * Labels stay in English in every language, so the sales team and respond.io read one format.
  */
+
+import { leadSource, type LeadSource } from "@/lib/leadSource";
+import { findSalesperson } from "@/lib/salespeople";
 
 /** respond.io's WhatsApp number. */
 export const WHATSAPP_NUMBER = "60187771095";
@@ -32,8 +37,22 @@ function hiddenRef(refId: string): string {
   return refId
     .slice(3)
     .split("")
-    .map((c) => REF_CHARS.indexOf(c).toString(2).padStart(5, "0").replace(/0/g, "​").replace(/1/g, "‌"))
+    .map((c) => hiddenBits(REF_CHARS.indexOf(c), 5))
     .join("");
+}
+
+/** A lead source's position here is its 3-bit code after the hidden ref; Make decodes the same table. */
+const SOURCE_CODES: readonly LeadSource[] = ["", "Instagram", "Facebook", "Threads", "Google", "Referral"];
+
+function hiddenBits(n: number, width: number): string {
+  return n.toString(2).padStart(width, "0").replace(/0/g, "​").replace(/1/g, "‌");
+}
+
+/** The form's lead source, the way submitLead works it out from the same fields. */
+function formLeadSource(data: FormData): LeadSource {
+  const get = (name: string) => String(data.get(name) ?? "");
+  if (get("referred") === "yes" && findSalesperson(get("referred_by"))) return "Referral";
+  return leadSource({ gclid: get("gclid"), utmSource: get("utm_source"), referrer: get("landing_referrer") });
 }
 
 /** [label in the message, form field name]; optional fields are left out when empty. */
@@ -42,7 +61,8 @@ export type WhatsAppField = readonly [label: string, name: string, optional?: bo
 /** The message from what's in `form` now (all "-" before the form exists). */
 export function whatsappLeadText(form: HTMLFormElement | null, fields: readonly WhatsAppField[], refId = ""): string {
   const data = form ? new FormData(form) : null;
-  const lines = [`Hi${hiddenRef(refId)} Maqo Solar, I'd like a free solar quotation. My details:`];
+  const hidden = refId ? hiddenRef(refId) + hiddenBits(SOURCE_CODES.indexOf(data ? formLeadSource(data) : ""), 3) : "";
+  const lines = [`Hi${hidden} Maqo Solar, I'd like a free solar quotation. My details:`];
   for (const [label, name, optional] of fields) {
     const value = String(data?.get(name) ?? "");
     if (value || !optional) lines.push(`${label}: ${value || "-"}`);
