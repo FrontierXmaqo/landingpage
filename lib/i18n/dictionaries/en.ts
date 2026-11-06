@@ -592,7 +592,7 @@ const en = {
       supplyPlaceholder: "Select",
       language: "Preferred language",
       submitting: "Sending…",
-      submit: "Get My Free Home Assessment",
+      submit: "Submit via WhatsApp",
     },
     thankYou: {
       eyebrow: "Assessment Requested",

@@ -129,7 +129,7 @@ export default async function CommercialAndIndustrialPage({
             </div>
 
             <div className="lg:pl-4">
-              <CiLeadForm locale={lang} t={c.form} options={leadFormOptions} customFields={customFields} />
+              <CiLeadForm locale={lang} t={c.form} wa={dict.leadForm} options={leadFormOptions} customFields={customFields} />
             </div>
           </div>
         </section>

@@ -584,7 +584,7 @@ const ms: Dictionary = {
       supplyPlaceholder: "Pilih",
       language: "Bahasa pilihan",
       submitting: "Menghantar…",
-      submit: "Dapatkan Penilaian Rumah Percuma",
+      submit: "Hantar melalui WhatsApp",
     },
     thankYou: {
       eyebrow: "Penilaian Diminta",

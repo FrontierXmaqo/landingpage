@@ -192,7 +192,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const charge_time = noFormula(clean(formData.get("charge_time"), 80));
   const turnstileToken = clean(formData.get("cf-turnstile-response"), 2000);
   // Residential only: the salesman picked under "Were you referred by any salesman?" (only a name
-  // in lib/salespeople counts), and the ref id the browser hid in the WhatsApp message.
+  // in lib/salespeople counts). Every form: the ref id the browser hid in the WhatsApp message.
   const salesperson = formPage === "main" && formData.get("referred") === "yes" ? findSalesperson(clean(formData.get("referred_by"), 80)) : undefined;
   const refIdRaw = clean(formData.get("ref_id"), 20);
   const ref_id = REF_ID_PATTERN.test(refIdRaw) ? refIdRaw : newRefId();
@@ -264,7 +264,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             role_in_organization: role_in_organization || null,
             phone, email, state, monthly_bill_range,
             lead_source: leadSourceGroup(lead_source), campaign_id: campaign_id || null,
-            extra_fields: { ...ciExtraFields, lead_source },
+            extra_fields: { ...ciExtraFields, lead_source, ref_id },
           })
         : await supabase.from("atap_leads").insert({
             // atap_leads holds both Residential and EV, and this form is the
@@ -274,7 +274,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
             full_name, phone, email, state,
             monthly_bill_range, property_type, electric_supply, preferred_language,
             lead_source: leadSourceGroup(lead_source), campaign_id: campaign_id || null,
-            extra_fields: { ...extraFields, lead_source, ...(formPage === "main" && { ref_id, ...(salesperson && { referred_by: salesperson.name }) }) },
+            extra_fields: { ...extraFields, lead_source, ref_id, ...(salesperson && { referred_by: salesperson.name }) },
           });
     if (error) {
       // Code and message only: `details` can echo the row, i.e. the visitor's PII.
@@ -314,10 +314,11 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   }, {
     // "Google Ads", "Meta Ads", … for Lark's Lead Source column (lib/leadSource.ts).
     lead_source,
+    // Lark starts the row as "Empty Lead"; it becomes "New Lead" once the WhatsApp message arrives
+    // and Make matches it by this ref id.
+    ref_id,
+    lead_status: "Empty Lead",
     ...(formPage === "main" && {
-      // Lark starts the row as "Empty Lead"; it becomes "New Lead" once the WhatsApp message arrives.
-      ref_id,
-      lead_status: "Empty Lead",
       salespartner: salesperson?.name ?? "",
       ref_code: salesperson?.code ?? "",
       tags: salesperson ? "Source-Referral" : "",

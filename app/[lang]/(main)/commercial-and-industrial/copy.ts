@@ -243,7 +243,7 @@ const en: CiCopy = {
     statePlaceholder: "Select a state",
     bill: "Average monthly TNB bill",
     billPlaceholder: "Select a range",
-    submit: "Get Free Solar Assessment & ROI Quote",
+    submit: "Submit via WhatsApp",
     submitting: "Submitting…",
   },
   thankYou: {
@@ -402,7 +402,7 @@ const cn: CiCopy = {
     statePlaceholder: "请选择州属",
     bill: "每月平均 TNB 电费",
     billPlaceholder: "请选择范围",
-    submit: "获取免费太阳能评估与投资回报报价",
+    submit: "通过 WhatsApp 提交",
     submitting: "提交中…",
   },
   thankYou: {
@@ -565,7 +565,7 @@ const ms: CiCopy = {
     statePlaceholder: "Pilih negeri",
     bill: "Purata bil TNB bulanan",
     billPlaceholder: "Pilih julat",
-    submit: "Dapatkan Penilaian Solar & Sebut Harga ROI Percuma",
+    submit: "Hantar melalui WhatsApp",
     submitting: "Menghantar…",
   },
   thankYou: {

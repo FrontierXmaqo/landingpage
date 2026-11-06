@@ -583,7 +583,7 @@ const cn: Dictionary = {
       supplyPlaceholder: "请选择",
       language: "偏好语言",
       submitting: "发送中…",
-      submit: "获取免费上门评估",
+      submit: "通过 WhatsApp 提交",
     },
     thankYou: {
       eyebrow: "已收到评估申请",

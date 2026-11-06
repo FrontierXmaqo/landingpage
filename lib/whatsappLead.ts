@@ -1,7 +1,7 @@
 /**
- * The WhatsApp message a residential lead sends after the form: the form's answers as
- * "Label: value" lines, "Referred by: <name>" last when a salesman was picked (respond.io's AI
- * Agent assigns the chat on it), and the lead's ref id hidden right after "Hi" as zero-width
+ * The WhatsApp message a lead sends after a lead form (residential, C&I, EV): the form's answers
+ * as "Label: value" lines (residential adds "Referred by: <name>" when a salesman was picked;
+ * respond.io's AI Agent assigns the chat on it), and the lead's ref id hidden right after "Hi" as zero-width
  * characters, so Make can match the chat to the Lark row without the customer seeing a code.
  * Labels stay in English in every language, so the sales team and respond.io read one format.
  */
@@ -36,33 +36,17 @@ function hiddenRef(refId: string): string {
     .join("");
 }
 
-export type WhatsAppLeadFields = {
-  salutation: string;
-  name: string;
-  phone: string;
-  email: string;
-  state: string;
-  bill: string;
-  propertyType: string;
-  supply: string;
-  language: string;
-  referredBy: string;
-};
+/** [label in the message, form field name]; optional fields are left out when empty. */
+export type WhatsAppField = readonly [label: string, name: string, optional?: boolean];
 
-export function whatsappLeadText(f: WhatsAppLeadFields, refId: string): string {
-  const lines = [
-    `Hi${hiddenRef(refId)} Maqo Solar, I'd like a free solar quotation. My details:`,
-    `Salutation: ${f.salutation || "-"}`,
-    `Name: ${f.name || "-"}`,
-    `Phone Number: ${f.phone || "-"}`,
-    `Email: ${f.email || "-"}`,
-    `Location: ${f.state || "-"}`,
-    `Monthly TNB Bill: ${f.bill || "-"}`,
-    `Property Type: ${f.propertyType || "-"}`,
-    `Electric Supply: ${f.supply || "-"}`,
-    `Preferred Communication Language: ${f.language || "-"}`,
-  ];
-  if (f.referredBy) lines.push(`Referred by: ${f.referredBy}`);
+/** The message from what's in `form` now (all "-" before the form exists). */
+export function whatsappLeadText(form: HTMLFormElement | null, fields: readonly WhatsAppField[], refId = ""): string {
+  const data = form ? new FormData(form) : null;
+  const lines = [`Hi${hiddenRef(refId)} Maqo Solar, I'd like a free solar quotation. My details:`];
+  for (const [label, name, optional] of fields) {
+    const value = String(data?.get(name) ?? "");
+    if (value || !optional) lines.push(`${label}: ${value || "-"}`);
+  }
   return lines.join("\n");
 }
 

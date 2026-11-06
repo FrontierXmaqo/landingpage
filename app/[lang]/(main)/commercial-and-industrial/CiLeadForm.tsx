@@ -12,6 +12,7 @@ import { SALUTATIONS, MALAYSIAN_STATES, ROLE_IN_ORGANIZATION_OPTIONS } from "@/l
 import TermsAgree from "../components/TermsAgree";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { CiCopy } from "./copy";
+import WhatsAppPreview, { useWhatsAppLead } from "../components/WhatsAppPreview";
 
 const initialState: LeadFormState = { status: "idle" };
 const submitCiLead = submitLead.bind(null, "MAQO C&I Landing Page", "ci");
@@ -38,6 +39,18 @@ const INDUSTRIES = [
   "Others",
 ];
 
+const WHATSAPP_FIELDS = [
+  ["Salutation", "salutation"],
+  ["Name", "full_name"],
+  ["Company", "company_name"],
+  ["Role", "role_in_organization"],
+  ["Industry", "industry"],
+  ["Phone Number", "phone"],
+  ["Email", "email"],
+  ["Location", "state"],
+  ["Monthly Electric Bill", "monthly_bill_range"],
+] as const;
+
 const fieldClass =
   "rounded-lg border border-base-line bg-base-panel px-3 py-2 text-sm text-base-ink outline-none ring-brand-green placeholder:text-base-slate focus:border-brand-green focus:ring-2";
 const labelClass = "flex flex-col gap-1 text-sm font-medium text-base-ink";
@@ -53,11 +66,14 @@ function RequiredMark() {
 export default function CiLeadForm({
   locale,
   t,
+  wa: waCopy,
   options,
   customFields,
 }: {
   locale: Locale;
   t: CiCopy["form"];
+  /** Preview title and note, from the main dictionary's leadForm. */
+  wa: { previewTitle: string; whatsappNote: string };
   options?: LeadFormOptionLists;
   customFields?: PublishedCustomField[];
 }) {
@@ -73,6 +89,7 @@ export default function CiLeadForm({
   const otherCustomFields = customFields?.filter((f) => f.key !== "industry") ?? [];
 
   const [state, formAction, pending] = useActionState(submitCiLead, initialState);
+  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
   // Turnstile is ~100KB of JS plus an iframe; with the form above the fold it
   // landed inside the measured load window and drove TBT. Loading it on the
   // first focus still leaves it seconds to solve while the visitor types.
@@ -133,8 +150,16 @@ export default function CiLeadForm({
         </p>
       )}
 
-      <form action={formAction} onFocus={() => setCaptchaWanted(true)} className="mt-6 grid grid-cols-1 gap-4">
+      <form
+        ref={waFormRef}
+        action={formAction}
+        onChange={waOnChange}
+        onSubmit={waOnSubmit}
+        onFocus={() => setCaptchaWanted(true)}
+        className="mt-6 grid grid-cols-1 gap-4"
+      >
         <input type="hidden" name="locale" value={locale} />
+        <input type="hidden" name="ref_id" ref={waRefIdRef} />
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
         <input type="hidden" name="gclid" ref={gclidRef} />
         <input type="hidden" name="fbclid" ref={fbclidRef} />
@@ -317,6 +342,7 @@ export default function CiLeadForm({
         >
           {pending ? t.submitting : t.submit}
         </button>
+        <WhatsAppPreview text={waPreview} title={waCopy.previewTitle} note={waCopy.whatsappNote} />
       </form>
     </div>
   );

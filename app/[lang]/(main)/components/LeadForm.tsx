@@ -18,7 +18,7 @@ import TermsAgree from "./TermsAgree";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { PhoneTextField, SelectField, TextField, type Option } from "./formFields";
 import { SALESPEOPLE } from "@/lib/salespeople";
-import { newRefId, whatsappLeadText, whatsappLink, WHATSAPP_HANDOFF_KEY } from "@/lib/whatsappLead";
+import WhatsAppPreview, { useWhatsAppLead } from "./WhatsAppPreview";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -26,7 +26,19 @@ const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site", "main");
 
-const EMPTY_FIELDS = { salutation: "", name: "", phone: "", email: "", state: "", bill: "", propertyType: "", supply: "", language: "", referredBy: "" };
+const WHATSAPP_FIELDS = [
+  ["Salutation", "salutation"],
+  ["Name", "full_name"],
+  ["Phone Number", "phone"],
+  ["Email", "email"],
+  ["Location", "state"],
+  ["Monthly TNB Bill", "monthly_bill_range"],
+  ["Property Type", "property_type"],
+  ["Electric Supply", "electric_supply"],
+  ["Preferred Communication Language", "preferred_language"],
+  // Only rendered after "Yes": respond.io's AI Agent assigns the chat on this line.
+  ["Referred by", "referred_by", true],
+] as const;
 const noSubscribe = () => () => {};
 
 /** Dropdown option lists — CMS-managed in Supabase (lead_form_options), falling
@@ -85,36 +97,10 @@ export default function LeadForm({
   const utmCampaignRef = useRef<HTMLInputElement>(null);
   const utmTermRef = useRef<HTMLInputElement>(null);
   const utmContentRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const refIdRef = useRef<HTMLInputElement>(null);
+  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
   const [referred, setReferred] = useState(false);
-  const [preview, setPreview] = useState(() => whatsappLeadText(EMPTY_FIELDS, ""));
-  // Frontierx Maqo (T00) is the test account: only offered on *.vercel.app preview links.
   const onPreviewSite = useSyncExternalStore(noSubscribe, () => window.location.hostname.endsWith(".vercel.app"), () => false);
   const salespeople = SALESPEOPLE.filter((p) => p.code !== "T00" || onPreviewSite);
-
-  /** The WhatsApp message from what's in the form now. The preview leaves out the hidden ref id. */
-  function messageText(refId = "") {
-    const form = formRef.current;
-    if (!form) return "";
-    const data = new FormData(form);
-    const v = (name: string) => String(data.get(name) ?? "");
-    return whatsappLeadText(
-      {
-        salutation: v("salutation"),
-        name: v("full_name"),
-        phone: v("phone"),
-        email: v("email"),
-        state: v("state"),
-        bill: v("monthly_bill_range"),
-        propertyType: v("property_type"),
-        supply: v("electric_supply"),
-        language: v("preferred_language"),
-        referredBy: v("referred") === "yes" ? v("referred_by") : "",
-      },
-      refId,
-    );
-  }
 
   useEffect(() => {
     // Reads the visit's first-touch attribution (persisted by lib/attribution
@@ -160,25 +146,14 @@ export default function LeadForm({
       )}
 
       <form
-        ref={formRef}
+        ref={waFormRef}
         action={formAction}
-        // After the change has landed (React re-renders the salesman field on Yes/No).
-        onChange={() => setTimeout(() => setPreview(messageText()))}
-        // A new ref id for each attempt (React reads the form after this runs); the thank-you page
-        // opens WhatsApp with the message, once the lead is saved. submitLead checks the id.
-        onSubmit={() => {
-          const refId = newRefId();
-          if (refIdRef.current) refIdRef.current.value = refId;
-          try {
-            sessionStorage.setItem(WHATSAPP_HANDOFF_KEY, whatsappLink(messageText(refId)));
-          } catch {
-            // storage blocked: the thank-you page then shows only the plain WhatsApp button
-          }
-        }}
+        onChange={waOnChange}
+        onSubmit={waOnSubmit}
         className="mt-6 grid grid-cols-1 gap-4"
       >
         <input type="hidden" name="locale" value={locale} />
-        <input type="hidden" name="ref_id" ref={refIdRef} />
+        <input type="hidden" name="ref_id" ref={waRefIdRef} />
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
         <input type="hidden" name="gclid" ref={gclidRef} />
         <input type="hidden" name="fbclid" ref={fbclidRef} />
@@ -300,13 +275,7 @@ export default function LeadForm({
         >
           {pending ? t.submitting : t.submit}
         </button>
-        <p className="text-center text-sm text-base-slate">{t.whatsappNote}</p>
-        <div className="border-t border-dashed border-base-line pt-4 text-sm text-base-slate">
-          <p className="font-semibold text-base-ink">{t.previewTitle}</p>
-          <pre aria-live="polite" className="mt-2 whitespace-pre-wrap break-words rounded-xl border border-base-line bg-base-bg p-4 font-mono text-[13px] leading-relaxed text-base-ink">
-            {preview}
-          </pre>
-        </div>
+        <WhatsAppPreview text={waPreview} title={t.previewTitle} note={t.whatsappNote} />
       </form>
     </div>
   );

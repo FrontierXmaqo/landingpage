@@ -17,7 +17,7 @@ function savedLink() {
 /**
  * After a residential lead lands on the thank-you page (where the conversion fires), opens
  * WhatsApp with the message the form saved, and keeps a button for when the phone blocks it.
- * Renders nothing when there's no saved message (e.g. the C&I or EV thank-you, or storage blocked).
+ * Renders nothing when there's no saved message (e.g. a direct visit, or storage blocked).
  */
 export default function WhatsAppHandoff({ t }: { t: { whatsappTitle: string; whatsappOpening: string; whatsappButton: string } }) {
   const link = useSyncExternalStore(noSubscribe, savedLink, () => "");
@@ -35,16 +35,17 @@ export default function WhatsAppHandoff({ t }: { t: { whatsappTitle: string; wha
   }, [link]);
 
   if (!link) return null;
+  // Inline styles, so it also works on the EV thank-you page's own stylesheet.
   return (
-    <div className="mt-8 flex flex-col items-center gap-3">
-      <p className="text-base font-semibold text-base-ink">{t.whatsappTitle}</p>
+    <div style={{ marginTop: "2rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
+      <p style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color: "#1d2420" }}>{t.whatsappTitle}</p>
       <a
         href={link}
-        className="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[#25d366] px-8 text-base font-bold text-white shadow-sm transition hover:brightness-95"
+        style={{ display: "inline-flex", minHeight: "3.5rem", alignItems: "center", justifyContent: "center", borderRadius: "0.75rem", background: "#25d366", padding: "0 2rem", fontSize: "1rem", fontWeight: 700, color: "#fff", textDecoration: "none" }}
       >
         {t.whatsappButton}
       </a>
-      <p className="text-sm text-base-slate" aria-live="polite">{t.whatsappOpening}</p>
+      <p style={{ margin: 0, fontSize: "0.875rem", color: "#5b6660" }} aria-live="polite">{t.whatsappOpening}</p>
     </div>
   );
 }
