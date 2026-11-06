@@ -232,6 +232,9 @@ export function buildCiLeadWebhookPayload(input: LeadWebhookInput) {
   customData["Email"] = input.email;
   customData["Role In Organization"] = input.roleInOrganization;
   customData["Monthly Electric Bill"] = input.monthlyBillRange;
+  // Also under residential's keys, so one Lark mapping fills C&I rows too.
+  customData["Monthly TNB Bill"] = input.monthlyBillRange;
+  customData["Salutation"] = input.salutation;
   customData["Location"] = input.state;
   customData["Landing Page Source"] = input.landingPageSource;
   customData["Fbclid"] = input.fbclid;
