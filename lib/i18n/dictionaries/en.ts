@@ -278,7 +278,7 @@ const en = {
     language: "Preferred communication language *",
     languagePlaceholder: "Select language",
     submitting: "Submitting…",
-    submit: "Get My Free Home Assessment",
+    submit: "Submit via WhatsApp",
     referredQuestion: "Were you referred by any salesman? *",
     referredYes: "Yes",
     referredNo: "No",

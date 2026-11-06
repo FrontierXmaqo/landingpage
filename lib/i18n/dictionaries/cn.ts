@@ -272,7 +272,7 @@ const cn: Dictionary = {
     language: "偏好沟通语言 *",
     languagePlaceholder: "选择语言",
     submitting: "提交中…",
-    submit: "获取免费上门评估",
+    submit: "通过 WhatsApp 提交",
     referredQuestion: "您是否由销售顾问介绍？ *",
     referredYes: "是",
     referredNo: "否",

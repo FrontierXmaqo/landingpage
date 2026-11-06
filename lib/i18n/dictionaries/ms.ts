@@ -273,7 +273,7 @@ const ms: Dictionary = {
     language: "Bahasa komunikasi pilihan *",
     languagePlaceholder: "Pilih bahasa",
     submitting: "Menghantar…",
-    submit: "Dapatkan Penilaian Rumah Percuma",
+    submit: "Hantar melalui WhatsApp",
     referredQuestion: "Adakah anda dirujuk oleh mana-mana jurujual? *",
     referredYes: "Ya",
     referredNo: "Tidak",
