@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ThankYouTracking from "../components/ThankYouTracking";
-import WhatsAppHandoff from "../components/WhatsAppHandoff";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { getPublishedContact } from "@/lib/publishedContent";
 
@@ -43,7 +42,6 @@ export default async function ThankYouPage({ params }: PageProps<"/[lang]/thank-
 
           <h1 className="mt-6 text-3xl font-bold leading-tight text-base-ink sm:text-4xl">{t.title}</h1>
           <p className="mt-4 max-w-md text-base leading-relaxed text-base-slate">{t.body}</p>
-          <WhatsAppHandoff t={t} />
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-6">
             <Link

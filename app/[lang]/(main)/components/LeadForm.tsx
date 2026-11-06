@@ -18,7 +18,6 @@ import TermsAgree from "./TermsAgree";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import { PhoneTextField, SelectField, TextField, type Option } from "./formFields";
 import { SALESPEOPLE } from "@/lib/salespeople";
-import WhatsAppPreview, { useWhatsAppLead } from "./WhatsAppPreview";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -26,19 +25,6 @@ const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const submitMainSiteLead = submitLead.bind(null, "MAQO Main Site", "main");
 
-const WHATSAPP_FIELDS = [
-  ["Salutation", "salutation"],
-  ["Name", "full_name"],
-  ["Phone Number", "phone"],
-  ["Email", "email"],
-  ["Location", "state"],
-  ["Monthly TNB Bill", "monthly_bill_range"],
-  ["Property Type", "property_type"],
-  ["Electric Supply", "electric_supply"],
-  ["Preferred Communication Language", "preferred_language"],
-  // Only rendered after "Yes": respond.io's AI Agent assigns the chat on this line.
-  ["Referred by", "referred_by", true],
-] as const;
 const noSubscribe = () => () => {};
 
 /** Dropdown option lists — CMS-managed in Supabase (lead_form_options), falling
@@ -97,7 +83,6 @@ export default function LeadForm({
   const utmCampaignRef = useRef<HTMLInputElement>(null);
   const utmTermRef = useRef<HTMLInputElement>(null);
   const utmContentRef = useRef<HTMLInputElement>(null);
-  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
   const [referred, setReferred] = useState(false);
   const onPreviewSite = useSyncExternalStore(noSubscribe, () => window.location.hostname.endsWith(".vercel.app"), () => false);
   const salespeople = SALESPEOPLE.filter((p) => p.code !== "T00" || onPreviewSite);
@@ -146,14 +131,10 @@ export default function LeadForm({
       )}
 
       <form
-        ref={waFormRef}
         action={formAction}
-        onChange={waOnChange}
-        onSubmit={waOnSubmit}
         className="mt-6 grid grid-cols-1 gap-4"
       >
         <input type="hidden" name="locale" value={locale} />
-        <input type="hidden" name="ref_id" ref={waRefIdRef} />
         <input type="hidden" name="campaign_id" ref={campaignIdRef} />
         <input type="hidden" name="gclid" ref={gclidRef} />
         <input type="hidden" name="fbclid" ref={fbclidRef} />
@@ -275,7 +256,6 @@ export default function LeadForm({
         >
           {pending ? t.submitting : t.submit}
         </button>
-        <WhatsAppPreview text={waPreview} title={t.previewTitle} note={t.whatsappNote} />
       </form>
     </div>
   );

@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import LanguageSwitcher from "@/app/[lang]/(main)/components/LanguageSwitcher";
 import Footer from "@/app/[lang]/(main)/components/Footer";
 import ThankYouTracking from "@/app/[lang]/(main)/components/ThankYouTracking";
-import WhatsAppHandoff from "@/app/[lang]/(main)/components/WhatsAppHandoff";
 import { OLD_SITE_IMAGES } from "@/lib/content";
 import { getDictionary, hasLocale, localePath } from "@/lib/i18n";
 import { getPublishedContact } from "@/lib/publishedContent";
@@ -80,7 +79,6 @@ export default async function EvThankYouPage({ params }: PageProps<"/[lang]/ev/t
             <p className="lede" style={{ maxWidth: "460px" }}>
               {t.thankYou.body}
             </p>
-            <WhatsAppHandoff t={dict.thankYou} />
 
             <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: "24px" }}>
               <Link href={localePath(locale, "/about")} className="btn btn-primary btn-lg">

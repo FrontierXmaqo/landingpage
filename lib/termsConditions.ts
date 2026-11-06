@@ -41,7 +41,7 @@ export const TERMS_CONDITIONS: Record<Locale, TermsConditions> = {
       {
         heading: "3. Agreement to be contacted",
         paragraphs: [
-          "By submitting a form, you agree that MAQO and its authorised representatives may contact you by phone call, SMS, WhatsApp or email about your enquiry, assessment, quotation and related products and services. You can ask us to stop at any time by replying \"STOP\" or emailing us at the address below.",
+          "By submitting a form, you agree that MAQO and its authorised representatives may contact you by phone call, SMS or email about your enquiry, assessment, quotation and related products and services. You can ask us to stop at any time by replying \"STOP\" or emailing us at the address below.",
         ],
       },
       {
@@ -130,7 +130,7 @@ export const TERMS_CONDITIONS: Record<Locale, TermsConditions> = {
       {
         heading: "3. Persetujuan untuk dihubungi",
         paragraphs: [
-          "Dengan menghantar borang, anda bersetuju bahawa MAQO dan wakilnya yang diberi kuasa boleh menghubungi anda melalui panggilan telefon, SMS, WhatsApp atau e-mel mengenai pertanyaan, penilaian, sebut harga anda serta produk dan perkhidmatan berkaitan. Anda boleh meminta kami berhenti pada bila-bila masa dengan membalas \"STOP\" atau menghantar e-mel ke alamat di bawah.",
+          "Dengan menghantar borang, anda bersetuju bahawa MAQO dan wakilnya yang diberi kuasa boleh menghubungi anda melalui panggilan telefon, SMS atau e-mel mengenai pertanyaan, penilaian, sebut harga anda serta produk dan perkhidmatan berkaitan. Anda boleh meminta kami berhenti pada bila-bila masa dengan membalas \"STOP\" atau menghantar e-mel ke alamat di bawah.",
         ],
       },
       {
@@ -218,7 +218,7 @@ export const TERMS_CONDITIONS: Record<Locale, TermsConditions> = {
       {
         heading: "3. 同意接受联系",
         paragraphs: [
-          "提交表格即表示您同意 MAQO 及其授权代表可通过电话、短信、WhatsApp 或电子邮件，就您的询问、评估、报价及相关产品与服务与您联系。您可随时回复「STOP」或发送电子邮件至下方地址，要求我们停止联系。",
+          "提交表格即表示您同意 MAQO 及其授权代表可通过电话、短信或电子邮件，就您的询问、评估、报价及相关产品与服务与您联系。您可随时回复「STOP」或发送电子邮件至下方地址，要求我们停止联系。",
         ],
       },
       {

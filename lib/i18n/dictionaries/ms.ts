@@ -273,14 +273,12 @@ const ms: Dictionary = {
     language: "Bahasa komunikasi pilihan *",
     languagePlaceholder: "Pilih bahasa",
     submitting: "Menghantar…",
-    submit: "Hantar melalui WhatsApp",
+    submit: "Dapatkan Penilaian Rumah Percuma",
     referredQuestion: "Adakah anda dirujuk oleh mana-mana jurujual? *",
     referredYes: "Ya",
     referredNo: "Tidak",
     salesman: "Jurujual *",
     salesmanPlaceholder: "Pilih jurujual anda",
-    whatsappNote: "Selepas anda hantar, WhatsApp akan dibuka dengan butiran anda. Tekan Hantar untuk menghubungi kami.",
-    previewTitle: "Pratonton: mesej yang akan dihantar",
   },
 
   formOptions: {
@@ -347,9 +345,6 @@ const ms: Dictionary = {
     body: "Salah seorang perunding tenaga kami akan menghubungi anda dalam 1 hari bekerja untuk mengatur penilaian bumbung percuma anda.",
     learnMore: "Ketahui lebih lanjut tentang MAQO",
     backHome: "Kembali ke laman utama",
-    whatsappTitle: "Satu langkah lagi: hantar butiran anda melalui WhatsApp",
-    whatsappOpening: "Membuka WhatsApp…",
-    whatsappButton: "Hantar melalui WhatsApp",
   },
 
   about: {
@@ -584,7 +579,7 @@ const ms: Dictionary = {
       supplyPlaceholder: "Pilih",
       language: "Bahasa pilihan",
       submitting: "Menghantar…",
-      submit: "Hantar melalui WhatsApp",
+      submit: "Dapatkan Penilaian Rumah Percuma",
     },
     thankYou: {
       eyebrow: "Penilaian Diminta",

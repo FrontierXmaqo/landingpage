@@ -26,23 +26,10 @@ import {
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import TermsAgree from "@/app/[lang]/(main)/components/TermsAgree";
-import WhatsAppPreview, { useWhatsAppLead } from "@/app/[lang]/(main)/components/WhatsAppPreview";
 
 const initialFormState: LeadFormState = { status: "idle" };
 const submitEvLead = submitLead.bind(null, "MAQO EV Landing Page", "ev");
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-const WHATSAPP_FIELDS = [
-  ["Salutation", "salutation"],
-  ["Name", "full_name"],
-  ["Phone Number", "phone"],
-  ["Email", "email"],
-  ["Location", "state"],
-  ["Monthly TNB Bill", "monthly_bill_range"],
-  ["Property Type", "property_type"],
-  ["Electric Supply", "electric_supply"],
-  ["Preferred Communication Language", "preferred_language"],
-  ["Usually charges EV", "charge_time"],
-] as const;
 
 type ChargeTime = "day" | "night" | "mixed";
 
@@ -326,7 +313,6 @@ export default function EvPage({
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
-  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
   const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const gclidRef = useRef<HTMLInputElement>(null);
@@ -738,12 +724,11 @@ export default function EvPage({
             </ul>
           </div>
           {formState.status === "success" ? null : (
-          <form ref={waFormRef} action={formAction} onChange={waOnChange} onSubmit={waOnSubmit}>
+          <form action={formAction}>
             {formState.status === "error" && formState.message && (
               <p className="form-alert">{formState.message}</p>
             )}
             <input type="hidden" name="locale" value={locale} />
-            <input type="hidden" name="ref_id" ref={waRefIdRef} />
             <input type="hidden" name="campaign_id" ref={campaignIdRef} />
             <input type="hidden" name="gclid" ref={gclidRef} />
             <input type="hidden" name="fbclid" ref={fbclidRef} />
@@ -889,7 +874,6 @@ export default function EvPage({
               {submitting ? t.form.submitting : t.form.submit}
               {!submitting && <ArrowIcon />}
             </button>
-            <WhatsAppPreview text={waPreview} title={dict.leadForm.previewTitle} note={dict.leadForm.whatsappNote} />
           </form>
           )}
         </div>

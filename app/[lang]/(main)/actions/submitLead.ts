@@ -315,10 +315,9 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   }, {
     // "Instagram", "Facebook", "Threads", "Google", "Referral" or "" for Lark's Lead Source column (lib/leadSource.ts).
     lead_source,
-    // Lark starts the row as "Empty Lead"; it becomes "New Lead" once the WhatsApp message arrives
-    // and Make matches it by this ref id.
+    // Form-only site: no WhatsApp step, so the row starts as "New Lead".
     ref_id,
-    lead_status: "Empty Lead",
+    lead_status: "New Lead",
     ...(formPage === "main" && {
       salespartner: salesperson?.name ?? "",
       ref_code: salesperson?.code ?? "",

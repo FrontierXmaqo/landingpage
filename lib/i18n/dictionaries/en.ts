@@ -278,14 +278,12 @@ const en = {
     language: "Preferred communication language *",
     languagePlaceholder: "Select language",
     submitting: "Submitting…",
-    submit: "Submit via WhatsApp",
+    submit: "Get My Free Home Assessment",
     referredQuestion: "Were you referred by any salesman? *",
     referredYes: "Yes",
     referredNo: "No",
     salesman: "Salesman *",
     salesmanPlaceholder: "Select your salesman",
-    whatsappNote: "After you submit, WhatsApp opens with your details filled in. Press Send to reach us.",
-    previewTitle: "Preview: message that will be sent",
   },
 
   // Display labels for the lead form's allowlisted values. The submitted value stays
@@ -355,9 +353,6 @@ const en = {
     body: "One of our energy consultants will call you within 1 business day to arrange your free rooftop assessment.",
     learnMore: "Learn more about MAQO",
     backHome: "Back to homepage",
-    whatsappTitle: "One last step: send us your details on WhatsApp",
-    whatsappOpening: "Opening WhatsApp…",
-    whatsappButton: "Send on WhatsApp",
   },
 
   about: {
@@ -592,7 +587,7 @@ const en = {
       supplyPlaceholder: "Select",
       language: "Preferred language",
       submitting: "Sending…",
-      submit: "Submit via WhatsApp",
+      submit: "Get My Free Home Assessment",
     },
     thankYou: {
       eyebrow: "Assessment Requested",
