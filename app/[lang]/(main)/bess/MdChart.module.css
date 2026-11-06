@@ -1,0 +1,13 @@
+.ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: md-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes md-pulse {
+  50% { transform: scale(1.18); opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring { animation: none; }
+}

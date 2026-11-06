@@ -9,6 +9,7 @@ import SectionTag from "../components/SectionTag";
 import { BESS_BENEFIT_ICONS } from "./icons";
 import HiddenChargesButton from "./HiddenChargesButton";
 import BessFlowDiagram from "./BessFlowDiagram";
+import MdChart from "./MdChart";
 import CredentialBadges from "../components/CredentialBadges";
 import { getDictionary, hasLocale, localeAlternates, localePath } from "@/lib/i18n";
 import { buttonGhost, buttonPrimary } from "../components/buttonStyles";
@@ -158,6 +159,22 @@ export default async function BessPage({ params }: PageProps<"/[lang]/bess">) {
                   <p className="mt-1.5 text-sm leading-relaxed text-base-slate">{fact.body}</p>
                 </ScrollReveal>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- 2b. Maximum Demand, explained ---------- */}
+        <section id="max-demand" className="scroll-mt-20 py-20 sm:py-24">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6">
+            <ScrollReveal>
+              <SectionTag>{t.mdChart.tag}</SectionTag>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold leading-tight text-base-ink sm:text-4xl">
+                {t.mdChart.titleLead} <span className="text-[#d61f3f]">{t.mdChart.titleAccent}</span>
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-base-slate">{t.mdChart.body}</p>
+            </ScrollReveal>
+            <div className="mt-10">
+              <MdChart t={t.mdChart} />
             </div>
           </div>
         </section>
