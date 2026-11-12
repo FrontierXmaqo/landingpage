@@ -22,7 +22,6 @@ import {
   BILL_RANGES,
   PROPERTY_TYPES,
   ELECTRIC_SUPPLY_OPTIONS,
-  COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import { fill, localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import TermsAgree from "@/app/[lang]/(main)/components/TermsAgree";
@@ -40,7 +39,6 @@ const WHATSAPP_FIELDS = [
   ["Monthly TNB Bill", "monthly_bill_range"],
   ["Property Type", "property_type"],
   ["Electric Supply", "electric_supply"],
-  ["Preferred Communication Language", "preferred_language"],
   ["Usually charges EV", "charge_time"],
 ] as const;
 
@@ -346,7 +344,6 @@ export default function EvPage({
   const billRanges = optionValues?.billRanges?.length ? optionValues.billRanges : BILL_RANGES;
   const propertyTypes = optionValues?.propertyTypes?.length ? optionValues.propertyTypes : PROPERTY_TYPES;
   const electricSupply = optionValues?.electricSupply?.length ? optionValues.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
-  const languages = optionValues?.languages?.length ? optionValues.languages : COMMUNICATION_LANGUAGES;
 
   // `label` is what the sales team reads in the lead's remarks, so it stays English
   // whatever language the visitor chose. On-page wording comes from the dictionary.
@@ -842,16 +839,6 @@ export default function EvPage({
                   {electricSupply.map((s) => (
                     <option key={s} value={s}>
                       {optionLabel(options.supply, s)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="preferred_language">{t.form.language}</label>
-                <select id="preferred_language" name="preferred_language" defaultValue="English" disabled={submitting}>
-                  {languages.map((s) => (
-                    <option key={s} value={s}>
-                      {optionLabel(options.languages, s)}
                     </option>
                   ))}
                 </select>

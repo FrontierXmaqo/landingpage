@@ -41,7 +41,7 @@ export const PRIVACY_POLICY: Record<Locale, PrivacyPolicy> = {
         paragraphs: ["When you submit an enquiry or assessment form on this website, we collect:"],
         bullets: [
           "Your salutation, full name, mobile number and email address.",
-          "Your state, monthly electricity bill range, property type, electricity supply type and preferred communication language.",
+          "Your state, monthly electricity bill range, property type and electricity supply type.",
           "For commercial enquiries: your company name, industry and role in the organisation.",
           "Technical information such as the page you came from, campaign or advertising identifiers (for example UTM, Google or Facebook click IDs) and basic, non-identifying usage statistics of this website.",
         ],
@@ -137,7 +137,7 @@ export const PRIVACY_POLICY: Record<Locale, PrivacyPolicy> = {
         paragraphs: ["Apabila anda menghantar borang pertanyaan atau penilaian di laman web ini, kami mengumpul:"],
         bullets: [
           "Gelaran, nama penuh, nombor telefon bimbit dan alamat e-mel anda.",
-          "Negeri, julat bil elektrik bulanan, jenis hartanah, jenis bekalan elektrik dan bahasa komunikasi pilihan anda.",
+          "Negeri, julat bil elektrik bulanan, jenis hartanah dan jenis bekalan elektrik anda.",
           "Bagi pertanyaan komersial: nama syarikat, industri dan jawatan anda dalam organisasi.",
           "Maklumat teknikal seperti halaman rujukan, pengecam kempen atau iklan (contohnya UTM, ID klik Google atau Facebook) dan statistik penggunaan asas laman web ini yang tidak mengenal pasti anda.",
         ],
@@ -232,7 +232,7 @@ export const PRIVACY_POLICY: Record<Locale, PrivacyPolicy> = {
         paragraphs: ["当您在本网站提交询问或评估表格时，我们会收集："],
         bullets: [
           "您的称谓、全名、手机号码及电子邮件地址。",
-          "您所在的州属、每月电费范围、房产类型、电力供应类型及偏好的沟通语言。",
+          "您所在的州属、每月电费范围、房产类型及电力供应类型。",
           "商业询问：公司名称、行业及您在机构中的职位。",
           "技术资料，例如来源页面、营销活动或广告识别码（如 UTM、Google 或 Facebook 点击 ID），以及不会识别您身份的基本网站使用统计。",
         ],

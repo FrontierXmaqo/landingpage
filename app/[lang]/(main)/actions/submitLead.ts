@@ -11,7 +11,6 @@ import {
   BILL_RANGES,
   PROPERTY_TYPES,
   ELECTRIC_SUPPLY_OPTIONS,
-  COMMUNICATION_LANGUAGES,
   ROLE_IN_ORGANIZATION_OPTIONS,
 } from "@/lib/leadFormOptions";
 import { getPublishedLeadFormFields, getPublishedLeadFormOptions, type LeadFormPage } from "@/lib/publishedContent";
@@ -160,7 +159,6 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const billRangeOptions = pageOptions.billRanges?.length ? pageOptions.billRanges : BILL_RANGES;
   const propertyTypeOptions = pageOptions.propertyTypes?.length ? pageOptions.propertyTypes : PROPERTY_TYPES;
   const electricSupplyOptions = pageOptions.electricSupply?.length ? pageOptions.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
-  const languageOptions = pageOptions.languages?.length ? pageOptions.languages : COMMUNICATION_LANGUAGES;
   const roleOptions = pageOptions.roleInOrganization?.length ? pageOptions.roleInOrganization : ROLE_IN_ORGANIZATION_OPTIONS;
 
   const salutation = oneOf(clean(formData.get("salutation"), 10), salutationOptions);
@@ -176,7 +174,8 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const property_type = oneOf(clean(formData.get("property_type"), 80), propertyTypeOptions);
   const role_in_organization = oneOf(clean(formData.get("role_in_organization"), 60), roleOptions);
   const electric_supply = oneOf(clean(formData.get("electric_supply"), 30), electricSupplyOptions);
-  const preferred_language = oneOf(clean(formData.get("preferred_language"), 30), languageOptions);
+  // The forms no longer ask for a language; Supabase and the webhook keep the key, blank.
+  const preferred_language = "";
   // Attribution values are kept as sent (so campaign reporting is unchanged),
   // only with control characters stripped and formula starts escaped.
   const campaign_id = noFormula(clean(formData.get("campaign_id"), 100));
@@ -218,7 +217,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   if (formPage === "ci" && (!company_name || !role_in_organization)) {
     return { status: "error", message: t.invalid };
   }
-  if (formPage !== "ci" && (!property_type || !electric_supply || !preferred_language)) {
+  if (formPage !== "ci" && (!property_type || !electric_supply)) {
     return { status: "error", message: t.invalid };
   }
 

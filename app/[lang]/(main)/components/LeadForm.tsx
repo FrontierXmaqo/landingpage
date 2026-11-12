@@ -12,7 +12,6 @@ import {
   BILL_RANGES,
   PROPERTY_TYPES,
   ELECTRIC_SUPPLY_OPTIONS,
-  COMMUNICATION_LANGUAGES,
 } from "@/lib/leadFormOptions";
 import TermsAgree from "./TermsAgree";
 import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
@@ -35,7 +34,6 @@ const WHATSAPP_FIELDS = [
   ["Monthly TNB Bill", "monthly_bill_range"],
   ["Property Type", "property_type"],
   ["Electric Supply", "electric_supply"],
-  ["Preferred Communication Language", "preferred_language"],
   // Only rendered after "Yes": respond.io's AI Agent assigns the chat on this line.
   ["Referred by", "referred_by", true],
 ] as const;
@@ -84,7 +82,6 @@ export default function LeadForm({
   const billRanges = lists?.billRanges?.length ? lists.billRanges : BILL_RANGES;
   const propertyTypes = lists?.propertyTypes?.length ? lists.propertyTypes : PROPERTY_TYPES;
   const electricSupply = lists?.electricSupply?.length ? lists.electricSupply : ELECTRIC_SUPPLY_OPTIONS;
-  const languages = lists?.languages?.length ? lists.languages : COMMUNICATION_LANGUAGES;
   const [state, formAction, pending] = useActionState(submitMainSiteLead, initialState);
   const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
@@ -217,12 +214,6 @@ export default function LeadForm({
           name="electric_supply"
           placeholder={t.supplyPlaceholder}
           options={options(electricSupply, labels.supply)}
-        />
-        <SelectField
-          label={t.language}
-          name="preferred_language"
-          placeholder={t.languagePlaceholder}
-          options={options(languages, labels.languages)}
         />
 
         {/* CMS-defined extras. Values are authored in one language, so no
