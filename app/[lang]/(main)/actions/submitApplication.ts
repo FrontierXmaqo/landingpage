@@ -11,8 +11,16 @@ export type ApplicationState = { status: "idle" | "success" | "error"; message?:
 
 const EMAIL_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._%+'-]*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 const RESUMES_BUCKET = "career-resumes";
-// Lark Base keeps the link, so it must outlive the hiring cycle.
-const RESUME_LINK_SECONDS = 60 * 60 * 24 * 365;
+// Lark Base keeps the link, so it must outlive the hiring cycle, but anyone
+// holding it can read the CV until it expires, so no longer than that.
+const RESUME_LINK_SECONDS = 60 * 60 * 24 * 90;
+// Stored type comes from the checked extension, never the browser's claim, so
+// an HTML file renamed .pdf can't be served as a page.
+const RESUME_CONTENT_TYPES: Record<(typeof RESUME_EXTENSIONS)[number], string> = {
+  pdf: "application/pdf",
+  doc: "application/msword",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+};
 
 const ERRORS = {
   invalid: "Please fill in every required field and attach your resume (PDF, DOC or DOCX, up to 5 MB).",
@@ -78,7 +86,7 @@ export async function submitApplication(_prev: ApplicationState, formData: FormD
   // The stored name is random: the visitor's own file name never reaches the path.
   const path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${ext}`;
   const storage = getSupabaseServiceClient().storage.from(RESUMES_BUCKET);
-  const { error: uploadError } = await storage.upload(path, resume, { contentType: resume.type || "application/octet-stream" });
+  const { error: uploadError } = await storage.upload(path, resume, { contentType: RESUME_CONTENT_TYPES[ext as keyof typeof RESUME_CONTENT_TYPES] });
   const { data: signed } = uploadError ? { data: null } : await storage.createSignedUrl(path, RESUME_LINK_SECONDS);
   if (uploadError || !signed) {
     console.error("Resume upload failed", uploadError?.message);
