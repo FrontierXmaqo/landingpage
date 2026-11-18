@@ -206,7 +206,7 @@ const en = {
     tag: "Commercial & Industrial",
     title: "We also do solar for factories, warehouses and offices.",
     body: "Other big clients who are committed to a sustainable future",
-    logoAlt: "MAQO commercial & industrial client logo {n}",
+    clientsLine: "Clients include {names}.",
   },
 
   testimonials: {

@@ -9,7 +9,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import CredentialBadges from "../components/CredentialBadges";
 import CiLeadForm from "./CiLeadForm";
 import ClientMarquee from "./ClientMarquee";
-import CountUpStat from "./CountUpStat";
+import CountUpStat from "../components/CountUpStat";
 import ProjectsCarousel, { type Surface } from "./ProjectsCarousel";
 import { BESS_ICONS, CheckCircle, IconChevron, PILLAR_ICONS } from "./icons";
 import { CLIENTS, PROJECTS, PROJECT_VIDEO_URL, TRUST_STATS } from "./content";

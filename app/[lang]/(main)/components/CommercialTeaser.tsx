@@ -20,11 +20,11 @@ export default function CommercialTeaser({ t }: { t: Dictionary["commercial"] })
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent sm:w-24" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent sm:w-24" />
           <div className="flex w-max animate-marquee-ltr items-center">
-            {track.map((src, i) => (
-              <div key={`${src}-${i}`} className="relative mx-6 h-10 w-28 shrink-0 sm:mx-10 sm:h-12 sm:w-32">
+            {track.map((logo, i) => (
+              <div key={`${logo.src}-${i}`} className="relative mx-6 h-10 w-28 shrink-0 sm:mx-10 sm:h-12 sm:w-32">
                 <Image
-                  src={src}
-                  alt={fill(t.logoAlt, { n: (i % OLD_SITE_IMAGES.clientLogos.length) + 1 })}
+                  src={logo.src}
+                  alt={logo.name}
                   fill
                   className="object-contain opacity-70 grayscale"
                   sizes="140px"
@@ -33,6 +33,9 @@ export default function CommercialTeaser({ t }: { t: Dictionary["commercial"] })
             ))}
           </div>
         </div>
+        <p className="mt-6 text-center text-sm text-base-slate">
+          {fill(t.clientsLine, { names: OLD_SITE_IMAGES.clientLogos.map((logo) => logo.name).join(", ") })}
+        </p>
       </div>
     </section>
   );

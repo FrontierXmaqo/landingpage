@@ -13,11 +13,26 @@ export const OLD_SITE_IMAGES = {
   // empty the hero.
   heroHouse: "/hero-rooftop.webp",
   clientLogos: [
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/6717629951db6138366d079a.png",
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/671764074de1e77429b330d9.png",
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/671762cf82c33c6181e6fb88.png",
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/6717646b3a21fb78af494e25.png",
-    "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/67176495a3b2c4043dab9a1f.png",
+    {
+      src: "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/6717629951db6138366d079a.png",
+      name: "Spritzer",
+    },
+    {
+      src: "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/671764074de1e77429b330d9.png",
+      name: "3V",
+    },
+    {
+      src: "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/671762cf82c33c6181e6fb88.png",
+      name: "A&W",
+    },
+    {
+      src: "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/6717646b3a21fb78af494e25.png",
+      name: "Scientex",
+    },
+    {
+      src: "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/RxbwqsL86moAQoTiBTtV/media/67176495a3b2c4043dab9a1f.png",
+      name: "DHL",
+    },
   ],
   gallery: [
     "/gallery-residential-install.jpg",

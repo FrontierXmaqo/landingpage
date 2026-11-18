@@ -201,7 +201,7 @@ const ms: Dictionary = {
     tag: "Komersial & Industri",
     title: "Kami juga memasang solar untuk kilang, gudang dan pejabat.",
     body: "Pelanggan besar lain yang komited kepada masa depan yang mampan",
-    logoAlt: "Logo pelanggan komersial & industri MAQO {n}",
+    clientsLine: "Antara pelanggan kami: {names}.",
   },
 
   testimonials: {

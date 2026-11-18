@@ -381,6 +381,23 @@ export default function ProjectsCarousel({
           </div>
         </div>
 
+        {/* The summaries hold the page's hardest numbers, so they sit in the page
+            itself (and the server HTML), not only behind a click. */}
+        {projects.some((p) => p.summary) && (
+          <ul className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+            {projects
+              .filter((p) => p.summary)
+              .map((p) => (
+                <li key={p.client} className={`break-words text-sm leading-relaxed ${s.body}`}>
+                  <span className={`font-semibold ${s.heading}`}>
+                    {p.client} ({p.capacity}):
+                  </span>{" "}
+                  {p.summary}
+                </li>
+              ))}
+          </ul>
+        )}
+
         {videoUrl && (
           <p className="mt-10 text-center">
             <a

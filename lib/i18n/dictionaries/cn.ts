@@ -200,7 +200,7 @@ const cn: Dictionary = {
     tag: "工商业",
     title: "我们也为工厂、仓库和办公室安装太阳能。",
     body: "其他致力于可持续未来的大型客户",
-    logoAlt: "MAQO 工商业客户标志 {n}",
+    clientsLine: "客户包括：{names}。",
   },
 
   testimonials: {
