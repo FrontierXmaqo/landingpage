@@ -92,29 +92,6 @@ async function postJson(envVar: string, url: string, payload: unknown) {
   }
 }
 
-/** Creates the respond.io contact if needed and sets "Source of Leads", so the field is filled even
- *  if the lead never sends the WhatsApp message. Logs failures and never blocks the lead. */
-async function setRespondIoSource(phone: string, firstName: string, source: string) {
-  const key = process.env.RESPONDIO_API_KEY;
-  const field = process.env.RESPONDIO_SOURCE_FIELD;
-  if (!key || !field || !source) return;
-  const id = encodeURIComponent(`phone:+${phone}`);
-  const init = (method: string, body: unknown) => ({
-    method,
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(8000),
-  });
-  try {
-    const created = await fetch(`https://api.respond.io/v2/contact/create_or_update/${id}`, init("POST", { firstName, phone: `+${phone}` }));
-    if (!created.ok) console.error("respond.io create responded with", created.status);
-    const updated = await fetch(`https://api.respond.io/v2/contact/${id}`, init("PUT", { firstName, custom_fields: [{ name: field, value: source }] }));
-    if (!updated.ok) console.error("respond.io update responded with", updated.status);
-  } catch (err) {
-    console.error("respond.io request failed", err);
-  }
-}
-
 async function forwardToWebhook(
   formPage: LeadFormPage,
   input: Parameters<typeof buildLeadWebhookPayload>[0],
@@ -347,8 +324,6 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
       tags: salesperson ? "Source-Referral" : "",
     }),
   });
-
-  await setRespondIoSource(phone, full_name.slice(0, 100), lead_source);
 
   if (!supabaseOk) {
     return { status: "error", message: t.generic };
