@@ -5,8 +5,8 @@ import { newRefId, whatsappLeadText, whatsappLink, WHATSAPP_HANDOFF_KEY, type Wh
 
 /**
  * Wires a lead form to WhatsApp: a live preview of the message, and on submit a fresh ref id in
- * the form's hidden ref_id input and WhatsApp opened in a new tab (or, if the browser blocks that,
- * the link saved for the thank-you page's WhatsAppHandoff). React reads the form after onSubmit.
+ * the form's hidden ref_id input plus the wa.me link saved for the thank-you page
+ * (WhatsAppHandoff opens it). React reads the form for its action after onSubmit runs.
  */
 export function useWhatsAppLead(fields: readonly WhatsAppField[]) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -21,19 +21,14 @@ export function useWhatsAppLead(fields: readonly WhatsAppField[]) {
     onSubmit: () => {
       const refId = newRefId();
       if (refIdRef.current) refIdRef.current.value = refId;
-      const link = whatsappLink(whatsappLeadText(formRef.current, fields, refId));
-      // Opened now, inside the tap: phones block opening the WhatsApp app seconds later, after the
-      // save and the thank-you page. This tab still saves the lead and loads the thank-you page.
-      const tab = window.open(link, "_blank");
-      if (tab) {
-        tab.opener = null;
-        return;
-      }
+      // Never opened here, inside the tap: leaving for WhatsApp before the save finished lost
+      // leads (a captcha or validation error the visitor never saw, a backgrounded tab killed
+      // mid-save, in-app browsers replacing the page). Only a saved lead reaches the thank-you
+      // page, which opens WhatsApp and keeps a button for phones that block that.
       try {
-        // Blocked anyway: the thank-you page opens WhatsApp itself and shows a button.
-        sessionStorage.setItem(WHATSAPP_HANDOFF_KEY, link);
+        sessionStorage.setItem(WHATSAPP_HANDOFF_KEY, whatsappLink(whatsappLeadText(formRef.current, fields, refId)));
       } catch {
-        // storage blocked: no WhatsApp step at all
+        // storage blocked: the thank-you page then shows no WhatsApp button
       }
     },
   };
