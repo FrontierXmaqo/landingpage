@@ -10,7 +10,7 @@ export type LeadSource = "Instagram" | "Facebook" | "Threads" | "Google" | "Refe
 
 /** The platform named by a utm_source or a referrer host, or "". */
 function platform(s: string): LeadSource {
-  if (/threads/.test(s)) return "Threads";
+  if (/threads|^th$/.test(s)) return "Threads";
   if (/instagram|^ig$/.test(s)) return "Instagram";
   if (/facebook|^fb$|(^|\.)fb\.com$/.test(s)) return "Facebook";
   if (/google/.test(s)) return "Google";
@@ -29,7 +29,8 @@ function host(url: string): string {
 export function leadSource(a: { gclid: string; utmSource: string; referrer: string }): LeadSource {
   if (a.gclid) return "Google";
   const utm = a.utmSource.toLowerCase();
-  return utm ? platform(utm) : platform(host(a.referrer));
+  // Meta's {{site_source_name}} sends fb / ig / th, sometimes with a suffix ("fb-WebsiteKeyInfo").
+  return utm ? platform(utm.replace(/^(fb|ig|th)(?![a-z0-9]).*/, "$1")) : platform(host(a.referrer));
 }
 
 /** The three values atap_leads / ci_leads.lead_source already hold (admin Enquiries, analytics). */
