@@ -117,7 +117,14 @@ async function setRespondIoSource(phone: string, firstName: string, source: stri
   for (let attempt = 1; attempt <= 4; attempt++) {
     await new Promise((r) => setTimeout(r, attempt * 3000));
     const updated = await send("PUT", id, { firstName, custom_fields });
-    if (updated >= 200 && updated < 300) return console.info(`respond.io Source of Leads set to ${source}`);
+    if (updated >= 200 && updated < 300) {
+      // shortcut: temporary check of the contact's real custom field keys, remove once Source of Leads shows.
+      const contact = await fetch(`https://api.respond.io/v2/contact/${id}`, { headers: { Authorization: `Bearer ${key}`, Accept: "application/json" }, signal: AbortSignal.timeout(8000) })
+        .then((r) => r.json())
+        .catch(() => null);
+      const fields = (contact?.custom_fields ?? []) as { name?: string; value?: unknown }[];
+      return console.info(`respond.io Source of Leads set to ${source}; contact fields:`, JSON.stringify(fields.map((f) => [f.name, /source/i.test(f.name ?? "") ? f.value : "…"])));
+    }
     console.error(`respond.io update responded with ${updated} (attempt ${attempt})`);
     if (updated !== 449 && updated !== 429 && updated !== 0) return;
   }
