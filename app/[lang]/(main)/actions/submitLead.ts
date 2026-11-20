@@ -224,7 +224,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const refIdRaw = clean(formData.get("ref_id"), 20);
   const ref_id = REF_ID_PATTERN.test(refIdRaw) ? refIdRaw : newRefId();
   const channel = leadSource({ gclid, utmSource: utm_source, referrer: landing_referrer });
-  const lead_source = salesperson ? "Referral" : channel;
+  const lead_source = salesperson ? "Sales Agent Referral" : channel;
 
   // Every field on the form is mandatory — mirrors the `required` attributes
   // client-side, but the server is the one that actually enforces it.
@@ -340,7 +340,7 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
     remarks: [charge_time ? `Usually charges EV: ${charge_time}` : "", ...extraFieldsSummary].filter(Boolean).join(" | "),
     landingPageSource: landing_page_source,
   }, {
-    // "Instagram", "Facebook", "Threads", "Google", "Referral" or "" for Lark's Lead Source column (lib/leadSource.ts).
+    // One of Lark's own Source of Leads options, e.g. "Facebook Ads" (lib/leadSource.ts).
     lead_source,
     // Lark starts the row as "Empty Lead"; it becomes "New Lead" once the WhatsApp message arrives
     // and Make matches it by this ref id.
