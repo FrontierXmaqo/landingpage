@@ -93,30 +93,33 @@ async function postJson(envVar: string, url: string, payload: unknown) {
   }
 }
 
-/** Creates or updates the respond.io contact with "Source of Leads" in one call, so the field is filled
- *  even if the lead never sends the WhatsApp message. respond.io answers 449 while the contact is still
- *  queued, so that is retried. Logs failures and never blocks the lead. */
+/** Creates the respond.io contact if needed and sets "Source of Leads", so the field is filled even
+ *  if the lead never sends the WhatsApp message. Logs failures and never blocks the lead. */
 async function setRespondIoSource(phone: string, firstName: string, source: string) {
   const key = process.env.RESPONDIO_API_KEY;
-  const field = process.env.RESPONDIO_SOURCE_FIELD;
-  if (!key || !field || !source) return;
-  const url = `https://api.respond.io/v2/contact/create_or_update/${encodeURIComponent(`phone:+${phone}`)}`;
-  const body = JSON.stringify({ firstName, phone: `+${phone}`, custom_fields: [{ name: field, value: source }] });
+  if (!key || !source) return;
+  const id = encodeURIComponent(`phone:+${phone}`);
+  // The field's key, as Make's working "Update a contact" module uses it (not the display name).
+  const custom_fields = [{ name: "source_of_leads", value: source }];
+  const send = (method: string, path: string, body: unknown) =>
+    fetch(`https://api.respond.io/v2/contact/${path}`, {
+      method,
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(8000),
+    }).then(
+      (res) => res.status,
+      (err) => (console.error("respond.io request failed", err), 0),
+    );
+  const created = await send("POST", `create_or_update/${id}`, { firstName, phone: `+${phone}`, custom_fields });
+  if (created >= 300) console.error("respond.io create_or_update responded with", created);
+  // A new contact is queued for a moment (respond.io answers 449), so the update is retried.
   for (let attempt = 1; attempt <= 4; attempt++) {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" },
-        body,
-        signal: AbortSignal.timeout(8000),
-      });
-      if (res.ok) return;
-      console.error(`respond.io create_or_update responded with ${res.status} (attempt ${attempt})`);
-      if (res.status !== 449 && res.status !== 429) return;
-    } catch (err) {
-      console.error("respond.io request failed", err);
-    }
-    if (attempt < 4) await new Promise((r) => setTimeout(r, attempt * 5000));
+    await new Promise((r) => setTimeout(r, attempt * 3000));
+    const updated = await send("PUT", id, { firstName, custom_fields });
+    if (updated >= 200 && updated < 300) return console.info(`respond.io Source of Leads set to ${source}`);
+    console.error(`respond.io update responded with ${updated} (attempt ${attempt})`);
+    if (updated !== 449 && updated !== 429 && updated !== 0) return;
   }
 }
 
