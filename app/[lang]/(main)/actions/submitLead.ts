@@ -220,7 +220,10 @@ export async function submitLead(_sourcePage: string, formPage: LeadFormPage, _p
   const gclid = noFormula(clean(formData.get("gclid"), 100));
   const fbclid = noFormula(clean(formData.get("fbclid"), 200));
   const landing_referrer = httpUrl(clean(formData.get("landing_referrer"), 500));
-  const utm_source = noFormula(clean(formData.get("utm_source"), 100));
+  const utm_source_tag = noFormula(clean(formData.get("utm_source"), 100));
+  // A Meta click id means the visit came through Facebook/Instagram whatever the tag says (e.g. "wa"),
+  // so it is "fb" unless the tag already names a Meta platform (fb / ig / th, as lib/leadSource reads them).
+  const utm_source = fbclid && !/^(fb|ig|th)(?![a-z0-9])|facebook|instagram|threads/i.test(utm_source_tag) ? "fb" : utm_source_tag;
   const utm_medium = noFormula(clean(formData.get("utm_medium"), 100));
   const utm_campaign = noFormula(clean(formData.get("utm_campaign"), 100));
   const utm_term = noFormula(clean(formData.get("utm_term"), 150));

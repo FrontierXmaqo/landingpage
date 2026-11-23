@@ -3,8 +3,8 @@
  * "Source of Leads", from the visit's first-touch attribution (lib/attribution). The labels are
  * Lark's own options, letter for letter, so its "All Source of Lead" picks them up.
  * A Google click id or a UTM tag means an ad; a social referrer alone means organic. A Meta click
- * (fbclid) with no UTM tag can't say Instagram vs Facebook, so it is "Website Direct Traffic" —
- * Meta ads should carry `utm_source={{site_source_name}}` in their URL parameters.
+ * (fbclid) without an fb/ig/th tag reaches here as utm_source "fb" (submitLead), so "Facebook Ads" —
+ * Meta ads should carry `utm_source={{site_source_name}}` so Instagram shows as "IG Ads".
  */
 export type LeadSource =
   | "Google Ads"
