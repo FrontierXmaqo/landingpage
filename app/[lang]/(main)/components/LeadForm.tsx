@@ -94,7 +94,7 @@ export default function LeadForm({
   const utmCampaignRef = useRef<HTMLInputElement>(null);
   const utmTermRef = useRef<HTMLInputElement>(null);
   const utmContentRef = useRef<HTMLInputElement>(null);
-  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
+  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS, locale);
   const [referred, setReferred] = useState(false);
   const onPreviewSite = useSyncExternalStore(noSubscribe, () => window.location.hostname.endsWith(".vercel.app"), () => false);
   const salespeople = SALESPEOPLE.filter((p) => p.code !== "T00" || onPreviewSite);

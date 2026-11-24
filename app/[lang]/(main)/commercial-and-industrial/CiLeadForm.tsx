@@ -89,7 +89,7 @@ export default function CiLeadForm({
   const otherCustomFields = customFields?.filter((f) => f.key !== "industry") ?? [];
 
   const [state, formAction, pending] = useActionState(submitCiLead, initialState);
-  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
+  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS, locale);
   // Turnstile is ~100KB of JS plus an iframe; with the form above the fold it
   // landed inside the measured load window and drove TBT. Loading it on the
   // first focus still leaves it seconds to solve while the visitor types.

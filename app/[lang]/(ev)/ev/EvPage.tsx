@@ -324,7 +324,7 @@ export default function EvPage({
   const [chargeTime, setChargeTime] = useState<ChargeTime>("night");
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [formState, formAction, submitting] = useActionState(submitEvLead, initialFormState);
-  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS);
+  const { formRef: waFormRef, refIdRef: waRefIdRef, preview: waPreview, onChange: waOnChange, onSubmit: waOnSubmit } = useWhatsAppLead(WHATSAPP_FIELDS, locale);
   const router = useRouter();
   const campaignIdRef = useRef<HTMLInputElement>(null);
   const gclidRef = useRef<HTMLInputElement>(null);

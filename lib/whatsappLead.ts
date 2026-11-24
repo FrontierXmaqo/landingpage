@@ -1,7 +1,8 @@
 /**
  * The WhatsApp message a lead sends after a lead form (residential, C&I, EV): the form's answers
  * as "Label: value" lines (residential adds "Referred by: <name>" when a salesman was picked;
- * respond.io's AI Agent assigns the chat on it), and the lead's ref id hidden right after "Hi" as zero-width
+ * respond.io's AI Agent assigns the chat on it), and the lead's ref id hidden right after the greeting
+ * ("Hi" / "你好" / "Hai", by page language) as zero-width
  * characters, so Make can match the chat to the Lark row without the customer seeing a code.
  * 4 more hidden bits after it carry the lead source (SOURCE_CODES), which Make writes to
  * respond.io's "Source of Leads" field.
@@ -10,6 +11,7 @@
 
 import { leadSource, type LeadSource } from "@/lib/leadSource";
 import { findSalesperson } from "@/lib/salespeople";
+import type { Locale } from "@/lib/i18n/config";
 
 /** respond.io's WhatsApp number. */
 export const WHATSAPP_NUMBER = "60187771095";
@@ -61,11 +63,19 @@ function formLeadSource(data: FormData): LeadSource {
 /** [label in the message, form field name]; optional fields are left out when empty. */
 export type WhatsAppField = readonly [label: string, name: string, optional?: boolean];
 
+/** The opening line in the page's language: [greeting the hidden ref follows, rest of the line]. */
+const OPENING: Record<Locale, readonly [string, string]> = {
+  en: ["Hi", " Maqo Solar, I'd like a free solar quotation. My details:"],
+  cn: ["你好", " Maqo Solar，我想索取免费太阳能报价。我的资料："],
+  ms: ["Hai", " Maqo Solar, saya ingin mendapatkan sebut harga solar percuma. Butiran saya:"],
+};
+
 /** The message from what's in `form` now (all "-" before the form exists). */
-export function whatsappLeadText(form: HTMLFormElement | null, fields: readonly WhatsAppField[], refId = ""): string {
+export function whatsappLeadText(form: HTMLFormElement | null, fields: readonly WhatsAppField[], locale: Locale, refId = ""): string {
   const data = form ? new FormData(form) : null;
   const hidden = refId ? hiddenRef(refId) + hiddenBits(data ? SOURCE_CODES.indexOf(formLeadSource(data)) : 0, 4) : "";
-  const lines = [`Hi${hidden} Maqo Solar, I'd like a free solar quotation. My details:`];
+  const [greeting, rest] = OPENING[locale];
+  const lines = [greeting + hidden + rest];
   for (const [label, name, optional] of fields) {
     const value = String(data?.get(name) ?? "");
     if (value || !optional) lines.push(`${label}: ${value || "-"}`);

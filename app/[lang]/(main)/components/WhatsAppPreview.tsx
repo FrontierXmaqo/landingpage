@@ -2,22 +2,23 @@
 
 import { useRef, useState } from "react";
 import { newRefId, whatsappLeadText, whatsappLink, WHATSAPP_HANDOFF_KEY, type WhatsAppField } from "@/lib/whatsappLead";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * Wires a lead form to WhatsApp: a live preview of the message, and on submit a fresh ref id in
  * the form's hidden ref_id input plus the wa.me link saved for the thank-you page
  * (WhatsAppHandoff opens it). React reads the form for its action after onSubmit runs.
  */
-export function useWhatsAppLead(fields: readonly WhatsAppField[]) {
+export function useWhatsAppLead(fields: readonly WhatsAppField[], locale: Locale) {
   const formRef = useRef<HTMLFormElement>(null);
   const refIdRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState(() => whatsappLeadText(null, fields));
+  const [preview, setPreview] = useState(() => whatsappLeadText(null, fields, locale));
   return {
     formRef,
     refIdRef,
     preview,
     // After the change has landed (React re-renders fields that depend on it).
-    onChange: () => setTimeout(() => setPreview(whatsappLeadText(formRef.current, fields))),
+    onChange: () => setTimeout(() => setPreview(whatsappLeadText(formRef.current, fields, locale))),
     onSubmit: () => {
       const refId = newRefId();
       if (refIdRef.current) refIdRef.current.value = refId;
@@ -26,7 +27,7 @@ export function useWhatsAppLead(fields: readonly WhatsAppField[]) {
       // mid-save, in-app browsers replacing the page). Only a saved lead reaches the thank-you
       // page, which opens WhatsApp and keeps a button for phones that block that.
       try {
-        sessionStorage.setItem(WHATSAPP_HANDOFF_KEY, whatsappLink(whatsappLeadText(formRef.current, fields, refId)));
+        sessionStorage.setItem(WHATSAPP_HANDOFF_KEY, whatsappLink(whatsappLeadText(formRef.current, fields, locale, refId)));
       } catch {
         // storage blocked: the thank-you page then shows no WhatsApp button
       }
