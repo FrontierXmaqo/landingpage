@@ -346,7 +346,7 @@ const en = {
     rateLimited: "Too many requests. Please try again in a minute.",
     invalid: "Please fill in and select every field before submitting.",
     captcha: "We couldn't verify you're human. Please try again.",
-    generic: "Something went wrong submitting your assessment. Please call us at 603-8069 1706 instead.",
+    generic: "Something went wrong submitting your assessment. Please call us at 018-777 1095 instead.",
   },
 
   thankYou: {

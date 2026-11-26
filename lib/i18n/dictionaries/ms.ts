@@ -338,7 +338,7 @@ const ms: Dictionary = {
     rateLimited: "Terlalu banyak permintaan. Sila cuba lagi dalam seminit.",
     invalid: "Sila isi dan pilih semua ruangan sebelum menghantar.",
     captcha: "Kami tidak dapat mengesahkan bahawa anda manusia. Sila cuba lagi.",
-    generic: "Berlaku masalah semasa menghantar penilaian anda. Sila hubungi kami di 603-8069 1706.",
+    generic: "Berlaku masalah semasa menghantar penilaian anda. Sila hubungi kami di 018-777 1095.",
   },
 
   thankYou: {

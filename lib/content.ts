@@ -160,8 +160,8 @@ const OFFICE_ADDRESS =
 export const CONTACT = {
   email: "admin@maqo.asia",
   emailHref: "mailto:admin@maqo.asia",
-  office: "603-8069 1706",
-  officeHref: "tel:+60380691706",
+  office: "018-777 1095",
+  officeHref: "tel:+60187771095",
   address: OFFICE_ADDRESS,
   mapsHref: `https://maps.app.goo.gl/a8KfogLqervhyhC99/?api=1&query=${encodeURIComponent(
     OFFICE_ADDRESS
@@ -173,6 +173,6 @@ export const CONTACT_FIELDS = {
   address: CONTACT.address,
   mapsHref: CONTACT.mapsHref,
   office: CONTACT.office,
-  officeTel: "+60380691706",
+  officeTel: "+60187771095",
   email: CONTACT.email,
 };
