@@ -34,10 +34,10 @@ const COPY: Record<
     title: "Talk to the people who install it",
     body: "Call, email or drop by our Puchong office. Questions about a quote, a product or an existing system all come to the same team.",
     office: "Office",
-    phone: "Phone",
+    phone: "WhatsApp",
     email: "Email",
     openMap: "Open in Google Maps",
-    call: "Call us",
+    call: "Chat on WhatsApp",
     write: "Send an email",
     quoteTitle: "Want a quote instead?",
     quoteBody: "Leave your details and we will call you back with a system sized to your bill.",
@@ -50,10 +50,10 @@ const COPY: Record<
     title: "直接与负责安装的团队沟通",
     body: "欢迎致电、发电邮或亲临我们的蒲种办公室。报价、产品或现有系统的问题，都由同一个团队处理。",
     office: "办公室",
-    phone: "电话",
+    phone: "WhatsApp",
     email: "电邮",
     openMap: "在 Google 地图中打开",
-    call: "致电我们",
+    call: "WhatsApp 联系我们",
     write: "发送电邮",
     quoteTitle: "想要报价？",
     quoteBody: "留下您的资料，我们会根据您的电费单为您配置系统并回电。",
@@ -66,10 +66,10 @@ const COPY: Record<
     title: "Bercakap terus dengan pasukan pemasangan",
     body: "Telefon, e-mel atau singgah di pejabat kami di Puchong. Soalan tentang sebut harga, produk atau sistem sedia ada semuanya dikendalikan oleh pasukan yang sama.",
     office: "Pejabat",
-    phone: "Telefon",
+    phone: "WhatsApp",
     email: "E-mel",
     openMap: "Buka di Google Maps",
-    call: "Telefon kami",
+    call: "WhatsApp kami",
     write: "Hantar e-mel",
     quoteTitle: "Mahukan sebut harga?",
     quoteBody: "Tinggalkan butiran anda dan kami akan menghubungi anda dengan sistem yang disaiz mengikut bil anda.",
@@ -88,10 +88,10 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/contact">)
   };
 }
 
-/** Line icons drawn for each channel: pin, handset, envelope. */
+/** Line icons drawn for each channel: pin, chat bubble, envelope. */
 const ICONS = {
   office: "M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
-  phone: "M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z",
+  phone: "M3.5 20.5 5 16.2A8.5 8.5 0 1 1 8 19.2l-4.5 1.3Z",
   email: "M3 6h18v12H3V6Zm0 0 9 7 9-7",
 };
 
@@ -105,7 +105,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
 
   const channels = [
     { key: "office" as const, label: t.office, value: contact.address, href: contact.mapsHref, action: t.openMap, external: true },
-    { key: "phone" as const, label: t.phone, value: contact.office, href: contact.officeHref, action: t.call, external: false },
+    { key: "phone" as const, label: t.phone, value: contact.office, href: `https://wa.me/${contact.officeHref.replace(/\D/g, "")}`, action: t.call, external: true },
     { key: "email" as const, label: t.email, value: contact.email, href: contact.emailHref, action: t.write, external: false },
   ];
 

@@ -37,7 +37,7 @@ export default function ContactEditor({ initial }: { initial: Contact }) {
         <div className="mt-2 space-y-3">
           {[
             ["Office", data.address, "Open in Google Maps"],
-            ["Phone", data.office, "Call us"],
+            ["WhatsApp", data.office, "Chat on WhatsApp"],
             ["Email", data.email, "Send an email"],
           ].map(([label, value, action]) => (
             <div key={label} className="rounded-[22px] border border-base-line bg-base-panel p-5">
